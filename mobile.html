@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=390, user-scalable=no" name="viewport"/>
+<title>Top Tailor | The Digital Atelier</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=Noto+Serif:ital,wght@0,100..900;1,100..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#93000a",
+                    "secondary-fixed-dim": "#9dd770",
+                    "inverse-primary": "#a4d393",
+                    "primary-container": "#2a5220",
+                    "primary-fixed": "#c0f0ad",
+                    "on-secondary-fixed-variant": "#265100",
+                    "on-primary-fixed": "#012200",
+                    "surface-container-highest": "#e7e2da",
+                    "inverse-on-surface": "#f5f0e8",
+                    "tertiary": "#223800",
+                    "secondary-fixed": "#b8f389",
+                    "on-background": "#1d1c17",
+                    "secondary": "#386a0e",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#314f00",
+                    "tertiary-fixed": "#c2f280",
+                    "tertiary-container": "#325100",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#96c586",
+                    "on-secondary-container": "#3d6f13",
+                    "inverse-surface": "#32302b",
+                    "surface-dim": "#ded9d2",
+                    "primary-fixed-dim": "#a4d393",
+                    "error": "#ba1a1a",
+                    "primary": "#133a0b",
+                    "surface-variant": "#e7e2da",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed": "#0c2000",
+                    "on-secondary": "#ffffff",
+                    "on-surface": "#1d1c17",
+                    "tertiary-fixed-dim": "#a7d568",
+                    "surface-container": "#f2ede5",
+                    "surface-tint": "#3f6833",
+                    "outline-variant": "#c2c9bb",
+                    "surface": "#fef9f1",
+                    "on-tertiary-fixed": "#112000",
+                    "outline": "#73796d",
+                    "on-tertiary-container": "#99c65b",
+                    "on-surface-variant": "#42493e",
+                    "on-primary-fixed-variant": "#28501e",
+                    "secondary-container": "#b5f086",
+                    "on-primary": "#ffffff",
+                    "background": "#fef9f1",
+                    "surface-container-low": "#f8f3eb",
+                    "surface-bright": "#fef9f1",
+                    "surface-container-high": "#ece8e0",
+                    "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "0px"
+            },
+            "fontFamily": {
+                    "headline": ["Playfair Display", "serif"],
+                    "body": ["DM Sans", "sans-serif"],
+                    "label": ["DM Sans", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { width: 390px; margin: 0 auto; overflow-x: hidden; background: #F5F0E8; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+        .scrim-hero { background: linear-gradient(to top, rgba(19, 58, 11, 0.9) 0%, rgba(19, 58, 11, 0.4) 40%, transparent 100%); }
+        .hairline-y { border-top: 0.5px solid #C4B99A; }
+        .hairline-b { border-bottom: 0.5px solid #C4B99A; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body text-on-surface">
+<!-- TopAppBar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 w-full bg-transparent">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#F5F0E8] text-[24px]">menu</span>
+</div>
+<div class="font-serif text-[18px] font-medium text-[#F5F0E8] uppercase tracking-widest">TOP TAILOR</div>
+<div class="w-6"></div> <!-- Spacer for balance -->
+</nav>
+<!-- HERO SECTION -->
+<section class="relative h-[884px] w-full overflow-hidden bg-primary">
+<!-- Placeholder for looping video background -->
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-60" data-alt="Cinematic close-up of a tailor's hands stitching fine wool fabric with soft focused workshop background and warm golden lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpwbH6wgKo1W2oH82FZvcWGIJAuDik9Y_9N8Lu0IQ6-hn-Q7_6NdOtpk0tgpThn5odOI6tImCBCykgdgBG2ygeAdHeAsz5kIa1w1hKfweOL_xVjx6zYqI_gyrEMSR2FnNUO_Qyog0gDmM-XekQ9rLZzEAbkO1BOj7nQB4equGkwf-2SnzJ0KUSUNxYESsijtZKniFhQQ3EYRMNhFlXod424VqIQQOYJnPxe_p4DdBkWJPccGUI7_co2GVsj8dSHdRv7KOKZRnEJUdV"/>
+<div class="absolute inset-0 scrim-hero"></div>
+</div>
+<div class="relative z-10 h-full flex flex-col justify-end px-8 pb-24">
+<div class="space-y-6">
+<p class="font-label text-[11px] uppercase tracking-[2px] text-on-tertiary-container">Personal tailoring · Central London</p>
+<h1 class="font-headline text-[44px] leading-[1.1] text-background">
+                    Your wardrobe,<br/>at its best.<br/>At your door.
+                </h1>
+<p class="font-body text-[15px] text-background/80 max-w-[280px] leading-relaxed">
+                    Bespoke alterations and garment care, collected and delivered to your London residence.
+                </p>
+<button class="w-full bg-on-tertiary-container text-primary font-label text-[13px] font-bold tracking-[1.5px] py-5 uppercase hover:opacity-90 active:scale-95 transition-all">
+                    SCHEDULE A COLLECTION
+                </button>
+</div>
+<div class="absolute bottom-10 left-0 w-full text-center">
+<span class="font-label text-[10px] uppercase tracking-[3px] text-background/40">Scroll to explore</span>
+</div>
+</div>
+</section>
+<!-- SERVICES SECTION -->
+<section class="bg-background py-20 px-8">
+<div class="mb-12">
+<h2 class="font-headline text-[32px] text-primary italic">Our Atelier</h2>
+<div class="w-12 h-px bg-primary mt-2"></div>
+</div>
+<div class="space-y-0">
+<!-- Service Row 1: Suit -->
+<div class="grid grid-cols-[40px_1fr_24px] items-center py-6 hairline-y">
+<div class="text-primary-container">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<rect height="16" width="16" x="4" y="4"></rect>
+<path d="M4 4L20 20M20 4L4 20"></path>
+</svg>
+</div>
+<div class="px-4">
+<p class="font-headline text-[17px] text-on-surface">Suit Tailoring</p>
+<p class="font-body text-[11px] text-on-surface-variant uppercase tracking-wider">Perfecting the silhouette</p>
+</div>
+<span class="material-symbols-outlined text-[18px] text-outline">chevron_right</span>
+</div>
+<!-- Service Row 2: Trousers -->
+<div class="grid grid-cols-[40px_1fr_24px] items-center py-6 hairline-y">
+<div class="text-primary-container">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<path d="M12 2L2 22H22L12 2Z"></path>
+</svg>
+</div>
+<div class="px-4">
+<p class="font-headline text-[17px] text-on-surface">Trousers &amp; Chinos</p>
+<p class="font-body text-[11px] text-on-surface-variant uppercase tracking-wider">Hemming and waist adjustments</p>
+</div>
+<span class="material-symbols-outlined text-[18px] text-outline">chevron_right</span>
+</div>
+<!-- Service Row 3: Dress -->
+<div class="grid grid-cols-[40px_1fr_24px] items-center py-6 hairline-y">
+<div class="text-primary-container">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<path d="M6 2L18 2L21 22H3L6 2Z"></path>
+</svg>
+</div>
+<div class="px-4">
+<p class="font-headline text-[17px] text-on-surface">Dresses &amp; Skirts</p>
+<p class="font-body text-[11px] text-on-surface-variant uppercase tracking-wider">Evening and day wear refinement</p>
+</div>
+<span class="material-symbols-outlined text-[18px] text-outline">chevron_right</span>
+</div>
+<!-- Service Row 4: Shirt -->
+<div class="grid grid-cols-[40px_1fr_24px] items-center py-6 hairline-y">
+<div class="text-primary-container">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<path d="M4 6L12 2L20 6M4 6V22H20V6M4 6L12 10L20 6"></path>
+</svg>
+</div>
+<div class="px-4">
+<p class="font-headline text-[17px] text-on-surface">Shirt Re-cutting</p>
+<p class="font-body text-[11px] text-on-surface-variant uppercase tracking-wider">Darting and sleeve shortening</p>
+</div>
+<span class="material-symbols-outlined text-[18px] text-outline">chevron_right</span>
+</div>
+<!-- Service Row 5: Wedding -->
+<div class="grid grid-cols-[40px_1fr_24px] items-center py-6 hairline-y">
+<div class="text-primary-container">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<path d="M12 2L4 8V22H20V8L12 2Z"></path>
+</svg>
+</div>
+<div class="px-4">
+<p class="font-headline text-[17px] text-on-surface">Wedding Atelier</p>
+<p class="font-body text-[11px] text-on-surface-variant uppercase tracking-wider">Bespoke bridal and groom fitting</p>
+</div>
+<span class="material-symbols-outlined text-[18px] text-outline">chevron_right</span>
+</div>
+<!-- Service Row 6: Leather -->
+<div class="grid grid-cols-[40px_1fr_24px] items-center py-6 hairline-y">
+<div class="text-primary-container">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<ellipse cx="12" cy="12" rx="8" ry="10"></ellipse>
+<line x1="12" x2="12" y1="2" y2="22"></line>
+</svg>
+</div>
+<div class="px-4">
+<p class="font-headline text-[17px] text-on-surface">Leather &amp; Suede</p>
+<p class="font-body text-[11px] text-on-surface-variant uppercase tracking-wider">Specialist material handling</p>
+</div>
+<span class="material-symbols-outlined text-[18px] text-outline">chevron_right</span>
+</div>
+<!-- Service Row 7: Mending -->
+<div class="grid grid-cols-[40px_1fr_24px] items-center py-6 hairline-y">
+<div class="text-primary-container">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<circle cx="12" cy="5" r="2"></circle>
+<path d="M12 7V22M10 15L14 17M10 18L14 20"></path>
+</svg>
+</div>
+<div class="px-4">
+<p class="font-headline text-[17px] text-on-surface">Invisible Mending</p>
+<p class="font-body text-[11px] text-on-surface-variant uppercase tracking-wider">Restoring fabric integrity</p>
+</div>
+<span class="material-symbols-outlined text-[18px] text-outline">chevron_right</span>
+</div>
+<!-- Service Row 8: Zip -->
+<div class="grid grid-cols-[40px_1fr_24px] items-center py-6 hairline-y">
+<div class="text-primary-container">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<circle cx="12" cy="12" r="4"></circle>
+<line x1="12" x2="12" y1="2" y2="8"></line>
+<line x1="12" x2="12" y1="16" y2="22"></line>
+</svg>
+</div>
+<div class="px-4">
+<p class="font-headline text-[17px] text-on-surface">Hardware &amp; Zips</p>
+<p class="font-body text-[11px] text-on-surface-variant uppercase tracking-wider">Replacements and repairs</p>
+</div>
+<span class="material-symbols-outlined text-[18px] text-outline">chevron_right</span>
+</div>
+<!-- Service Row 9: Wardrobe -->
+<div class="grid grid-cols-[40px_1fr_24px] items-center py-6 hairline-y">
+<div class="text-primary-container">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<rect height="4" width="16" x="4" y="4"></rect>
+<rect height="4" width="16" x="4" y="10"></rect>
+<rect height="4" width="16" x="4" y="16"></rect>
+</svg>
+</div>
+<div class="px-4">
+<p class="font-headline text-[17px] text-on-surface">Wardrobe Curation</p>
+<p class="font-body text-[11px] text-on-surface-variant uppercase tracking-wider">Full collection assessment</p>
+</div>
+<span class="material-symbols-outlined text-[18px] text-outline">chevron_right</span>
+</div>
+<!-- Service Row 10: Other -->
+<div class="grid grid-cols-[40px_1fr_24px] items-center py-6 hairline-y hairline-b">
+<div class="text-primary-container">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<path d="M12 5V19M5 12H19"></path>
+</svg>
+</div>
+<div class="px-4">
+<p class="font-headline text-[17px] text-on-surface">Something Else</p>
+<p class="font-body text-[11px] text-on-surface-variant uppercase tracking-wider">Unique bespoke requests</p>
+</div>
+<span class="material-symbols-outlined text-[18px] text-outline">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- HOW IT WORKS SECTION -->
+<section class="bg-primary-container text-background py-24 px-8">
+<h2 class="font-headline text-[32px] mb-16 italic">The Process</h2>
+<div class="space-y-16">
+<!-- Step 1 -->
+<div class="relative pt-8 hairline-y">
+<span class="absolute -top-6 right-0 font-headline text-[80px] text-[#97C459]/20 leading-none">01</span>
+<h3 class="font-headline text-[24px] mb-4">Book a Visit</h3>
+<p class="font-body text-[15px] opacity-80 leading-relaxed mb-8">
+                    Select a time and place for our specialist to visit you. We bring the atelier to your home or office.
+                </p>
+<button class="border border-background py-4 px-8 font-label text-[11px] uppercase tracking-widest hover:bg-background hover:text-primary transition-colors">
+                    SCHEDULE NOW
+                </button>
+</div>
+<!-- Step 2 -->
+<div class="relative pt-8 hairline-y">
+<span class="absolute -top-6 right-0 font-headline text-[80px] text-[#97C459]/20 leading-none">02</span>
+<h3 class="font-headline text-[24px] mb-4">Fitting &amp; Collection</h3>
+<p class="font-body text-[15px] opacity-80 leading-relaxed">
+                    Our master tailor assesses each garment, pinning and measuring for the perfect archival fit.
+                </p>
+</div>
+<!-- Step 3 -->
+<div class="relative pt-8 hairline-y hairline-b pb-8">
+<span class="absolute -top-6 right-0 font-headline text-[80px] text-[#97C459]/20 leading-none">03</span>
+<h3 class="font-headline text-[24px] mb-4">Hand-Delivery</h3>
+<p class="font-body text-[15px] opacity-80 leading-relaxed">
+                    Within 7 days, your garments are returned, pressed and perfected, ready for your next occasion.
+                </p>
+</div>
+</div>
+</section>
+<!-- REVIEWS SECTION -->
+<section class="bg-[#EAF0E2] py-24 px-8">
+<h2 class="font-label text-[11px] uppercase tracking-[3px] text-secondary mb-12 text-center">Testimonials</h2>
+<div class="space-y-16">
+<!-- Review 1 -->
+<div class="text-center">
+<div class="flex justify-center gap-1 mb-4 text-[#3B6D11]">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<blockquote class="font-headline text-[20px] italic leading-relaxed text-primary mb-4">
+                    "The convenience is unmatched. To have Savile Row quality at my doorstep in Mayfair is revolutionary."
+                </blockquote>
+<cite class="font-label text-[12px] uppercase tracking-widest text-secondary not-italic">— James Thorne</cite>
+</div>
+<!-- Review 2 -->
+<div class="text-center">
+<div class="flex justify-center gap-1 mb-4 text-[#3B6D11]">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<blockquote class="font-headline text-[20px] italic leading-relaxed text-primary mb-4">
+                    "They handled my vintage couture with incredible care. The fit is now better than the original."
+                </blockquote>
+<cite class="font-label text-[12px] uppercase tracking-widest text-secondary not-italic">— Eleanor Rigby</cite>
+</div>
+<!-- Review 3 -->
+<div class="text-center">
+<div class="flex justify-center gap-1 mb-4 text-[#3B6D11]">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<blockquote class="font-headline text-[20px] italic leading-relaxed text-primary mb-4">
+                    "The only people I trust with my wardrobe. Fast, professional, and impeccable craftsmanship."
+                </blockquote>
+<cite class="font-label text-[12px] uppercase tracking-widest text-secondary not-italic">— Marcus Aurelius</cite>
+</div>
+</div>
+</section>
+<!-- BOOKING FORM SECTION -->
+<section class="bg-background py-24 px-8">
+<h2 class="font-headline text-[32px] mb-4 text-primary">Inquiry</h2>
+<p class="font-body text-[14px] text-on-surface-variant mb-12">Leave your details and a specialist will contact you within the hour.</p>
+<form class="space-y-8">
+<div class="space-y-2">
+<label class="font-label text-[10px] uppercase tracking-[2px] text-outline">Full Name</label>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant py-4 px-0 focus:ring-0 focus:border-primary font-body text-[16px]" placeholder="Lord Byron" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label text-[10px] uppercase tracking-[2px] text-outline">London Postcode</label>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant py-4 px-0 focus:ring-0 focus:border-primary font-body text-[16px]" placeholder="W1S 1RE" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label text-[10px] uppercase tracking-[2px] text-outline">Primary Garment</label>
+<select class="w-full bg-transparent border-0 border-b border-outline-variant py-4 px-0 focus:ring-0 focus:border-primary font-body text-[16px] appearance-none">
+<option>Suit / Tailoring</option>
+<option>Dress / Evening Wear</option>
+<option>Shirt / Blouse</option>
+<option>Trousers / Skirt</option>
+<option>Leather / Specialty</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label text-[10px] uppercase tracking-[2px] text-outline">Notes</label>
+<textarea class="w-full bg-transparent border-0 border-b border-outline-variant py-4 px-0 focus:ring-0 focus:border-primary font-body text-[16px] resize-none" placeholder="Describe your request..." rows="3"></textarea>
+</div>
+<button class="w-full bg-primary text-background font-label text-[13px] font-bold tracking-[1.5px] py-6 uppercase hover:bg-primary/90" type="submit">
+                SEND INQUIRY
+            </button>
+</form>
+</section>
+<!-- WHATSAPP STRIP -->
+<section class="bg-[#1C1C1A] py-12 px-8 flex flex-col items-center gap-6">
+<p class="font-headline text-[18px] text-background italic">Prefer to message directly?</p>
+<button class="w-full bg-[#97C459] text-[#133a0b] font-label text-[13px] font-extrabold tracking-[1px] py-4 uppercase flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+            WHATSAPP
+        </button>
+</section>
+<!-- FOOTER -->
+<footer class="bg-[#1C1C1A] flex flex-col w-full px-8 py-12 space-y-6 text-[#F5F0E8] hairline-y">
+<div class="font-serif text-2xl italic">Top Tailor</div>
+<div class="grid grid-cols-2 gap-8 py-8 border-t border-[#C4B99A]/20">
+<div class="space-y-4">
+<a class="block font-sans text-[11px] uppercase tracking-wider text-[#F5F0E8]/60 hover:text-[#97C459]" href="#">The Atelier</a>
+<a class="block font-sans text-[11px] uppercase tracking-wider text-[#F5F0E8]/60 hover:text-[#97C459]" href="#">Bespeak Process</a>
+</div>
+<div class="space-y-4">
+<a class="block font-sans text-[11px] uppercase tracking-wider text-[#F5F0E8]/60 hover:text-[#97C459]" href="#">Archive</a>
+<a class="block font-sans text-[11px] uppercase tracking-wider text-[#F5F0E8]/60 hover:text-[#97C459]" href="#">Contact</a>
+</div>
+</div>
+<div class="pt-8 border-t border-[#C4B99A]/20 text-center">
+<p class="font-sans text-[9px] uppercase tracking-[2px] opacity-40">© 2024 Top Tailor. All rights reserved.</p>
+</div>
+<div class="h-12"></div> <!-- Padding for sticky bar -->
+</footer>
+<!-- STICKY BOTTOM NAV BAR -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex items-center justify-between h-[52px] px-6 bg-[#133a0b] border-t border-[#C4B99A]/30">
+<div class="flex items-center text-[#97C459]">
+<span class="material-symbols-outlined mr-3 text-[18px]">calendar_today</span>
+<span class="font-sans text-[9px] font-medium uppercase tracking-[1px]">Ready to book?</span>
+</div>
+<div class="flex items-center text-[#F5F0E8]">
+<span class="font-sans text-[9px] font-medium uppercase tracking-[1px] mr-2">Schedule a Collection</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</div>
+</nav>
+</body></html>

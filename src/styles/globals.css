@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base resets ───────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #F5F0E8;
+    color: #1C1C1A;
+    font-family: var(--font-dm-sans), sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-playfair), serif;
+  }
+
+  /* No border-radius anywhere (enforced in Tailwind config too) */
+  button, input, select, textarea {
+    border-radius: 0 !important;
+  }
+
+  /* Remove autofill background tint */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px #F5F0E8 inset;
+    -webkit-text-fill-color: #1C1C1A;
+  }
+}
+
+/* ─── Scroll-reveal utility ──────────────────────────────────── */
+@layer utilities {
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    will-change: opacity, transform;
+  }
+
+  .reveal-on-scroll.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+    will-change: auto; /* Release GPU layer after animation */
+  }
+
+  /* Rule lines */
+  .rule-h {
+    height: 1px;
+    background-color: #C4B99A;
+    width: 100%;
+  }
+
+  .rule-v {
+    width: 1px;
+    background-color: #C4B99A;
+    align-self: stretch;
+  }
+
+  /* Hairline (mobile – 0.5px) */
+  .hairline-t { border-top: 0.5px solid #C4B99A; }
+  .hairline-b { border-bottom: 0.5px solid #C4B99A; }
+
+  /* Input bottom-border focus transition */
+  .input-line {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #C4B99A;
+    outline: none;
+    transition: border-color 0.2s ease;
+    width: 100%;
+    padding: 0.5rem 0;
+    font-family: var(--font-dm-sans), sans-serif;
+    color: #1C1C1A;
+  }
+
+  .input-line:focus {
+    border-bottom-color: #2A5220;
+  }
+
+  .input-line::placeholder {
+    color: #B4B099;
+  }
+}

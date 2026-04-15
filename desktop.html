@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&amp;family=DM+Sans:wght@300;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#325100",
+                    "surface-container-highest": "#e7e2da",
+                    "primary": "#133a0b",
+                    "surface-container-low": "#f8f3eb",
+                    "secondary-container": "#b5f086",
+                    "inverse-primary": "#a4d393",
+                    "on-surface": "#1d1c17",
+                    "tertiary-fixed-dim": "#a7d568",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed": "#012200",
+                    "on-tertiary-fixed": "#112000",
+                    "secondary-fixed": "#b8f389",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#f5f0e8",
+                    "surface-bright": "#fef9f1",
+                    "on-primary-container": "#96c586",
+                    "error": "#ba1a1a",
+                    "outline": "#73796d",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#ded9d2",
+                    "outline-variant": "#c2c9bb",
+                    "on-background": "#1d1c17",
+                    "primary-fixed": "#c0f0ad",
+                    "surface-container-high": "#ece8e0",
+                    "tertiary": "#223800",
+                    "surface-variant": "#e7e2da",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed": "#c2f280",
+                    "secondary-fixed-dim": "#9dd770",
+                    "on-surface-variant": "#42493e",
+                    "secondary": "#386a0e",
+                    "surface-container": "#f2ede5",
+                    "on-tertiary-container": "#99c65b",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#2a5220",
+                    "surface": "#fef9f1",
+                    "primary-fixed-dim": "#a4d393",
+                    "on-secondary-container": "#3d6f13",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-surface": "#32302b",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#265100",
+                    "surface-tint": "#3f6833",
+                    "on-primary-fixed-variant": "#28501e",
+                    "background": "#fef9f1",
+                    "on-secondary-fixed": "#0c2000",
+                    "on-tertiary-fixed-variant": "#314f00"
+            },
+            "fontFamily": {
+                    "headline": ["Playfair Display", "serif"],
+                    "body": ["DM Sans", "sans-serif"],
+                    "label": ["DM Sans", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #F5F0E8;
+            color: #1C1C1A;
+            font-family: 'DM Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .rule-line {
+            height: 1px;
+            background-color: #C4B99A;
+            width: 100%;
+        }
+        .vertical-rule {
+            width: 1px;
+            background-color: #C4B99A;
+        }
+        .no-corners {
+            border-radius: 0px !important;
+        }
+        .serif-italic {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body class="bg-[#F5F0E8] text-[#1C1C1A]">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 rounded-none bg-[#F5F0E8] border-b border-[#C4B99A] flex justify-between items-center px-8 py-4 max-w-full">
+<div class="font-['Playfair_Display'] text-xl font-medium text-[#1C1C1A]">TOP TAILOR</div>
+<div class="hidden md:flex gap-12">
+<a class="font-['DM_Sans'] text-[0.6875rem] font-medium tracking-[0.05em] uppercase text-[#2A5220] border-b border-[#2A5220] hover:text-[#3B6D11] transition-none" href="#">SERVICES</a>
+<a class="font-['DM_Sans'] text-[0.6875rem] font-medium tracking-[0.05em] uppercase text-[#1C1C1A] hover:text-[#3B6D11] transition-none" href="#">ABOUT</a>
+<a class="font-['DM_Sans'] text-[0.6875rem] font-medium tracking-[0.05em] uppercase text-[#1C1C1A] hover:text-[#3B6D11] transition-none" href="#">BOOK</a>
+</div>
+<button class="bg-[#2A5220] text-white px-8 py-3 text-[0.6875rem] font-medium tracking-[0.05em] uppercase no-corners hover:bg-[#3B6D11] transition-none">
+            SCHEDULE A COLLECTION
+        </button>
+</nav>
+<main class="pt-[73px]">
+<!-- Hero Version B -->
+<section class="grid grid-cols-1 md:grid-cols-2 min-h-[870px] border-b border-[#C4B99A]">
+<div class="p-12 md:p-24 flex flex-col justify-center border-r border-[#C4B99A]">
+<span class="font-['DM_Sans'] text-[0.6875rem] tracking-[0.2em] font-medium uppercase mb-6 text-[#2A5220]">THE BESPOKE MANUSCRIPT</span>
+<h1 class="font-['Playfair_Display'] text-[3.5rem] leading-[1.1] mb-8 font-medium tracking-tight">
+                    Perfect fit, <br/>
+<span class="serif-italic">effortlessly</span> realized.
+                </h1>
+<p class="font-['DM_Sans'] font-light text-lg max-w-md mb-10 leading-relaxed text-[#5C5C52]">
+                    High-end tailoring brought to your door. We master the architecture of garments to elevate your personal silhouette through precision measurement and heritage technique.
+                </p>
+<div class="flex items-center gap-8">
+<button class="bg-[#2A5220] text-white px-10 py-5 text-[0.75rem] font-medium tracking-[0.1em] uppercase no-corners hover:bg-[#3B6D11]">
+                        SCHEDULE A COLLECTION
+                    </button>
+<a class="font-['DM_Sans'] text-[0.75rem] font-medium tracking-[0.1em] uppercase border-b border-[#C4B99A] pb-1" href="#">VIEW SERVICES</a>
+</div>
+</div>
+<!-- Dark Video Panel #1A1A18 -->
+<div class="bg-[#1A1A18] relative flex items-center justify-center overflow-hidden">
+<!-- Large ghost text backdrop -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<span class="font-['Playfair_Display'] italic text-[120px] text-white opacity-[0.025] select-none">craft</span>
+</div>
+<!-- Play Ring & Content -->
+<div class="relative z-10 flex flex-col items-center">
+<div class="w-[64px] h-[64px] rounded-full border border-[rgba(197,221,151,0.6)] flex items-center justify-center mb-4">
+<div class="w-0 h-0 border-t-[8px] border-t-transparent border-l-[12px] border-l-[#97C459] border-b-[8px] border-b-transparent ml-1"></div>
+</div>
+<span class="font-['DM_Sans'] text-[9px] font-medium tracking-[0.15em] uppercase text-[#97C459]">Looped craft video — silent</span>
+</div>
+<div class="absolute bottom-12 left-12 right-12">
+<div class="rule-line opacity-20 mb-4"></div>
+<div class="flex justify-between items-center">
+<span class="text-[0.65rem] text-[#C4B99A] uppercase tracking-widest font-['DM_Sans']">Process 01: The Assessment</span>
+<span class="text-[0.65rem] text-[#C4B99A] font-['DM_Sans']">00:42</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Needle Divider (Signature Element) -->
+<div class="relative py-12 flex justify-center items-center overflow-hidden">
+<div class="rule-line absolute w-full z-0"></div>
+<div class="bg-[#F5F0E8] px-8 relative z-10 flex items-center gap-4">
+<span class="material-symbols-outlined text-[#2A5220]" style="font-variation-settings: 'wght' 200;">horizontal_rule</span>
+<span class="font-['Playfair_Display'] italic text-xl">The Tailor's Mark</span>
+<span class="material-symbols-outlined text-[#2A5220]" style="font-variation-settings: 'wght' 200;">horizontal_rule</span>
+</div>
+</div>
+<!-- Services Section (Asymmetric Grid) -->
+<section class="px-8 py-24 md:px-24">
+<div class="flex flex-col md:flex-row gap-24">
+<div class="md:w-1/3">
+<h2 class="font-['Playfair_Display'] text-[1.75rem] font-medium mb-6">SERVICES &amp; <br/><span class="serif-italic">Mastery</span></h2>
+<div class="rule-line mb-8"></div>
+<p class="font-['DM_Sans'] font-light text-sm leading-loose text-[#5C5C52]">
+                        Every garment undergoes a rigorous assessment. From structural reinforcements to delicate invisible mending, our one-person atelier ensures total consistency in every stitch.
+                    </p>
+</div>
+<div class="md:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-12">
+<div class="group border-b border-[#C4B99A] pb-8">
+<span class="font-['DM_Sans'] text-[0.65rem] text-[#2A5220] font-medium block mb-4 uppercase tracking-tighter">01. ALTERATIONS</span>
+<h3 class="font-['Playfair_Display'] text-xl mb-4">The Architectural Fit</h3>
+<p class="font-['DM_Sans'] text-sm font-light text-[#5C5C52] leading-relaxed mb-6">Suit resizing, trouser tapering, and shoulder reconstruction for a permanent, sharp silhouette.</p>
+<a class="text-[0.65rem] font-medium uppercase tracking-widest hover:text-[#2A5220] transition-colors" href="#">Details</a>
+</div>
+<div class="group border-b border-[#C4B99A] pb-8">
+<span class="font-['DM_Sans'] text-[0.65rem] text-[#2A5220] font-medium block mb-4 uppercase tracking-tighter">02. REPAIR</span>
+<h3 class="font-['Playfair_Display'] text-xl mb-4">Heritage Restoration</h3>
+<p class="font-['DM_Sans'] text-sm font-light text-[#5C5C52] leading-relaxed mb-6">Invisible mending of vintage silks, cashmere reweaving, and lining replacement with Bemberg cotton.</p>
+<a class="text-[0.65rem] font-medium uppercase tracking-widest hover:text-[#2A5220] transition-colors" href="#">Details</a>
+</div>
+<div class="group border-b border-[#C4B99A] pb-8">
+<span class="font-['DM_Sans'] text-[0.65rem] text-[#2A5220] font-medium block mb-4 uppercase tracking-tighter">03. BESPOKE</span>
+<h3 class="font-['Playfair_Display'] text-xl mb-4">Personal Commissions</h3>
+<p class="font-['DM_Sans'] text-sm font-light text-[#5C5C52] leading-relaxed mb-6">Custom-drafted patterns for unique wardrobe staples, built to last a lifetime.</p>
+<a class="text-[0.65rem] font-medium uppercase tracking-widest hover:text-[#2A5220] transition-colors" href="#">Details</a>
+</div>
+<div class="group border-b border-[#C4B99A] pb-8">
+<span class="font-['DM_Sans'] text-[0.65rem] text-[#2A5220] font-medium block mb-4 uppercase tracking-tighter">04. CURATION</span>
+<h3 class="font-['Playfair_Display'] text-xl mb-4">Wardrobe Refinement</h3>
+<p class="font-['DM_Sans'] text-sm font-light text-[#5C5C52] leading-relaxed mb-6">Consultation on garment longevity and seasonal rotation for the discerning professional.</p>
+<a class="text-[0.65rem] font-medium uppercase tracking-widest hover:text-[#2A5220] transition-colors" href="#">Details</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Measurement Grid Pattern (The "Manuscript" Layout) -->
+<section class="bg-[#F2EDE5] py-24">
+<div class="max-w-[1400px] mx-auto px-8">
+<div class="grid grid-cols-12 gap-0 border border-[#C4B99A]">
+<div class="col-span-12 md:col-span-7 border-r border-[#C4B99A]">
+<img class="w-full h-[600px] object-cover grayscale brightness-95" data-alt="Close-up of a tailor's hands precisely cutting heavy dark green wool fabric with vintage steel shears on a wooden table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEH6ZxUyTxdmE6XoYu0YPodReIEyPTu19Poc3BK-GOmPKKu146GZlEYjCLd8mllEJR7PMEd7v6aS0Fs1XyleJXGkyv5jYEUnpmsR4UuxCbvN4nXGAqObHLcv3sUzXxTbAhXciZr8cyqOL193fo4gvKp3jCgBPz54wQUsu3Pr8mYg8lavYfSZIv5u72RPDBJzIL6JDnN1lZpCqPisdVcl16OMYB9qvyB3rZv45aM36_yq75QinDYz5CoTlIO4SLA62_ZbNAxHI1Wszz"/>
+</div>
+<div class="col-span-12 md:col-span-5 p-12 flex flex-col justify-end bg-[#F5F0E8]">
+<div class="rule-line mb-8"></div>
+<h4 class="font-['Playfair_Display'] text-2xl mb-6">The Single Needle <br/><span class="serif-italic">Guarantee</span></h4>
+<p class="font-['DM_Sans'] text-sm font-light leading-loose text-[#5C5C52] mb-12">
+                            Unlike industrial tailors, every project is handled personally. This ensures that the tension of every thread and the angle of every cut is consistent with the initial vision established during your collection meeting.
+                        </p>
+<button class="bg-[#2A5220] text-white px-10 py-5 text-[0.75rem] font-medium tracking-[0.1em] uppercase no-corners w-fit hover:bg-[#3B6D11]">
+                            SCHEDULE A COLLECTION
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Booking Form Section -->
+<section class="px-8 py-32 md:px-24 flex flex-col md:flex-row gap-24 items-center" id="book">
+<div class="md:w-1/2">
+<h2 class="font-['Playfair_Display'] text-[3.5rem] leading-[1.1] font-medium mb-12">Arrange <br/><span class="serif-italic">the Collection.</span></h2>
+<p class="font-['DM_Sans'] font-light text-lg text-[#5C5C52] max-w-sm">
+                    We come to your residence or workplace to perform measurements and collect your items.
+                </p>
+</div>
+<div class="md:w-1/2 w-full">
+<form class="space-y-12">
+<div>
+<label class="block font-['DM_Sans'] font-medium text-[0.75rem] uppercase tracking-widest mb-2">FULL NAME</label>
+<input class="w-full bg-transparent border-b border-[#C4B99A] py-2 focus:outline-none focus:border-[#2A5220] focus:border-b-2 text-lg no-corners transition-all" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-12">
+<div>
+<label class="block font-['DM_Sans'] font-medium text-[0.75rem] uppercase tracking-widest mb-2">EMAIL</label>
+<input class="w-full bg-transparent border-b border-[#C4B99A] py-2 focus:outline-none focus:border-[#2A5220] focus:border-b-2 text-lg no-corners transition-all" type="email"/>
+</div>
+<div>
+<label class="block font-['DM_Sans'] font-medium text-[0.75rem] uppercase tracking-widest mb-2">PHONE</label>
+<input class="w-full bg-transparent border-b border-[#C4B99A] py-2 focus:outline-none focus:border-[#2A5220] focus:border-b-2 text-lg no-corners transition-all" type="tel"/>
+</div>
+</div>
+<div>
+<label class="block font-['DM_Sans'] font-medium text-[0.75rem] uppercase tracking-widest mb-2">SERVICE TYPE</label>
+<select class="w-full bg-transparent border-b border-[#C4B99A] py-2 focus:outline-none focus:border-[#2A5220] focus:border-b-2 text-lg no-corners appearance-none">
+<option>Alteration Assessment</option>
+<option>Restoration &amp; Repair</option>
+<option>Bespoke Commission</option>
+</select>
+</div>
+<button class="bg-[#2A5220] text-white px-12 py-6 text-[0.85rem] font-medium tracking-[0.15em] uppercase no-corners w-full hover:bg-[#3B6D11]" type="submit">
+                        SCHEDULE A COLLECTION
+                    </button>
+</form>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#1C1C1A] text-[#A8C490] border-t border-[#C4B99A]">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 py-24 w-full">
+<div>
+<div class="font-['Playfair_Display'] text-2xl text-[#F5F0E8] mb-8">TOP TAILOR</div>
+<p class="font-['DM_Sans'] text-sm font-light max-w-xs leading-relaxed">
+                    A modern atelier for the traditional aesthetic. Precision, permanence, and the art of the perfect fit.
+                </p>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-['DM_Sans'] text-[0.65rem] text-[#F5F0E8] tracking-widest uppercase mb-4">DIRECTIVES</span>
+<a class="font-['DM_Sans'] text-sm font-light text-[#A8C490] hover:text-[#F5F0E8] transition-none uppercase tracking-tight" href="#">SERVICES</a>
+<a class="font-['DM_Sans'] text-sm font-light text-[#A8C490] hover:text-[#F5F0E8] transition-none uppercase tracking-tight" href="#">ABOUT</a>
+<a class="font-['DM_Sans'] text-sm font-light text-[#A8C490] hover:text-[#F5F0E8] transition-none uppercase tracking-tight" href="#">BOOK</a>
+<a class="font-['DM_Sans'] text-sm font-light text-[#A8C490] hover:text-[#F5F0E8] transition-none uppercase tracking-tight" href="#">CONTACT</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-['DM_Sans'] text-[0.65rem] text-[#F5F0E8] tracking-widest uppercase mb-4">LEGAL</span>
+<a class="font-['DM_Sans'] text-sm font-light text-[#A8C490] hover:text-[#F5F0E8] transition-none uppercase tracking-tight" href="#">TERMS</a>
+<a class="font-['DM_Sans'] text-sm font-light text-[#A8C490] hover:text-[#F5F0E8] transition-none uppercase tracking-tight" href="#">PRIVACY</a>
+</div>
+</div>
+<div class="px-12 py-8 border-t border-[rgba(196,185,154,0.2)] flex justify-between items-center">
+<span class="font-['DM_Sans'] text-[0.65rem] font-light tracking-[0.1em]">© TOP TAILOR. ALL RIGHTS RESERVED.</span>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-sm">inventory_2</span>
+<span class="material-symbols-outlined text-sm">straighten</span>
+<span class="material-symbols-outlined text-sm">content_cut</span>
+</div>
+</div>
+</footer>
+</body></html>
