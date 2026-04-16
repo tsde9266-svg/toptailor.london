@@ -1,236 +1,262 @@
 'use client'
+import { useState } from 'react'
+import Link from 'next/link'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
+import { useCart } from '@/context/CartContext'
+import { services } from '@/data/services'
 
-/* ─── Desktop: 4 grouped categories (matches desktop.html) ─── */
-const desktopServices = [
-  {
-    num: '01',
-    category: 'ALTERATIONS',
-    title: 'The Architectural Fit',
-    body: 'Suit resizing, trouser tapering, and shoulder reconstruction for a permanent, sharp silhouette.',
-  },
-  {
-    num: '02',
-    category: 'REPAIR',
-    title: 'Heritage Restoration',
-    body: 'Invisible mending of vintage silks, cashmere reweaving, and lining replacement with Bemberg cotton.',
-  },
-  {
-    num: '03',
-    category: 'BESPOKE',
-    title: 'Personal Commissions',
-    body: 'Custom-drafted patterns for unique wardrobe staples, built to last a lifetime.',
-  },
-  {
-    num: '04',
-    category: 'CURATION',
-    title: 'Wardrobe Refinement',
-    body: 'Consultation on garment longevity and seasonal rotation for the discerning professional.',
-  },
-]
-
-/* ─── Mobile: 10 individual services (matches mobile.html + CONTEXT.md) ─── */
-const mobileServices = [
-  {
-    name: 'Suit & Jacket Alterations',
-    sub: 'Perfecting the silhouette',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A5220" strokeWidth="0.8">
-        <rect width="16" height="16" x="4" y="4" />
-        <path d="M4 4L20 20M20 4L4 20" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Trouser Tailoring',
-    sub: 'Hemming and waist adjustments',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A5220" strokeWidth="0.8">
-        <path d="M12 2L2 22H22L12 2Z" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Dress & Skirt Alterations',
-    sub: 'Evening and day wear refinement',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A5220" strokeWidth="0.8">
-        <path d="M6 2L18 2L21 22H3L6 2Z" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Shirt & Blouse Tailoring',
-    sub: 'Darting and sleeve shortening',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A5220" strokeWidth="0.8">
-        <path d="M4 6L12 2L20 6M4 6V22H20V6M4 6L12 10L20 6" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Wedding & Occasion Wear',
-    sub: 'Bespoke bridal and groom fitting',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A5220" strokeWidth="0.8">
-        <path d="M12 2L4 8V22H20V8L12 2Z" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Leather & Specialist Fabric',
-    sub: 'Specialist material handling',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A5220" strokeWidth="0.8">
-        <ellipse cx="12" cy="12" rx="8" ry="10" />
-        <line x1="12" y1="2" x2="12" y2="22" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Invisible Mending',
-    sub: 'Restoring fabric integrity',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A5220" strokeWidth="0.8">
-        <circle cx="12" cy="5" r="2" />
-        <path d="M12 7V22M10 15L14 17M10 18L14 20" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Zip, Button & Clasp Repairs',
-    sub: 'Replacements and repairs',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A5220" strokeWidth="0.8">
-        <circle cx="12" cy="12" r="4" />
-        <line x1="12" y1="2" x2="12" y2="8" />
-        <line x1="12" y1="16" x2="12" y2="22" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Wardrobe Refresh',
-    sub: 'Full collection assessment',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A5220" strokeWidth="0.8">
-        <rect width="16" height="4" x="4" y="4" />
-        <rect width="16" height="4" x="4" y="10" />
-        <rect width="16" height="4" x="4" y="16" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Something else / not sure',
-    sub: 'Unique bespoke requests',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A5220" strokeWidth="0.8">
-        <path d="M12 5V19M5 12H19" />
-      </svg>
-    ),
-  },
-]
-
-/* ─── Chevron icon (mobile rows) ─── */
-function ChevronRight() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C4B99A" strokeWidth="1">
-      <path d="M9 18l6-6-6-6" />
+// ─── Category icons ────────────────────────────────────────────────────────────
+const icons: Record<string, React.ReactNode> = {
+  'suit-jacket': (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <rect width="16" height="16" x="4" y="4" />
+      <path d="M4 4L20 20M20 4L4 20" />
     </svg>
+  ),
+  'trouser': (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <path d="M12 2L2 22H22L12 2Z" />
+    </svg>
+  ),
+  'dress-skirt': (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <path d="M6 2L18 2L21 22H3L6 2Z" />
+    </svg>
+  ),
+  'shirt-blouse': (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <path d="M4 6L12 2L20 6M4 6V22H20V6M4 6L12 10L20 6" />
+    </svg>
+  ),
+  'wedding': (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <path d="M12 2L4 8V22H20V8L12 2Z" />
+    </svg>
+  ),
+  'leather': (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <ellipse cx="12" cy="12" rx="8" ry="10" />
+      <line x1="12" y1="2" x2="12" y2="22" />
+    </svg>
+  ),
+  'repairs': (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <circle cx="12" cy="12" r="4" />
+      <line x1="12" y1="2" x2="12" y2="8" />
+      <line x1="12" y1="16" x2="12" y2="22" />
+    </svg>
+  ),
+}
+
+function fmt(price: number, note?: string) {
+  return note === 'from' ? `from £${price}` : `£${price}`
+}
+
+function AddButton({ itemId, categoryId, categoryName, name, price }: {
+  itemId: string; categoryId: string; categoryName: string; name: string; price: number
+}) {
+  const { add, remove, has } = useCart()
+  const inCart = has(itemId)
+
+  function toggle() {
+    if (inCart) {
+      remove(itemId)
+    } else {
+      add({ id: itemId, categoryId, categoryName, name, price })
+      // No auto-open — customer sees the ✓ on button + badge updates in navbar
+    }
+  }
+
+  return (
+    <button
+      onClick={toggle}
+      aria-label={inCart ? `Remove ${name}` : `Add ${name} to cart`}
+      className={`
+        flex-shrink-0 w-7 h-7 rounded-full border flex items-center justify-center
+        transition-all duration-200 text-[0.75rem]
+        ${inCart
+          ? 'bg-hunter border-hunter text-parchment'
+          : 'border-divider text-muted hover:border-hunter hover:text-hunter'
+        }
+      `}
+    >
+      {inCart ? '✓' : '+'}
+    </button>
   )
 }
 
 export default function Services() {
   const sectionRef = useScrollReveal<HTMLElement>()
+  const [openId, setOpenId] = useState<string | null>(null)
+
+  function toggle(id: string) {
+    setOpenId(prev => (prev === id ? null : id))
+  }
 
   return (
-    <section
-      id="services"
-      ref={sectionRef}
-      className="reveal-on-scroll"
-    >
-      {/* ══ DESKTOP layout (≥ lg) ══════════════════════════════ */}
-      <div className="hidden lg:block px-24 py-24">
-        <div className="flex gap-24">
-          {/* Left intro — 1/3 */}
-          <div className="w-1/3">
-            <h2 className="font-playfair text-[1.75rem] font-medium mb-6">
-              SERVICES &amp; <br />
-              <em className="font-playfair italic">Mastery</em>
-            </h2>
-            <div className="rule-h mb-8" />
-            <p className="font-sans font-light text-sm leading-loose text-muted">
-              Every garment undergoes a rigorous assessment. From structural
-              reinforcements to delicate invisible mending, this one-person
-              atelier ensures total consistency in every stitch.
-            </p>
-          </div>
+    <section id="services" ref={sectionRef} className="reveal-on-scroll">
 
-          {/* Right grid — 2/3, 2 columns */}
-          <div className="w-2/3 grid grid-cols-2 gap-12">
-            {desktopServices.map((svc, i) => (
-              <div
-                key={svc.num}
-                className="group border-b border-divider pb-8 reveal-on-scroll"
-                style={{ transitionDelay: `${i * 60}ms` }}
+      {/* ══ DESKTOP layout (≥ lg) ══════════════════════════════════════════ */}
+      <div className="hidden lg:flex gap-24 px-24 py-24">
+
+        {/* Left: intro */}
+        <div className="w-1/3 sticky top-32 self-start">
+          <h2 className="font-playfair text-[1.75rem] font-medium mb-6">
+            SERVICES &amp;<br />
+            <em className="font-playfair italic">Mastery</em>
+          </h2>
+          <div className="rule-h mb-8" />
+          <p className="font-sans font-light text-sm leading-loose text-muted mb-8">
+            Select the work you need below. All prices are fixed — no hidden
+            charges. We collect your garments and return them perfect.
+          </p>
+          <Link
+            href="/book"
+            className="
+              inline-block font-sans text-[0.6875rem] font-medium tracking-widest uppercase
+              text-muted border-b border-divider pb-px
+              hover:text-hunter transition-colors duration-200
+            "
+          >
+            Not sure? Book a consultation →
+          </Link>
+        </div>
+
+        {/* Right: expandable list */}
+        <div className="w-2/3">
+          {services.map((cat, i) => (
+            <div key={cat.id} className="reveal-on-scroll" style={{ transitionDelay: `${i * 50}ms` }}>
+              {/* Category row */}
+              <button
+                onClick={() => toggle(cat.id)}
+                className="
+                  w-full flex items-center gap-6 py-6
+                  border-b border-divider text-left
+                  group hover:text-hunter transition-colors duration-200
+                "
               >
-                <span className="font-sans text-[0.65rem] text-hunter font-medium block mb-4 uppercase tracking-tighter">
-                  {svc.num}. {svc.category}
+                <span className="text-hunter opacity-60 group-hover:opacity-100 transition-opacity">
+                  {icons[cat.id]}
                 </span>
-                <h3
-                  className="
-                    font-playfair text-xl mb-4
-                    group-hover:text-hunter transition-colors duration-200
-                  "
+                <span className="flex-1">
+                  <span className="font-playfair text-[1.0625rem] block">{cat.name}</span>
+                  <span className="font-sans text-[0.6875rem] text-muted uppercase tracking-wider">{cat.subtitle}</span>
+                </span>
+                <svg
+                  width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="1.2"
+                  className={`flex-shrink-0 transition-transform duration-300 text-muted ${openId === cat.id ? 'rotate-90' : ''}`}
                 >
-                  {svc.title}
-                </h3>
-                {/* Animated underline on hover */}
-                <div className="h-px bg-forest w-0 group-hover:w-full transition-all duration-300 mb-4" />
-                <p className="font-sans text-sm font-light text-muted leading-relaxed mb-6">
-                  {svc.body}
-                </p>
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+
+              {/* Sub-items */}
+              <div
+                className="overflow-hidden transition-all duration-300"
+                style={{ maxHeight: openId === cat.id ? `${cat.items.length * 56}px` : '0px' }}
+              >
+                {cat.items.map(item => (
+                  <div
+                    key={item.id}
+                    className="flex items-center gap-4 px-12 py-3 border-b border-divider/50 last:border-0"
+                  >
+                    <span className="flex-1 font-sans text-[0.9375rem] text-charcoal">{item.name}</span>
+                    <span className="font-sans text-[0.875rem] text-hunter font-medium w-24 text-right">
+                      {fmt(item.price, item.note)}
+                    </span>
+                    <AddButton
+                      itemId={item.id}
+                      categoryId={cat.id}
+                      categoryName={cat.name}
+                      name={item.name}
+                      price={item.price}
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* ══ MOBILE layout (< lg) ══════════════════════════════ */}
+      {/* ══ MOBILE layout (< lg) ══════════════════════════════════════════ */}
       <div className="lg:hidden bg-parchment py-20 px-8">
         <div className="mb-12">
-          <h2 className="font-playfair text-[2rem] text-hunter italic">
-            Our Atelier
-          </h2>
+          <h2 className="font-playfair text-[2rem] text-hunter italic">Our Atelier</h2>
           <div className="w-12 h-px bg-hunter mt-2" />
+          <p className="font-sans text-[0.8125rem] text-muted mt-4 leading-relaxed">
+            Tap a category to see services and add to your order.
+          </p>
         </div>
 
         <div>
-          {mobileServices.map((svc, i) => (
-            <div
-              key={svc.name}
-              className="
-                grid items-center py-6
-                reveal-on-scroll
-                hairline-t
-                last:hairline-b
-              "
-              style={{
-                gridTemplateColumns: '40px 1fr 24px',
-                transitionDelay: `${i * 50}ms`,
-              }}
-            >
-              <div className="flex-shrink-0">{svc.icon}</div>
-              <div className="px-4">
-                <p className="font-playfair text-[1.0625rem] text-charcoal">
-                  {svc.name}
-                </p>
-                <p className="font-sans text-[0.6875rem] text-muted uppercase tracking-wider">
-                  {svc.sub}
-                </p>
+          {services.map((cat, i) => (
+            <div key={cat.id} className="reveal-on-scroll" style={{ transitionDelay: `${i * 50}ms` }}>
+              {/* Category row */}
+              <button
+                onClick={() => toggle(cat.id)}
+                className="
+                  w-full grid items-center py-5 hairline-t last:hairline-b text-left
+                "
+                style={{ gridTemplateColumns: '36px 1fr 24px' }}
+              >
+                <span className="text-hunter">{icons[cat.id]}</span>
+                <span className="px-4">
+                  <span className="font-playfair text-[1rem] text-charcoal block">{cat.name}</span>
+                  <span className="font-sans text-[0.6875rem] text-muted uppercase tracking-wider">{cat.subtitle}</span>
+                </span>
+                <svg
+                  width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="#C4B99A" strokeWidth="1"
+                  className={`transition-transform duration-300 ${openId === cat.id ? 'rotate-90' : ''}`}
+                >
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+
+              {/* Sub-items */}
+              <div
+                className="overflow-hidden transition-all duration-300 bg-parchment"
+                style={{ maxHeight: openId === cat.id ? `${cat.items.length * 60}px` : '0px' }}
+              >
+                {cat.items.map(item => (
+                  <div
+                    key={item.id}
+                    className="flex items-center gap-3 pl-12 pr-2 py-3 border-b border-divider/30 last:border-0"
+                  >
+                    <span className="flex-1 font-sans text-[0.9rem] text-charcoal">{item.name}</span>
+                    <span className="font-sans text-[0.875rem] text-hunter font-medium whitespace-nowrap">
+                      {fmt(item.price, item.note)}
+                    </span>
+                    <AddButton
+                      itemId={item.id}
+                      categoryId={cat.id}
+                      categoryName={cat.name}
+                      name={item.name}
+                      price={item.price}
+                    />
+                  </div>
+                ))}
               </div>
-              <ChevronRight />
             </div>
           ))}
+        </div>
+
+        {/* Consultation link */}
+        <div className="mt-10 pt-8 border-t border-divider">
+          <p className="font-sans text-[0.8125rem] text-muted mb-3">
+            Not sure what you need?
+          </p>
+          <Link
+            href="/book"
+            className="
+              font-sans text-[0.8125rem] font-medium text-hunter
+              underline underline-offset-4
+            "
+          >
+            Book a free consultation →
+          </Link>
         </div>
       </div>
     </section>

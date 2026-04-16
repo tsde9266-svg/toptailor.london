@@ -1,12 +1,41 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useCart } from '@/context/CartContext'
 
 const navLinks = [
   { label: 'SERVICES', href: '#services' },
   { label: 'ABOUT',    href: '#about'    },
   { label: 'BOOK',     href: '/book'     },
 ]
+
+function CartIcon({ light }: { light: boolean }) {
+  const { count, openDrawer } = useCart()
+  return (
+    <button
+      onClick={openDrawer}
+      aria-label={`Open cart — ${count} item${count !== 1 ? 's' : ''}`}
+      className="relative flex items-center justify-center w-8 h-8"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+        stroke={light ? '#1C1C1A' : '#F5F0E8'} strokeWidth="1.2">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <path d="M16 10a4 4 0 01-8 0" />
+      </svg>
+      {count > 0 && (
+        <span className="
+          absolute -top-1 -right-1
+          bg-hunter text-parchment
+          text-[0.5rem] font-sans font-medium
+          w-4 h-4 rounded-full flex items-center justify-center
+        ">
+          {count > 9 ? '9+' : count}
+        </span>
+      )}
+    </button>
+  )
+}
 
 export default function Navbar({ solid = false }: { solid?: boolean }) {
   const [menuOpen, setMenuOpen]   = useState(false)
@@ -93,6 +122,8 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
         </div>
 
         {/* ── Desktop CTA ── */}
+        <div className="hidden lg:flex items-center gap-4">
+          <CartIcon light={true} />
         <Link
           href="/book"
           className="
@@ -105,9 +136,12 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
         >
           SCHEDULE A COLLECTION
         </Link>
+        </div>
 
-        {/* ── Mobile: spacer (keeps logo centred) ── */}
-        <div className="w-8 lg:hidden" aria-hidden="true" />
+        {/* ── Mobile: cart icon (keeps logo centred + shows cart) ── */}
+        <div className="lg:hidden">
+          <CartIcon light={light} />
+        </div>
       </nav>
 
       {/* ── Mobile full-screen menu overlay ── */}

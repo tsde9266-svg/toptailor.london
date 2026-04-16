@@ -12,6 +12,26 @@ import { NextRequest, NextResponse } from 'next/server'
 //        TELEGRAM_CHAT_ID     =  123456789
 //   5. Redeploy — done. You'll get an instant Telegram ping for every inquiry.
 // ─────────────────────────────────────────────────────────────────────────────
+async function notifyEmail(subject: string, bodyText: string) {
+  const apiKey = process.env.RESEND_API_KEY
+  const to     = process.env.NOTIFICATION_EMAIL
+  if (!apiKey || !to) return
+  try {
+    await fetch('https://api.resend.com/emails', {
+      method:  'POST',
+      headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from:    'Top Tailor <onboarding@resend.dev>',
+        to:      [to],
+        subject,
+        text:    bodyText,
+      }),
+    })
+  } catch (e) {
+    console.error('[email] failed', e)
+  }
+}
+
 async function notifyTelegram(text: string) {
   const token  = process.env.TELEGRAM_BOT_TOKEN
   const chatId = process.env.TELEGRAM_CHAT_ID
@@ -66,17 +86,29 @@ export async function POST(req: NextRequest) {
   const postcode = String(body.postcode ?? '').trim()
   const notes    = String(body.notes    ?? '').trim()
 
-  // Send Telegram ping (instant, free)
-  await notifyTelegram(
-    `📋 <b>New Top Tailor Inquiry</b>\n\n` +
-    `👤 <b>Name:</b> ${name}\n` +
-    `📧 <b>Email:</b> ${email}\n` +
-    (phone    ? `📞 <b>Phone:</b> ${phone}\n`       : '') +
-    (service  ? `✂️ <b>Service:</b> ${service}\n`   : '') +
-    (day      ? `📅 <b>Day:</b> ${day}\n`            : '') +
-    (postcode ? `📍 <b>Postcode:</b> ${postcode}\n`  : '') +
-    (notes    ? `\n💬 <b>Notes:</b>\n${notes}`       : '')
-  )
+  const emailSubject = `📋 New Inquiry — ${name}`
+  const emailBody =
+    `New Inquiry — Top Tailor\n${'─'.repeat(40)}\n` +
+    `Name:     ${name}\nEmail:    ${email}\n` +
+    (phone    ? `Phone:    ${phone}\n`    : '') +
+    (service  ? `Service:  ${service}\n` : '') +
+    (day      ? `Day:      ${day}\n`     : '') +
+    (postcode ? `Postcode: ${postcode}\n`: '') +
+    (notes    ? `\nNotes:\n${notes}`     : '')
+
+  await Promise.all([
+    notifyEmail(emailSubject, emailBody),
+    notifyTelegram(
+      `📋 <b>New Top Tailor Inquiry</b>\n\n` +
+      `👤 <b>Name:</b> ${name}\n` +
+      `📧 <b>Email:</b> ${email}\n` +
+      (phone    ? `📞 <b>Phone:</b> ${phone}\n`       : '') +
+      (service  ? `✂️ <b>Service:</b> ${service}\n`   : '') +
+      (day      ? `📅 <b>Day:</b> ${day}\n`            : '') +
+      (postcode ? `📍 <b>Postcode:</b> ${postcode}\n`  : '') +
+      (notes    ? `\n💬 <b>Notes:</b>\n${notes}`       : '')
+    ),
+  ])
 
   // Also log to Vercel logs as a backup record
   console.log('[contact:new]', { name, email, phone, service, day, postcode, notes, ts: new Date().toISOString() })

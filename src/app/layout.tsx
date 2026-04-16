@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, DM_Sans } from 'next/font/google'
 import '@/styles/globals.css'
-import WhatsAppButton from '@/components/WhatsAppButton'
+import WhatsAppButton  from '@/components/WhatsAppButton'
+import CartDrawer      from '@/components/CartDrawer'
+import { CartProvider } from '@/context/CartContext'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -53,8 +55,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
       <body>
-        {children}
-        <WhatsAppButton />
+        <CartProvider>
+          {children}
+          <CartDrawer />
+          <WhatsAppButton />
+        </CartProvider>
       </body>
     </html>
   )
