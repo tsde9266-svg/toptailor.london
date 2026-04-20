@@ -130,7 +130,7 @@ export default function BookPage() {
               Cal("init", { origin: "https://cal.com" });
               Cal("inline", {
                 elementOrSelector: "#cal-inline",
-                calLink: "toptailor/oneclicktailors.co.uk",
+                calLink: "toptailor/toptailor.london",
                 layout: "month_view"
               });
               Cal("ui", {

@@ -109,7 +109,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preload" as="image" href="/hero.jpg" />
+        <link rel="preload" as="video" href="/video/Craft.mp4" type="video/mp4" />
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body>
