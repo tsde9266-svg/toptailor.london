@@ -7,15 +7,15 @@ import Footer from '@/components/Footer'
 export const metadata: Metadata = {
   title: 'Tailoring Advice & London Style Guide | One Click Tailor Blog',
   description: 'Expert tailoring advice, London style guides, and tips on clothing alterations at home from One Click Tailor.',
-  alternates: { canonical: 'https://www.oneclicktailor.co.uk/blog' },
+  alternates: { canonical: 'https://www.oneclicktailors.co.uk/blog' },
 }
 
 const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailor.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailor.co.uk/blog' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailors.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailors.co.uk/blog' },
   ],
 }
 

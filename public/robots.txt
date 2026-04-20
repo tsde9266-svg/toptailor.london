@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 Disallow: /_next/
 
-Sitemap: https://www.oneclicktailor.co.uk/sitemap.xml
+Sitemap: https://www.oneclicktailors.co.uk/sitemap.xml

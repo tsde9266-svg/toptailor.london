@@ -7,10 +7,10 @@ import Footer from '@/components/Footer'
 export const metadata: Metadata = {
   title: 'Suit Alterations at Home: What to Expect in London | One Click Tailor',
   description: 'Everything you need to know about suit alterations at home in London. One Click Tailor visits Knightsbridge, Kensington & central London.',
-  alternates: { canonical: 'https://www.oneclicktailor.co.uk/blog/suit-alterations-at-home-london' },
+  alternates: { canonical: 'https://www.oneclicktailors.co.uk/blog/suit-alterations-at-home-london' },
   openGraph: {
     title: 'Suit Alterations at Home: What to Expect in London',
-    url: 'https://www.oneclicktailor.co.uk/blog/suit-alterations-at-home-london',
+    url: 'https://www.oneclicktailors.co.uk/blog/suit-alterations-at-home-london',
   },
 }
 
@@ -20,18 +20,18 @@ const articleSchema = {
   headline: 'Suit Alterations at Home: What to Expect in London',
   description: 'Everything you need to know about suit alterations at home in London. One Click Tailor visits Knightsbridge, Kensington & central London.',
   author: { '@type': 'Organization', name: 'One Click Tailor' },
-  publisher: { '@type': 'Organization', name: 'One Click Tailor', url: 'https://www.oneclicktailor.co.uk' },
+  publisher: { '@type': 'Organization', name: 'One Click Tailor', url: 'https://www.oneclicktailors.co.uk' },
   datePublished: '2026-03-17',
-  url: 'https://www.oneclicktailor.co.uk/blog/suit-alterations-at-home-london',
+  url: 'https://www.oneclicktailors.co.uk/blog/suit-alterations-at-home-london',
 }
 
 const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailor.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailor.co.uk/blog' },
-    { '@type': 'ListItem', position: 3, name: 'Suit Alterations at Home', item: 'https://www.oneclicktailor.co.uk/blog/suit-alterations-at-home-london' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailors.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailors.co.uk/blog' },
+    { '@type': 'ListItem', position: 3, name: 'Suit Alterations at Home', item: 'https://www.oneclicktailors.co.uk/blog/suit-alterations-at-home-london' },
   ],
 }
 

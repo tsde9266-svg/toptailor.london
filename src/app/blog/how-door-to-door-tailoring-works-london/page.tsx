@@ -7,10 +7,10 @@ import Footer from '@/components/Footer'
 export const metadata: Metadata = {
   title: 'How Door-to-Door Tailoring Works in London | One Click Tailor',
   description: 'Discover how One Click Tailor\'s door-to-door tailoring service works in London. We visit your home, collect your garments and return them perfectly altered.',
-  alternates: { canonical: 'https://www.oneclicktailor.co.uk/blog/how-door-to-door-tailoring-works-london' },
+  alternates: { canonical: 'https://www.oneclicktailors.co.uk/blog/how-door-to-door-tailoring-works-london' },
   openGraph: {
     title: 'How Door-to-Door Tailoring Works in London',
-    url: 'https://www.oneclicktailor.co.uk/blog/how-door-to-door-tailoring-works-london',
+    url: 'https://www.oneclicktailors.co.uk/blog/how-door-to-door-tailoring-works-london',
   },
 }
 
@@ -20,18 +20,18 @@ const articleSchema = {
   headline: 'How Door-to-Door Tailoring Works in London',
   description: 'Discover how One Click Tailor\'s door-to-door tailoring service works in London. We visit your home, collect your garments and return them perfectly altered.',
   author: { '@type': 'Organization', name: 'One Click Tailor' },
-  publisher: { '@type': 'Organization', name: 'One Click Tailor', url: 'https://www.oneclicktailor.co.uk' },
+  publisher: { '@type': 'Organization', name: 'One Click Tailor', url: 'https://www.oneclicktailors.co.uk' },
   datePublished: '2026-03-10',
-  url: 'https://www.oneclicktailor.co.uk/blog/how-door-to-door-tailoring-works-london',
+  url: 'https://www.oneclicktailors.co.uk/blog/how-door-to-door-tailoring-works-london',
 }
 
 const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailor.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailor.co.uk/blog' },
-    { '@type': 'ListItem', position: 3, name: 'How Door-to-Door Tailoring Works', item: 'https://www.oneclicktailor.co.uk/blog/how-door-to-door-tailoring-works-london' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailors.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailors.co.uk/blog' },
+    { '@type': 'ListItem', position: 3, name: 'How Door-to-Door Tailoring Works', item: 'https://www.oneclicktailors.co.uk/blog/how-door-to-door-tailoring-works-london' },
   ],
 }
 

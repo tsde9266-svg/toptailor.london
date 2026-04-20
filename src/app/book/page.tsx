@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: 'Book a Collection — One Click Tailor',
     description:
       'Schedule your door-to-door tailoring collection in central London. We come to your home or office.',
-    url: 'https://oneclicktailor.co.uk/book',
+    url: 'https://oneclicktailors.co.uk/book',
     images: [
       {
         url: '/images/tailor.jpg',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     images: ['/images/tailor.jpg'],
   },
   alternates: {
-    canonical: 'https://oneclicktailor.co.uk/book',
+    canonical: 'https://oneclicktailors.co.uk/book',
   },
 }
 
@@ -45,17 +45,17 @@ const bookSchema = {
   '@graph': [
     {
       '@type': 'WebPage',
-      '@id': 'https://oneclicktailor.co.uk/book#webpage',
-      url: 'https://oneclicktailor.co.uk/book',
+      '@id': 'https://oneclicktailors.co.uk/book#webpage',
+      url: 'https://oneclicktailors.co.uk/book',
       name: 'Book a Collection — One Click Tailor',
       description:
         'Schedule your door-to-door tailoring collection in central London. Choose a convenient time — we come to your home or office.',
-      isPartOf: { '@id': 'https://oneclicktailor.co.uk/#website' },
+      isPartOf: { '@id': 'https://oneclicktailors.co.uk/#website' },
       breadcrumb: {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oneclicktailor.co.uk' },
-          { '@type': 'ListItem', position: 2, name: 'Book a Collection', item: 'https://oneclicktailor.co.uk/book' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oneclicktailors.co.uk' },
+          { '@type': 'ListItem', position: 2, name: 'Book a Collection', item: 'https://oneclicktailors.co.uk/book' },
         ],
       },
     },
@@ -130,7 +130,7 @@ export default function BookPage() {
               Cal("init", { origin: "https://cal.com" });
               Cal("inline", {
                 elementOrSelector: "#cal-inline",
-                calLink: "toptailor/oneclicktailor.co.uk",
+                calLink: "toptailor/oneclicktailors.co.uk",
                 layout: "month_view"
               });
               Cal("ui", {

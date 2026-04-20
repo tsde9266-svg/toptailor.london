@@ -22,7 +22,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.oneclicktailor.co.uk'),
+  metadataBase: new URL('https://www.oneclicktailors.co.uk'),
   title: {
     template: '%s | One Click Tailor',
     default: "London's Finest Tailors at Your Door | One Click Tailor",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_GB',
-    url: 'https://www.oneclicktailor.co.uk',
+    url: 'https://www.oneclicktailors.co.uk',
     siteName: 'One Click Tailor',
     title: "London's Finest Tailors at Your Door",
     description: 'Expert tailoring & alterations at your home in Mayfair, Chelsea, Knightsbridge & central London. 10+ years experience.',
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     images: ['/og-image.jpg'],
   },
   alternates: {
-    canonical: 'https://www.oneclicktailor.co.uk',
+    canonical: 'https://www.oneclicktailors.co.uk',
   },
   verification: {
     google: 'REPLACE_WITH_GOOGLE_VERIFICATION_CODE',
@@ -65,11 +65,11 @@ const siteSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: 'One Click Tailor',
-  url: 'https://www.oneclicktailor.co.uk',
+  url: 'https://www.oneclicktailors.co.uk',
   telephone: '+44-XXXX-XXXXXX',
   priceRange: '££££',
   description: 'Premium door-to-door tailoring and alterations service visiting homes across central London with 10+ years of experience.',
-  image: 'https://www.oneclicktailor.co.uk/og-image.jpg',
+  image: 'https://www.oneclicktailors.co.uk/og-image.jpg',
   areaServed: ['Mayfair', 'Chelsea', 'Knightsbridge', 'Kensington', 'Belgravia', 'City of London', 'Marylebone', 'Fitzrovia'],
   serviceArea: {
     '@type': 'GeoCircle',

@@ -7,10 +7,10 @@ import Footer from '@/components/Footer'
 export const metadata: Metadata = {
   title: 'Why Mayfair Clients Choose a Visiting Tailor | One Click Tailor',
   description: 'Mayfair residents choose One Click Tailor for premium tailoring at home. Discover why London\'s most discerning clients prefer a visiting tailor.',
-  alternates: { canonical: 'https://www.oneclicktailor.co.uk/blog/why-mayfair-clients-choose-visiting-tailor' },
+  alternates: { canonical: 'https://www.oneclicktailors.co.uk/blog/why-mayfair-clients-choose-visiting-tailor' },
   openGraph: {
     title: 'Why Mayfair Clients Choose a Visiting Tailor',
-    url: 'https://www.oneclicktailor.co.uk/blog/why-mayfair-clients-choose-visiting-tailor',
+    url: 'https://www.oneclicktailors.co.uk/blog/why-mayfair-clients-choose-visiting-tailor',
   },
 }
 
@@ -20,18 +20,18 @@ const articleSchema = {
   headline: 'Why Mayfair Clients Choose a Visiting Tailor',
   description: 'Mayfair residents choose One Click Tailor for premium tailoring at home. Discover why London\'s most discerning clients prefer a visiting tailor.',
   author: { '@type': 'Organization', name: 'One Click Tailor' },
-  publisher: { '@type': 'Organization', name: 'One Click Tailor', url: 'https://www.oneclicktailor.co.uk' },
+  publisher: { '@type': 'Organization', name: 'One Click Tailor', url: 'https://www.oneclicktailors.co.uk' },
   datePublished: '2026-03-24',
-  url: 'https://www.oneclicktailor.co.uk/blog/why-mayfair-clients-choose-visiting-tailor',
+  url: 'https://www.oneclicktailors.co.uk/blog/why-mayfair-clients-choose-visiting-tailor',
 }
 
 const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailor.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailor.co.uk/blog' },
-    { '@type': 'ListItem', position: 3, name: 'Why Mayfair Clients Choose a Visiting Tailor', item: 'https://www.oneclicktailor.co.uk/blog/why-mayfair-clients-choose-visiting-tailor' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailors.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailors.co.uk/blog' },
+    { '@type': 'ListItem', position: 3, name: 'Why Mayfair Clients Choose a Visiting Tailor', item: 'https://www.oneclicktailors.co.uk/blog/why-mayfair-clients-choose-visiting-tailor' },
   ],
 }
 

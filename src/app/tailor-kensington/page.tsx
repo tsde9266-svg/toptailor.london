@@ -8,10 +8,10 @@ import FAQ, { faqSchema } from '@/components/FAQ'
 export const metadata: Metadata = {
   title: 'Tailor in Kensington, London | Home Visits | One Click Tailor',
   description: 'One Click Tailor visits your home in Kensington, London. Expert suit & dress alterations at your door. 10+ years experience. Book your Kensington home visit today.',
-  alternates: { canonical: 'https://www.oneclicktailor.co.uk/tailor-kensington' },
+  alternates: { canonical: 'https://www.oneclicktailors.co.uk/tailor-kensington' },
   openGraph: {
     title: 'Tailor in Kensington, London | One Click Tailor',
-    url: 'https://www.oneclicktailor.co.uk/tailor-kensington',
+    url: 'https://www.oneclicktailors.co.uk/tailor-kensington',
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Tailor visiting client home in Kensington London' }],
   },
 }
@@ -20,8 +20,8 @@ const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailor.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Tailor in Kensington', item: 'https://www.oneclicktailor.co.uk/tailor-kensington' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailors.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Tailor in Kensington', item: 'https://www.oneclicktailors.co.uk/tailor-kensington' },
   ],
 }
 
@@ -29,7 +29,7 @@ const localBusiness = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: 'One Click Tailor',
-  url: 'https://www.oneclicktailor.co.uk',
+  url: 'https://www.oneclicktailors.co.uk',
   telephone: '+44-XXXX-XXXXXX',
   areaServed: 'Kensington',
   description: 'Premium door-to-door tailoring and alterations visiting homes in Kensington, London.',

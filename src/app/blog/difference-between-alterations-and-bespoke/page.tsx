@@ -7,10 +7,10 @@ import Footer from '@/components/Footer'
 export const metadata: Metadata = {
   title: 'The Difference Between Alterations and Bespoke Tailoring | One Click Tailor',
   description: 'Not sure whether you need alterations or bespoke tailoring? One Click Tailor explains the difference and helps you choose the right service in London.',
-  alternates: { canonical: 'https://www.oneclicktailor.co.uk/blog/difference-between-alterations-and-bespoke' },
+  alternates: { canonical: 'https://www.oneclicktailors.co.uk/blog/difference-between-alterations-and-bespoke' },
   openGraph: {
     title: 'The Difference Between Alterations and Bespoke Tailoring',
-    url: 'https://www.oneclicktailor.co.uk/blog/difference-between-alterations-and-bespoke',
+    url: 'https://www.oneclicktailors.co.uk/blog/difference-between-alterations-and-bespoke',
   },
 }
 
@@ -20,18 +20,18 @@ const articleSchema = {
   headline: 'The Difference Between Alterations and Bespoke Tailoring',
   description: 'Not sure whether you need alterations or bespoke tailoring? One Click Tailor explains the difference and helps you choose the right service in London.',
   author: { '@type': 'Organization', name: 'One Click Tailor' },
-  publisher: { '@type': 'Organization', name: 'One Click Tailor', url: 'https://www.oneclicktailor.co.uk' },
+  publisher: { '@type': 'Organization', name: 'One Click Tailor', url: 'https://www.oneclicktailors.co.uk' },
   datePublished: '2026-04-01',
-  url: 'https://www.oneclicktailor.co.uk/blog/difference-between-alterations-and-bespoke',
+  url: 'https://www.oneclicktailors.co.uk/blog/difference-between-alterations-and-bespoke',
 }
 
 const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailor.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailor.co.uk/blog' },
-    { '@type': 'ListItem', position: 3, name: 'Alterations vs Bespoke', item: 'https://www.oneclicktailor.co.uk/blog/difference-between-alterations-and-bespoke' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailors.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailors.co.uk/blog' },
+    { '@type': 'ListItem', position: 3, name: 'Alterations vs Bespoke', item: 'https://www.oneclicktailors.co.uk/blog/difference-between-alterations-and-bespoke' },
   ],
 }
 

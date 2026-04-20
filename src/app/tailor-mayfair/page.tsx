@@ -8,10 +8,10 @@ import FAQ, { faqSchema } from '@/components/FAQ'
 export const metadata: Metadata = {
   title: 'Tailor in Mayfair, London | Home Visits | One Click Tailor',
   description: 'One Click Tailor visits your home in Mayfair, London. Expert suit & dress alterations at your door. 10+ years experience. Book your Mayfair home visit today.',
-  alternates: { canonical: 'https://www.oneclicktailor.co.uk/tailor-mayfair' },
+  alternates: { canonical: 'https://www.oneclicktailors.co.uk/tailor-mayfair' },
   openGraph: {
     title: 'Tailor in Mayfair, London | One Click Tailor',
-    url: 'https://www.oneclicktailor.co.uk/tailor-mayfair',
+    url: 'https://www.oneclicktailors.co.uk/tailor-mayfair',
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Tailor visiting client home in Mayfair London' }],
   },
 }
@@ -20,8 +20,8 @@ const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailor.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Tailor in Mayfair', item: 'https://www.oneclicktailor.co.uk/tailor-mayfair' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailors.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Tailor in Mayfair', item: 'https://www.oneclicktailors.co.uk/tailor-mayfair' },
   ],
 }
 
@@ -29,7 +29,7 @@ const localBusiness = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: 'One Click Tailor',
-  url: 'https://www.oneclicktailor.co.uk',
+  url: 'https://www.oneclicktailors.co.uk',
   telephone: '+44-XXXX-XXXXXX',
   areaServed: 'Mayfair',
   description: 'Premium door-to-door tailoring and alterations visiting homes in Mayfair, London.',

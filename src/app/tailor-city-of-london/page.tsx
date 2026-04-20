@@ -8,10 +8,10 @@ import FAQ, { faqSchema } from '@/components/FAQ'
 export const metadata: Metadata = {
   title: 'Tailor in City of London | Home & Office Visits | One Click Tailor',
   description: 'One Click Tailor visits your home or office in the City of London. Expert suit & dress alterations at your door. 10+ years experience. Book your City visit today.',
-  alternates: { canonical: 'https://www.oneclicktailor.co.uk/tailor-city-of-london' },
+  alternates: { canonical: 'https://www.oneclicktailors.co.uk/tailor-city-of-london' },
   openGraph: {
     title: 'Tailor in City of London | One Click Tailor',
-    url: 'https://www.oneclicktailor.co.uk/tailor-city-of-london',
+    url: 'https://www.oneclicktailors.co.uk/tailor-city-of-london',
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Tailor visiting client in the City of London' }],
   },
 }
@@ -20,8 +20,8 @@ const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailor.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Tailor in City of London', item: 'https://www.oneclicktailor.co.uk/tailor-city-of-london' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailors.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Tailor in City of London', item: 'https://www.oneclicktailors.co.uk/tailor-city-of-london' },
   ],
 }
 
@@ -29,7 +29,7 @@ const localBusiness = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: 'One Click Tailor',
-  url: 'https://www.oneclicktailor.co.uk',
+  url: 'https://www.oneclicktailors.co.uk',
   telephone: '+44-XXXX-XXXXXX',
   areaServed: 'City of London',
   description: 'Premium door-to-door tailoring and alterations visiting homes and offices in the City of London.',
