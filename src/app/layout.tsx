@@ -22,33 +22,33 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.thedoortailor.co.uk'),
+  metadataBase: new URL('https://www.oneclicktailor.co.uk'),
   title: {
-    template: '%s | The Door Tailor',
-    default: "London's Premium Door-to-Door Tailor | The Door Tailor",
+    template: '%s | One Click Tailor',
+    default: "London's Premium Door-to-Door Tailor | One Click Tailor",
   },
-  description: 'The Door Tailor visits your home in Mayfair, Chelsea, Knightsbridge & central London. Expert tailoring & alterations with 10+ years experience. Book your home visit today.',
+  description: "London's finest tailors at your door. One Click Tailor visits your home in Mayfair, Chelsea, Knightsbridge & central London. Expert tailoring & alterations with 10+ years experience. Book your home visit today.",
   keywords: ['door to door tailor London', 'tailor home visit London', 'clothing alterations at home', 'Mayfair tailor', 'Chelsea tailor', 'central London tailor', 'suit alterations home visit'],
-  authors: [{ name: 'The Door Tailor' }],
-  creator: 'The Door Tailor',
+  authors: [{ name: 'One Click Tailor' }],
+  creator: 'One Click Tailor',
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   openGraph: {
     type: 'website',
     locale: 'en_GB',
-    url: 'https://www.thedoortailor.co.uk',
-    siteName: 'The Door Tailor',
+    url: 'https://www.oneclicktailor.co.uk',
+    siteName: 'One Click Tailor',
     title: "London's Premium Door-to-Door Tailor",
     description: 'Expert tailoring & alterations at your home in Mayfair, Chelsea, Knightsbridge & central London. 10+ years experience.',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'The Door Tailor — Premium door-to-door tailoring in central London' }],
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'One Click Tailor — Premium door-to-door tailoring in central London' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: "London's Premium Door-to-Door Tailor | The Door Tailor",
+    title: "London's Premium Door-to-Door Tailor | One Click Tailor",
     description: 'Expert tailoring at your home in Mayfair, Chelsea & central London.',
     images: ['/og-image.jpg'],
   },
   alternates: {
-    canonical: 'https://www.thedoortailor.co.uk',
+    canonical: 'https://www.oneclicktailor.co.uk',
   },
   verification: {
     google: 'REPLACE_WITH_GOOGLE_VERIFICATION_CODE',
@@ -64,12 +64,12 @@ export const metadata: Metadata = {
 const siteSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  name: 'The Door Tailor',
-  url: 'https://www.thedoortailor.co.uk',
+  name: 'One Click Tailor',
+  url: 'https://www.oneclicktailor.co.uk',
   telephone: '+44-XXXX-XXXXXX',
   priceRange: '££££',
   description: 'Premium door-to-door tailoring and alterations service visiting homes across central London with 10+ years of experience.',
-  image: 'https://www.thedoortailor.co.uk/og-image.jpg',
+  image: 'https://www.oneclicktailor.co.uk/og-image.jpg',
   areaServed: ['Mayfair', 'Chelsea', 'Knightsbridge', 'Kensington', 'Belgravia', 'City of London', 'Marylebone', 'Fitzrovia'],
   serviceArea: {
     '@type': 'GeoCircle',
@@ -90,8 +90,8 @@ const siteSchema = {
   },
   foundingDate: '2014',
   sameAs: [
-    'https://www.instagram.com/thedoortailor',
-    'https://www.facebook.com/thedoortailor',
+    'https://www.instagram.com/oneclicktailor',
+    'https://www.facebook.com/oneclicktailor',
   ],
 }
 

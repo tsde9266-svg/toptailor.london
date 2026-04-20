@@ -53,11 +53,10 @@ export default function Footer() {
         {/* Col 1 — logo + tagline */}
         <div>
           <div className="font-playfair text-2xl text-parchment mb-8">
-            THE DOOR TAILOR
+            ONE CLICK TAILOR
           </div>
           <p className="font-sans text-sm font-light max-w-xs leading-relaxed">
-            A modern atelier for the traditional aesthetic. Precision,
-            permanence, and the art of the perfect fit.
+            London&apos;s finest tailors at your door. Expert alterations &amp; bespoke tailoring across Mayfair, Chelsea, Knightsbridge and central London.
           </p>
         </div>
 
@@ -121,7 +120,7 @@ export default function Footer() {
       {/* ══ MOBILE — logo + 2-col links (< lg) ══════════════ */}
       <div className="lg:hidden px-8 py-12 space-y-6">
         <div className="font-playfair text-2xl italic text-parchment">
-          The Door Tailor
+          One Click Tailor
         </div>
 
         <div className="border-t border-divider/20" />
@@ -174,7 +173,7 @@ export default function Footer() {
           className="font-sans text-[0.65rem] font-light tracking-[0.1em] text-green-soft/60"
           suppressHydrationWarning
         >
-          © {new Date().getFullYear()} THE DOOR TAILOR. ALL RIGHTS RESERVED.
+          © {new Date().getFullYear()} ONE CLICK TAILOR. ALL RIGHTS RESERVED.
         </span>
       </div>
     </footer>

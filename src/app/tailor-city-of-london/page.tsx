@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor in City of London | Home & Office Visits | The Door Tailor',
-  description: 'The Door Tailor visits your home or office in the City of London. Expert suit & dress alterations at your door. 10+ years experience. Book your City visit today.',
-  alternates: { canonical: 'https://www.thedoortailor.co.uk/tailor-city-of-london' },
+  title: 'Tailor in City of London | Home & Office Visits | One Click Tailor',
+  description: 'One Click Tailor visits your home or office in the City of London. Expert suit & dress alterations at your door. 10+ years experience. Book your City visit today.',
+  alternates: { canonical: 'https://www.oneclicktailor.co.uk/tailor-city-of-london' },
   openGraph: {
-    title: 'Tailor in City of London | The Door Tailor',
-    url: 'https://www.thedoortailor.co.uk/tailor-city-of-london',
+    title: 'Tailor in City of London | One Click Tailor',
+    url: 'https://www.oneclicktailor.co.uk/tailor-city-of-london',
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Tailor visiting client in the City of London' }],
   },
 }
@@ -20,16 +20,16 @@ const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.thedoortailor.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Tailor in City of London', item: 'https://www.thedoortailor.co.uk/tailor-city-of-london' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailor.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Tailor in City of London', item: 'https://www.oneclicktailor.co.uk/tailor-city-of-london' },
   ],
 }
 
 const localBusiness = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  name: 'The Door Tailor',
-  url: 'https://www.thedoortailor.co.uk',
+  name: 'One Click Tailor',
+  url: 'https://www.oneclicktailor.co.uk',
   telephone: '+44-XXXX-XXXXXX',
   areaServed: 'City of London',
   description: 'Premium door-to-door tailoring and alterations visiting homes and offices in the City of London.',
@@ -58,14 +58,14 @@ export default function TailorCityOfLondon() {
             Your Personal Tailor in the City of London
           </h1>
           <p className="font-sans font-light text-lg text-muted max-w-2xl leading-relaxed">
-            The Door Tailor visits EC1, EC2, EC3 and EC4 addresses — homes, apartments, and offices across the Square Mile. Expert suit alterations and clothing alterations at home, without leaving your building.
+            One Click Tailor visits EC1, EC2, EC3 and EC4 addresses — homes, apartments, and offices across the Square Mile. Expert suit alterations and clothing alterations at home, without leaving your building.
           </p>
         </div>
 
         <div className="px-8 lg:px-24 py-16 border-b border-divider max-w-4xl">
           <h2 className="font-playfair text-[1.75rem] font-medium mb-6">Tailoring at Your City of London Address</h2>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
-            The City of London moves fast — and so do we. For professionals working long hours in EC1, EC2 or EC3, finding time for a tailor visit can feel impossible. As your dedicated City of London tailor, The Door Tailor works around your schedule, visiting your home or office at a convenient time.
+            The City of London moves fast — and so do we. For professionals working long hours in EC1, EC2 or EC3, finding time for a tailor visit can feel impossible. As your dedicated City of London tailor, One Click Tailor works around your schedule, visiting your home or office at a convenient time.
           </p>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
             We offer the complete tailor home visit London experience: arrive, assess, collect, alter, return. Suit alterations — the most common requirement for City professionals — are handled with the speed and precision that a busy schedule demands. Express 24–48 hour turnaround is available for urgent alterations.

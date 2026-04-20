@@ -5,12 +5,12 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'How Door-to-Door Tailoring Works in London | The Door Tailor',
-  description: 'Discover how The Door Tailor\'s door-to-door tailoring service works in London. We visit your home, collect your garments and return them perfectly altered.',
-  alternates: { canonical: 'https://www.thedoortailor.co.uk/blog/how-door-to-door-tailoring-works-london' },
+  title: 'How Door-to-Door Tailoring Works in London | One Click Tailor',
+  description: 'Discover how One Click Tailor\'s door-to-door tailoring service works in London. We visit your home, collect your garments and return them perfectly altered.',
+  alternates: { canonical: 'https://www.oneclicktailor.co.uk/blog/how-door-to-door-tailoring-works-london' },
   openGraph: {
     title: 'How Door-to-Door Tailoring Works in London',
-    url: 'https://www.thedoortailor.co.uk/blog/how-door-to-door-tailoring-works-london',
+    url: 'https://www.oneclicktailor.co.uk/blog/how-door-to-door-tailoring-works-london',
   },
 }
 
@@ -18,20 +18,20 @@ const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: 'How Door-to-Door Tailoring Works in London',
-  description: 'Discover how The Door Tailor\'s door-to-door tailoring service works in London. We visit your home, collect your garments and return them perfectly altered.',
-  author: { '@type': 'Organization', name: 'The Door Tailor' },
-  publisher: { '@type': 'Organization', name: 'The Door Tailor', url: 'https://www.thedoortailor.co.uk' },
+  description: 'Discover how One Click Tailor\'s door-to-door tailoring service works in London. We visit your home, collect your garments and return them perfectly altered.',
+  author: { '@type': 'Organization', name: 'One Click Tailor' },
+  publisher: { '@type': 'Organization', name: 'One Click Tailor', url: 'https://www.oneclicktailor.co.uk' },
   datePublished: '2026-03-10',
-  url: 'https://www.thedoortailor.co.uk/blog/how-door-to-door-tailoring-works-london',
+  url: 'https://www.oneclicktailor.co.uk/blog/how-door-to-door-tailoring-works-london',
 }
 
 const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.thedoortailor.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.thedoortailor.co.uk/blog' },
-    { '@type': 'ListItem', position: 3, name: 'How Door-to-Door Tailoring Works', item: 'https://www.thedoortailor.co.uk/blog/how-door-to-door-tailoring-works-london' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailor.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailor.co.uk/blog' },
+    { '@type': 'ListItem', position: 3, name: 'How Door-to-Door Tailoring Works', item: 'https://www.oneclicktailor.co.uk/blog/how-door-to-door-tailoring-works-london' },
   ],
 }
 
@@ -62,7 +62,7 @@ export default function Post1() {
           </h1>
 
           <p className="font-sans font-light text-lg text-muted leading-relaxed mb-8">
-            Traditional tailoring asks a lot of you. Travel across London, carry your garments, wait in a shop, return to collect — all while managing a busy life. The <strong>door-to-door tailor London</strong> model removes every one of those steps. Here is exactly how The Door Tailor service works, from the moment you book to the moment your clothes are returned.
+            Traditional tailoring asks a lot of you. Travel across London, carry your garments, wait in a shop, return to collect — all while managing a busy life. The <strong>door-to-door tailor London</strong> model removes every one of those steps. Here is exactly how One Click Tailor service works, from the moment you book to the moment your clothes are returned.
           </p>
 
           <h2 className="font-playfair text-2xl font-medium text-charcoal mb-4">The Problem with Traditional Tailors</h2>

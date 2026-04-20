@@ -5,12 +5,12 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'Why Mayfair Clients Choose a Visiting Tailor | The Door Tailor',
-  description: 'Mayfair residents choose The Door Tailor for premium tailoring at home. Discover why London\'s most discerning clients prefer a visiting tailor.',
-  alternates: { canonical: 'https://www.thedoortailor.co.uk/blog/why-mayfair-clients-choose-visiting-tailor' },
+  title: 'Why Mayfair Clients Choose a Visiting Tailor | One Click Tailor',
+  description: 'Mayfair residents choose One Click Tailor for premium tailoring at home. Discover why London\'s most discerning clients prefer a visiting tailor.',
+  alternates: { canonical: 'https://www.oneclicktailor.co.uk/blog/why-mayfair-clients-choose-visiting-tailor' },
   openGraph: {
     title: 'Why Mayfair Clients Choose a Visiting Tailor',
-    url: 'https://www.thedoortailor.co.uk/blog/why-mayfair-clients-choose-visiting-tailor',
+    url: 'https://www.oneclicktailor.co.uk/blog/why-mayfair-clients-choose-visiting-tailor',
   },
 }
 
@@ -18,20 +18,20 @@ const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: 'Why Mayfair Clients Choose a Visiting Tailor',
-  description: 'Mayfair residents choose The Door Tailor for premium tailoring at home. Discover why London\'s most discerning clients prefer a visiting tailor.',
-  author: { '@type': 'Organization', name: 'The Door Tailor' },
-  publisher: { '@type': 'Organization', name: 'The Door Tailor', url: 'https://www.thedoortailor.co.uk' },
+  description: 'Mayfair residents choose One Click Tailor for premium tailoring at home. Discover why London\'s most discerning clients prefer a visiting tailor.',
+  author: { '@type': 'Organization', name: 'One Click Tailor' },
+  publisher: { '@type': 'Organization', name: 'One Click Tailor', url: 'https://www.oneclicktailor.co.uk' },
   datePublished: '2026-03-24',
-  url: 'https://www.thedoortailor.co.uk/blog/why-mayfair-clients-choose-visiting-tailor',
+  url: 'https://www.oneclicktailor.co.uk/blog/why-mayfair-clients-choose-visiting-tailor',
 }
 
 const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.thedoortailor.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.thedoortailor.co.uk/blog' },
-    { '@type': 'ListItem', position: 3, name: 'Why Mayfair Clients Choose a Visiting Tailor', item: 'https://www.thedoortailor.co.uk/blog/why-mayfair-clients-choose-visiting-tailor' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailor.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailor.co.uk/blog' },
+    { '@type': 'ListItem', position: 3, name: 'Why Mayfair Clients Choose a Visiting Tailor', item: 'https://www.oneclicktailor.co.uk/blog/why-mayfair-clients-choose-visiting-tailor' },
   ],
 }
 
@@ -62,7 +62,7 @@ export default function Post3() {
           </h1>
 
           <p className="font-sans font-light text-lg text-muted leading-relaxed mb-8">
-            Mayfair is one of the few postcodes in the world where access to almost anything premium is already within walking distance. And yet, its residents consistently choose The Door Tailor — a <strong>tailor Mayfair home visit</strong> service — over the traditional tailoring shops nearby. Why? The answer says a great deal about what true luxury looks like.
+            Mayfair is one of the few postcodes in the world where access to almost anything premium is already within walking distance. And yet, its residents consistently choose One Click Tailor — a <strong>tailor Mayfair home visit</strong> service — over the traditional tailoring shops nearby. Why? The answer says a great deal about what true luxury looks like.
           </p>
 
           <h2 className="font-playfair text-2xl font-medium text-charcoal mb-4">The Mayfair Lifestyle: Time is the Premium Luxury</h2>
@@ -72,7 +72,7 @@ export default function Post3() {
 
           <h2 className="font-playfair text-2xl font-medium text-charcoal mb-4">Privacy and Discretion</h2>
           <p className="font-sans font-light text-muted leading-relaxed mb-8">
-            A home fitting is an inherently private experience. There are no other clients in the room, no shared changing area, no chance of being seen in an ill-fitting state by someone you know. For Mayfair clients — particularly those with high-profile professions or public-facing roles — this discretion is not a minor benefit. It is a fundamental requirement. The Door Tailor&apos;s visiting model provides exactly this: tailoring conducted entirely in the privacy of your own home.
+            A home fitting is an inherently private experience. There are no other clients in the room, no shared changing area, no chance of being seen in an ill-fitting state by someone you know. For Mayfair clients — particularly those with high-profile professions or public-facing roles — this discretion is not a minor benefit. It is a fundamental requirement. One Click Tailor&apos;s visiting model provides exactly this: tailoring conducted entirely in the privacy of your own home.
           </p>
 
           <h2 className="font-playfair text-2xl font-medium text-charcoal mb-4">A Tailor Who Knows Mayfair Addresses</h2>
@@ -82,7 +82,7 @@ export default function Post3() {
 
           <h2 className="font-playfair text-2xl font-medium text-charcoal mb-4">Quality Compared: Visiting Tailor vs. High-Street Chain</h2>
           <p className="font-sans font-light text-muted leading-relaxed mb-8">
-            Alterations shops on the high street operate on volume. A visiting tailor operates on relationship. The Door Tailor takes time to understand what each client wants, assess garments carefully in person, and complete work to a standard that reflects genuine craft. With 10+ years of experience and a client list built on reputation and referral, the quality difference is not subtle. It is the difference between an alteration that is technically correct and one that makes a garment truly yours.
+            Alterations shops on the high street operate on volume. A visiting tailor operates on relationship. One Click Tailor takes time to understand what each client wants, assess garments carefully in person, and complete work to a standard that reflects genuine craft. With 10+ years of experience and a client list built on reputation and referral, the quality difference is not subtle. It is the difference between an alteration that is technically correct and one that makes a garment truly yours.
           </p>
 
           <h2 className="font-playfair text-2xl font-medium text-charcoal mb-4">What Mayfair Clients Typically Need</h2>
@@ -96,7 +96,7 @@ export default function Post3() {
           </p>
 
           <p className="font-sans font-light text-muted leading-relaxed mb-12">
-            The Door Tailor has served central London clients for over 10 years, working with everything from everyday business suits to rare designer pieces. We also cover <Link href="/tailor-chelsea" className="text-hunter underline">Chelsea</Link> and all surrounding central London postcodes.
+            One Click Tailor has served central London clients for over 10 years, working with everything from everyday business suits to rare designer pieces. We also cover <Link href="/tailor-chelsea" className="text-hunter underline">Chelsea</Link> and all surrounding central London postcodes.
           </p>
 
           <div className="border-t border-divider pt-10">

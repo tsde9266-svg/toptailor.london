@@ -5,17 +5,17 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'Tailoring Advice & London Style Guide | The Door Tailor Blog',
-  description: 'Expert tailoring advice, London style guides, and tips on clothing alterations at home from The Door Tailor.',
-  alternates: { canonical: 'https://www.thedoortailor.co.uk/blog' },
+  title: 'Tailoring Advice & London Style Guide | One Click Tailor Blog',
+  description: 'Expert tailoring advice, London style guides, and tips on clothing alterations at home from One Click Tailor.',
+  alternates: { canonical: 'https://www.oneclicktailor.co.uk/blog' },
 }
 
 const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.thedoortailor.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.thedoortailor.co.uk/blog' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailor.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailor.co.uk/blog' },
   ],
 }
 
@@ -23,7 +23,7 @@ const posts = [
   {
     slug: 'how-door-to-door-tailoring-works-london',
     title: 'How Door-to-Door Tailoring Works in London',
-    excerpt: 'Discover how The Door Tailor\'s door-to-door tailoring service works in London — from booking to collection and return.',
+    excerpt: 'Discover how One Click Tailor\'s door-to-door tailoring service works in London — from booking to collection and return.',
     date: '2026-03-10',
     readTime: '5 min read',
   },
@@ -37,7 +37,7 @@ const posts = [
   {
     slug: 'why-mayfair-clients-choose-visiting-tailor',
     title: 'Why Mayfair Clients Choose a Visiting Tailor',
-    excerpt: 'London\'s most discerning residents choose The Door Tailor for privacy, precision, and the premium convenience of a home visit.',
+    excerpt: 'London\'s most discerning residents choose One Click Tailor for privacy, precision, and the premium convenience of a home visit.',
     date: '2026-03-24',
     readTime: '5 min read',
   },

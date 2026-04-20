@@ -15,8 +15,8 @@ import FAQ, { faqSchema } from '@/components/FAQ'
 const speakableSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  '@id': 'https://www.thedoortailor.co.uk/#webpage',
-  url: 'https://www.thedoortailor.co.uk',
+  '@id': 'https://www.oneclicktailor.co.uk/#webpage',
+  url: 'https://www.oneclicktailor.co.uk',
   name: "London's Premium Door-to-Door Tailor | The Door Tailor",
   speakable: {
     '@type': 'SpeakableSpecification',
@@ -25,7 +25,7 @@ const speakableSchema = {
   breadcrumb: {
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.thedoortailor.co.uk' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailor.co.uk' },
     ],
   },
 }

@@ -4,7 +4,7 @@ import { useState } from 'react'
 const faqs = [
   {
     q: 'Do you come to my home?',
-    a: 'Yes — The Door Tailor visits your home, apartment or office anywhere in central London including Mayfair, Chelsea, Knightsbridge and Kensington. You never need to travel to us.',
+    a: 'Yes — One Click Tailor visits your home, apartment or office anywhere in central London including Mayfair, Chelsea, Knightsbridge and Kensington. You never need to travel to us.',
   },
   {
     q: 'Which areas do you cover?',
@@ -31,7 +31,7 @@ const faqs = [
     a: 'Yes. We regularly work with luxury and designer pieces including suits, gowns and occasion wear, handling each garment with the care and expertise it deserves.',
   },
   {
-    q: 'What makes The Door Tailor different from a shop?',
+    q: 'What makes One Click Tailor different from a shop?',
     a: 'We come to you. No travelling across London, no waiting rooms, no carrying garments on public transport. One dedicated tailor handles your clothes from collection to return.',
   },
 ]

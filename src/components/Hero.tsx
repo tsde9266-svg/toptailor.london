@@ -114,7 +114,7 @@ export default function Hero() {
           "
           style={{ animationDelay: '0.5s' }}
         >
-          The Door Tailor visits your home across Mayfair, Chelsea, Knightsbridge and central London. Expert tailoring &amp; clothing alterations at home — 10+ years experience, collected and returned within days.
+          London&apos;s finest tailors at your door. One Click Tailor visits your home across Mayfair, Chelsea, Knightsbridge and central London — expert alterations collected and returned within days.
         </p>
 
         {/* Subtext — mobile */}

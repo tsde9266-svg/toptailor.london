@@ -102,7 +102,7 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
             ${light ? 'text-charcoal' : 'text-parchment lg:text-charcoal'}
           `}
         >
-          THE DOOR TAILOR
+          ONE CLICK TAILOR
         </Link>
 
         {/* ── Desktop nav links ── */}

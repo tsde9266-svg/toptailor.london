@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor in Chelsea, London | Home Visits | The Door Tailor',
-  description: 'The Door Tailor visits your home in Chelsea, London. Expert suit & dress alterations at your door. 10+ years experience. Book your Chelsea home visit today.',
-  alternates: { canonical: 'https://www.thedoortailor.co.uk/tailor-chelsea' },
+  title: 'Tailor in Chelsea, London | Home Visits | One Click Tailor',
+  description: 'One Click Tailor visits your home in Chelsea, London. Expert suit & dress alterations at your door. 10+ years experience. Book your Chelsea home visit today.',
+  alternates: { canonical: 'https://www.oneclicktailor.co.uk/tailor-chelsea' },
   openGraph: {
-    title: 'Tailor in Chelsea, London | The Door Tailor',
-    url: 'https://www.thedoortailor.co.uk/tailor-chelsea',
+    title: 'Tailor in Chelsea, London | One Click Tailor',
+    url: 'https://www.oneclicktailor.co.uk/tailor-chelsea',
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Tailor visiting client home in Chelsea London' }],
   },
 }
@@ -20,16 +20,16 @@ const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.thedoortailor.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Tailor in Chelsea', item: 'https://www.thedoortailor.co.uk/tailor-chelsea' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailor.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Tailor in Chelsea', item: 'https://www.oneclicktailor.co.uk/tailor-chelsea' },
   ],
 }
 
 const localBusiness = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  name: 'The Door Tailor',
-  url: 'https://www.thedoortailor.co.uk',
+  name: 'One Click Tailor',
+  url: 'https://www.oneclicktailor.co.uk',
   telephone: '+44-XXXX-XXXXXX',
   areaServed: 'Chelsea',
   description: 'Premium door-to-door tailoring and alterations visiting homes in Chelsea, London.',
@@ -58,14 +58,14 @@ export default function TailorChelsea() {
             Your Personal Tailor in Chelsea, London
           </h1>
           <p className="font-sans font-light text-lg text-muted max-w-2xl leading-relaxed">
-            The Door Tailor provides expert tailoring and clothing alterations at home across Chelsea. From King&apos;s Road to the quieter streets of SW3, we bring the tailor to your door.
+            One Click Tailor provides expert tailoring and clothing alterations at home across Chelsea. From King&apos;s Road to the quieter streets of SW3, we bring the tailor to your door.
           </p>
         </div>
 
         <div className="px-8 lg:px-24 py-16 border-b border-divider max-w-4xl">
           <h2 className="font-playfair text-[1.75rem] font-medium mb-6">Tailoring at Your Chelsea Home</h2>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
-            Chelsea&apos;s residents have long had an eye for quality — and that extends to how their clothes fit. As your personal <strong>Chelsea tailor</strong>, The Door Tailor visits your home at a time to suit your schedule. Whether you live off King&apos;s Road or along the Embankment, our tailor home visit London service removes every inconvenience from the tailoring process.
+            Chelsea&apos;s residents have long had an eye for quality — and that extends to how their clothes fit. As your personal <strong>Chelsea tailor</strong>, One Click Tailor visits your home at a time to suit your schedule. Whether you live off King&apos;s Road or along the Embankment, our tailor home visit London service removes every inconvenience from the tailoring process.
           </p>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
             We come to you, assess your wardrobe, collect your garments, and return them altered to perfection — typically within 3–5 days. No queues, no carrying bags across the city. Just expert clothing alterations at home, delivered to your door.

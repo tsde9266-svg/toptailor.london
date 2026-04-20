@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { useCart } from '@/context/CartContext'
 
-const BANK = { sortCode: '60-383-71', account: '19795111', name: 'Top Tailor' }
+const BANK = { sortCode: '60-383-71', account: '19795111', name: 'One Click Tailor' }
 
 type Step      = 'details' | 'book' | 'payment' | 'done'
 type PayMethod = 'door' | 'bank'

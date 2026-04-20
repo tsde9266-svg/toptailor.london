@@ -11,32 +11,32 @@ import Footer  from '@/components/Footer'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Book a Collection — Top Tailor',
+  title: 'Book a Collection — One Click Tailor',
   description:
     'Schedule your door-to-door tailoring collection in central London. Choose a convenient time — we come to your home or office, no travel needed.',
   openGraph: {
-    title: 'Book a Collection — Top Tailor',
+    title: 'Book a Collection — One Click Tailor',
     description:
       'Schedule your door-to-door tailoring collection in central London. We come to your home or office.',
-    url: 'https://toptailor.london/book',
+    url: 'https://oneclicktailor.co.uk/book',
     images: [
       {
         url: '/images/tailor.jpg',
         width: 1200,
         height: 630,
-        alt: 'Book a tailoring collection — Top Tailor London',
+        alt: 'Book a tailoring collection — One Click Tailor London',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Book a Collection — Top Tailor',
+    title: 'Book a Collection — One Click Tailor',
     description:
       'Schedule your door-to-door tailoring collection in central London.',
     images: ['/images/tailor.jpg'],
   },
   alternates: {
-    canonical: 'https://toptailor.london/book',
+    canonical: 'https://oneclicktailor.co.uk/book',
   },
 }
 
@@ -45,17 +45,17 @@ const bookSchema = {
   '@graph': [
     {
       '@type': 'WebPage',
-      '@id': 'https://toptailor.london/book#webpage',
-      url: 'https://toptailor.london/book',
-      name: 'Book a Collection — Top Tailor',
+      '@id': 'https://oneclicktailor.co.uk/book#webpage',
+      url: 'https://oneclicktailor.co.uk/book',
+      name: 'Book a Collection — One Click Tailor',
       description:
         'Schedule your door-to-door tailoring collection in central London. Choose a convenient time — we come to your home or office.',
-      isPartOf: { '@id': 'https://toptailor.london/#website' },
+      isPartOf: { '@id': 'https://oneclicktailor.co.uk/#website' },
       breadcrumb: {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://toptailor.london' },
-          { '@type': 'ListItem', position: 2, name: 'Book a Collection', item: 'https://toptailor.london/book' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oneclicktailor.co.uk' },
+          { '@type': 'ListItem', position: 2, name: 'Book a Collection', item: 'https://oneclicktailor.co.uk/book' },
         ],
       },
     },
@@ -130,7 +130,7 @@ export default function BookPage() {
               Cal("init", { origin: "https://cal.com" });
               Cal("inline", {
                 elementOrSelector: "#cal-inline",
-                calLink: "toptailor/toptailor.london",
+                calLink: "toptailor/oneclicktailor.co.uk",
                 layout: "month_view"
               });
               Cal("ui", {
