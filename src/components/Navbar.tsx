@@ -94,8 +94,8 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
         <Link
           href="/"
           className={`
-            font-playfair font-medium tracking-widest uppercase
-            text-[1.125rem] lg:text-xl lg:tracking-tight
+            font-playfair font-medium tracking-tight uppercase whitespace-nowrap
+            text-[1rem] lg:text-xl lg:tracking-tight
             absolute left-1/2 -translate-x-1/2
             lg:static lg:left-auto lg:translate-x-0
             transition-colors duration-300

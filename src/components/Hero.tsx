@@ -1,4 +1,5 @@
 'use client'
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 
 /**
@@ -12,6 +13,21 @@ import Link from 'next/link'
  *                  text content is left grid cell.
  */
 export default function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    video.muted = true
+    const attempt = () => video.play().catch(() => {})
+    attempt()
+
+    // iOS often needs a user gesture — play on first touch
+    document.addEventListener('touchstart', attempt, { once: true })
+    return () => document.removeEventListener('touchstart', attempt)
+  }, [])
+
   return (
     <section
       id="hero"
@@ -184,12 +200,13 @@ export default function Hero() {
       >
         {/* Single video element — works for both layouts */}
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover opacity-60 lg:opacity-100"
-          preload="auto"
+          preload="metadata"
         >
           <source src="/video/craft.mp4" type="video/mp4" />
         </video>
