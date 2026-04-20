@@ -57,7 +57,7 @@ export default function Hero() {
               className="block animate-clip-reveal"
               style={{ animationDelay: '0.3s' }}
             >
-              London&apos;s Premium
+              London&apos;s Finest
             </span>
           </span>
           <span className="block overflow-hidden">
@@ -65,7 +65,7 @@ export default function Hero() {
               className="block animate-clip-reveal"
               style={{ animationDelay: '0.46s' }}
             >
-              <em className="font-playfair italic">Door-to-Door</em> Tailor
+              Tailors <em className="font-playfair italic">at Your Door</em>
             </span>
           </span>
         </h1>
@@ -83,7 +83,7 @@ export default function Hero() {
               className="block animate-clip-reveal"
               style={{ animationDelay: '0.3s' }}
             >
-              London&apos;s Premium
+              London&apos;s Finest
             </span>
           </span>
           <span className="block overflow-hidden">
@@ -91,7 +91,7 @@ export default function Hero() {
               className="block animate-clip-reveal"
               style={{ animationDelay: '0.46s' }}
             >
-              Door-to-Door
+              Tailors
             </span>
           </span>
           <span className="block overflow-hidden">
@@ -99,7 +99,7 @@ export default function Hero() {
               className="block animate-clip-reveal"
               style={{ animationDelay: '0.62s' }}
             >
-              Tailor
+              at Your Door
             </span>
           </span>
         </h1>

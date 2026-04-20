@@ -17,7 +17,7 @@ const speakableSchema = {
   '@type': 'WebPage',
   '@id': 'https://www.oneclicktailor.co.uk/#webpage',
   url: 'https://www.oneclicktailor.co.uk',
-  name: "London's Premium Door-to-Door Tailor | The Door Tailor",
+  name: "London's Finest Tailors at Your Door | The Door Tailor",
   speakable: {
     '@type': 'SpeakableSpecification',
     cssSelector: ['h1', '.hero-intro'],
