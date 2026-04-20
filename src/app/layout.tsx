@@ -29,6 +29,10 @@ export const metadata: Metadata = {
   },
   description: "London's finest tailors at your door. One Click Tailor visits your home in Mayfair, Chelsea, Knightsbridge & central London. Expert tailoring & alterations with 10+ years experience. Book your home visit today.",
   keywords: ['door to door tailor London', 'tailor home visit London', 'clothing alterations at home', 'Mayfair tailor', 'Chelsea tailor', 'central London tailor', 'suit alterations home visit'],
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/icon-192.png',
+  },
   authors: [{ name: 'One Click Tailor' }],
   creator: 'One Click Tailor',
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },

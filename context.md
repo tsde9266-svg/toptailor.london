@@ -183,3 +183,7 @@ mobile.html for <768px, and scale proportionally for tablet.
 Start with: tailwind.config.ts colour tokens, globals.css
 fonts, then layout.tsx, then build each component in order.
 Ask me before making any decision not covered in CONTEXT.md."
+
+
+
+
