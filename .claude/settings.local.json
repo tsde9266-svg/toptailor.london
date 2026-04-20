@@ -46,7 +46,8 @@
       "Bash(taskkill /F /IM node.exe)",
       "Bash(taskkill /PID 10752 /F)",
       "Bash(npx rimraf *)",
-      "Bash(taskkill *)"
+      "Bash(taskkill *)",
+      "Bash(node -e ' *)"
     ]
   }
 }

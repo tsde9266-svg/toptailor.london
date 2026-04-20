@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, DM_Sans } from 'next/font/google'
+import Script from 'next/script'
 import '@/styles/globals.css'
 import WhatsAppButton  from '@/components/WhatsAppButton'
 import CartDrawer      from '@/components/CartDrawer'
@@ -21,30 +22,77 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://toptailor.london'),
-  title: 'Top Tailor — Bespoke Tailoring, Brought to Your Door',
-  description:
-    'Premium personal tailoring service in central London. Alterations, repairs, and bespoke commissions — collected and delivered to your door.',
+  metadataBase: new URL('https://www.thedoortailor.co.uk'),
+  title: {
+    template: '%s | The Door Tailor',
+    default: "London's Premium Door-to-Door Tailor | The Door Tailor",
+  },
+  description: 'The Door Tailor visits your home in Mayfair, Chelsea, Knightsbridge & central London. Expert tailoring & alterations with 10+ years experience. Book your home visit today.',
+  keywords: ['door to door tailor London', 'tailor home visit London', 'clothing alterations at home', 'Mayfair tailor', 'Chelsea tailor', 'central London tailor', 'suit alterations home visit'],
+  authors: [{ name: 'The Door Tailor' }],
+  creator: 'The Door Tailor',
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   openGraph: {
-    title: 'Top Tailor — Bespoke Tailoring, Brought to Your Door',
-    description: 'Premium personal tailoring, door-to-door in central London.',
-    url: 'https://toptailor.london',
-    siteName: 'Top Tailor',
     type: 'website',
     locale: 'en_GB',
+    url: 'https://www.thedoortailor.co.uk',
+    siteName: 'The Door Tailor',
+    title: "London's Premium Door-to-Door Tailor",
+    description: 'Expert tailoring & alterations at your home in Mayfair, Chelsea, Knightsbridge & central London. 10+ years experience.',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'The Door Tailor — Premium door-to-door tailoring in central London' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Top Tailor — Bespoke Tailoring, Brought to Your Door',
-    description: 'Premium personal tailoring, door-to-door in central London.',
+    title: "London's Premium Door-to-Door Tailor | The Door Tailor",
+    description: 'Expert tailoring at your home in Mayfair, Chelsea & central London.',
+    images: ['/og-image.jpg'],
   },
   alternates: {
-    canonical: 'https://toptailor.london',
+    canonical: 'https://www.thedoortailor.co.uk',
   },
-  robots: {
-    index: true,
-    follow: true,
+  verification: {
+    google: 'REPLACE_WITH_GOOGLE_VERIFICATION_CODE',
   },
+  other: {
+    'geo.region':    'GB-ENG',
+    'geo.placename': 'London',
+    'geo.position':  '51.5074;-0.1278',
+    'ICBM':          '51.5074, -0.1278',
+  },
+}
+
+const siteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'The Door Tailor',
+  url: 'https://www.thedoortailor.co.uk',
+  telephone: '+44-XXXX-XXXXXX',
+  priceRange: '££££',
+  description: 'Premium door-to-door tailoring and alterations service visiting homes across central London with 10+ years of experience.',
+  image: 'https://www.thedoortailor.co.uk/og-image.jpg',
+  areaServed: ['Mayfair', 'Chelsea', 'Knightsbridge', 'Kensington', 'Belgravia', 'City of London', 'Marylebone', 'Fitzrovia'],
+  serviceArea: {
+    '@type': 'GeoCircle',
+    geoMidpoint: { '@type': 'GeoCoordinates', latitude: 51.5074, longitude: -0.1278 },
+    geoRadius: '5000',
+  },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Tailoring Services',
+    itemListElement: [
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Suit Alterations at Home' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Dress Alterations Home Visit' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Garment Collection and Return' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Bespoke Fitting at Your Door' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Trouser Hemming at Home' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Wedding Dress Alterations London' } },
+    ],
+  },
+  foundingDate: '2014',
+  sameAs: [
+    'https://www.instagram.com/thedoortailor',
+    'https://www.facebook.com/thedoortailor',
+  ],
 }
 
 export default function RootLayout({
@@ -53,13 +101,25 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
+    <html lang="en-GB" className={`${playfair.variable} ${dmSans.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" as="image" href="/hero.jpg" />
+        <link rel="manifest" href="/manifest.json" />
+      </head>
       <body>
         <CartProvider>
           {children}
           <CartDrawer />
           <WhatsAppButton />
         </CartProvider>
+        <Script
+          id="schema-local-business"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
+        />
       </body>
     </html>
   )

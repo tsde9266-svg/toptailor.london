@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /_next/
 
-Sitemap: https://toptailor.london/sitemap.xml
+Sitemap: https://www.thedoortailor.co.uk/sitemap.xml

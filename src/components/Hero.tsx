@@ -57,7 +57,7 @@ export default function Hero() {
               className="block animate-clip-reveal"
               style={{ animationDelay: '0.3s' }}
             >
-              Perfect fit,
+              London&apos;s Premium
             </span>
           </span>
           <span className="block overflow-hidden">
@@ -65,8 +65,7 @@ export default function Hero() {
               className="block animate-clip-reveal"
               style={{ animationDelay: '0.46s' }}
             >
-              <em className="font-playfair italic not-italic">effortlessly</em>{' '}
-              realized.
+              <em className="font-playfair italic">Door-to-Door</em> Tailor
             </span>
           </span>
         </h1>
@@ -84,7 +83,7 @@ export default function Hero() {
               className="block animate-clip-reveal"
               style={{ animationDelay: '0.3s' }}
             >
-              Your wardrobe,
+              London&apos;s Premium
             </span>
           </span>
           <span className="block overflow-hidden">
@@ -92,7 +91,7 @@ export default function Hero() {
               className="block animate-clip-reveal"
               style={{ animationDelay: '0.46s' }}
             >
-              at its best.
+              Door-to-Door
             </span>
           </span>
           <span className="block overflow-hidden">
@@ -100,7 +99,7 @@ export default function Hero() {
               className="block animate-clip-reveal"
               style={{ animationDelay: '0.62s' }}
             >
-              At your door.
+              Tailor
             </span>
           </span>
         </h1>
@@ -108,15 +107,14 @@ export default function Hero() {
         {/* Subtext — desktop */}
         <p
           className="
+            hero-intro
             hidden lg:block
             font-sans font-light text-lg max-w-md mb-10 leading-relaxed text-muted
             animate-fade-in-up-16
           "
           style={{ animationDelay: '0.5s' }}
         >
-          High-end tailoring brought to your door. We master the architecture
-          of garments to elevate your personal silhouette through precision
-          measurement and heritage technique.
+          The Door Tailor visits your home across Mayfair, Chelsea, Knightsbridge and central London. Expert tailoring &amp; clothing alterations at home — 10+ years experience, collected and returned within days.
         </p>
 
         {/* Subtext — mobile */}

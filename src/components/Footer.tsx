@@ -9,6 +9,14 @@ const links = {
     { label: 'TERMS',   href: '/terms'   },
     { label: 'PRIVACY', href: '/privacy' },
   ],
+  locations: [
+    { label: 'Tailor in Mayfair',          href: '/tailor-mayfair'        },
+    { label: 'Tailor in Chelsea',          href: '/tailor-chelsea'        },
+    { label: 'Tailor in Knightsbridge',    href: '/tailor-knightsbridge'  },
+    { label: 'Tailor in Kensington',       href: '/tailor-kensington'     },
+    { label: 'Tailor in Belgravia',        href: '/tailor-belgravia'      },
+    { label: 'Tailor in City of London',   href: '/tailor-city-of-london' },
+  ],
 }
 
 export default function Footer() {
@@ -45,7 +53,7 @@ export default function Footer() {
         {/* Col 1 — logo + tagline */}
         <div>
           <div className="font-playfair text-2xl text-parchment mb-8">
-            TOP TAILOR
+            THE DOOR TAILOR
           </div>
           <p className="font-sans text-sm font-light max-w-xs leading-relaxed">
             A modern atelier for the traditional aesthetic. Precision,
@@ -73,7 +81,7 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Col 3 — legal */}
+        {/* Col 3 — legal + locations */}
         <div className="flex flex-col gap-4">
           <span className="font-sans text-[0.65rem] text-parchment tracking-widest uppercase mb-4">
             LEGAL
@@ -91,13 +99,29 @@ export default function Footer() {
               {l.label}
             </a>
           ))}
+          <span className="font-sans text-[0.65rem] text-parchment tracking-widest uppercase mt-4 mb-2">
+            LOCATIONS
+          </span>
+          {links.locations.map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              className="
+                font-sans text-sm font-light text-green-soft
+                tracking-tight
+                hover:text-parchment transition-colors duration-150
+              "
+            >
+              {l.label}
+            </a>
+          ))}
         </div>
       </div>
 
       {/* ══ MOBILE — logo + 2-col links (< lg) ══════════════ */}
       <div className="lg:hidden px-8 py-12 space-y-6">
         <div className="font-playfair text-2xl italic text-parchment">
-          Top Tailor
+          The Door Tailor
         </div>
 
         <div className="border-t border-divider/20" />
@@ -131,6 +155,13 @@ export default function Footer() {
         <div className="h-14" />
       </div>
 
+      {/* ── Service area text ─────────────────────── */}
+      <div className="px-8 lg:px-24 py-4 border-t border-divider/20 text-center">
+        <span className="font-sans text-[0.6rem] font-light tracking-[0.05em] text-green-soft/50">
+          Service Area: Mayfair, Chelsea, Knightsbridge, Kensington, Belgravia, City of London, Central London, UK
+        </span>
+      </div>
+
       {/* ── Bottom bar — copyright ─────────────────────── */}
       <div
         className="
@@ -143,7 +174,7 @@ export default function Footer() {
           className="font-sans text-[0.65rem] font-light tracking-[0.1em] text-green-soft/60"
           suppressHydrationWarning
         >
-          © {new Date().getFullYear()} TOP TAILOR. ALL RIGHTS RESERVED.
+          © {new Date().getFullYear()} THE DOOR TAILOR. ALL RIGHTS RESERVED.
         </span>
       </div>
     </footer>

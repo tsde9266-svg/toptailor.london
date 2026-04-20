@@ -8,15 +8,67 @@ import Script from 'next/script'
 import Navbar  from '@/components/Navbar'
 import Footer  from '@/components/Footer'
 
-export const metadata = {
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
   title: 'Book a Collection — Top Tailor',
   description:
-    'Schedule your door-to-door tailoring collection. Choose a time that suits you.',
+    'Schedule your door-to-door tailoring collection in central London. Choose a convenient time — we come to your home or office, no travel needed.',
+  openGraph: {
+    title: 'Book a Collection — Top Tailor',
+    description:
+      'Schedule your door-to-door tailoring collection in central London. We come to your home or office.',
+    url: 'https://toptailor.london/book',
+    images: [
+      {
+        url: '/images/tailor.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Book a tailoring collection — Top Tailor London',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Book a Collection — Top Tailor',
+    description:
+      'Schedule your door-to-door tailoring collection in central London.',
+    images: ['/images/tailor.jpg'],
+  },
+  alternates: {
+    canonical: 'https://toptailor.london/book',
+  },
+}
+
+const bookSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': 'https://toptailor.london/book#webpage',
+      url: 'https://toptailor.london/book',
+      name: 'Book a Collection — Top Tailor',
+      description:
+        'Schedule your door-to-door tailoring collection in central London. Choose a convenient time — we come to your home or office.',
+      isPartOf: { '@id': 'https://toptailor.london/#website' },
+      breadcrumb: {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://toptailor.london' },
+          { '@type': 'ListItem', position: 2, name: 'Book a Collection', item: 'https://toptailor.london/book' },
+        ],
+      },
+    },
+  ],
 }
 
 export default function BookPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(bookSchema) }}
+      />
       <Navbar solid />
 
       <main className="pt-[57px] lg:pt-[65px] min-h-screen bg-parchment">

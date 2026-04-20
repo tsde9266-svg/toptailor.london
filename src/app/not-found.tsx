@@ -1,7 +1,15 @@
 import Link from 'next/link'
 
-export const metadata = {
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
   title: 'Page Not Found — Top Tailor',
+  description:
+    "The page you're looking for doesn't exist. Return to Top Tailor for expert tailoring and alterations in central London.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 }
 
 export default function NotFound() {
