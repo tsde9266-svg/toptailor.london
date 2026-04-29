@@ -1,28 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-// Simple in-memory rate limiter for the /api/* routes.
-// On Vercel each serverless instance has its own memory, so this is
-// per-instance (fine for abuse prevention on a low-traffic API).
-// For strict global rate limiting swap this for @upstash/ratelimit + Vercel KV.
-
-const WINDOW_MS = 60_000   // 1 minute
-const MAX_REQUESTS = 10    // max 10 form submissions per IP per minute
-
-const ipMap = new Map<string, { count: number; resetAt: number }>()
+// ─── Rate limiter (per-instance in-memory, fine for low-traffic abuse prevention) ──
+const WINDOW_MS    = 60_000
+const MAX_REQUESTS = 10
+const ipMap        = new Map<string, { count: number; resetAt: number }>()
 
 function rateLimit(ip: string): { allowed: boolean; remaining: number } {
-  const now = Date.now()
+  const now   = Date.now()
   const entry = ipMap.get(ip)
 
   if (!entry || now > entry.resetAt) {
     ipMap.set(ip, { count: 1, resetAt: now + WINDOW_MS })
     return { allowed: true, remaining: MAX_REQUESTS - 1 }
   }
-
-  if (entry.count >= MAX_REQUESTS) {
-    return { allowed: false, remaining: 0 }
-  }
-
+  if (entry.count >= MAX_REQUESTS) return { allowed: false, remaining: 0 }
   entry.count++
   return { allowed: true, remaining: MAX_REQUESTS - entry.count }
 }
@@ -30,8 +21,17 @@ function rateLimit(ip: string): { allowed: boolean; remaining: number } {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Only rate-limit API routes
-  if (pathname.startsWith('/api/')) {
+  // ── Admin auth ────────────────────────────────────────────────────────────────
+  if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
+    const session = request.cookies.get('admin_session')?.value
+    const secret  = process.env.ADMIN_SECRET
+    if (!secret || session !== secret) {
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
+  }
+
+  // ── Rate-limit public API routes (not admin APIs — those are cookie-protected) ──
+  if (pathname.startsWith('/api/') && !pathname.startsWith('/api/admin/')) {
     const ip =
       request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
       request.headers.get('x-real-ip') ??
@@ -45,9 +45,9 @@ export function middleware(request: NextRequest) {
         {
           status: 429,
           headers: {
-            'Content-Type': 'application/json',
-            'Retry-After': '60',
-            'X-RateLimit-Limit': String(MAX_REQUESTS),
+            'Content-Type':         'application/json',
+            'Retry-After':          '60',
+            'X-RateLimit-Limit':    String(MAX_REQUESTS),
             'X-RateLimit-Remaining': '0',
           },
         }
@@ -55,7 +55,7 @@ export function middleware(request: NextRequest) {
     }
 
     const res = NextResponse.next()
-    res.headers.set('X-RateLimit-Limit', String(MAX_REQUESTS))
+    res.headers.set('X-RateLimit-Limit',     String(MAX_REQUESTS))
     res.headers.set('X-RateLimit-Remaining', String(remaining))
     return res
   }
@@ -64,5 +64,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/api/:path*',
+  matcher: ['/api/:path*', '/admin', '/admin/:path*'],
 }

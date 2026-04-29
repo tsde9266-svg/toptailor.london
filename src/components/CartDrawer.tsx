@@ -85,8 +85,8 @@ export default function CartDrawer() {
                       {item.categoryName}
                     </p>
                   </div>
-                  <span className="font-sans text-[0.9rem] font-medium text-hunter whitespace-nowrap">
-                    £{item.price}
+                  <span className="font-sans text-[0.9rem] font-medium whitespace-nowrap text-hunter">
+                    {item.price === 0 ? <em className="text-muted not-italic">Quote</em> : `£${item.price}`}
                   </span>
                   <button
                     onClick={() => remove(item.id)}
@@ -109,8 +109,11 @@ export default function CartDrawer() {
             {/* Total */}
             <div className="flex justify-between items-center">
               <span className="font-sans text-[0.8125rem] text-muted uppercase tracking-widest">Total</span>
-              <span className="font-playfair text-[1.25rem] text-charcoal">£{total}</span>
+              <span className="font-playfair text-[1.25rem] text-charcoal">
+                £{total}{items.some(i => i.price === 0) ? ' + quotes' : ''}
+              </span>
             </div>
+            <p className="font-sans text-[0.6875rem] text-muted">Minimum order £20</p>
 
             {/* Proceed CTA */}
             <button
@@ -121,7 +124,7 @@ export default function CartDrawer() {
                 hover:bg-[#1E3D17] transition-colors duration-200
               "
             >
-              Book & Proceed →
+              Request Collection →
             </button>
 
             {/* Clear */}

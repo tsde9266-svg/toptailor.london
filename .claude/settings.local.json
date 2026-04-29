@@ -47,7 +47,9 @@
       "Bash(taskkill /PID 10752 /F)",
       "Bash(npx rimraf *)",
       "Bash(taskkill *)",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "Bash(npm uninstall *)",
+      "Bash(npx vercel *)"
     ]
   }
 }

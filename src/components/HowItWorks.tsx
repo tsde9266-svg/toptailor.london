@@ -4,20 +4,20 @@ import { useScrollReveal } from '@/hooks/useScrollReveal'
 const steps = [
   {
     num: '01',
-    title: 'Book a Visit',
-    body: 'Select a time and place for a visit. The atelier comes to your home or office — bring nothing but your garments.',
+    title: 'Book a Slot',
+    body: 'Choose your services and book a collection slot. We come to your home or office — no need to go anywhere.',
     cta: true,
   },
   {
     num: '02',
-    title: 'Fitting & Collection',
-    body: 'Each garment is assessed personally — pinned, measured, and reviewed for the perfect archival fit.',
+    title: 'Inspect & Quote',
+    body: 'We collect your garments. Our tailor inspects every piece at home and sends you a confirmed quote by email — you approve before we start a single stitch.',
     cta: false,
   },
   {
     num: '03',
-    title: 'Hand-Delivery',
-    body: 'Within 7 days, your garments are returned, pressed and perfected, ready for your next occasion.',
+    title: 'Returned Perfect',
+    body: 'Within 5–7 working days, your garments are returned to your door, pressed and perfected. You pay only after approving the quote.',
     cta: false,
   },
 ]
