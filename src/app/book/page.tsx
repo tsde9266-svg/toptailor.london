@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: 'Book a Collection — One Click Tailor',
     description:
       'Schedule your door-to-door tailoring collection in central London. We come to your home or office.',
-    url: 'https://oneclicktailors.co.uk/book',
+    url: 'https://www.oneclicktailors.co.uk/book',
     images: [
       {
         url: '/images/tailor.jpg',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     images: ['/images/tailor.jpg'],
   },
   alternates: {
-    canonical: 'https://oneclicktailors.co.uk/book',
+    canonical: 'https://www.oneclicktailors.co.uk/book',
   },
 }
 
@@ -45,17 +45,17 @@ const bookSchema = {
   '@graph': [
     {
       '@type': 'WebPage',
-      '@id': 'https://oneclicktailors.co.uk/book#webpage',
-      url: 'https://oneclicktailors.co.uk/book',
+      '@id': 'https://www.oneclicktailors.co.uk/book#webpage',
+      url: 'https://www.oneclicktailors.co.uk/book',
       name: 'Book a Collection — One Click Tailor',
       description:
         'Schedule your door-to-door tailoring collection in central London. Choose a convenient time — we come to your home or office.',
-      isPartOf: { '@id': 'https://oneclicktailors.co.uk/#website' },
+      isPartOf: { '@id': 'https://www.oneclicktailors.co.uk/#website' },
       breadcrumb: {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oneclicktailors.co.uk' },
-          { '@type': 'ListItem', position: 2, name: 'Book a Collection', item: 'https://oneclicktailors.co.uk/book' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailors.co.uk' },
+          { '@type': 'ListItem', position: 2, name: 'Book a Collection', item: 'https://www.oneclicktailors.co.uk/book' },
         ],
       },
     },

@@ -161,7 +161,7 @@ export default function Services() {
               {/* Sub-items */}
               <div
                 className="overflow-hidden transition-all duration-300"
-                style={{ maxHeight: openId === cat.id ? `${cat.items.length * 56}px` : '0px' }}
+                style={{ maxHeight: openId === cat.id ? `${cat.items.length * 68}px` : '0px' }}
               >
                 {cat.items.map(item => (
                   <div
@@ -226,7 +226,7 @@ export default function Services() {
               {/* Sub-items */}
               <div
                 className="overflow-hidden transition-all duration-300 bg-parchment"
-                style={{ maxHeight: openId === cat.id ? `${cat.items.length * 60}px` : '0px' }}
+                style={{ maxHeight: openId === cat.id ? `${cat.items.length * 72}px` : '0px' }}
               >
                 {cat.items.map(item => (
                   <div

@@ -2,5 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /_next/
+Disallow: /admin/
+Disallow: /admin
+Disallow: /quote/
 
 Sitemap: https://www.oneclicktailors.co.uk/sitemap.xml

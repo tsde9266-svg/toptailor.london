@@ -3,15 +3,13 @@ import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { useState } from 'react'
 
 const serviceOptions = [
-  'Suit & Jacket Alterations',
-  'Trouser Tailoring',
-  'Dress & Skirt Alterations',
-  'Shirt & Blouse Tailoring',
-  'Wedding & Occasion Wear',
-  'Leather & Specialist Fabric',
-  'Invisible Mending',
-  'Zip, Button & Clasp Repairs',
-  'Wardrobe Refresh',
+  'Trousers & Jeans',
+  'Jackets & Coats',
+  'Dresses',
+  'Leather Jacket',
+  'Wedding / Occasion Wear',
+  'Repairs & Zips',
+  'Multiple items',
   'Something else / not sure',
 ]
 
@@ -171,6 +169,7 @@ export default function BookingForm() {
                 <select
                   id="service"
                   name="service"
+                  defaultValue=""
                   className={`${inputClass} appearance-none cursor-pointer`}
                 >
                   <option value="" disabled>
@@ -193,6 +192,7 @@ export default function BookingForm() {
                   <select
                     id="day"
                     name="day"
+                    defaultValue=""
                     className={`${inputClass} appearance-none cursor-pointer`}
                   >
                     <option value="" disabled>

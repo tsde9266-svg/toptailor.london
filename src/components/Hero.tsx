@@ -208,7 +208,7 @@ export default function Hero() {
           className="absolute inset-0 w-full h-full object-cover opacity-60 lg:opacity-100"
           preload="metadata"
         >
-          <source src="/video/craft.mp4" type="video/mp4" />
+          <source src="/video/Craft.mp4" type="video/mp4" />
         </video>
 
         {/* Mobile gradient overlay: green-tinted bottom scrim */}
