@@ -118,7 +118,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icon-192.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preload" as="video" href="/video/Craft.mp4" type="video/mp4" />
+        <link rel="preload" as="video" href="/video/craft.mp4" type="video/mp4" />
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body>
