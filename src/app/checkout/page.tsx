@@ -22,12 +22,17 @@ export default function CheckoutPage() {
 
   const hasQuoteItems = items.some(i => i.price === 0)
 
-  // ── Cal.com embed — reinitialises every time step becomes 'book' ──────────────
+  // ── Cal.com embed ─────────────────────────────────────────────────────────────
+  // embed.js requires window.Cal to already exist as a command queue before it
+  // loads. We recreate the official Cal.com inline snippet here so that
+  // Cal('inline', ...) calls are queued immediately and replayed once the
+  // script loads — avoiding the "Cal is not defined" error.
   useEffect(() => {
     if (step !== 'book') return
-    const initCal = () => {
-      const w = window as any
-      if (!w.Cal) return
+
+    const w = window as any
+
+    function mountEmbed() {
       const el = document.getElementById('cal-checkout')
       if (el) el.innerHTML = ''
       w.Cal('init', { origin: 'https://cal.com' })
@@ -43,15 +48,47 @@ export default function CheckoutPage() {
         hideEventTypeDetails: false,
       })
     }
-    if ((window as any).Cal) {
-      initCal()
-    } else {
-      const s = document.createElement('script')
-      s.src   = 'https://app.cal.com/embed/embed.js'
-      s.async = true
-      s.onload = initCal
-      document.head.appendChild(s)
+
+    if (w.Cal) {
+      // Script already loaded from a previous visit — just remount
+      mountEmbed()
+      return
     }
+
+    // Official Cal.com init snippet: creates window.Cal as a command queue.
+    // embed.js is loaded lazily; queued commands are replayed when it arrives.
+    ;(function (C: any, A: string, L: string) {
+      const p = (a: any, ar: any) => a.q.push(ar)
+      C.Cal = function (this: unknown) {
+        const cal = C.Cal
+        const ar  = arguments
+        if (!cal.loaded) {
+          cal.ns  = {}
+          cal.q   = cal.q || []
+          const s = C.document.createElement('script')
+          s.src   = A
+          s.async = true
+          C.document.head.appendChild(s)
+          cal.loaded = true
+        }
+        if (ar[0] === L) {
+          const api: any = function () { p(api, arguments) }
+          const ns  = ar[1]
+          api.q = api.q || []
+          if (typeof ns === 'string') {
+            cal.ns[ns] = cal.ns[ns] || api
+            p(cal.ns[ns], ar)
+            p(cal, ['-1', ar])
+          } else {
+            p(cal, ar)
+          }
+          return
+        }
+        p(cal, ar)
+      }
+    })(window, 'https://app.cal.com/embed/embed.js', 'init')
+
+    mountEmbed()
   }, [step])
 
   // ── Empty cart guard ──────────────────────────────────────────────────────────
