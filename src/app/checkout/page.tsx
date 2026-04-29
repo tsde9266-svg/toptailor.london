@@ -89,6 +89,9 @@ export default function CheckoutPage() {
     })(window, 'https://app.cal.com/embed/embed.js', 'init')
 
     mountEmbed()
+  // customer.name/email are captured at mount time intentionally — we don't
+  // want to remount the Cal embed on every keystroke while the user types.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step])
 
   // ── Empty cart guard ──────────────────────────────────────────────────────────
@@ -200,6 +203,15 @@ export default function CheckoutPage() {
           Continue — Choose Your Slot →
         </button>
       </form>
+
+      <div className="mt-6 text-center">
+        <Link
+          href="/#services"
+          className="font-sans text-[0.75rem] text-muted hover:text-charcoal transition-colors"
+        >
+          ← Back to services
+        </Link>
+      </div>
     </div>
   )
 
@@ -215,7 +227,20 @@ export default function CheckoutPage() {
         <strong className="font-medium text-charcoal">{customer.address}, {customer.postcode}</strong>.
       </p>
 
-      <div id="cal-checkout" className="w-full mb-8" style={{ minHeight: '650px' }} />
+      <div id="cal-checkout" className="w-full mb-4" style={{ minHeight: '650px' }} />
+
+      {/* Fallback if Cal.com embed is blocked or slow */}
+      <p className="font-sans text-[0.75rem] text-muted text-center mb-8">
+        Calendar not loading?{' '}
+        <a
+          href="https://wa.me/447000000000?text=Hi%2C%20I%27d%20like%20to%20book%20a%20collection%20slot."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-hunter underline underline-offset-2"
+        >
+          Book via WhatsApp →
+        </a>
+      </p>
 
       <div className="border border-divider p-6 text-center">
         <p className="font-sans text-[0.875rem] text-charcoal mb-1">Booked your slot above?</p>
@@ -231,6 +256,15 @@ export default function CheckoutPage() {
           "
         >
           Review & Submit →
+        </button>
+      </div>
+
+      <div className="mt-6 text-center">
+        <button
+          onClick={() => setStep('details')}
+          className="font-sans text-[0.75rem] text-muted hover:text-charcoal transition-colors"
+        >
+          ← Change your details
         </button>
       </div>
     </div>

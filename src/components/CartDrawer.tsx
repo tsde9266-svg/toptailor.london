@@ -1,16 +1,19 @@
 'use client'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { useCart } from '@/context/CartContext'
 
 export default function CartDrawer() {
   const { items, remove, clear, total, count, drawerOpen, closeDrawer } = useCart()
-  const router = useRouter()
+  const router   = useRouter()
+  const pathname = usePathname()
+
+  const onCheckout = pathname === '/checkout'
 
   if (!drawerOpen) return null
 
   function proceed() {
     closeDrawer()
-    router.push('/checkout')
+    if (!onCheckout) router.push('/checkout')
   }
 
   return (
@@ -108,7 +111,7 @@ export default function CartDrawer() {
           <div className="px-6 py-5 border-t border-divider space-y-3">
             {/* Total */}
             <div className="flex justify-between items-center">
-              <span className="font-sans text-[0.8125rem] text-muted uppercase tracking-widest">Total</span>
+              <span className="font-sans text-[0.8125rem] text-muted uppercase tracking-widest">Estimate</span>
               <span className="font-playfair text-[1.25rem] text-charcoal">
                 £{total}{items.some(i => i.price === 0) ? ' + quotes' : ''}
               </span>
@@ -124,7 +127,7 @@ export default function CartDrawer() {
                 hover:bg-[#1E3D17] transition-colors duration-200
               "
             >
-              Request Collection →
+              {onCheckout ? 'Continue Below ↓' : 'Request Collection →'}
             </button>
 
             {/* Clear */}

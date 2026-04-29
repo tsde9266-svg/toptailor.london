@@ -33,15 +33,22 @@ export function CartProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const raw = localStorage.getItem('tt_cart')
-      if (raw) setItems(JSON.parse(raw))
+      if (raw) {
+        const parsed = JSON.parse(raw)
+        if (Array.isArray(parsed) && parsed.length > 0) setItems(parsed)
+      }
     } catch { /* ignore */ }
     setHydrated(true)
   }, [])
 
-  // Persist whenever items change (after hydration)
+  // Persist to localStorage — remove the key when cart is empty (avoids stale '[]')
   useEffect(() => {
     if (!hydrated) return
-    localStorage.setItem('tt_cart', JSON.stringify(items))
+    if (items.length === 0) {
+      localStorage.removeItem('tt_cart')
+    } else {
+      localStorage.setItem('tt_cart', JSON.stringify(items))
+    }
   }, [items, hydrated])
 
   const add = useCallback((item: CartItem) => {
@@ -52,10 +59,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems(prev => prev.filter(i => i.id !== id))
   }, [])
 
-  const clear = useCallback(() => {
-    setItems([])
-    localStorage.removeItem('tt_cart')
-  }, [])
+  // Simply clear state — the persist effect above handles localStorage removal
+  const clear = useCallback(() => setItems([]), [])
 
   const has = useCallback((id: string) => items.some(i => i.id === id), [items])
 

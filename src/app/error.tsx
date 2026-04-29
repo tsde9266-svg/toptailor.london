@@ -1,5 +1,6 @@
 'use client'
 import { useEffect } from 'react'
+import Link from 'next/link'
 
 export default function Error({
   error,
@@ -23,17 +24,31 @@ export default function Error({
       <p className="font-sans font-light text-muted max-w-xs leading-relaxed mb-10">
         We&apos;ve been notified. Please try again or contact us directly.
       </p>
-      <button
-        onClick={reset}
-        className="
-          bg-hunter text-parchment
-          px-10 py-4
-          font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase
-          hover:bg-[#1E3D17] transition-colors duration-200
-        "
-      >
-        Try again
-      </button>
+      <div className="flex flex-col sm:flex-row gap-4">
+        <button
+          onClick={reset}
+          className="
+            bg-hunter text-parchment
+            px-10 py-4
+            font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase
+            hover:bg-[#1E3D17] transition-colors duration-200
+          "
+        >
+          Try again
+        </button>
+        <Link
+          href="/"
+          className="
+            border border-divider text-charcoal
+            px-10 py-4
+            font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase
+            hover:border-hunter hover:text-hunter transition-colors duration-200
+            text-center
+          "
+        >
+          Return Home
+        </Link>
+      </div>
     </main>
   )
 }
