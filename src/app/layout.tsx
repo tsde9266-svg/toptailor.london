@@ -112,6 +112,14 @@ export default function RootLayout({
   return (
     <html lang="en-GB" className={`${playfair.variable} ${dmSans.variable}`}>
       <head>
+        {/* Google Ads tag — in <head> so Google's detector finds it in the raw HTML response */}
+        {/* eslint-disable-next-line @next/next/no-sync-scripts, @next/next/next-script-for-ga */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18127638127" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','AW-18127638127');`,
+          }}
+        />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
         <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
@@ -134,22 +142,6 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
         />
 
-        {/* ── Google Ads Tag ────────────────────────────────────────────────────
-            Replace AW-18127638127 with your real ID, e.g. AW-123456789
-            You find it on the Google Ads "Set up with a Google tag" screen.
-        ─────────────────────────────────────────────────────────────────────── */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-18127638127"
-          strategy="afterInteractive"
-        />
-        <Script id="google-ads-init" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-18127638127');
-          `}
-        </Script>
       </body>
     </html>
   )
