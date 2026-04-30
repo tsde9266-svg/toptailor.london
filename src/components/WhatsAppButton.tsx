@@ -2,7 +2,7 @@
 
 // ─── Set your WhatsApp number here (digits only, with country code, no +) ───────
 // e.g. UK 07911 123456 → "447911123456"
-const WHATSAPP_NUMBER = '447000000000'
+const WHATSAPP_NUMBER = '447438145169'
 const WHATSAPP_MESSAGE = 'Hi, I\'d like to book a tailoring collection.'
 
 export default function WhatsAppButton() {

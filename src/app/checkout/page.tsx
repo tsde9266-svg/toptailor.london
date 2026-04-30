@@ -240,7 +240,7 @@ export default function CheckoutPage() {
       <p className="font-sans text-[0.75rem] text-muted text-center mb-8">
         Calendar not loading?{' '}
         <a
-          href="https://wa.me/447000000000?text=Hi%2C%20I%27d%20like%20to%20book%20a%20collection%20slot."
+          href="https://wa.me/447438145169?text=Hi%2C%20I%27d%20like%20to%20book%20a%20collection%20slot."
           target="_blank"
           rel="noopener noreferrer"
           className="text-hunter underline underline-offset-2"

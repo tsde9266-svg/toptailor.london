@@ -30,7 +30,7 @@ const localBusiness = {
   '@type': 'LocalBusiness',
   name: 'One Click Tailor',
   url: 'https://www.oneclicktailors.co.uk',
-  telephone: '+44-XXXX-XXXXXX',
+  telephone: '+44 7438 145169',
   areaServed: 'City of London',
   description: 'Premium door-to-door tailoring and alterations visiting homes and offices in the City of London.',
 }

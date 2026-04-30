@@ -29,7 +29,7 @@ export default function Footer() {
           Prefer to message directly?
         </p>
         <a
-          href="https://wa.me/447000000000?text=Hi%2C%20I%27d%20like%20to%20book%20a%20tailoring%20collection."
+          href="https://wa.me/447438145169?text=Hi%2C%20I%27d%20like%20to%20book%20a%20tailoring%20collection."
           target="_blank"
           rel="noopener noreferrer"
           className="

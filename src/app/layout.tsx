@@ -72,7 +72,7 @@ const siteSchema = {
   '@type': 'LocalBusiness',
   name: 'One Click Tailor',
   url: 'https://www.oneclicktailors.co.uk',
-  telephone: '+44-XXXX-XXXXXX',
+  telephone: '+44 7438 145169',
   priceRange: '££££',
   description: 'Premium door-to-door tailoring and alterations service visiting homes across central London with 10+ years of experience.',
   image: 'https://www.oneclicktailors.co.uk/og-image.jpg',

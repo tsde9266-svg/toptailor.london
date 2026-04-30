@@ -49,7 +49,10 @@
       "Bash(taskkill *)",
       "Bash(node -e ' *)",
       "Bash(npm uninstall *)",
-      "Bash(npx vercel *)"
+      "Bash(npx vercel *)",
+      "Bash(xxd \"D:/toptailor/public/favicon.ico\")",
+      "Bash(python3 *)",
+      "Bash(node *)"
     ]
   }
 }
