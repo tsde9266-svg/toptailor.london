@@ -124,6 +124,13 @@ export default function CheckoutPage() {
       if (!res.ok) throw new Error('server error')
       clear()
       setStep('done')
+      // Fire Google Ads conversion — replace send_to with AW-TAGID/CONVERSIONLABEL
+      // Find the label in Google Ads → Goals → Conversions → your "Collection Request" action
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        ;(window as any).gtag('event', 'conversion', {
+          send_to: 'AW-18127638127/SsX4CLuIgqUcEO-c98ND',
+        })
+      }
     } catch {
       setError('Something went wrong. Please try again or contact us directly.')
     } finally {

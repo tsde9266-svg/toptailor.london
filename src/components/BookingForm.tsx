@@ -57,6 +57,12 @@ export default function BookingForm() {
       }
 
       setSubmitted(true)
+      // Fire Google Ads contact/lead conversion
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        ;(window as any).gtag('event', 'conversion', {
+          send_to: 'AW-18127638127/SsX4CLuIgqUcEO-c98ND',
+        })
+      }
     } catch (_e) {
       setError('Network error. Please check your connection and try again.')
     } finally {

@@ -133,6 +133,23 @@ export default function RootLayout({
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
         />
+
+        {/* ── Google Ads Tag ────────────────────────────────────────────────────
+            Replace AW-18127638127 with your real ID, e.g. AW-123456789
+            You find it on the Google Ads "Set up with a Google tag" screen.
+        ─────────────────────────────────────────────────────────────────────── */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18127638127"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18127638127');
+          `}
+        </Script>
       </body>
     </html>
   )
