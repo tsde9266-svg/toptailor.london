@@ -59,9 +59,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.oneclicktailors.co.uk',
   },
-  verification: {
-    google: 'REPLACE_WITH_GOOGLE_VERIFICATION_CODE',
-  },
   other: {
     'geo.region':    'GB-ENG',
     'geo.placename': 'London',
