@@ -59,7 +59,7 @@ export default function TermsPage() {
 
           <Section title="4. Payment">
             <p>Payment is due upon approval of your confirmed quote. We accept cash or card payment on delivery, or bank transfer in advance.</p>
-            <p>Bank details: <strong className="font-medium text-charcoal">One Click Tailor</strong>, Sort Code: 60-383-71, Account: 19795111.</p>
+            <p>Bank details: <strong className="font-medium text-charcoal">Tahir Hassan</strong>, Sort Code: 04-00-03, Account: 11282726.</p>
           </Section>
 
           <Section title="5. Turnaround Times">

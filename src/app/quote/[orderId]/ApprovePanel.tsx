@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 
-const BANK = { sortCode: '60-383-71', account: '19795111', name: 'One Click Tailor' }
+const BANK = { sortCode: '04-00-03', account: '11282726', name: 'Tahir Hassan' }
 
 export default function ApprovePanel({
   orderId,
