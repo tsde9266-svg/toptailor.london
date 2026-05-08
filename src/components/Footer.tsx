@@ -150,6 +150,19 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Legal links */}
+        <div className="flex gap-6 pt-2">
+          {links.legal.map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              className="font-sans text-[0.6875rem] uppercase tracking-wider text-parchment/40 hover:text-green-bright"
+            >
+              {l.label}
+            </a>
+          ))}
+        </div>
+
         {/* padding for StickyBar */}
         <div className="h-14" />
       </div>

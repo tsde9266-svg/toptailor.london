@@ -21,7 +21,7 @@ async function notifyEmail(subject: string, bodyText: string) {
       method:  'POST',
       headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from:    'Top Tailor <onboarding@resend.dev>',
+        from:    'One Click Tailor <onboarding@resend.dev>',
         to:      [to],
         subject,
         text:    bodyText,
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
 
   const emailSubject = `📋 New Inquiry — ${name}`
   const emailBody =
-    `New Inquiry — Top Tailor\n${'─'.repeat(40)}\n` +
+    `New Inquiry — One Click Tailor\n${'─'.repeat(40)}\n` +
     `Name:     ${name}\nEmail:    ${email}\n` +
     (phone    ? `Phone:    ${phone}\n`    : '') +
     (service  ? `Service:  ${service}\n` : '') +
@@ -99,7 +99,7 @@ export async function POST(req: NextRequest) {
   await Promise.all([
     notifyEmail(emailSubject, emailBody),
     notifyTelegram(
-      `📋 <b>New Top Tailor Inquiry</b>\n\n` +
+      `📋 <b>New One Click Tailor Inquiry</b>\n\n` +
       `👤 <b>Name:</b> ${name}\n` +
       `📧 <b>Email:</b> ${email}\n` +
       (phone    ? `📞 <b>Phone:</b> ${phone}\n`       : '') +
