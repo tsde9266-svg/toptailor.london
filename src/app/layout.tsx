@@ -89,6 +89,57 @@ export const metadata: Metadata = {
   },
 }
 
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': 'https://www.oneclicktailors.co.uk/#website',
+  url: 'https://www.oneclicktailors.co.uk',
+  name: 'One Click Tailor',
+  description: 'London\'s premier mobile tailoring service — expert suit alterations, bespoke tailoring and clothing alterations at your door.',
+  publisher: { '@id': 'https://www.oneclicktailors.co.uk/#business' },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://www.oneclicktailors.co.uk/blog?q={search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
+}
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': 'https://www.oneclicktailors.co.uk/#organization',
+  name: 'One Click Tailor',
+  alternateName: 'One Click Tailors',
+  url: 'https://www.oneclicktailors.co.uk',
+  logo: 'https://www.oneclicktailors.co.uk/icon-512.png',
+  image: 'https://www.oneclicktailors.co.uk/og-image.jpg',
+  telephone: '+44 7438 145169',
+  description: 'One Click Tailor is a professional mobile tailoring service based in London. Specialising in suit alterations, bespoke tailoring and clothing alterations with home visits across central London since 2014.',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'London',
+    addressCountry: 'GB',
+  },
+  areaServed: { '@type': 'City', name: 'London' },
+  sameAs: [
+    'https://www.instagram.com/oneclicktailor',
+    'https://www.facebook.com/oneclicktailor',
+  ],
+  knowsAbout: [
+    'Suit Alterations',
+    'Bespoke Tailoring',
+    'Clothing Alterations',
+    'Dress Alterations',
+    'Mobile Tailoring',
+    'Made to Measure Suits',
+    'Wedding Dress Alterations',
+    'Leather Garment Alterations',
+  ],
+}
+
 const siteSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
@@ -173,6 +224,18 @@ export default function RootLayout({
           type="application/ld+json"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
+        />
+        <Script
+          id="schema-website"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+        <Script
+          id="schema-organization"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
 
       </body>

@@ -16,13 +16,17 @@ export const metadata: Metadata = {
 
 const articleSchema = {
   '@context': 'https://schema.org',
-  '@type': 'Article',
+  '@type': 'BlogPosting',
   headline: 'How Door-to-Door Tailoring Works in London',
   description: 'Discover how One Click Tailor\'s door-to-door tailoring service works in London. We visit your home, collect your garments and return them perfectly altered.',
-  author: { '@type': 'Organization', name: 'One Click Tailor' },
-  publisher: { '@type': 'Organization', name: 'One Click Tailor', url: 'https://www.oneclicktailors.co.uk' },
+  image: 'https://www.oneclicktailors.co.uk/og-image.jpg',
+  author: { '@type': 'Organization', '@id': 'https://www.oneclicktailors.co.uk/#organization', name: 'One Click Tailor' },
+  publisher: { '@type': 'Organization', '@id': 'https://www.oneclicktailors.co.uk/#organization', name: 'One Click Tailor', logo: { '@type': 'ImageObject', url: 'https://www.oneclicktailors.co.uk/icon-512.png' } },
   datePublished: '2026-03-10',
+  dateModified: '2026-05-08',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.oneclicktailors.co.uk/blog/how-door-to-door-tailoring-works-london' },
   url: 'https://www.oneclicktailors.co.uk/blog/how-door-to-door-tailoring-works-london',
+  keywords: 'door to door tailor London, mobile tailor London, home visit tailor, tailoring service London',
 }
 
 const breadcrumb = {

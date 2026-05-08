@@ -16,13 +16,17 @@ export const metadata: Metadata = {
 
 const articleSchema = {
   '@context': 'https://schema.org',
-  '@type': 'Article',
+  '@type': 'BlogPosting',
   headline: 'Suit Alterations at Home: What to Expect in London',
   description: 'Everything you need to know about suit alterations at home in London. One Click Tailor visits Knightsbridge, Kensington & central London.',
-  author: { '@type': 'Organization', name: 'One Click Tailor' },
-  publisher: { '@type': 'Organization', name: 'One Click Tailor', url: 'https://www.oneclicktailors.co.uk' },
+  image: 'https://www.oneclicktailors.co.uk/og-image.jpg',
+  author: { '@type': 'Organization', '@id': 'https://www.oneclicktailors.co.uk/#organization', name: 'One Click Tailor' },
+  publisher: { '@type': 'Organization', '@id': 'https://www.oneclicktailors.co.uk/#organization', name: 'One Click Tailor', logo: { '@type': 'ImageObject', url: 'https://www.oneclicktailors.co.uk/icon-512.png' } },
   datePublished: '2026-03-17',
+  dateModified: '2026-05-08',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.oneclicktailors.co.uk/blog/suit-alterations-at-home-london' },
   url: 'https://www.oneclicktailors.co.uk/blog/suit-alterations-at-home-london',
+  keywords: 'suit alterations London, suit alterations at home, suit fitting home visit, mobile tailor suit London',
 }
 
 const breadcrumb = {

@@ -16,13 +16,17 @@ export const metadata: Metadata = {
 
 const articleSchema = {
   '@context': 'https://schema.org',
-  '@type': 'Article',
+  '@type': 'BlogPosting',
   headline: 'The Difference Between Alterations and Bespoke Tailoring',
   description: 'Not sure whether you need alterations or bespoke tailoring? One Click Tailor explains the difference and helps you choose the right service in London.',
-  author: { '@type': 'Organization', name: 'One Click Tailor' },
-  publisher: { '@type': 'Organization', name: 'One Click Tailor', url: 'https://www.oneclicktailors.co.uk' },
+  image: 'https://www.oneclicktailors.co.uk/og-image.jpg',
+  author: { '@type': 'Organization', '@id': 'https://www.oneclicktailors.co.uk/#organization', name: 'One Click Tailor' },
+  publisher: { '@type': 'Organization', '@id': 'https://www.oneclicktailors.co.uk/#organization', name: 'One Click Tailor', logo: { '@type': 'ImageObject', url: 'https://www.oneclicktailors.co.uk/icon-512.png' } },
   datePublished: '2026-04-01',
+  dateModified: '2026-05-08',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.oneclicktailors.co.uk/blog/difference-between-alterations-and-bespoke' },
   url: 'https://www.oneclicktailors.co.uk/blog/difference-between-alterations-and-bespoke',
+  keywords: 'alterations vs bespoke tailoring, clothing alterations London, bespoke suit London, made to measure London',
 }
 
 const breadcrumb = {

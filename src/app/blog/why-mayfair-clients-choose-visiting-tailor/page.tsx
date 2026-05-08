@@ -16,13 +16,17 @@ export const metadata: Metadata = {
 
 const articleSchema = {
   '@context': 'https://schema.org',
-  '@type': 'Article',
+  '@type': 'BlogPosting',
   headline: 'Why Mayfair Clients Choose a Visiting Tailor',
   description: 'Mayfair residents choose One Click Tailor for premium tailoring at home. Discover why London\'s most discerning clients prefer a visiting tailor.',
-  author: { '@type': 'Organization', name: 'One Click Tailor' },
-  publisher: { '@type': 'Organization', name: 'One Click Tailor', url: 'https://www.oneclicktailors.co.uk' },
+  image: 'https://www.oneclicktailors.co.uk/og-image.jpg',
+  author: { '@type': 'Organization', '@id': 'https://www.oneclicktailors.co.uk/#organization', name: 'One Click Tailor' },
+  publisher: { '@type': 'Organization', '@id': 'https://www.oneclicktailors.co.uk/#organization', name: 'One Click Tailor', logo: { '@type': 'ImageObject', url: 'https://www.oneclicktailors.co.uk/icon-512.png' } },
   datePublished: '2026-03-24',
+  dateModified: '2026-05-08',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.oneclicktailors.co.uk/blog/why-mayfair-clients-choose-visiting-tailor' },
   url: 'https://www.oneclicktailors.co.uk/blog/why-mayfair-clients-choose-visiting-tailor',
+  keywords: 'tailor Mayfair London, visiting tailor London, mobile tailor Mayfair, home visit tailor Mayfair',
 }
 
 const breadcrumb = {

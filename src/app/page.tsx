@@ -38,6 +38,35 @@ const speakableSchema = {
   },
 }
 
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'How to Book a Mobile Tailor in London',
+  description: 'Book One Click Tailor for suit alterations, dress alterations or bespoke tailoring at your London home or office.',
+  totalTime: 'PT5D',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Book a Collection Slot',
+      text: 'Choose your services and book a home visit slot. We come to your home or office anywhere in central London — no travel required.',
+      url: 'https://www.oneclicktailors.co.uk/book',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Tailor Inspects & Quotes',
+      text: 'Our tailor collects your garments, inspects every piece and sends a confirmed written quote. Work only begins after you approve the price.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Garments Returned Perfectly Altered',
+      text: 'Within 5–7 working days your garments are returned to your door, pressed and perfected. Payment is due only after you have approved the quote.',
+    },
+  ],
+}
+
 const areas = [
   { name: 'Mayfair',        href: '/tailor-mayfair',        desc: 'Home visits for Mayfair & Grosvenor Square residents.' },
   { name: 'Chelsea',        href: '/tailor-chelsea',        desc: 'Serving Chelsea, King\'s Road & surrounding SW3.' },
@@ -55,6 +84,12 @@ export default function Home() {
         type="application/ld+json"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }}
+      />
+      <Script
+        id="schema-howto"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
       />
       <Script
         id="schema-faq-home"
