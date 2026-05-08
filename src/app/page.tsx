@@ -1,17 +1,18 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
 import Link from 'next/link'
-import Navbar      from '@/components/Navbar'
-import Hero        from '@/components/Hero'
-import Services    from '@/components/Services'
+import Navbar        from '@/components/Navbar'
+import Hero          from '@/components/Hero'
+import Services      from '@/components/Services'
 import NeedleDivider from '@/components/NeedleDivider'
-import HowItWorks  from '@/components/HowItWorks'
-import About       from '@/components/About'
-import Reviews     from '@/components/Reviews'
-import BookingForm from '@/components/BookingForm'
-import StickyBar   from '@/components/StickyBar'
-import Footer      from '@/components/Footer'
+import HowItWorks    from '@/components/HowItWorks'
+import About         from '@/components/About'
+import Reviews       from '@/components/Reviews'
+import BookingForm   from '@/components/BookingForm'
+import StickyBar     from '@/components/StickyBar'
+import Footer        from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
+import { getAllReviews } from '@/lib/kv'
 
 export const metadata: Metadata = {
   title: "Mobile Tailor London | Suit Alterations & Home Visits | One Click Tailor",
@@ -76,7 +77,8 @@ const areas = [
   { name: 'City of London', href: '/tailor-city-of-london', desc: 'EC1, EC2, EC3 and EC4 covered.' },
 ]
 
-export default function Home() {
+export default async function Home() {
+  const reviews = await getAllReviews().catch(() => [])
   return (
     <>
       <Script
@@ -137,7 +139,7 @@ export default function Home() {
         </section>
 
         <About />
-        <Reviews />
+        <Reviews reviews={reviews} />
         <FAQ />
         <BookingForm />
       </main>

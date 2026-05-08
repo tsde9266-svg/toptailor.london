@@ -1,21 +1,26 @@
 'use client'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
+import type { Review } from '@/lib/kv'
 
-const reviews = [
+// Shown when no reviews have been added via admin yet
+const STARTER_REVIEWS: Review[] = [
   {
-    quote:
-      '"The convenience is unmatched. To have Savile Row quality at my doorstep in Mayfair is revolutionary."',
-    author: 'James Thorne',
+    id:        'starter-1',
+    author:    'Taqi',
+    quote:     '"Brilliant service. My suit came back fitting perfectly — the tailor collected from my flat and returned it within days. Highly recommend."',
+    createdAt: '2026-01-01T00:00:00Z',
   },
   {
-    quote:
-      '"They handled my vintage couture with incredible care. The fit is now better than the original."',
-    author: 'Eleanor Rigby',
+    id:        'starter-2',
+    author:    'Ijlal',
+    quote:     '"Excellent craftsmanship. Had a jacket and two trousers altered, all came back spot on. Very professional and easy to deal with."',
+    createdAt: '2026-01-02T00:00:00Z',
   },
   {
-    quote:
-      '"The only person I trust with my wardrobe. Fast, professional, and impeccable craftsmanship."',
-    author: 'Marcus Aurelius',
+    id:        'starter-3',
+    author:    'Mooni',
+    quote:     '"So convenient having the tailor come directly to you. Fast turnaround, great results. Will definitely use again."',
+    createdAt: '2026-01-03T00:00:00Z',
   },
 ]
 
@@ -23,14 +28,7 @@ function Stars() {
   return (
     <div className="flex justify-center gap-1 mb-4" aria-label="Five stars">
       {Array.from({ length: 5 }).map((_, i) => (
-        <svg
-          key={i}
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="#3B6D11"
-          aria-hidden="true"
-        >
+        <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="#3B6D11" aria-hidden="true">
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
         </svg>
       ))}
@@ -38,8 +36,10 @@ function Stars() {
   )
 }
 
-export default function Reviews() {
+export default function Reviews({ reviews }: { reviews: Review[] }) {
   const sectionRef = useScrollReveal<HTMLElement>()
+
+  const displayed = (reviews.length > 0 ? reviews : STARTER_REVIEWS).slice(0, 3)
 
   return (
     <section
@@ -54,14 +54,10 @@ export default function Reviews() {
 
       {/* ══ DESKTOP — 3 columns (≥ lg) ══════════════════════ */}
       <div className="hidden lg:grid grid-cols-3 gap-0 border-t border-divider">
-        {reviews.map((r, i) => (
+        {displayed.map((r, i) => (
           <div
-            key={r.author}
-            className="
-              text-center pt-12 px-10 pb-12
-              border-r border-divider last:border-r-0
-              reveal-on-scroll
-            "
+            key={r.id}
+            className="text-center pt-12 px-10 pb-12 border-r border-divider last:border-r-0 reveal-on-scroll"
             style={{ transitionDelay: `${i * 100}ms` }}
           >
             <Stars />
@@ -77,9 +73,9 @@ export default function Reviews() {
 
       {/* ══ MOBILE — vertical stack (< lg) ══════════════════ */}
       <div className="lg:hidden space-y-16">
-        {reviews.map((r, i) => (
+        {displayed.map((r, i) => (
           <div
-            key={r.author}
+            key={r.id}
             className="text-center reveal-on-scroll"
             style={{ transitionDelay: `${i * 80}ms` }}
           >

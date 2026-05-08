@@ -1,7 +1,8 @@
 import Link from 'next/link'
-import { getAllOrders } from '@/lib/kv'
+import { getAllOrders, getAllReviews } from '@/lib/kv'
 import type { Order, OrderStatus } from '@/lib/kv'
 import { signOut } from './actions'
+import ReviewsAdmin from './ReviewsAdmin'
 
 const STATUS_LABEL: Record<OrderStatus, string> = {
   pending_collection: 'Pending Collection',
@@ -67,11 +68,12 @@ export default async function AdminPage({
 }: {
   searchParams: { filter?: string }
 }) {
-  let orders: Order[] = []
+  let orders:  Order[]  = []
+  let reviews: import('@/lib/kv').Review[] = []
   let kvError = false
 
   try {
-    orders = await getAllOrders()
+    [orders, reviews] = await Promise.all([getAllOrders(), getAllReviews()])
   } catch {
     kvError = true
   }
@@ -155,6 +157,9 @@ export default async function AdminPage({
             ))}
           </div>
         )}
+
+        {/* Reviews management */}
+        <ReviewsAdmin reviews={reviews} />
       </div>
     </div>
   )

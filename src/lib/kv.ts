@@ -73,3 +73,31 @@ export async function getAllOrders(): Promise<Order[]> {
     .filter((o): o is Order => o !== null)
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 }
+
+// ─── Reviews ──────────────────────────────────────────────────────────────────
+
+export type Review = {
+  id:        string
+  author:    string
+  quote:     string
+  createdAt: string
+}
+
+export async function saveReview(review: Review): Promise<void> {
+  await redis.set(`review:${review.id}`, review)
+  await redis.lpush('reviews', review.id)
+}
+
+export async function getAllReviews(): Promise<Review[]> {
+  const ids = await redis.lrange<string>('reviews', 0, -1)
+  if (!ids.length) return []
+  const reviews = await Promise.all(ids.map(id => redis.get<Review>(`review:${id}`)))
+  return reviews
+    .filter((r): r is Review => r !== null)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+}
+
+export async function deleteReview(id: string): Promise<void> {
+  await redis.del(`review:${id}`)
+  await redis.lrem('reviews', 0, id)
+}
