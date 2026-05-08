@@ -5,6 +5,7 @@ import '@/styles/globals.css'
 import WhatsAppButton  from '@/components/WhatsAppButton'
 import CartDrawer      from '@/components/CartDrawer'
 import { CartProvider } from '@/context/CartContext'
+import CookieBanner    from '@/components/CookieBanner'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -25,10 +26,31 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.oneclicktailors.co.uk'),
   title: {
     template: '%s | One Click Tailor',
-    default: "London's Finest Tailors at Your Door | One Click Tailor",
+    default: "Mobile Tailor London | Suit Alterations & Home Visits | One Click Tailor",
   },
-  description: "London's finest tailors at your door. One Click Tailor visits your home in Mayfair, Chelsea, Knightsbridge & central London. Expert tailoring & alterations with 10+ years experience. Book your home visit today.",
-  keywords: ['door to door tailor London', 'tailor home visit London', 'clothing alterations at home', 'Mayfair tailor', 'Chelsea tailor', 'central London tailor', 'suit alterations home visit'],
+  description: "One Click Tailor — London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations at your door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book a free home visit today.",
+  keywords: [
+    'mobile tailor London',
+    'suit alterations London',
+    'tailor home visit London',
+    'door to door tailor London',
+    'clothing alterations at home London',
+    'bespoke suit London',
+    'made to measure suit London',
+    'dress alterations London',
+    'seamstress London',
+    'tailor near me London',
+    'Mayfair tailor',
+    'Chelsea tailor',
+    'Knightsbridge tailor',
+    'central London tailor',
+    'suit fitting at home London',
+    'mobile tailoring service London',
+    'mens suit alterations London',
+    'ladies alterations London',
+    'wedding dress alterations London',
+    'tailor comes to you London',
+  ],
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -46,14 +68,14 @@ export const metadata: Metadata = {
     locale: 'en_GB',
     url: 'https://www.oneclicktailors.co.uk',
     siteName: 'One Click Tailor',
-    title: "London's Finest Tailors at Your Door",
-    description: 'Expert tailoring & alterations at your home in Mayfair, Chelsea, Knightsbridge & central London. 10+ years experience.',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'One Click Tailor — Premium door-to-door tailoring in central London' }],
+    title: "Mobile Tailor London | Suit Alterations & Home Visits | One Click Tailor",
+    description: 'Expert suit alterations, bespoke tailoring and clothing alterations at your London door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book a free home visit today.',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'One Click Tailor — Mobile tailoring and suit alterations in central London' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: "London's Finest Tailors at Your Door | One Click Tailor",
-    description: 'Expert tailoring at your home in Mayfair, Chelsea & central London.',
+    title: "Mobile Tailor London | Suit Alterations at Home | One Click Tailor",
+    description: 'Expert suit alterations, bespoke tailoring and clothing alterations at your door in Mayfair, Chelsea & central London.',
     images: ['/og-image.jpg'],
   },
   alternates: {
@@ -70,13 +92,32 @@ export const metadata: Metadata = {
 const siteSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
+  '@id': 'https://www.oneclicktailors.co.uk/#business',
   name: 'One Click Tailor',
+  alternateName: 'One Click Tailors',
   url: 'https://www.oneclicktailors.co.uk',
   telephone: '+44 7438 145169',
-  priceRange: '££££',
-  description: 'Premium door-to-door tailoring and alterations service visiting homes across central London with 10+ years of experience.',
+  priceRange: '££',
+  description: 'One Click Tailor is London\'s premier mobile tailoring service, offering expert suit alterations, bespoke tailoring and clothing alterations at your door. We visit homes and offices across Mayfair, Chelsea, Knightsbridge, Kensington, Belgravia and all central London postcodes.',
   image: 'https://www.oneclicktailors.co.uk/og-image.jpg',
-  areaServed: ['Mayfair', 'Chelsea', 'Knightsbridge', 'Kensington', 'Belgravia', 'City of London', 'Marylebone', 'Fitzrovia'],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'London',
+    addressCountry: 'GB',
+  },
+  areaServed: [
+    { '@type': 'City', name: 'London' },
+    { '@type': 'Neighborhood', name: 'Mayfair' },
+    { '@type': 'Neighborhood', name: 'Chelsea' },
+    { '@type': 'Neighborhood', name: 'Knightsbridge' },
+    { '@type': 'Neighborhood', name: 'Kensington' },
+    { '@type': 'Neighborhood', name: 'Belgravia' },
+    { '@type': 'Neighborhood', name: 'City of London' },
+    { '@type': 'Neighborhood', name: 'Marylebone' },
+    { '@type': 'Neighborhood', name: 'Fitzrovia' },
+    { '@type': 'Neighborhood', name: 'Soho' },
+    { '@type': 'Neighborhood', name: 'Covent Garden' },
+  ],
   serviceArea: {
     '@type': 'GeoCircle',
     geoMidpoint: { '@type': 'GeoCoordinates', latitude: 51.5074, longitude: -0.1278 },
@@ -84,14 +125,16 @@ const siteSchema = {
   },
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Tailoring Services',
+    name: 'Mobile Tailoring & Alteration Services London',
     itemListElement: [
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Suit Alterations at Home' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Dress Alterations Home Visit' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Garment Collection and Return' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Bespoke Fitting at Your Door' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Trouser Hemming at Home' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Wedding Dress Alterations London' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Suit Alterations London', description: 'Expert suit alterations at your London home. Jacket, trouser and waistcoat alterations by a qualified mobile tailor.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Dress Alterations London', description: 'Professional dress and occasion wear alterations collected from your home and returned within days.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Mobile Tailor Home Visit London', description: 'A professional tailor visits your home or office anywhere in central London for fitting, collection and delivery.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Bespoke Suit London', description: 'Made-to-measure bespoke suits fitted and delivered to your London address.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Trouser Hemming at Home', description: 'Trouser hemming and leg alterations collected and returned to your door.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Wedding Dress Alterations London', description: 'Specialist wedding and bridesmaid dress alterations with home collection across London.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Leather Jacket Alterations London', description: 'Expert leather garment alterations by specialist mobile tailor.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Clothing Alterations at Home London', description: 'All clothing alterations and repairs collected from your London address.' } },
     ],
   },
   foundingDate: '2014',
@@ -109,14 +152,6 @@ export default function RootLayout({
   return (
     <html lang="en-GB" className={`${playfair.variable} ${dmSans.variable}`}>
       <head>
-        {/* Google Ads tag — in <head> so Google's detector finds it in the raw HTML response */}
-        {/* eslint-disable-next-line @next/next/no-sync-scripts, @next/next/next-script-for-ga */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18127638127" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','AW-18127638127');`,
-          }}
-        />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
         <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
@@ -131,6 +166,7 @@ export default function RootLayout({
           {children}
           <CartDrawer />
           <WhatsAppButton />
+          <CookieBanner />
         </CartProvider>
         <Script
           id="schema-local-business"

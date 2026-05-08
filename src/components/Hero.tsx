@@ -130,7 +130,7 @@ export default function Hero() {
           "
           style={{ animationDelay: '0.5s' }}
         >
-          London&apos;s finest tailors at your door. One Click Tailor visits your home across Mayfair, Chelsea, Knightsbridge and central London — expert alterations collected and returned within days.
+          Expert suit alterations, bespoke tailoring and clothing alterations — all at your London door. One Click Tailor visits your home across Mayfair, Chelsea, Knightsbridge and central London.
         </p>
 
         {/* Subtext — mobile */}
@@ -163,7 +163,7 @@ export default function Hero() {
               hover:opacity-90 lg:hover:bg-[#1E3D17] transition-colors duration-200
             "
           >
-            SCHEDULE A COLLECTION
+            BOOK A FREE HOME VISIT
           </a>
           <a
             href="#services"
@@ -177,6 +177,23 @@ export default function Hero() {
             VIEW SERVICES
           </a>
         </div>
+
+        {/* Phone number — mobile only */}
+        <a
+          href="tel:+447438145169"
+          className="
+            lg:hidden flex items-center gap-2 mt-2
+            font-sans text-[0.8125rem] font-medium
+            text-parchment/80
+            animate-fade-in
+          "
+          style={{ animationDelay: '0.8s' }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.02 2.22 2 2 0 012 .04h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+          </svg>
+          +44 7438 145169
+        </a>
 
         {/* Scroll hint — mobile only */}
         <p className="

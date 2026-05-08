@@ -77,7 +77,7 @@ export default function StickyBar() {
         style={{ fontSize: '11px' }}
       >
         <span className="font-sans font-medium text-parchment uppercase tracking-wider">
-          Schedule a Collection
+          Book a Free Home Visit
         </span>
         <span
           className="font-sans font-medium"

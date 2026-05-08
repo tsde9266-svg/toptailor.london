@@ -114,8 +114,9 @@ export default function Services() {
           </h2>
           <div className="rule-h mb-8" />
           <p className="font-sans font-light text-sm leading-loose text-muted mb-8">
-            Select the work you need below. Prices shown are a guide — specialist
-            items are quoted on inspection. Minimum order £20.
+            Expert suit alterations, dress alterations and bespoke tailoring — all
+            collected from your London home and returned within days. Prices shown
+            are a guide; specialist items are quoted on inspection. Minimum order £20.
           </p>
           <Link
             href="/book"

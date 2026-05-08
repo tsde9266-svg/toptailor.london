@@ -134,7 +134,7 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
             hover:bg-[#1E3D17] transition-colors duration-200
           "
         >
-          SCHEDULE A COLLECTION
+          BOOK A FREE HOME VISIT
         </Link>
         </div>
 
@@ -171,16 +171,27 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
             ))}
           </nav>
 
+          {/* Phone number */}
+          <a
+            href="tel:+447438145169"
+            className="mt-10 flex items-center gap-3 font-sans text-[0.875rem] text-charcoal"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.02 2.22 2 2 0 012 .04h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+            </svg>
+            <span>+44 7438 145169</span>
+          </a>
+
           <Link
             href="/book"
             onClick={() => setMenuOpen(false)}
             className="
-              mt-auto bg-hunter text-parchment
+              mt-6 bg-hunter text-parchment
               py-5 w-full text-center
               font-sans text-[0.8125rem] font-medium tracking-[0.2em] uppercase
             "
           >
-            SCHEDULE A COLLECTION
+            BOOK A FREE HOME VISIT
           </Link>
         </div>
       )}

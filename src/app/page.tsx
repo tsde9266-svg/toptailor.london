@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Script from 'next/script'
 import Link from 'next/link'
 import Navbar      from '@/components/Navbar'
@@ -12,15 +13,22 @@ import StickyBar   from '@/components/StickyBar'
 import Footer      from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
+export const metadata: Metadata = {
+  title: "Mobile Tailor London | Suit Alterations & Home Visits | One Click Tailor",
+  description: "One Click Tailor — London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations at your door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book a free home visit today.",
+  alternates: { canonical: 'https://www.oneclicktailors.co.uk' },
+}
+
 const speakableSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   '@id': 'https://www.oneclicktailors.co.uk/#webpage',
   url: 'https://www.oneclicktailors.co.uk',
-  name: "London's Finest Tailors at Your Door | The Door Tailor",
+  name: "Mobile Tailor London | Suit Alterations & Home Visits | One Click Tailor",
+  description: "One Click Tailor is London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations collected from your home across Mayfair, Chelsea, Knightsbridge and central London.",
   speakable: {
     '@type': 'SpeakableSpecification',
-    cssSelector: ['h1', '.hero-intro'],
+    cssSelector: ['h1', '.hero-intro', '#services-intro'],
   },
   breadcrumb: {
     '@type': 'BreadcrumbList',
@@ -68,7 +76,7 @@ export default function Home() {
             Areas We Visit
           </h2>
           <p className="font-sans font-light text-muted max-w-xl mb-12 leading-relaxed">
-            Your central London tailor — we visit homes, apartments and offices across the capital&apos;s most prestigious postcodes. As a dedicated <strong>door-to-door tailor London</strong> residents trust, we come to you.
+            Your central London mobile tailor — we visit homes, apartments and offices across the capital&apos;s most prestigious postcodes. As a dedicated <strong>mobile tailor London</strong> residents trust, we come to you for expert <strong>suit alterations</strong>, bespoke tailoring and clothing repairs.
           </p>
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
             {areas.map((area) => (

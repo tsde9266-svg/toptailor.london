@@ -34,6 +34,14 @@ const faqs = [
     q: 'What makes One Click Tailor different from a shop?',
     a: 'We come to you. No travelling across London, no waiting rooms, no carrying garments on public transport. One dedicated tailor handles your clothes from collection to return.',
   },
+  {
+    q: 'Do you offer suit alterations in London?',
+    a: 'Yes — suit alterations are one of our most requested services. We collect your suit from your London home or office, make precise alterations to the jacket, trousers or waistcoat, and return everything perfectly fitted within 3–5 days. We cover all central London areas including Mayfair, Chelsea and Knightsbridge.',
+  },
+  {
+    q: 'Can I get a mobile tailor to come to my home in London?',
+    a: 'Absolutely — that is exactly what One Click Tailor does. Our mobile tailors visit homes, apartments and offices across central London. Whether you need suit alterations, dress alterations or a full bespoke fitting, simply book a free home visit and we come to you.',
+  },
 ]
 
 export const faqSchema = {

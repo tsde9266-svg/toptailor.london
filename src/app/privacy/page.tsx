@@ -39,7 +39,7 @@ export default function PrivacyPage() {
             Privacy Policy
           </h1>
           <p className="font-sans text-[0.8125rem] text-muted mb-12">
-            Last updated: April 2026
+            Last updated: May 2026
           </p>
 
           <Section title="1. Who We Are">
@@ -88,7 +88,19 @@ export default function PrivacyPage() {
           </Section>
 
           <Section title="7. Cookies">
-            <p>This website uses only essential cookies necessary for the site to function (such as remembering items in your order basket). We do not use tracking or advertising cookies.</p>
+            <p>We use the following categories of cookies:</p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>
+                <strong className="font-medium text-charcoal">Essential cookies</strong> — required for the site to function (e.g. your order basket). These are always active and do not require your consent.
+              </li>
+              <li>
+                <strong className="font-medium text-charcoal">Analytics cookies</strong> — help us understand how visitors use the site (Google Analytics). These are only set after you give consent.
+              </li>
+              <li>
+                <strong className="font-medium text-charcoal">Marketing cookies</strong> — used to measure the effectiveness of our Google Ads campaigns. These are only set after you give consent.
+              </li>
+            </ul>
+            <p>On your first visit you will be shown a cookie banner asking you to either accept all cookies or essential only. Your preference is stored in your browser and can be changed at any time by clearing your site data.</p>
           </Section>
 
           <Section title="8. Third-Party Services">
@@ -97,8 +109,10 @@ export default function PrivacyPage() {
               <li><strong className="font-medium text-charcoal">Cal.com</strong> — for booking collection slots</li>
               <li><strong className="font-medium text-charcoal">Resend</strong> — for transactional email delivery</li>
               <li><strong className="font-medium text-charcoal">Vercel</strong> — for website hosting</li>
+              <li><strong className="font-medium text-charcoal">Google Analytics</strong> — for website traffic analysis (only loaded after cookie consent)</li>
+              <li><strong className="font-medium text-charcoal">Google Ads</strong> — for advertising and conversion measurement (only loaded after cookie consent)</li>
             </ul>
-            <p>Your name and email are passed to Cal.com when booking a slot to pre-fill your details.</p>
+            <p>Your name and email are passed to Cal.com when booking a slot to pre-fill your details. Google Analytics and Google Ads are only activated if you accept non-essential cookies.</p>
           </Section>
 
           <Section title="9. Contact">
