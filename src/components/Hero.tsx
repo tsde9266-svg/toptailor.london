@@ -222,6 +222,7 @@ export default function Hero() {
           muted
           loop
           playsInline
+          poster="/images/tailor.jpg"
           className="absolute inset-0 w-full h-full object-cover opacity-60 lg:opacity-100"
           preload="metadata"
         >
