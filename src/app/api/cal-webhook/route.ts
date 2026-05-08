@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
   const { icon, label } = META[triggerEvent]
 
   const message =
-    `${icon} <b>Top Tailor — ${label}</b>\n\n` +
+    `${icon} <b>One Click Tailor — ${label}</b>\n\n` +
     `👤 <b>Name:</b> ${name}\n` +
     `📧 <b>Email:</b> ${email}\n` +
     (phone    ? `📞 <b>Phone:</b> ${phone}\n`                               : '') +
