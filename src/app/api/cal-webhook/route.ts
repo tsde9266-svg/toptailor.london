@@ -89,6 +89,8 @@ export async function POST(req: NextRequest) {
   const uid       = String(payload.uid ?? '').slice(0, 8)
   const location  = String(payload.location ?? '')
 
+  const waPhone   = phone.replace(/\D/g, '').replace(/^0/, '44')
+
   const dateStr = startTime ? fmt(startTime) : ''
   const endStr  = endTime
     ? new Date(endTime).toLocaleTimeString('en-GB', {
@@ -107,11 +109,12 @@ export async function POST(req: NextRequest) {
     `${icon} <b>One Click Tailor — ${label}</b>\n\n` +
     `👤 <b>Name:</b> ${name}\n` +
     `📧 <b>Email:</b> ${email}\n` +
-    (phone    ? `📞 <b>Phone:</b> ${phone}\n`                               : '') +
-    (dateStr  ? `📅 <b>Date:</b> ${dateStr}${endStr ? ` – ${endStr}` : ''}\n` : '') +
-    (location ? `📍 <b>Location:</b> ${location}\n`                         : '') +
-    (notes    ? `\n💬 <b>Notes:</b>\n${notes}\n`                            : '') +
-    (uid      ? `\n🔑 Ref: <code>${uid}</code>`                             : '')
+    (phone    ? `📞 <b>Phone:</b> ${phone}\n`                                                        : '') +
+    (phone    ? `📱 <a href="https://wa.me/${waPhone}?text=Hi%20${encodeURIComponent(name)}%2C%20">Open WhatsApp</a>\n` : '') +
+    (dateStr  ? `📅 <b>Date:</b> ${dateStr}${endStr ? ` – ${endStr}` : ''}\n`                       : '') +
+    (location ? `📍 <b>Location:</b> ${location}\n`                                                  : '') +
+    (notes    ? `\n💬 <b>Notes:</b>\n${notes}\n`                                                     : '') +
+    (uid      ? `\n🔑 Ref: <code>${uid}</code>`                                                      : '')
 
   await notifyTelegram(message)
   console.log(`[cal-webhook:${triggerEvent}]`, { name, email, startTime, uid })

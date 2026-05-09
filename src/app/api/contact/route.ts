@@ -63,6 +63,38 @@ function validate(body: Record<string, unknown>) {
   return errors
 }
 
+// ─── Confirmation email to customer ───────────────────────────────────────────
+async function sendCustomerConfirmation(
+  to: string,
+  name: string,
+  address: string,
+) {
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) return
+
+  const needsAddress = !address.trim()
+
+  await fetch('https://api.resend.com/emails', {
+    method:  'POST',
+    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from:    'One Click Tailor <onboarding@resend.dev>',
+      to:      [to],
+      subject: 'We received your inquiry — One Click Tailor',
+      text:
+        `Hi ${name},\n\n` +
+        `Thank you for getting in touch. We've received your inquiry and a specialist will contact you within a few hours.\n\n` +
+        `Please note: all home visits and consultations are chargeable. We do not offer free assessments. ` +
+        `Our team will share full pricing when they get in touch.\n\n` +
+        (needsAddress
+          ? `To help us plan your visit, please reply to this email with your full home or workplace address (including postcode) so we can confirm availability for your area.\n\n`
+          : '') +
+        `Questions in the meantime? Reply to this email or WhatsApp us directly.\n\n` +
+        `One Click Tailor`,
+    }),
+  }).catch(() => {})
+}
+
 // ─── POST /api/contact ────────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
   let body: Record<string, unknown>
@@ -83,8 +115,11 @@ export async function POST(req: NextRequest) {
   const phone    = String(body.phone    ?? '').trim()
   const service  = String(body.service  ?? '').trim()
   const day      = String(body.day      ?? '').trim()
+  const address  = String(body.address  ?? '').trim()
   const postcode = String(body.postcode ?? '').trim()
   const notes    = String(body.notes    ?? '').trim()
+
+  const waPhone  = phone.replace(/\D/g, '').replace(/^0/, '44')
 
   const emailSubject = `📋 New Inquiry — ${name}`
   const emailBody =
@@ -93,6 +128,7 @@ export async function POST(req: NextRequest) {
     (phone    ? `Phone:    ${phone}\n`    : '') +
     (service  ? `Service:  ${service}\n` : '') +
     (day      ? `Day:      ${day}\n`     : '') +
+    (address  ? `Address:  ${address}\n` : '') +
     (postcode ? `Postcode: ${postcode}\n`: '') +
     (notes    ? `\nNotes:\n${notes}`     : '')
 
@@ -102,12 +138,15 @@ export async function POST(req: NextRequest) {
       `📋 <b>New One Click Tailor Inquiry</b>\n\n` +
       `👤 <b>Name:</b> ${name}\n` +
       `📧 <b>Email:</b> ${email}\n` +
-      (phone    ? `📞 <b>Phone:</b> ${phone}\n`       : '') +
-      (service  ? `✂️ <b>Service:</b> ${service}\n`   : '') +
-      (day      ? `📅 <b>Day:</b> ${day}\n`            : '') +
-      (postcode ? `📍 <b>Postcode:</b> ${postcode}\n`  : '') +
-      (notes    ? `\n💬 <b>Notes:</b>\n${notes}`       : '')
+      (phone    ? `📞 <b>Phone:</b> ${phone}\n`                                                          : '') +
+      (phone    ? `📱 <a href="https://wa.me/${waPhone}?text=Hi%20${encodeURIComponent(name)}%2C%20">Open WhatsApp</a>\n` : '') +
+      (service  ? `✂️ <b>Service:</b> ${service}\n`                                                     : '') +
+      (day      ? `📅 <b>Day:</b> ${day}\n`                                                              : '') +
+      (address  ? `🏠 <b>Address:</b> ${address}\n`                                                      : '') +
+      (postcode ? `📍 <b>Postcode:</b> ${postcode}\n`                                                    : '') +
+      (notes    ? `\n💬 <b>Notes:</b>\n${notes}`                                                         : '')
     ),
+    sendCustomerConfirmation(email, name, address),
   ])
 
   // Also log to Vercel logs as a backup record

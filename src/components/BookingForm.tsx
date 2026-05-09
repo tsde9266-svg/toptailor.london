@@ -87,6 +87,9 @@ export default function BookingForm() {
             <p className="font-sans font-light text-[0.9375rem] text-muted leading-relaxed">
               Leave your details and a specialist will contact you within the hour.
             </p>
+            <p className="font-sans font-light text-[0.8125rem] text-muted leading-relaxed mt-4 border-l-2 border-divider pl-3">
+              All visits and consultations are chargeable. We do not offer free assessments.
+            </p>
           </div>
           {/* Desktop heading */}
           <div className="hidden lg:block">
@@ -97,6 +100,11 @@ export default function BookingForm() {
             <p className="font-sans font-light text-[1.0625rem] text-muted max-w-sm leading-relaxed">
               We come to your residence or workplace to perform measurements and
               collect your items.
+            </p>
+            <p className="font-sans font-light text-[0.8125rem] text-muted max-w-sm leading-relaxed mt-6 border-l-2 border-divider pl-4">
+              All home visits and consultations are chargeable. We do not offer
+              free assessments — our team will share full pricing when they get
+              in touch.
             </p>
           </div>
         </div>
@@ -224,6 +232,23 @@ export default function BookingForm() {
                     placeholder="e.g. W1S 1RE"
                   />
                 </div>
+              </div>
+
+              {/* Full Address */}
+              <div>
+                <label htmlFor="address" className={labelClass}>
+                  Full Address
+                  <span className="ml-2 normal-case tracking-normal font-light text-muted">
+                    (required for home visit bookings)
+                  </span>
+                </label>
+                <textarea
+                  id="address"
+                  name="address"
+                  rows={2}
+                  className={`${inputClass} resize-none`}
+                  placeholder="e.g. 12 Sloane Street, Chelsea, London"
+                />
               </div>
 
               {/* Notes */}
