@@ -16,7 +16,7 @@ import { getAllReviews } from '@/lib/kv'
 
 export const metadata: Metadata = {
   title: "Mobile Tailor London | Suit Alterations & Home Visits | One Click Tailor",
-  description: "One Click Tailor — London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations at your door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book a free home visit today.",
+  description: "One Click Tailor — London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations at your door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book your home visit today.",
   alternates: { canonical: 'https://www.oneclicktailors.co.uk' },
 }
 

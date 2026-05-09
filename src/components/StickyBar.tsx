@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
  * Design (CONTEXT.md):
  *   bg #2A5220, height 52px
  *   left  — "Ready to book?" DM Sans 500 uppercase 9px, rgba(197,221,151,0.7)
- *   right — "Book a Free Home Visit →" DM Sans 500 11px #F5F0E8, arrow in #97C459
+ *   right — "Book a Home Visit →" DM Sans 500 11px #F5F0E8, arrow in #97C459
  */
 export default function StickyBar() {
   const [visible, setVisible] = useState(false)
@@ -77,7 +77,7 @@ export default function StickyBar() {
         style={{ fontSize: '11px' }}
       >
         <span className="font-sans font-medium text-parchment uppercase tracking-wider">
-          Book a Free Home Visit
+          Book a Home Visit
         </span>
         <span
           className="font-sans font-medium"

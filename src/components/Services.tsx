@@ -265,7 +265,7 @@ export default function Services() {
               underline underline-offset-4
             "
           >
-            Book a free consultation →
+            Book a consultation →
           </Link>
         </div>
       </div>

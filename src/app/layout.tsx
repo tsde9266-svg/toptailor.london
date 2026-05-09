@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: '%s | One Click Tailor',
     default: "Mobile Tailor London | Suit Alterations & Home Visits | One Click Tailor",
   },
-  description: "One Click Tailor — London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations at your door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book a free home visit today.",
+  description: "One Click Tailor — London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations at your door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book your home visit today.",
   keywords: [
     'mobile tailor London',
     'suit alterations London',
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     url: 'https://www.oneclicktailors.co.uk',
     siteName: 'One Click Tailor',
     title: "Mobile Tailor London | Suit Alterations & Home Visits | One Click Tailor",
-    description: 'Expert suit alterations, bespoke tailoring and clothing alterations at your London door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book a free home visit today.',
+    description: 'Expert suit alterations, bespoke tailoring and clothing alterations at your London door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book your home visit today.',
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'One Click Tailor — Mobile tailoring and suit alterations in central London' }],
   },
   twitter: {

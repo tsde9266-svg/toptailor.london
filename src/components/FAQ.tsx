@@ -40,7 +40,7 @@ const faqs = [
   },
   {
     q: 'Can I get a mobile tailor to come to my home in London?',
-    a: 'Absolutely — that is exactly what One Click Tailor does. Our mobile tailors visit homes, apartments and offices across central London. Whether you need suit alterations, dress alterations or a full bespoke fitting, simply book a free home visit and we come to you.',
+    a: 'Absolutely — that is exactly what One Click Tailor does. Our mobile tailors visit homes, apartments and offices across central London. Whether you need suit alterations, dress alterations or a full bespoke fitting, simply book a home visit and we come to you.',
   },
 ]
 

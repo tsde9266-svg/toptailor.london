@@ -163,7 +163,7 @@ export default function Hero() {
               hover:opacity-90 lg:hover:bg-[#1E3D17] transition-colors duration-200
             "
           >
-            BOOK A FREE HOME VISIT
+            BOOK A HOME VISIT
           </a>
           <a
             href="#services"

@@ -134,7 +134,7 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
             hover:bg-[#1E3D17] transition-colors duration-200
           "
         >
-          BOOK A FREE HOME VISIT
+          BOOK A HOME VISIT
         </Link>
         </div>
 
@@ -191,7 +191,7 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
               font-sans text-[0.8125rem] font-medium tracking-[0.2em] uppercase
             "
           >
-            BOOK A FREE HOME VISIT
+            BOOK A HOME VISIT
           </Link>
         </div>
       )}
