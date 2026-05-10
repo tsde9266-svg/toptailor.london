@@ -133,14 +133,17 @@ export default function CheckoutPage() {
         params.set('phoneNumber',          intlPhone)
       }
 
-      // Try multiple slug variants for the address / "we come to you" field
+      // Try multiple slug variants for the address / "we come to you" field.
+      // Note: do NOT use `location` — Cal.com reserves that key and expects a
+      // JSON object (e.g. {"value":"attendeeAddress","optionValue":""}), so
+      // sending a plain string triggers a JSON parse error in their console.
       if (fullAddress) {
-        params.set('location',             fullAddress)
         params.set('address',              fullAddress)
         params.set('home-address',         fullAddress)
         params.set('your-address',         fullAddress)
         params.set('we-come-to-you',       fullAddress)
         params.set('full-address',         fullAddress)
+        params.set('collection-address',   fullAddress)
       }
 
       const calLink = `toptailor/toptailor.london${params.toString() ? `?${params.toString()}` : ''}`
@@ -154,7 +157,8 @@ export default function CheckoutPage() {
           email:               customer.email,
           phone:               intlPhone,
           attendeePhoneNumber: intlPhone,
-          location:            fullAddress,
+          // Don't set `location` — Cal.com expects a JSON object there, not a
+          // plain string. The address goes via URL slugs (above) + notes.
           notes,
         } as Record<string, string>,
         layout: 'month_view',
