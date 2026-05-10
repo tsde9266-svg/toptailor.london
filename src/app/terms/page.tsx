@@ -4,9 +4,9 @@ import Footer from '@/components/Footer'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service — One Click Tailor',
-  description: 'Terms and conditions for One Click Tailor, London\'s door-to-door tailoring and alteration service.',
-  alternates: { canonical: 'https://www.oneclicktailors.co.uk/terms' },
+  title: 'Terms of Service — Fine Tailors',
+  description: 'Terms and conditions for Fine Tailors, London\'s door-to-door tailoring and alteration service.',
+  alternates: { canonical: 'https://www.finetailors.co.uk/terms' },
   robots: { index: true, follow: true },
 }
 
@@ -43,7 +43,7 @@ export default function TermsPage() {
           </p>
 
           <Section title="1. Service Description">
-            <p>One Click Tailor provides door-to-door tailoring, clothing alterations and garment repair services to customers in central London. We collect garments from your address, complete the agreed work and return them to you.</p>
+            <p>Fine Tailors provides door-to-door tailoring, clothing alterations and garment repair services to customers in central London. We collect garments from your address, complete the agreed work and return them to you.</p>
           </Section>
 
           <Section title="2. Pricing & Quotes">

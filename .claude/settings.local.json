@@ -52,7 +52,19 @@
       "Bash(npx vercel *)",
       "Bash(xxd \"D:/toptailor/public/favicon.ico\")",
       "Bash(python3 *)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "PowerShell(Get-ChildItem \"D:\\\\toptailor\\\\public\" -Recurse -File | Where-Object { $_.Extension -in '.mp4','.jpg','.png','.webp','.gif' } | Select-Object Name, @{N='SizeKB';E={[math]::Round\\($_.Length/1KB,0\\)}} | Sort-Object SizeKB -Descending | Select-Object -First 15)",
+      "Bash(git -C D:\\\\toptailor status)",
+      "Bash(git -C D:\\\\toptailor diff --stat)",
+      "Bash(Get-ChildItem -Path \"D:\\\\toptailor\" -Recurse -Directory -Force)",
+      "Bash(Select-Object -First 50)",
+      "Bash(Format-Table FullName)",
+      "Bash(grep -v \"^$\")",
+      "Bash(awk 'NR==69' src/app/blog/how-door-to-door-tailoring-works-london/page.tsx)",
+      "Bash(awk 'NR==79' src/app/blog/why-mayfair-clients-choose-visiting-tailor/page.tsx)"
     ]
   }
 }

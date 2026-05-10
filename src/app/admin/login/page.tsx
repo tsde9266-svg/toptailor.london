@@ -27,7 +27,7 @@ export default function AdminLoginPage() {
     <main className="min-h-screen bg-parchment flex items-center justify-center px-8">
       <div className="w-full max-w-sm">
         <p className="font-sans text-[0.6875rem] font-medium uppercase tracking-[0.3em] text-muted mb-2">
-          One Click Tailor
+          Fine Tailors
         </p>
         <h1 className="font-playfair text-[2rem] font-medium mb-10">Admin</h1>
 

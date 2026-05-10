@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor in Mayfair, London | Home Visits | One Click Tailor',
-  description: 'One Click Tailor visits your home in Mayfair, London. Expert suit & dress alterations at your door. 10+ years experience. Book your Mayfair home visit today.',
-  alternates: { canonical: 'https://www.oneclicktailors.co.uk/tailor-mayfair' },
+  title: 'Tailor in Mayfair, London | Home Visits | Fine Tailors',
+  description: 'Fine Tailors visits your home in Mayfair, London. Expert suit & dress alterations at your door. 10+ years experience. Book your Mayfair home visit today.',
+  alternates: { canonical: 'https://www.finetailors.co.uk/tailor-mayfair' },
   openGraph: {
-    title: 'Tailor in Mayfair, London | One Click Tailor',
-    url: 'https://www.oneclicktailors.co.uk/tailor-mayfair',
+    title: 'Tailor in Mayfair, London | Fine Tailors',
+    url: 'https://www.finetailors.co.uk/tailor-mayfair',
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Tailor visiting client home in Mayfair London' }],
   },
 }
@@ -20,16 +20,16 @@ const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailors.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Tailor in Mayfair', item: 'https://www.oneclicktailors.co.uk/tailor-mayfair' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.finetailors.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Tailor in Mayfair', item: 'https://www.finetailors.co.uk/tailor-mayfair' },
   ],
 }
 
 const localBusiness = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  name: 'One Click Tailor',
-  url: 'https://www.oneclicktailors.co.uk',
+  name: 'Fine Tailors',
+  url: 'https://www.finetailors.co.uk',
   telephone: '+44 7438 145169',
   areaServed: 'Mayfair',
   description: 'Premium door-to-door tailoring and alterations visiting homes in Mayfair, London.',
@@ -58,14 +58,14 @@ export default function TailorMayfair() {
             Your Personal Tailor in Mayfair, London
           </h1>
           <p className="font-sans font-light text-lg text-muted max-w-2xl leading-relaxed">
-            One Click Tailor brings expert tailoring and clothing alterations at home to Mayfair residents. From Grosvenor Square to Berkeley Square, we visit your address — no travel, no inconvenience.
+            Fine Tailors brings expert tailoring and clothing alterations at home to Mayfair residents. From Grosvenor Square to Berkeley Square, we visit your address — no travel, no inconvenience.
           </p>
         </div>
 
         <div className="px-8 lg:px-24 py-16 border-b border-divider max-w-4xl">
           <h2 className="font-playfair text-[1.75rem] font-medium mb-6">Tailoring at Your Mayfair Home</h2>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
-            Mayfair is one of London&apos;s most prestigious addresses, and its residents expect a standard of service to match. As your dedicated <strong>Mayfair tailor</strong>, One Click Tailor visits your home at a time that suits you — whether you&apos;re in a Grosvenor Square apartment or a Mount Street townhouse. We understand that for Mayfair clients, time is the most valuable commodity. That&apos;s why we come to you.
+            Mayfair is one of London&apos;s most prestigious addresses, and its residents expect a standard of service to match. As your dedicated <strong>Mayfair tailor</strong>, Fine Tailors visits your home at a time that suits you — whether you&apos;re in a Grosvenor Square apartment or a Mount Street townhouse. We understand that for Mayfair clients, time is the most valuable commodity. That&apos;s why we come to you.
           </p>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
             Our tailor home visit London service means you never need to carry garments across the city or wait in a shop queue. We assess every piece in your own wardrobe, advise on what&apos;s possible, collect your clothes, and return them perfectly altered — usually within 3–5 days.

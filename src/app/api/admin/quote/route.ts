@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getOrder, updateOrder } from '@/lib/kv'
 import type { QuoteItem } from '@/lib/kv'
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.oneclicktailors.co.uk'
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.finetailors.co.uk'
 
 // ─── Auth helper ──────────────────────────────────────────────────────────────
 function isAdmin(req: NextRequest): boolean {
@@ -28,7 +28,7 @@ async function sendQuoteEmail(
 
   const html = `
     <div style="font-family:Georgia,serif;max-width:600px;margin:0 auto;color:#2C2C2C;background:#F5F0E8;padding:40px 32px;">
-      <p style="font-family:sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#888;margin-bottom:8px;">One Click Tailor</p>
+      <p style="font-family:sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#888;margin-bottom:8px;">Fine Tailors</p>
       <h1 style="font-size:28px;font-weight:400;margin-bottom:8px;color:#2C2C2C;">Your Confirmed Quote</h1>
       <p style="font-family:sans-serif;font-size:14px;color:#666;margin-bottom:32px;">Hi ${name}, our tailor has inspected your garments and prepared your confirmed quote.</p>
 
@@ -55,9 +55,9 @@ async function sendQuoteEmail(
     method:  'POST',
     headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      from:    'One Click Tailor <onboarding@resend.dev>',
+      from:    'Fine Tailors <onboarding@resend.dev>',
       to:      [to],
-      subject: `Your confirmed quote — One Click Tailor`,
+      subject: `Your confirmed quote — Fine Tailors`,
       html,
     }),
   })

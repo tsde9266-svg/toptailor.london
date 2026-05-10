@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor in Belgravia, London | Home Visits | One Click Tailor',
-  description: 'One Click Tailor visits your home in Belgravia, London. Expert suit & dress alterations at your door. 10+ years experience. Book your Belgravia home visit today.',
-  alternates: { canonical: 'https://www.oneclicktailors.co.uk/tailor-belgravia' },
+  title: 'Tailor in Belgravia, London | Home Visits | Fine Tailors',
+  description: 'Fine Tailors visits your home in Belgravia, London. Expert suit & dress alterations at your door. 10+ years experience. Book your Belgravia home visit today.',
+  alternates: { canonical: 'https://www.finetailors.co.uk/tailor-belgravia' },
   openGraph: {
-    title: 'Tailor in Belgravia, London | One Click Tailor',
-    url: 'https://www.oneclicktailors.co.uk/tailor-belgravia',
+    title: 'Tailor in Belgravia, London | Fine Tailors',
+    url: 'https://www.finetailors.co.uk/tailor-belgravia',
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Tailor visiting client home in Belgravia London' }],
   },
 }
@@ -20,16 +20,16 @@ const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailors.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Tailor in Belgravia', item: 'https://www.oneclicktailors.co.uk/tailor-belgravia' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.finetailors.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Tailor in Belgravia', item: 'https://www.finetailors.co.uk/tailor-belgravia' },
   ],
 }
 
 const localBusiness = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  name: 'One Click Tailor',
-  url: 'https://www.oneclicktailors.co.uk',
+  name: 'Fine Tailors',
+  url: 'https://www.finetailors.co.uk',
   telephone: '+44 7438 145169',
   areaServed: 'Belgravia',
   description: 'Premium door-to-door tailoring and alterations visiting homes in Belgravia, London.',
@@ -58,14 +58,14 @@ export default function TailorBelgravia() {
             Your Personal Tailor in Belgravia, London
           </h1>
           <p className="font-sans font-light text-lg text-muted max-w-2xl leading-relaxed">
-            One Click Tailor visits SW1 Belgravia addresses to deliver expert clothing alterations at home. From Eaton Square to Chester Square, we bring tailoring precision directly to your door.
+            Fine Tailors visits SW1 Belgravia addresses to deliver expert clothing alterations at home. From Eaton Square to Chester Square, we bring tailoring precision directly to your door.
           </p>
         </div>
 
         <div className="px-8 lg:px-24 py-16 border-b border-divider max-w-4xl">
           <h2 className="font-playfair text-[1.75rem] font-medium mb-6">Tailoring at Your Belgravia Home</h2>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
-            Belgravia&apos;s white stucco terraces and garden squares house some of London&apos;s most discerning residents. As your Belgravia tailor, One Click Tailor provides the same level of discretion and precision that this neighbourhood expects. We visit your home, treat your garments with the care they deserve, and return them perfectly altered.
+            Belgravia&apos;s white stucco terraces and garden squares house some of London&apos;s most discerning residents. As your Belgravia tailor, Fine Tailors provides the same level of discretion and precision that this neighbourhood expects. We visit your home, treat your garments with the care they deserve, and return them perfectly altered.
           </p>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
             Our tailor home visit London service removes all inconvenience from the process. We collect, alter, and return — typically within 3–5 days. Suit alterations, dress alterations for formal occasions, clothing alterations at home for day-to-day wear: we handle every category.

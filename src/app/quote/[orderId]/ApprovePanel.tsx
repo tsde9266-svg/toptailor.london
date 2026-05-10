@@ -6,12 +6,14 @@ const BANK = { sortCode: '04-00-03', account: '11282726', name: 'Tahir Hassan' }
 export default function ApprovePanel({
   orderId,
   total,
+  suggestedMethod,
 }: {
   orderId: string
   total:   number
+  suggestedMethod?: 'door' | 'bank' | null
 }) {
   const [step,      setStep]      = useState<'idle' | 'payment' | 'bank' | 'done'>('idle')
-  const [method,    setMethod]    = useState<'door' | 'bank' | null>(null)
+  const [method,    setMethod]    = useState<'door' | 'bank' | null>(suggestedMethod ?? null)
   const [bankDone,  setBankDone]  = useState(false)
   const [loading,   setLoading]   = useState(false)
   const [error,     setError]     = useState('')
@@ -55,6 +57,11 @@ export default function ApprovePanel({
       <div className="space-y-4">
         <p className="font-sans text-[0.8125rem] text-muted mb-4">
           How would you like to pay?
+          {suggestedMethod && (
+            <span className="block mt-1 text-[0.75rem] text-hunter">
+              You picked “{suggestedMethod === 'bank' ? 'Bank Transfer' : 'Pay on the day'}” when you placed the order — change below if you’ve changed your mind.
+            </span>
+          )}
         </p>
 
         {error && (
@@ -66,7 +73,12 @@ export default function ApprovePanel({
         <button
           onClick={() => { setMethod('door'); confirm('door') }}
           disabled={loading}
-          className="w-full border border-hunter text-left p-5 hover:bg-hunter/5 transition-colors disabled:opacity-60"
+          className={`
+            w-full text-left p-5 transition-colors disabled:opacity-60
+            ${suggestedMethod === 'door'
+              ? 'border-2 border-hunter bg-hunter/5'
+              : 'border border-hunter hover:bg-hunter/5'}
+          `}
         >
           <p className="font-playfair text-[1.0625rem] text-charcoal mb-0.5">Pay on Collection / Delivery</p>
           <p className="font-sans text-[0.8125rem] text-muted">Cash or card when we return your garments. Nothing needed now.</p>
@@ -75,7 +87,12 @@ export default function ApprovePanel({
         <button
           onClick={() => { setMethod('bank'); setStep('bank') }}
           disabled={loading}
-          className="w-full border border-divider text-left p-5 hover:border-hunter transition-colors disabled:opacity-60"
+          className={`
+            w-full text-left p-5 transition-colors disabled:opacity-60
+            ${suggestedMethod === 'bank'
+              ? 'border-2 border-hunter bg-hunter/5'
+              : 'border border-divider hover:border-hunter'}
+          `}
         >
           <p className="font-playfair text-[1.0625rem] text-charcoal mb-0.5">Bank Transfer</p>
           <p className="font-sans text-[0.8125rem] text-muted">Instant UK Faster Payments — free and direct.</p>

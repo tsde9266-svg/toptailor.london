@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { saveOrder } from '@/lib/kv'
 import type { Order } from '@/lib/kv'
+import { adminGreetingLink, normaliseUkPhone } from '@/lib/greeting'
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.oneclicktailors.co.uk'
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.finetailors.co.uk'
 
 function uuid() {
   return crypto.randomUUID()
@@ -34,7 +35,7 @@ async function notifyEmail(subject: string, body: string) {
       method:  'POST',
       headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from:    'One Click Tailor <onboarding@resend.dev>',
+        from:    'Fine Tailors <onboarding@resend.dev>',
         to:      [to],
         subject,
         text:    body,
@@ -50,6 +51,8 @@ async function sendCustomerConfirmation(
   to: string, name: string,
   items: Array<{ name: string; price: number }>,
   estimateTotal: number,
+  commsPref: string,
+  paymentPreference: string,
 ) {
   const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) return
@@ -62,9 +65,9 @@ async function sendCustomerConfirmation(
     method: 'POST',
     headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      from:    'One Click Tailor <onboarding@resend.dev>',
+      from:    'Fine Tailors <onboarding@resend.dev>',
       to:      [to],
-      subject: 'Collection request received — One Click Tailor',
+      subject: 'Collection request received — Fine Tailors',
       text:
         `Hi ${name},\n\n` +
         `We've received your collection request. Here's your estimate:\n\n` +
@@ -76,8 +79,18 @@ async function sendCustomerConfirmation(
         `3. You receive a confirmed quote by email — approve it in one click\n` +
         `4. We complete the work and return your garments within 5–7 working days\n\n` +
         `You only pay after approving the final quote. No surprises.\n\n` +
-        `Questions? Reply to this email or WhatsApp us.\n\n` +
-        `One Click Tailor`,
+        (paymentPreference === 'bank'
+          ? `Payment by bank transfer:\n` +
+            `We will send our bank details with your confirmed quote. Once the transfer clears we book in your work.\n\n`
+          : paymentPreference === 'day'
+            ? `Payment on the day:\n` +
+              `Cash or card accepted. We will confirm the amount with your final quote.\n\n`
+            : '') +
+        (commsPref === 'whatsapp'
+          ? `We'll follow up with you on WhatsApp. You can also reach us anytime:\n` +
+            `• WhatsApp: wa.me/447438145169\n\n`
+          : `Questions? Reply to this email or WhatsApp us at wa.me/447438145169\n\n`) +
+        `Fine Tailors`,
     }),
   }).catch(() => {})
 }
@@ -91,9 +104,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid body' }, { status: 400 })
   }
 
-  const customer = (body.customer ?? {}) as Record<string, string>
-  const items    = (body.items    ?? []) as Array<{ id: string; name: string; categoryName: string; price: number }>
-  const total    = Number(body.total ?? 0)
+  const customer          = (body.customer  ?? {}) as Record<string, string>
+  const items             = (body.items     ?? []) as Array<{ id: string; name: string; categoryName: string; price: number }>
+  const total             = Number(body.total ?? 0)
+  const commsPref         = String(body.commsPref         ?? '').trim() as 'whatsapp' | 'email' | ''
+  const paymentPreference = String(body.paymentPreference ?? '').trim() as 'day' | 'bank' | ''
 
   if (!customer.name || !customer.email || !customer.address || items.length === 0) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 422 })
@@ -109,11 +124,13 @@ export async function POST(req: NextRequest) {
     status:  'pending_collection',
     createdAt,
     customer: {
-      name:     customer.name,
-      email:    customer.email,
-      phone:    customer.phone || undefined,
-      address:  customer.address,
-      postcode: customer.postcode,
+      name:              customer.name,
+      email:             customer.email,
+      phone:             customer.phone || undefined,
+      address:           customer.address,
+      postcode:          customer.postcode,
+      commsPref:         (commsPref === 'whatsapp' || commsPref === 'email') ? commsPref : undefined,
+      paymentPreference: (paymentPreference === 'day' || paymentPreference === 'bank') ? paymentPreference : undefined,
     },
     estimate:      items,
     estimateTotal: total,
@@ -133,16 +150,23 @@ export async function POST(req: NextRequest) {
 
   const adminLink = `${BASE_URL}/admin/order/${orderId}`
 
+  const greetingLink = customer.phone ? adminGreetingLink(customer.phone) : ''
+  const waNumber     = customer.phone ? normaliseUkPhone(customer.phone)  : ''
+
   const telegramMsg =
     `🛒 <b>New Collection Request</b>\n\n` +
     `👤 <b>Name:</b> ${customer.name}\n` +
     `📧 <b>Email:</b> ${customer.email}\n` +
     (customer.phone ? `📞 <b>Phone:</b> ${customer.phone}\n` : '') +
-    `📍 <b>Address:</b> ${customer.address}, ${customer.postcode}\n\n` +
-    `🧵 <b>Estimate:</b>\n${itemLines}\n\n` +
+    `📍 <b>Address:</b> ${customer.address}, ${customer.postcode}\n` +
+    (commsPref         ? `💬 <b>Preferred contact:</b> ${commsPref === 'whatsapp' ? 'WhatsApp' : 'Email'}\n` : '') +
+    (paymentPreference ? `💳 <b>Payment:</b> ${paymentPreference === 'day' ? 'Pay on the day (cash/card)' : 'Bank transfer'}\n` : '') +
+    `\n🧵 <b>Estimate:</b>\n${itemLines}\n\n` +
     `💰 <b>Estimate total:</b> £${total}${hasQuotes ? ' + quote items' : ''}\n` +
     `⏱ <b>Received:</b> ${timestamp}\n\n` +
-    `🔗 <b>Admin:</b> <a href="${adminLink}">${adminLink}</a>`
+    (greetingLink ? `👋 <a href="${greetingLink}">Send greeting on WhatsApp</a>\n` : '') +
+    (waNumber     ? `💬 <a href="https://wa.me/${waNumber}">Open chat</a>\n` : '') +
+    `🔗 <a href="${adminLink}">Open in admin</a>`
 
   const emailSubject = `New Collection Request — ${customer.name}`
   const emailBody    =
@@ -151,8 +175,10 @@ export async function POST(req: NextRequest) {
     `Email:    ${customer.email}\n` +
     (customer.phone ? `Phone:    ${customer.phone}\n` : '') +
     `Address:  ${customer.address}\n` +
-    `Postcode: ${customer.postcode}\n\n` +
-    `Estimate:\n${itemLines}\n\n` +
+    `Postcode: ${customer.postcode}\n` +
+    (commsPref         ? `Contact:  ${commsPref === 'whatsapp' ? 'WhatsApp' : 'Email'}\n` : '') +
+    (paymentPreference ? `Payment:  ${paymentPreference === 'day' ? 'Pay on the day' : 'Bank transfer'}\n` : '') +
+    `\nEstimate:\n${itemLines}\n\n` +
     `Estimate total: £${total}${hasQuotes ? ' + quote items' : ''}\n` +
     `Received: ${timestamp}\n\n` +
     `Admin: ${adminLink}`
@@ -160,7 +186,7 @@ export async function POST(req: NextRequest) {
   await Promise.all([
     notifyTelegram(telegramMsg),
     notifyEmail(emailSubject, emailBody),
-    sendCustomerConfirmation(customer.email, customer.name, items, total),
+    sendCustomerConfirmation(customer.email, customer.name, items, total, commsPref, paymentPreference),
   ])
 
   console.log('[order:new]', {

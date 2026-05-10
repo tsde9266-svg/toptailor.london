@@ -51,6 +51,18 @@ function OrderCard({ order }: { order: Order }) {
       <p className="font-sans text-[0.8125rem] text-muted mb-1">
         {order.customer.address}, {order.customer.postcode}
       </p>
+      <div className="flex items-center gap-2 flex-wrap mt-1">
+        {order.customer.paymentPreference && (
+          <span className="font-sans text-[0.625rem] uppercase tracking-wider px-1.5 py-0.5 rounded bg-hunter/10 text-hunter">
+            {order.customer.paymentPreference === 'bank' ? 'Bank' : 'Pay on day'}
+          </span>
+        )}
+        {order.customer.commsPref && (
+          <span className="font-sans text-[0.625rem] uppercase tracking-wider px-1.5 py-0.5 rounded bg-charcoal/10 text-charcoal">
+            {order.customer.commsPref === 'whatsapp' ? 'WhatsApp' : 'Email'}
+          </span>
+        )}
+      </div>
       <div className="flex items-center justify-between mt-3">
         <span className="font-sans text-[0.75rem] text-muted">
           {order.estimate.length} item{order.estimate.length !== 1 ? 's' : ''} · Estimate: {totalLabel}
@@ -100,16 +112,30 @@ export default async function AdminPage({
   return (
     <div className="min-h-screen bg-parchment">
       {/* Header */}
-      <div className="bg-hunter text-parchment px-6 py-4 flex items-center justify-between">
-        <span className="font-playfair text-[1.125rem]">One Click Tailor — Admin</span>
-        <form action={signOut}>
-          <button
-            type="submit"
-            className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/70 hover:text-parchment transition-colors"
+      <div className="bg-hunter text-parchment px-6 py-4 flex items-center justify-between gap-3 flex-wrap">
+        <span className="font-playfair text-[1.125rem]">Admin</span>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/admin/consultations"
+            className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors"
           >
-            Sign Out
-          </button>
-        </form>
+            Consultations
+          </Link>
+          <Link
+            href="/admin/log-call"
+            className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors"
+          >
+            + Log Call
+          </Link>
+          <form action={signOut}>
+            <button
+              type="submit"
+              className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/70 hover:text-parchment transition-colors px-2"
+            >
+              Sign Out
+            </button>
+          </form>
+        </div>
       </div>
 
       <div className="px-4 lg:px-8 py-8 max-w-3xl mx-auto">

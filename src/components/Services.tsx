@@ -119,14 +119,14 @@ export default function Services() {
             are a guide; specialist items are quoted on inspection. Minimum order £20.
           </p>
           <Link
-            href="/book"
+            href="/get-started/call"
             className="
               inline-block font-sans text-[0.6875rem] font-medium tracking-widest uppercase
               text-muted border-b border-divider pb-px
               hover:text-hunter transition-colors duration-200
             "
           >
-            Not sure? Book a consultation →
+            Not sure? Book a free call →
           </Link>
         </div>
 
@@ -259,13 +259,13 @@ export default function Services() {
             Not sure what you need?
           </p>
           <Link
-            href="/book"
+            href="/get-started/call"
             className="
               font-sans text-[0.8125rem] font-medium text-hunter
               underline underline-offset-4
             "
           >
-            Book a consultation →
+            Book a free call →
           </Link>
         </div>
       </div>

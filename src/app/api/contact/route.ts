@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { adminGreetingLink, normaliseUkPhone } from '@/lib/greeting'
 
 // ─── Telegram notification ────────────────────────────────────────────────────
 // Setup (2 min, completely free):
@@ -21,7 +22,7 @@ async function notifyEmail(subject: string, bodyText: string) {
       method:  'POST',
       headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from:    'One Click Tailor <onboarding@resend.dev>',
+        from:    'Fine Tailors <onboarding@resend.dev>',
         to:      [to],
         subject,
         text:    bodyText,
@@ -78,9 +79,9 @@ async function sendCustomerConfirmation(
     method:  'POST',
     headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      from:    'One Click Tailor <onboarding@resend.dev>',
+      from:    'Fine Tailors <onboarding@resend.dev>',
       to:      [to],
-      subject: 'We received your inquiry — One Click Tailor',
+      subject: 'We received your inquiry — Fine Tailors',
       text:
         `Hi ${name},\n\n` +
         `Thank you for getting in touch. We've received your inquiry and a specialist will contact you within a few hours.\n\n` +
@@ -90,7 +91,7 @@ async function sendCustomerConfirmation(
           ? `To help us plan your visit, please reply to this email with your full home or workplace address (including postcode) so we can confirm availability for your area.\n\n`
           : '') +
         `Questions in the meantime? Reply to this email or WhatsApp us directly.\n\n` +
-        `One Click Tailor`,
+        `Fine Tailors`,
     }),
   }).catch(() => {})
 }
@@ -119,11 +120,12 @@ export async function POST(req: NextRequest) {
   const postcode = String(body.postcode ?? '').trim()
   const notes    = String(body.notes    ?? '').trim()
 
-  const waPhone  = phone.replace(/\D/g, '').replace(/^0/, '44')
+  const waPhone      = phone ? normaliseUkPhone(phone)   : ''
+  const greetingLink = phone ? adminGreetingLink(phone)  : ''
 
   const emailSubject = `📋 New Inquiry — ${name}`
   const emailBody =
-    `New Inquiry — One Click Tailor\n${'─'.repeat(40)}\n` +
+    `New Inquiry — Fine Tailors\n${'─'.repeat(40)}\n` +
     `Name:     ${name}\nEmail:    ${email}\n` +
     (phone    ? `Phone:    ${phone}\n`    : '') +
     (service  ? `Service:  ${service}\n` : '') +
@@ -135,16 +137,17 @@ export async function POST(req: NextRequest) {
   await Promise.all([
     notifyEmail(emailSubject, emailBody),
     notifyTelegram(
-      `📋 <b>New One Click Tailor Inquiry</b>\n\n` +
+      `📋 <b>New Inquiry</b>\n\n` +
       `👤 <b>Name:</b> ${name}\n` +
       `📧 <b>Email:</b> ${email}\n` +
-      (phone    ? `📞 <b>Phone:</b> ${phone}\n`                                                          : '') +
-      (phone    ? `📱 <a href="https://wa.me/${waPhone}?text=Hi%20${encodeURIComponent(name)}%2C%20">Open WhatsApp</a>\n` : '') +
-      (service  ? `✂️ <b>Service:</b> ${service}\n`                                                     : '') +
-      (day      ? `📅 <b>Day:</b> ${day}\n`                                                              : '') +
-      (address  ? `🏠 <b>Address:</b> ${address}\n`                                                      : '') +
-      (postcode ? `📍 <b>Postcode:</b> ${postcode}\n`                                                    : '') +
-      (notes    ? `\n💬 <b>Notes:</b>\n${notes}`                                                         : '')
+      (phone    ? `📞 <b>Phone:</b> ${phone}\n`                                                  : '') +
+      (service  ? `✂️ <b>Service:</b> ${service}\n`                                              : '') +
+      (day      ? `📅 <b>Day:</b> ${day}\n`                                                       : '') +
+      (address  ? `🏠 <b>Address:</b> ${address}\n`                                               : '') +
+      (postcode ? `📍 <b>Postcode:</b> ${postcode}\n`                                             : '') +
+      (notes    ? `\n💬 <b>Notes:</b>\n${notes}\n`                                                : '') +
+      (greetingLink ? `\n👋 <a href="${greetingLink}">Send greeting on WhatsApp</a>\n`            : '') +
+      (waPhone      ? `💬 <a href="https://wa.me/${waPhone}">Open chat</a>`                       : '')
     ),
     sendCustomerConfirmation(email, name, address),
   ])

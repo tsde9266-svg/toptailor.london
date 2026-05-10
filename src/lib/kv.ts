@@ -29,11 +29,13 @@ export type Order = {
   status:        OrderStatus
   createdAt:     string
   customer: {
-    name:     string
-    email:    string
-    phone?:   string
-    address:  string
-    postcode: string
+    name:      string
+    email:     string
+    phone?:    string
+    address:   string
+    postcode:  string
+    commsPref?:          'whatsapp' | 'email'
+    paymentPreference?:  'day' | 'bank'
   }
   estimate: Array<{
     id:           string
@@ -71,6 +73,43 @@ export async function getAllOrders(): Promise<Order[]> {
   const orders = await Promise.all(ids.map(id => redis.get<Order>(`order:${id}`)))
   return orders
     .filter((o): o is Order => o !== null)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+}
+
+// ─── Phone Consultations ─────────────────────────────────────────────────────
+
+export type Consultation = {
+  id:        string
+  createdAt: string
+  name:      string
+  phone:     string
+  email?:    string
+  day?:      string
+  time?:     string
+  commsPref?: 'whatsapp' | 'email'
+  notes?:    string
+  status:    'pending_call' | 'called' | 'closed'
+}
+
+export async function saveConsultation(c: Consultation): Promise<void> {
+  await redis.set(`consultation:${c.id}`, c)
+  await redis.lpush('consultations', c.id)
+}
+
+export async function getConsultation(id: string): Promise<Consultation | null> {
+  return redis.get<Consultation>(`consultation:${id}`)
+}
+
+export async function updateConsultation(c: Consultation): Promise<void> {
+  await redis.set(`consultation:${c.id}`, c)
+}
+
+export async function getAllConsultations(): Promise<Consultation[]> {
+  const ids = await redis.lrange<string>('consultations', 0, -1)
+  if (!ids.length) return []
+  const list = await Promise.all(ids.map(id => redis.get<Consultation>(`consultation:${id}`)))
+  return list
+    .filter((c): c is Consultation => c !== null)
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 }
 

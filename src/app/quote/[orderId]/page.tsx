@@ -6,7 +6,7 @@ import ApprovePanel from './ApprovePanel'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Your Quote | One Click Tailor',
+  title: 'Your Quote | Fine Tailors',
   robots: { index: false, follow: false },
 }
 
@@ -53,7 +53,7 @@ export default async function QuotePage({
 
           {/* Header */}
           <p className="font-sans text-[0.6875rem] font-medium uppercase tracking-[0.3em] text-muted mb-2">
-            One Click Tailor
+            Fine Tailors
           </p>
           <h1 className="font-playfair text-[2rem] lg:text-[2.75rem] leading-[1.1] font-medium mb-4">
             Your Confirmed Quote
@@ -103,7 +103,15 @@ export default async function QuotePage({
               </p>
             </div>
           ) : (
-            <ApprovePanel orderId={order.id} total={quote.total} />
+            <ApprovePanel
+              orderId={order.id}
+              total={quote.total}
+              suggestedMethod={
+                customer.paymentPreference === 'bank' ? 'bank' :
+                customer.paymentPreference === 'day'  ? 'door' :
+                                                        null
+              }
+            />
           )}
 
           {/* What happens next (pre-approval) */}

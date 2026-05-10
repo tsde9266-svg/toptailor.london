@@ -5,12 +5,12 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'Suit Alterations at Home: What to Expect in London | One Click Tailor',
-  description: 'Everything you need to know about suit alterations at home in London. One Click Tailor visits Knightsbridge, Kensington & central London.',
-  alternates: { canonical: 'https://www.oneclicktailors.co.uk/blog/suit-alterations-at-home-london' },
+  title: 'Suit Alterations at Home: What to Expect in London | Fine Tailors',
+  description: 'Everything you need to know about suit alterations at home in London. Fine Tailors visits Knightsbridge, Kensington & central London.',
+  alternates: { canonical: 'https://www.finetailors.co.uk/blog/suit-alterations-at-home-london' },
   openGraph: {
     title: 'Suit Alterations at Home: What to Expect in London',
-    url: 'https://www.oneclicktailors.co.uk/blog/suit-alterations-at-home-london',
+    url: 'https://www.finetailors.co.uk/blog/suit-alterations-at-home-london',
   },
 }
 
@@ -18,14 +18,14 @@ const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
   headline: 'Suit Alterations at Home: What to Expect in London',
-  description: 'Everything you need to know about suit alterations at home in London. One Click Tailor visits Knightsbridge, Kensington & central London.',
-  image: 'https://www.oneclicktailors.co.uk/og-image.jpg',
-  author: { '@type': 'Organization', '@id': 'https://www.oneclicktailors.co.uk/#organization', name: 'One Click Tailor' },
-  publisher: { '@type': 'Organization', '@id': 'https://www.oneclicktailors.co.uk/#organization', name: 'One Click Tailor', logo: { '@type': 'ImageObject', url: 'https://www.oneclicktailors.co.uk/icon-512.png' } },
+  description: 'Everything you need to know about suit alterations at home in London. Fine Tailors visits Knightsbridge, Kensington & central London.',
+  image: 'https://www.finetailors.co.uk/og-image.jpg',
+  author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
+  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/icon-512.png' } },
   datePublished: '2026-03-17',
   dateModified: '2026-05-08',
-  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.oneclicktailors.co.uk/blog/suit-alterations-at-home-london' },
-  url: 'https://www.oneclicktailors.co.uk/blog/suit-alterations-at-home-london',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.finetailors.co.uk/blog/suit-alterations-at-home-london' },
+  url: 'https://www.finetailors.co.uk/blog/suit-alterations-at-home-london',
   keywords: 'suit alterations London, suit alterations at home, suit fitting home visit, mobile tailor suit London',
 }
 
@@ -33,9 +33,9 @@ const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailors.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailors.co.uk/blog' },
-    { '@type': 'ListItem', position: 3, name: 'Suit Alterations at Home', item: 'https://www.oneclicktailors.co.uk/blog/suit-alterations-at-home-london' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.finetailors.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.finetailors.co.uk/blog' },
+    { '@type': 'ListItem', position: 3, name: 'Suit Alterations at Home', item: 'https://www.finetailors.co.uk/blog/suit-alterations-at-home-london' },
   ],
 }
 
@@ -66,7 +66,7 @@ export default function Post2() {
           </h1>
 
           <p className="font-sans font-light text-lg text-muted leading-relaxed mb-8">
-            An off-the-rack suit that almost fits is one of the most common wardrobes problems in London — and one of the most fixable. With the right alterations, a suit that feels slightly wrong can become one that looks entirely bespoke. Here is exactly what to expect from a <strong>suit alterations home visit London</strong> with One Click Tailor.
+            An off-the-rack suit that almost fits is one of the most common wardrobes problems in London — and one of the most fixable. With the right alterations, a suit that feels slightly wrong can become one that looks entirely bespoke. Here is exactly what to expect from a <strong>suit alterations home visit London</strong> with Fine Tailors.
           </p>
 
           <h2 className="font-playfair text-2xl font-medium text-charcoal mb-4">Why Suit Fit Matters</h2>
@@ -111,7 +111,7 @@ export default function Post2() {
 
           <h2 className="font-playfair text-2xl font-medium text-charcoal mb-4">Designer and Luxury Suit Experience</h2>
           <p className="font-sans font-light text-muted leading-relaxed mb-8">
-            We regularly work with luxury and designer suits — from high-street premium labels to investment pieces from heritage tailoring houses. Every garment receives the same care, but we are particularly attentive with suits that have complex construction: full-canvas jackets, working buttonholes, or unusual fabrications. These require a tailor who understands what is inside the garment, not just what is on the surface. With over 10 years of experience, One Click Tailor brings that understanding to your door.
+            We regularly work with luxury and designer suits — from high-street premium labels to investment pieces from heritage tailoring houses. Every garment receives the same care, but we are particularly attentive with suits that have complex construction: full-canvas jackets, working buttonholes, or unusual fabrications. These require a tailor who understands what is inside the garment, not just what is on the surface. With over 10 years of experience, Fine Tailors bring that understanding to your door.
           </p>
 
           <p className="font-sans font-light text-muted leading-relaxed mb-12">

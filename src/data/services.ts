@@ -12,7 +12,25 @@ export type ServiceCategory = {
   items: SubItem[]
 }
 
+// Special item kept in code so it can be auto-added by the /book route and
+// referenced from the Get Started page without re-typing details.
+export const HOME_VISIT_ITEM = {
+  id:           'cs-home-visit',
+  categoryId:   'consultation',
+  categoryName: 'Consultation',
+  name:         'Home Visit Consultation',
+  price:        20,
+}
+
 export const services: ServiceCategory[] = [
+  {
+    id: 'consultation',
+    name: 'Consultation',
+    subtitle: 'Tailor visits your door',
+    items: [
+      { id: 'cs-home-visit', name: 'Home Visit Consultation — £20 (credited to your order)', price: 20 },
+    ],
+  },
   {
     id: 'trousers',
     name: 'Trousers & Jeans',

@@ -4,6 +4,7 @@ import Script from 'next/script'
 import '@/styles/globals.css'
 import WhatsAppButton  from '@/components/WhatsAppButton'
 import CartDrawer      from '@/components/CartDrawer'
+import CartFloat       from '@/components/CartFloat'
 import { CartProvider } from '@/context/CartContext'
 import CookieBanner    from '@/components/CookieBanner'
 
@@ -23,12 +24,12 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.oneclicktailors.co.uk'),
+  metadataBase: new URL('https://www.finetailors.co.uk'),
   title: {
-    template: '%s | One Click Tailor',
-    default: "Mobile Tailor London | Suit Alterations & Home Visits | One Click Tailor",
+    template: '%s | Fine Tailors',
+    default: "Mobile Tailor London | Suit Alterations & Home Visits | Fine Tailors",
   },
-  description: "One Click Tailor — London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations at your door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book your home visit today.",
+  description: "Fine Tailors — London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations at your door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book your home visit today.",
   keywords: [
     'mobile tailor London',
     'suit alterations London',
@@ -60,26 +61,26 @@ export const metadata: Metadata = {
     shortcut: '/favicon.ico',
     apple: [{ url: '/icon-192.png', sizes: '192x192', type: 'image/png' }],
   },
-  authors: [{ name: 'One Click Tailor' }],
-  creator: 'One Click Tailor',
+  authors: [{ name: 'Fine Tailors' }],
+  creator: 'Fine Tailors',
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   openGraph: {
     type: 'website',
     locale: 'en_GB',
-    url: 'https://www.oneclicktailors.co.uk',
-    siteName: 'One Click Tailor',
-    title: "Mobile Tailor London | Suit Alterations & Home Visits | One Click Tailor",
+    url: 'https://www.finetailors.co.uk',
+    siteName: 'Fine Tailors',
+    title: "Mobile Tailor London | Suit Alterations & Home Visits | Fine Tailors",
     description: 'Expert suit alterations, bespoke tailoring and clothing alterations at your London door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book your home visit today.',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'One Click Tailor — Mobile tailoring and suit alterations in central London' }],
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Fine Tailors — Mobile tailoring and suit alterations in central London' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Mobile Tailor London | Suit Alterations at Home | One Click Tailor",
+    title: "Mobile Tailor London | Suit Alterations at Home | Fine Tailors",
     description: 'Expert suit alterations, bespoke tailoring and clothing alterations at your door in Mayfair, Chelsea & central London.',
     images: ['/og-image.jpg'],
   },
   alternates: {
-    canonical: 'https://www.oneclicktailors.co.uk',
+    canonical: 'https://www.finetailors.co.uk',
   },
   other: {
     'geo.region':    'GB-ENG',
@@ -92,16 +93,16 @@ export const metadata: Metadata = {
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  '@id': 'https://www.oneclicktailors.co.uk/#website',
-  url: 'https://www.oneclicktailors.co.uk',
-  name: 'One Click Tailor',
+  '@id': 'https://www.finetailors.co.uk/#website',
+  url: 'https://www.finetailors.co.uk',
+  name: 'Fine Tailors',
   description: 'London\'s premier mobile tailoring service — expert suit alterations, bespoke tailoring and clothing alterations at your door.',
-  publisher: { '@id': 'https://www.oneclicktailors.co.uk/#business' },
+  publisher: { '@id': 'https://www.finetailors.co.uk/#business' },
   potentialAction: {
     '@type': 'SearchAction',
     target: {
       '@type': 'EntryPoint',
-      urlTemplate: 'https://www.oneclicktailors.co.uk/blog?q={search_term_string}',
+      urlTemplate: 'https://www.finetailors.co.uk/blog?q={search_term_string}',
     },
     'query-input': 'required name=search_term_string',
   },
@@ -110,14 +111,14 @@ const websiteSchema = {
 const orgSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  '@id': 'https://www.oneclicktailors.co.uk/#organization',
-  name: 'One Click Tailor',
-  alternateName: 'One Click Tailors',
-  url: 'https://www.oneclicktailors.co.uk',
-  logo: 'https://www.oneclicktailors.co.uk/icon-512.png',
-  image: 'https://www.oneclicktailors.co.uk/og-image.jpg',
+  '@id': 'https://www.finetailors.co.uk/#organization',
+  name: 'Fine Tailors',
+  alternateName: 'Fine Tailorss',
+  url: 'https://www.finetailors.co.uk',
+  logo: 'https://www.finetailors.co.uk/icon-512.png',
+  image: 'https://www.finetailors.co.uk/og-image.jpg',
   telephone: '+44 7438 145169',
-  description: 'One Click Tailor is a professional mobile tailoring service based in London. Specialising in suit alterations, bespoke tailoring and clothing alterations with home visits across central London since 2014.',
+  description: 'Fine Tailors are a professional mobile tailoring service based in London. Specialising in suit alterations, bespoke tailoring and clothing alterations with home visits across central London since 2014.',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'London',
@@ -143,14 +144,14 @@ const orgSchema = {
 const siteSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  '@id': 'https://www.oneclicktailors.co.uk/#business',
-  name: 'One Click Tailor',
-  alternateName: 'One Click Tailors',
-  url: 'https://www.oneclicktailors.co.uk',
+  '@id': 'https://www.finetailors.co.uk/#business',
+  name: 'Fine Tailors',
+  alternateName: 'Fine Tailorss',
+  url: 'https://www.finetailors.co.uk',
   telephone: '+44 7438 145169',
   priceRange: '££',
-  description: 'One Click Tailor is London\'s premier mobile tailoring service, offering expert suit alterations, bespoke tailoring and clothing alterations at your door. We visit homes and offices across Mayfair, Chelsea, Knightsbridge, Kensington, Belgravia and all central London postcodes.',
-  image: 'https://www.oneclicktailors.co.uk/og-image.jpg',
+  description: 'Fine Tailors are London\'s premier mobile tailoring service, offering expert suit alterations, bespoke tailoring and clothing alterations at your door. We visit homes and offices across Mayfair, Chelsea, Knightsbridge, Kensington, Belgravia and all central London postcodes.',
+  image: 'https://www.finetailors.co.uk/og-image.jpg',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'London',
@@ -215,6 +216,7 @@ export default function RootLayout({
         <CartProvider>
           {children}
           <CartDrawer />
+          <CartFloat />
           <WhatsAppButton />
           <CookieBanner />
         </CartProvider>

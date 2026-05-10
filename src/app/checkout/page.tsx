@@ -9,6 +9,8 @@ type Step = 'details' | 'book' | 'review' | 'done'
 
 const labelClass = 'block font-sans text-[0.75rem] uppercase tracking-widest mb-2 text-charcoal'
 
+const CHECKOUT_STORAGE_KEY = 'tt_checkout'
+
 export default function CheckoutPage() {
   const { items, total, count, clear } = useCart()
 
@@ -19,8 +21,72 @@ export default function CheckoutPage() {
   const [customer, setCustomer] = useState({
     name: '', email: '', phone: '', address: '', postcode: '',
   })
+  const [commsPref,         setCommsPref]         = useState<'whatsapp' | 'email' | ''>('')
+  const [paymentPreference, setPaymentPreference] = useState<'day' | 'bank' | ''>('')
+  const [bookedSlot,        setBookedSlot]        = useState(false)
+  const [hydrated,          setHydrated]          = useState(false)
 
   const hasQuoteItems = items.some(i => i.price === 0)
+
+  // ── Restore checkout state from localStorage ────────────────────────────────
+  // Survives page refresh + accidental navigation. Expires after 24h to avoid
+  // restoring a stale "bookedSlot=true" when the original Cal.com slot is past.
+  const STATE_TTL_MS = 24 * 60 * 60 * 1000
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(CHECKOUT_STORAGE_KEY)
+      if (raw) {
+        const saved = JSON.parse(raw)
+        const age   = Date.now() - (saved.savedAt ?? 0)
+        const fresh = age < STATE_TTL_MS
+
+        // Always restore form fields — typing them again is annoying.
+        if (saved.customer  && typeof saved.customer === 'object') setCustomer(saved.customer)
+        if (saved.commsPref)         setCommsPref(saved.commsPref)
+        if (saved.paymentPreference) setPaymentPreference(saved.paymentPreference)
+
+        // Step + bookedSlot are time-sensitive — only restore if fresh.
+        if (fresh) {
+          if (saved.step && ['details', 'book', 'review'].includes(saved.step)) setStep(saved.step)
+          if (saved.bookedSlot) setBookedSlot(true)
+        } else {
+          // Wipe stale step/booking flags so the user re-confirms a slot.
+          localStorage.removeItem(CHECKOUT_STORAGE_KEY)
+        }
+      }
+    } catch { /* ignore */ }
+    setHydrated(true)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // ── Persist on change ───────────────────────────────────────────────────────
+  useEffect(() => {
+    if (!hydrated) return
+    if (step === 'done') return // don't persist after completion
+    try {
+      localStorage.setItem(CHECKOUT_STORAGE_KEY, JSON.stringify({
+        customer, commsPref, paymentPreference, step, bookedSlot,
+        savedAt: Date.now(),
+      }))
+    } catch { /* ignore */ }
+  }, [customer, commsPref, paymentPreference, step, bookedSlot, hydrated])
+
+  // ── Detect Cal.com booking success ──────────────────────────────────────────
+  // Cal.com posts a window message when the booking completes — we use this to
+  // confirm the slot was actually booked before letting the user submit.
+  useEffect(() => {
+    function onMessage(e: MessageEvent) {
+      try {
+        const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data
+        const type = data?.type ?? data?.data?.type ?? ''
+        if (type === 'bookingSuccessful' || type === 'CAL:booking:created') {
+          setBookedSlot(true)
+        }
+      } catch { /* non-JSON message */ }
+    }
+    window.addEventListener('message', onMessage)
+    return () => window.removeEventListener('message', onMessage)
+  }, [])
 
   // ── Cal.com embed ─────────────────────────────────────────────────────────────
   // embed.js requires window.Cal to already exist as a command queue before it
@@ -35,11 +101,62 @@ export default function CheckoutPage() {
     function mountEmbed() {
       const el = document.getElementById('cal-checkout')
       if (el) el.innerHTML = ''
+
+      // Notes is now the source of truth for collection address (since the
+      // Cal.com event type's redundant custom address field has been removed).
+      // Format prominently so the tailor sees address at a glance.
+      const notes = [
+        '─── COLLECTION DETAILS ───',
+        customer.address  ? `📍 Address: ${customer.address}`           : '',
+        customer.postcode ? `   Postcode: ${customer.postcode}`         : '',
+        customer.phone    ? `📞 Phone: ${customer.phone}`               : '',
+      ].filter(Boolean).join('\n')
+
+      const fullAddress = [customer.address, customer.postcode]
+        .filter(Boolean).join(', ')
+
+      // Format UK phone as international (+447...) so Cal.com's intl input picks UK flag
+      const intlPhone = customer.phone
+        ? '+' + customer.phone.replace(/\D/g, '').replace(/^0/, '44')
+        : ''
+
+      const params = new URLSearchParams()
+      if (customer.name)  params.set('name',  customer.name)
+      if (customer.email) params.set('email', customer.email)
+      if (notes)          params.set('notes', notes)
+
+      // Try multiple slug variants for the phone field
+      if (intlPhone) {
+        params.set('phone',                intlPhone)
+        params.set('attendeePhoneNumber',  intlPhone)
+        params.set('phone-number',         intlPhone)
+        params.set('phoneNumber',          intlPhone)
+      }
+
+      // Try multiple slug variants for the address / "we come to you" field
+      if (fullAddress) {
+        params.set('location',             fullAddress)
+        params.set('address',              fullAddress)
+        params.set('home-address',         fullAddress)
+        params.set('your-address',         fullAddress)
+        params.set('we-come-to-you',       fullAddress)
+        params.set('full-address',         fullAddress)
+      }
+
+      const calLink = `toptailor/toptailor.london${params.toString() ? `?${params.toString()}` : ''}`
+
       w.Cal('init', { origin: 'https://cal.com' })
       w.Cal('inline', {
         elementOrSelector: '#cal-checkout',
-        calLink: 'toptailor/toptailor.london',
-        config: { name: customer.name, email: customer.email },
+        calLink,
+        config: {
+          name:                customer.name,
+          email:               customer.email,
+          phone:               intlPhone,
+          attendeePhoneNumber: intlPhone,
+          location:            fullAddress,
+          notes,
+        } as Record<string, string>,
         layout: 'month_view',
       })
       w.Cal('ui', {
@@ -95,7 +212,8 @@ export default function CheckoutPage() {
   }, [step])
 
   // ── Empty cart guard ──────────────────────────────────────────────────────────
-  if (count === 0 && step === 'details') {
+  // Wait for hydration so we don't flash this screen before localStorage restores cart.
+  if (hydrated && count === 0 && step === 'details') {
     return (
       <>
         <Navbar solid />
@@ -119,11 +237,13 @@ export default function CheckoutPage() {
       const res = await fetch('/api/order', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ customer, items, total }),
+        body: JSON.stringify({ customer, items, total, commsPref, paymentPreference }),
       })
       if (!res.ok) throw new Error('server error')
       clear()
       setStep('done')
+      // Wipe persisted checkout state — we're done.
+      try { localStorage.removeItem(CHECKOUT_STORAGE_KEY) } catch { /* ignore */ }
       // Fire Google Ads conversion — replace send_to with AW-TAGID/CONVERSIONLABEL
       // Find the label in Google Ads → Goals → Conversions → your "Collection Request" action
       if (typeof window !== 'undefined' && (window as any).gtag) {
@@ -211,13 +331,31 @@ export default function CheckoutPage() {
         </button>
       </form>
 
-      <div className="mt-6 text-center">
+      <div className="mt-6 text-center space-y-2">
         <Link
           href="/#services"
-          className="font-sans text-[0.75rem] text-muted hover:text-charcoal transition-colors"
+          className="block font-sans text-[0.75rem] text-muted hover:text-charcoal transition-colors"
         >
           ← Back to services
         </Link>
+        {(customer.name || customer.email || customer.address) && (
+          <button
+            type="button"
+            onClick={() => {
+              if (confirm('Clear all checkout details and start fresh?')) {
+                setCustomer({ name: '', email: '', phone: '', address: '', postcode: '' })
+                setCommsPref('')
+                setPaymentPreference('')
+                setBookedSlot(false)
+                setStep('details')
+                try { localStorage.removeItem(CHECKOUT_STORAGE_KEY) } catch {}
+              }
+            }}
+            className="font-sans text-[0.6875rem] text-muted hover:text-charcoal transition-colors underline underline-offset-2"
+          >
+            Clear and start fresh
+          </button>
+        )}
       </div>
     </div>
   )
@@ -249,21 +387,51 @@ export default function CheckoutPage() {
         </a>
       </p>
 
-      <div className="border border-divider p-6 text-center">
-        <p className="font-sans text-[0.875rem] text-charcoal mb-1">Booked your slot above?</p>
-        <p className="font-sans text-[0.75rem] text-muted mb-5">
-          Once you have confirmed your time in the calendar, click below.
-        </p>
+      <div className={`border p-6 text-center transition-colors ${bookedSlot ? 'border-hunter bg-hunter/5' : 'border-divider'}`}>
+        {bookedSlot ? (
+          <>
+            <div className="flex items-center justify-center gap-2 mb-1">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2A5220" strokeWidth="1.8">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
+              <p className="font-sans text-[0.875rem] text-hunter font-medium">Slot confirmed</p>
+            </div>
+            <p className="font-sans text-[0.75rem] text-muted mb-5">
+              Continue to review and submit your request.
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="font-sans text-[0.875rem] text-charcoal mb-1">Booked your slot above?</p>
+            <p className="font-sans text-[0.75rem] text-muted mb-5">
+              Pick a time in the calendar — once it shows confirmed, the button below will activate.
+            </p>
+          </>
+        )}
         <button
           onClick={() => setStep('review')}
+          disabled={!bookedSlot}
           className="
             bg-hunter text-parchment px-10 py-4
             font-sans text-[0.75rem] font-medium tracking-[0.2em] uppercase
             hover:bg-[#1E3D17] transition-colors duration-200
+            disabled:opacity-40 disabled:cursor-not-allowed
           "
         >
           Review & Submit →
         </button>
+        {!bookedSlot && (
+          <p className="font-sans text-[0.6875rem] text-muted mt-3">
+            Already booked but button is locked?{' '}
+            <button
+              type="button"
+              onClick={() => setBookedSlot(true)}
+              className="underline underline-offset-2 hover:text-charcoal"
+            >
+              Tap here to continue.
+            </button>
+          </p>
+        )}
       </div>
 
       <div className="mt-6 text-center">
@@ -338,6 +506,70 @@ export default function CheckoutPage() {
         </p>
       </div>
 
+      {/* Payment preference */}
+      <div className="mb-8">
+        <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-3">
+          How would you like to pay?
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {([
+            { value: 'day',  label: 'Pay on the day',     desc: 'Cash or card on collection' },
+            { value: 'bank', label: 'Bank transfer',      desc: 'We’ll send our details' },
+          ] as const).map(opt => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => setPaymentPreference(opt.value)}
+              className={`
+                py-4 px-5 text-left border transition-colors duration-150
+                font-sans text-[0.8125rem]
+                ${paymentPreference === opt.value
+                  ? 'border-hunter bg-hunter/5 text-hunter'
+                  : 'border-divider text-muted hover:border-charcoal hover:text-charcoal'
+                }
+              `}
+            >
+              <span className="block font-medium mb-0.5">{opt.label}</span>
+              <span className="block text-[0.75rem] opacity-70">{opt.desc}</span>
+            </button>
+          ))}
+        </div>
+        <p className="font-sans text-[0.6875rem] text-muted mt-2">
+          You only pay after approving your final quote — this just tells us how you prefer to settle up.
+        </p>
+      </div>
+
+      {/* Communication preference */}
+      <div className="mb-8">
+        <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-3">
+          How should we contact you after collection?
+        </p>
+        <div className="grid grid-cols-2 gap-3">
+          {(['whatsapp', 'email'] as const).map(pref => (
+            <button
+              key={pref}
+              type="button"
+              onClick={() => setCommsPref(pref)}
+              className={`
+                py-4 px-5 text-left border transition-colors duration-150
+                font-sans text-[0.8125rem]
+                ${commsPref === pref
+                  ? 'border-hunter bg-hunter/5 text-hunter'
+                  : 'border-divider text-muted hover:border-charcoal hover:text-charcoal'
+                }
+              `}
+            >
+              <span className="block font-medium capitalize mb-0.5">
+                {pref === 'whatsapp' ? 'WhatsApp' : 'Email'}
+              </span>
+              <span className="block text-[0.75rem] opacity-70">
+                {pref === 'whatsapp' ? 'Quick messages & updates' : 'Confirmations by email'}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {error && (
         <p className="font-sans text-sm text-red-600 bg-red-50 px-4 py-3 border border-red-200 mb-6">
           {error}
@@ -346,7 +578,7 @@ export default function CheckoutPage() {
 
       <button
         onClick={submitRequest}
-        disabled={loading}
+        disabled={loading || !commsPref || !paymentPreference}
         className="
           w-full bg-hunter text-parchment py-5
           font-sans text-[0.8125rem] font-medium tracking-[0.2em] uppercase
@@ -402,6 +634,23 @@ export default function CheckoutPage() {
           You only pay after approving the final quote.
         </p>
       </div>
+
+      {commsPref === 'whatsapp' && customer.phone && (
+        <div className="border border-divider p-5 mb-6 text-left">
+          <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-2">WhatsApp updates</p>
+          <p className="font-sans text-[0.875rem] text-charcoal mb-4">
+            We&apos;ll follow up on WhatsApp. You can also message us anytime:
+          </p>
+          <a
+            href={`https://wa.me/447438145169?text=Hi%2C%20I%27ve%20just%20submitted%20a%20collection%20request%20for%20${encodeURIComponent(customer.name)}.`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white py-3 font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase hover:bg-[#1fad53] transition-colors"
+          >
+            Open WhatsApp →
+          </a>
+        </div>
+      )}
 
       <Link href="/" className="
         inline-block bg-hunter text-parchment px-10 py-4

@@ -130,7 +130,7 @@ export default function Hero() {
           "
           style={{ animationDelay: '0.5s' }}
         >
-          Expert suit alterations, bespoke tailoring and clothing alterations — all at your London door. One Click Tailor visits your home across Mayfair, Chelsea, Knightsbridge and central London.
+          Expert suit alterations, bespoke tailoring and clothing alterations — all at your London door. Fine Tailors visit your home across Mayfair, Chelsea, Knightsbridge and central London.
         </p>
 
         {/* Subtext — mobile */}
@@ -154,7 +154,7 @@ export default function Hero() {
         >
           <a
             id="hero-cta"
-            href="/book"
+            href="/get-started"
             className="
               w-full lg:w-auto text-center
               bg-green-bright text-[#133a0b] lg:bg-hunter lg:text-parchment
@@ -163,7 +163,7 @@ export default function Hero() {
               hover:opacity-90 lg:hover:bg-[#1E3D17] transition-colors duration-200
             "
           >
-            BOOK A HOME VISIT
+            GET STARTED
           </a>
           <a
             href="#services"

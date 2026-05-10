@@ -4,7 +4,7 @@ import { useState } from 'react'
 const faqs = [
   {
     q: 'Do you come to my home?',
-    a: 'Yes — One Click Tailor visits your home, apartment or office anywhere in central London including Mayfair, Chelsea, Knightsbridge and Kensington. You never need to travel to us.',
+    a: 'Yes — Fine Tailors visit your home, apartment or office anywhere in central London including Mayfair, Chelsea, Knightsbridge and Kensington. You never need to travel to us.',
   },
   {
     q: 'Which areas do you cover?',
@@ -31,16 +31,16 @@ const faqs = [
     a: 'Yes. We regularly work with luxury and designer pieces including suits, gowns and occasion wear, handling each garment with the care and expertise it deserves.',
   },
   {
-    q: 'What makes One Click Tailor different from a shop?',
+    q: 'What makes Fine Tailors different from a shop?',
     a: 'We come to you. No travelling across London, no waiting rooms, no carrying garments on public transport. One dedicated tailor handles your clothes from collection to return.',
   },
   {
     q: 'Do you offer suit alterations in London?',
-    a: 'Yes — suit alterations are one of our most requested services. We collect your suit from your London home or office, make precise alterations to the jacket, trousers or waistcoat, and return everything perfectly fitted within 3–5 days. We cover all central London areas including Mayfair, Chelsea and Knightsbridge.',
+    a: 'Yes — suit alterations are one of our most requested services. Fine Tailors collect your suit from your London home or office, make precise alterations to the jacket, trousers or waistcoat, and return everything perfectly fitted within 3–5 days. We cover all central London areas including Mayfair, Chelsea and Knightsbridge.',
   },
   {
     q: 'Can I get a mobile tailor to come to my home in London?',
-    a: 'Absolutely — that is exactly what One Click Tailor does. Our mobile tailors visit homes, apartments and offices across central London. Whether you need suit alterations, dress alterations or a full bespoke fitting, simply book a home visit and we come to you.',
+    a: 'Absolutely — that is exactly what Fine Tailors do. Our mobile tailors visit homes, apartments and offices across central London. Whether you need suit alterations, dress alterations or a full bespoke fitting, simply book a home visit and we come to you.',
   },
 ]
 

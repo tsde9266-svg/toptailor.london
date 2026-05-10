@@ -5,12 +5,12 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'How Door-to-Door Tailoring Works in London | One Click Tailor',
-  description: 'Discover how One Click Tailor\'s door-to-door tailoring service works in London. We visit your home, collect your garments and return them perfectly altered.',
-  alternates: { canonical: 'https://www.oneclicktailors.co.uk/blog/how-door-to-door-tailoring-works-london' },
+  title: 'How Door-to-Door Tailoring Works in London | Fine Tailors',
+  description: 'Discover how Fine Tailors\'s door-to-door tailoring service works in London. We visit your home, collect your garments and return them perfectly altered.',
+  alternates: { canonical: 'https://www.finetailors.co.uk/blog/how-door-to-door-tailoring-works-london' },
   openGraph: {
     title: 'How Door-to-Door Tailoring Works in London',
-    url: 'https://www.oneclicktailors.co.uk/blog/how-door-to-door-tailoring-works-london',
+    url: 'https://www.finetailors.co.uk/blog/how-door-to-door-tailoring-works-london',
   },
 }
 
@@ -18,14 +18,14 @@ const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
   headline: 'How Door-to-Door Tailoring Works in London',
-  description: 'Discover how One Click Tailor\'s door-to-door tailoring service works in London. We visit your home, collect your garments and return them perfectly altered.',
-  image: 'https://www.oneclicktailors.co.uk/og-image.jpg',
-  author: { '@type': 'Organization', '@id': 'https://www.oneclicktailors.co.uk/#organization', name: 'One Click Tailor' },
-  publisher: { '@type': 'Organization', '@id': 'https://www.oneclicktailors.co.uk/#organization', name: 'One Click Tailor', logo: { '@type': 'ImageObject', url: 'https://www.oneclicktailors.co.uk/icon-512.png' } },
+  description: 'Discover how Fine Tailors\'s door-to-door tailoring service works in London. We visit your home, collect your garments and return them perfectly altered.',
+  image: 'https://www.finetailors.co.uk/og-image.jpg',
+  author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
+  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/icon-512.png' } },
   datePublished: '2026-03-10',
   dateModified: '2026-05-08',
-  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.oneclicktailors.co.uk/blog/how-door-to-door-tailoring-works-london' },
-  url: 'https://www.oneclicktailors.co.uk/blog/how-door-to-door-tailoring-works-london',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.finetailors.co.uk/blog/how-door-to-door-tailoring-works-london' },
+  url: 'https://www.finetailors.co.uk/blog/how-door-to-door-tailoring-works-london',
   keywords: 'door to door tailor London, mobile tailor London, home visit tailor, tailoring service London',
 }
 
@@ -33,9 +33,9 @@ const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailors.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailors.co.uk/blog' },
-    { '@type': 'ListItem', position: 3, name: 'How Door-to-Door Tailoring Works', item: 'https://www.oneclicktailors.co.uk/blog/how-door-to-door-tailoring-works-london' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.finetailors.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.finetailors.co.uk/blog' },
+    { '@type': 'ListItem', position: 3, name: 'How Door-to-Door Tailoring Works', item: 'https://www.finetailors.co.uk/blog/how-door-to-door-tailoring-works-london' },
   ],
 }
 
@@ -66,7 +66,7 @@ export default function Post1() {
           </h1>
 
           <p className="font-sans font-light text-lg text-muted leading-relaxed mb-8">
-            Traditional tailoring asks a lot of you. Travel across London, carry your garments, wait in a shop, return to collect — all while managing a busy life. The <strong>door-to-door tailor London</strong> model removes every one of those steps. Here is exactly how One Click Tailor service works, from the moment you book to the moment your clothes are returned.
+            Traditional tailoring asks a lot of you. Travel across London, carry your garments, wait in a shop, return to collect — all while managing a busy life. The <strong>door-to-door tailor London</strong> model removes every one of those steps. Here is exactly how Fine Tailors&apos; service works, from the moment you book to the moment your clothes are returned.
           </p>
 
           <h2 className="font-playfair text-2xl font-medium text-charcoal mb-4">The Problem with Traditional Tailors</h2>

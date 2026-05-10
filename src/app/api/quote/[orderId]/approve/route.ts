@@ -26,15 +26,15 @@ async function sendConfirmEmail(
     method: 'POST',
     headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      from:    'One Click Tailor <onboarding@resend.dev>',
+      from:    'Fine Tailors <onboarding@resend.dev>',
       to:      [to],
-      subject: 'Quote approved — One Click Tailor',
+      subject: 'Quote approved — Fine Tailors',
       text:
         `Hi ${name},\n\n` +
         `Your quote of £${total} has been approved. Thank you!\n\n` +
         `${payText}\n\n` +
         `We'll complete your alterations and be in touch to arrange return delivery.\n\n` +
-        `One Click Tailor`,
+        `Fine Tailors`,
     }),
   }).catch(() => {})
 }

@@ -8,25 +8,27 @@ import NeedleDivider from '@/components/NeedleDivider'
 import HowItWorks    from '@/components/HowItWorks'
 import About         from '@/components/About'
 import Reviews       from '@/components/Reviews'
-import BookingForm   from '@/components/BookingForm'
+// Commented out — superseded by the unified /get-started flow.
+// To re-enable: uncomment this import + the <BookingForm /> usage below.
+// import BookingForm   from '@/components/BookingForm'
 import StickyBar     from '@/components/StickyBar'
 import Footer        from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 import { getAllReviews } from '@/lib/kv'
 
 export const metadata: Metadata = {
-  title: "Mobile Tailor London | Suit Alterations & Home Visits | One Click Tailor",
-  description: "One Click Tailor — London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations at your door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book your home visit today.",
-  alternates: { canonical: 'https://www.oneclicktailors.co.uk' },
+  title: "Mobile Tailor London | Suit Alterations & Home Visits | Fine Tailors",
+  description: "Fine Tailors — London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations at your door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book your home visit today.",
+  alternates: { canonical: 'https://www.finetailors.co.uk' },
 }
 
 const speakableSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  '@id': 'https://www.oneclicktailors.co.uk/#webpage',
-  url: 'https://www.oneclicktailors.co.uk',
-  name: "Mobile Tailor London | Suit Alterations & Home Visits | One Click Tailor",
-  description: "One Click Tailor is London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations collected from your home across Mayfair, Chelsea, Knightsbridge and central London.",
+  '@id': 'https://www.finetailors.co.uk/#webpage',
+  url: 'https://www.finetailors.co.uk',
+  name: "Mobile Tailor London | Suit Alterations & Home Visits | Fine Tailors",
+  description: "Fine Tailors is London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations collected from your home across Mayfair, Chelsea, Knightsbridge and central London.",
   speakable: {
     '@type': 'SpeakableSpecification',
     cssSelector: ['h1', '.hero-intro', '#services-intro'],
@@ -34,7 +36,7 @@ const speakableSchema = {
   breadcrumb: {
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailors.co.uk' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.finetailors.co.uk' },
     ],
   },
 }
@@ -43,7 +45,7 @@ const howToSchema = {
   '@context': 'https://schema.org',
   '@type': 'HowTo',
   name: 'How to Book a Mobile Tailor in London',
-  description: 'Book One Click Tailor for suit alterations, dress alterations or bespoke tailoring at your London home or office.',
+  description: 'Book Fine Tailors for suit alterations, dress alterations or bespoke tailoring at your London home or office.',
   totalTime: 'PT5D',
   step: [
     {
@@ -51,7 +53,7 @@ const howToSchema = {
       position: 1,
       name: 'Book a Collection Slot',
       text: 'Choose your services and book a home visit slot. We come to your home or office anywhere in central London — no travel required.',
-      url: 'https://www.oneclicktailors.co.uk/book',
+      url: 'https://www.finetailors.co.uk/book',
     },
     {
       '@type': 'HowToStep',
@@ -141,7 +143,7 @@ export default async function Home() {
         <About />
         <Reviews reviews={reviews} />
         <FAQ />
-        <BookingForm />
+        {/* <BookingForm />  ← Inquiry form, paused. The unified /get-started flow replaces it. */}
       </main>
 
       <Footer />

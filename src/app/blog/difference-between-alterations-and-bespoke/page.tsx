@@ -5,12 +5,12 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'The Difference Between Alterations and Bespoke Tailoring | One Click Tailor',
-  description: 'Not sure whether you need alterations or bespoke tailoring? One Click Tailor explains the difference and helps you choose the right service in London.',
-  alternates: { canonical: 'https://www.oneclicktailors.co.uk/blog/difference-between-alterations-and-bespoke' },
+  title: 'The Difference Between Alterations and Bespoke Tailoring | Fine Tailors',
+  description: 'Not sure whether you need alterations or bespoke tailoring? Fine Tailors explains the difference and helps you choose the right service in London.',
+  alternates: { canonical: 'https://www.finetailors.co.uk/blog/difference-between-alterations-and-bespoke' },
   openGraph: {
     title: 'The Difference Between Alterations and Bespoke Tailoring',
-    url: 'https://www.oneclicktailors.co.uk/blog/difference-between-alterations-and-bespoke',
+    url: 'https://www.finetailors.co.uk/blog/difference-between-alterations-and-bespoke',
   },
 }
 
@@ -18,14 +18,14 @@ const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
   headline: 'The Difference Between Alterations and Bespoke Tailoring',
-  description: 'Not sure whether you need alterations or bespoke tailoring? One Click Tailor explains the difference and helps you choose the right service in London.',
-  image: 'https://www.oneclicktailors.co.uk/og-image.jpg',
-  author: { '@type': 'Organization', '@id': 'https://www.oneclicktailors.co.uk/#organization', name: 'One Click Tailor' },
-  publisher: { '@type': 'Organization', '@id': 'https://www.oneclicktailors.co.uk/#organization', name: 'One Click Tailor', logo: { '@type': 'ImageObject', url: 'https://www.oneclicktailors.co.uk/icon-512.png' } },
+  description: 'Not sure whether you need alterations or bespoke tailoring? Fine Tailors explains the difference and helps you choose the right service in London.',
+  image: 'https://www.finetailors.co.uk/og-image.jpg',
+  author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
+  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/icon-512.png' } },
   datePublished: '2026-04-01',
   dateModified: '2026-05-08',
-  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.oneclicktailors.co.uk/blog/difference-between-alterations-and-bespoke' },
-  url: 'https://www.oneclicktailors.co.uk/blog/difference-between-alterations-and-bespoke',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.finetailors.co.uk/blog/difference-between-alterations-and-bespoke' },
+  url: 'https://www.finetailors.co.uk/blog/difference-between-alterations-and-bespoke',
   keywords: 'alterations vs bespoke tailoring, clothing alterations London, bespoke suit London, made to measure London',
 }
 
@@ -33,9 +33,9 @@ const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.oneclicktailors.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.oneclicktailors.co.uk/blog' },
-    { '@type': 'ListItem', position: 3, name: 'Alterations vs Bespoke', item: 'https://www.oneclicktailors.co.uk/blog/difference-between-alterations-and-bespoke' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.finetailors.co.uk' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.finetailors.co.uk/blog' },
+    { '@type': 'ListItem', position: 3, name: 'Alterations vs Bespoke', item: 'https://www.finetailors.co.uk/blog/difference-between-alterations-and-bespoke' },
   ],
 }
 
@@ -104,9 +104,9 @@ export default function Post4() {
             Alterations are significantly less expensive than bespoke. A jacket alteration might start from £X; a full bespoke suit starts from £X and can run considerably higher depending on fabric and construction. For most people, alterations deliver the majority of the benefit at a fraction of the cost. The question to ask is: does the garment itself have good bones? If the fabric and construction are sound, and the proportions are broadly right, alterations will transform it.
           </p>
 
-          <h2 className="font-playfair text-2xl font-medium text-charcoal mb-4">One Click Tailor Does Both — At Your Door</h2>
+          <h2 className="font-playfair text-2xl font-medium text-charcoal mb-4">Fine Tailors Do Both — At Your Door</h2>
           <p className="font-sans font-light text-muted leading-relaxed mb-8">
-            Whether you need a wardrobe full of garments altered or a single bespoke commission, One Click Tailor delivers both services at your home across central London. Our visiting model means no travel, no inconvenience, and the full attention of an experienced tailor in your own space. If you are unsure which service you need, the home assessment will make it clear — we will advise honestly based on what your wardrobe requires.
+            Whether you need a wardrobe full of garments altered or a single bespoke commission, Fine Tailors deliver both services at your home across central London. Our visiting model means no travel, no inconvenience, and the full attention of an experienced tailor in your own space. If you are unsure which service you need, the home assessment will make it clear — we will advise honestly based on what your wardrobe requires.
           </p>
 
           <div className="border-t border-divider pt-10">

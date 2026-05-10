@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { useCart } from '@/context/CartContext'
 
 const navLinks = [
-  { label: 'SERVICES', href: '#services' },
-  { label: 'ABOUT',    href: '#about'    },
-  { label: 'BOOK',     href: '/book'     },
+  { label: 'SERVICES',     href: '#services'     },
+  { label: 'ABOUT',        href: '#about'        },
+  { label: 'GET STARTED',  href: '/get-started'  },
 ]
 
 function CartIcon({ light }: { light: boolean }) {
@@ -102,7 +102,7 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
             ${light ? 'text-charcoal' : 'text-parchment lg:text-charcoal'}
           `}
         >
-          ONE CLICK TAILOR
+          FINE TAILORS
         </Link>
 
         {/* ── Desktop nav links ── */}
@@ -125,7 +125,7 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
         <div className="hidden lg:flex items-center gap-4">
           <CartIcon light={true} />
         <Link
-          href="/book"
+          href="/get-started"
           className="
             hidden lg:inline-block
             bg-hunter text-parchment
@@ -134,7 +134,7 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
             hover:bg-[#1E3D17] transition-colors duration-200
           "
         >
-          BOOK A HOME VISIT
+          GET STARTED
         </Link>
         </div>
 
@@ -183,7 +183,7 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
           </a>
 
           <Link
-            href="/book"
+            href="/get-started"
             onClick={() => setMenuOpen(false)}
             className="
               mt-6 bg-hunter text-parchment
@@ -191,7 +191,7 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
               font-sans text-[0.8125rem] font-medium tracking-[0.2em] uppercase
             "
           >
-            BOOK A HOME VISIT
+            GET STARTED
           </Link>
         </div>
       )}

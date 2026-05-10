@@ -4,9 +4,9 @@ import Footer from '@/components/Footer'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — One Click Tailor',
-  description: 'Privacy policy for One Click Tailor. How we collect, use and protect your personal data.',
-  alternates: { canonical: 'https://www.oneclicktailors.co.uk/privacy' },
+  title: 'Privacy Policy — Fine Tailors',
+  description: 'Privacy policy for Fine Tailors. How we collect, use and protect your personal data.',
+  alternates: { canonical: 'https://www.finetailors.co.uk/privacy' },
   robots: { index: true, follow: true },
 }
 
@@ -43,7 +43,7 @@ export default function PrivacyPage() {
           </p>
 
           <Section title="1. Who We Are">
-            <p>One Click Tailor is a door-to-door tailoring and alteration service operating in central London. We are the data controller for personal information collected through this website and in the course of providing our services.</p>
+            <p>Fine Tailors is a door-to-door tailoring and alteration service operating in central London. We are the data controller for personal information collected through this website and in the course of providing our services.</p>
           </Section>
 
           <Section title="2. What Data We Collect">

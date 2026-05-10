@@ -3,9 +3,9 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Page Not Found — One Click Tailor',
+  title: 'Page Not Found — Fine Tailors',
   description:
-    "The page you're looking for doesn't exist. Return to One Click Tailor for expert tailoring and alterations in central London.",
+    "The page you're looking for doesn't exist. Return to Fine Tailors for expert tailoring and alterations in central London.",
   robots: {
     index: false,
     follow: false,

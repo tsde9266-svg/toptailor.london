@@ -1,10 +1,12 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = 'https://www.oneclicktailors.co.uk'
+  const base = 'https://www.finetailors.co.uk'
   return [
     { url: base,                                                               lastModified: new Date(), changeFrequency: 'daily',   priority: 1.0 },
-    { url: `${base}/book`,                                                     lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
+    { url: `${base}/get-started`,                                              lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.95 },
+    { url: `${base}/get-started/call`,                                         lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.85 },
+    { url: `${base}/book`,                                                     lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.85 },
     { url: `${base}/tailor-mayfair`,                                           lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${base}/tailor-chelsea`,                                           lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${base}/tailor-knightsbridge`,                                     lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },

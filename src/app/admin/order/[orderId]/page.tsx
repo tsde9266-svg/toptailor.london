@@ -95,6 +95,12 @@ export default async function OrderDetailPage({
               ['Email',   order.customer.email],
               ['Phone',   order.customer.phone ?? '—'],
               ['Address', `${order.customer.address}, ${order.customer.postcode}`],
+              ['Contact', order.customer.commsPref
+                ? (order.customer.commsPref === 'whatsapp' ? 'WhatsApp' : 'Email')
+                : '—'],
+              ['Payment', order.customer.paymentPreference
+                ? (order.customer.paymentPreference === 'bank' ? 'Bank Transfer' : 'Pay on the day')
+                : '—'],
             ].map(([label, val]) => (
               <div key={label} className="flex gap-4">
                 <span className="font-sans text-[0.8125rem] text-muted w-16 flex-shrink-0">{label}</span>
@@ -102,6 +108,29 @@ export default async function OrderDetailPage({
               </div>
             ))}
           </div>
+          {order.customer.phone && (
+            <div className="flex gap-3 mt-4 pt-4 border-t border-divider">
+              <a
+                href={`https://wa.me/${order.customer.phone.replace(/\D/g, '').replace(/^0/, '44')}?text=Hi%20${encodeURIComponent(order.customer.name)}%2C%20`}
+                target="_blank" rel="noopener noreferrer"
+                className="flex-1 text-center bg-[#25D366] text-white py-2 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:bg-[#1fad53] transition-colors"
+              >
+                WhatsApp
+              </a>
+              <a
+                href={`tel:${order.customer.phone}`}
+                className="flex-1 text-center border border-charcoal text-charcoal py-2 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:bg-charcoal hover:text-parchment transition-colors"
+              >
+                Call
+              </a>
+              <a
+                href={`mailto:${order.customer.email}`}
+                className="flex-1 text-center border border-charcoal text-charcoal py-2 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:bg-charcoal hover:text-parchment transition-colors"
+              >
+                Email
+              </a>
+            </div>
+          )}
         </div>
 
         {/* Customer's estimate */}

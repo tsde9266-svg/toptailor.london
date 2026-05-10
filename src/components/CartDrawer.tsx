@@ -127,7 +127,7 @@ export default function CartDrawer() {
                 hover:bg-[#1E3D17] transition-colors duration-200
               "
             >
-              {onCheckout ? 'Continue Below ↓' : 'Request Collection →'}
+              {onCheckout ? 'Continue Below ↓' : 'Continue to Checkout →'}
             </button>
 
             {/* Clear */}
