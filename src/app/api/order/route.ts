@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { saveOrder } from '@/lib/kv'
 import type { Order } from '@/lib/kv'
 import { adminGreetingLink, normaliseUkPhone } from '@/lib/greeting'
+import { sendMail } from '@/lib/mail'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.finetailors.co.uk'
 
@@ -25,24 +26,14 @@ async function notifyTelegram(text: string) {
   }
 }
 
-// ─── Email via Resend ─────────────────────────────────────────────────────────
+// ─── Admin notification email via Resend ──────────────────────────────────────
 async function notifyEmail(subject: string, body: string) {
-  const apiKey = process.env.RESEND_API_KEY
-  const to     = process.env.NOTIFICATION_EMAIL
-  if (!apiKey || !to) return
+  const to = process.env.NOTIFICATION_EMAIL
+  if (!to) return
   try {
-    await fetch('https://api.resend.com/emails', {
-      method:  'POST',
-      headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        from:    'Fine Tailors <onboarding@resend.dev>',
-        to:      [to],
-        subject,
-        text:    body,
-      }),
-    })
+    await sendMail({ to, subject, text: body })
   } catch (e) {
-    console.error('[email] failed', e)
+    console.error('[email] admin notify failed', e)
   }
 }
 
@@ -54,19 +45,14 @@ async function sendCustomerConfirmation(
   commsPref: string,
   paymentPreference: string,
 ) {
-  const apiKey = process.env.RESEND_API_KEY
-  if (!apiKey) return
   const hasQuotes  = items.some(i => i.price === 0)
   const itemLines  = items.map(i =>
     `  • ${i.name}${i.price === 0 ? ' — Quote' : ` — £${i.price}`}`
   ).join('\n')
 
-  await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from:    'Fine Tailors <onboarding@resend.dev>',
-      to:      [to],
+  try {
+    await sendMail({
+      to,
       subject: 'Collection request received — Fine Tailors',
       text:
         `Hi ${name},\n\n` +
@@ -91,8 +77,10 @@ async function sendCustomerConfirmation(
             `• WhatsApp: wa.me/447438145169\n\n`
           : `Questions? Reply to this email or WhatsApp us at wa.me/447438145169\n\n`) +
         `Fine Tailors`,
-    }),
-  }).catch(() => {})
+    })
+  } catch (e) {
+    console.error('[email] customer confirmation failed', e)
+  }
 }
 
 // ─── POST /api/order ──────────────────────────────────────────────────────────

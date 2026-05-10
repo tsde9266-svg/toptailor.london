@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getOrder, updateOrder } from '@/lib/kv'
 import type { QuoteItem } from '@/lib/kv'
+import { sendMail } from '@/lib/mail'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.finetailors.co.uk'
 
@@ -15,9 +16,6 @@ function isAdmin(req: NextRequest): boolean {
 async function sendQuoteEmail(
   to: string, name: string, orderId: string, items: QuoteItem[], total: number, notes?: string
 ) {
-  const apiKey = process.env.RESEND_API_KEY
-  if (!apiKey) return
-
   const rows = items.map(i =>
     `<tr><td style="padding:8px 0;font-family:Georgia,serif;font-size:15px;color:#2C2C2C;">${i.name}</td><td style="padding:8px 0;text-align:right;font-family:Georgia,serif;font-size:15px;color:#2A5220;font-weight:600;">£${i.price}</td></tr>`
   ).join('')
@@ -51,15 +49,10 @@ async function sendQuoteEmail(
     </div>
   `
 
-  await fetch('https://api.resend.com/emails', {
-    method:  'POST',
-    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from:    'Fine Tailors <onboarding@resend.dev>',
-      to:      [to],
-      subject: `Your confirmed quote — Fine Tailors`,
-      html,
-    }),
+  await sendMail({
+    to,
+    subject: `Your confirmed quote — Fine Tailors`,
+    html,
   })
 }
 
@@ -114,22 +107,38 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Failed to save quote' }, { status: 503 })
   }
 
-  // Send email to customer
+  // Send email to customer. The quote is *already* saved in KV, so an email
+  // failure shouldn't lose the work — instead we report it back so admin
+  // knows to follow up manually (and so the UI doesn't show a false "✓ Sent").
+  let emailSent: boolean = true
+  let emailError: string | undefined
   try {
     await sendQuoteEmail(order.customer.email, order.customer.name, orderId, items, total, notes || undefined)
   } catch (e) {
-    console.error('[quote] email failed', e)
+    emailSent = false
+    emailError = e instanceof Error ? e.message : String(e)
+    console.error('[quote] email failed', emailError)
   }
 
   // Notify tailor on Telegram
   const ts = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })
   await notifyTelegram(
-    `📤 <b>Quote Sent</b> — ${order.customer.name}\n\n` +
+    (emailSent
+      ? `📤 <b>Quote Sent</b> — ${order.customer.name}\n\n`
+      : `⚠️ <b>Quote saved — EMAIL FAILED</b> — ${order.customer.name}\n\n`) +
     `💰 <b>Total:</b> £${total}\n` +
     `📧 <b>To:</b> ${order.customer.email}\n` +
-    `⏱ <b>Sent:</b> ${ts}\n\n` +
-    `Waiting for customer approval.`
+    `⏱ <b>Sent:</b> ${ts}\n` +
+    (emailSent
+      ? `\nWaiting for customer approval.`
+      : `\n<b>Send the link manually:</b>\n${BASE_URL}/quote/${orderId}\n\n<i>Reason:</i> ${emailError ?? 'unknown'}`)
   )
 
-  return NextResponse.json({ ok: true })
+  const quoteLink = `${BASE_URL}/quote/${orderId}`
+  return NextResponse.json({
+    ok: true,
+    emailSent,
+    emailError,
+    quoteLink,
+  })
 }

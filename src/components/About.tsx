@@ -78,7 +78,7 @@ export default function About() {
             hover:bg-[#1E3D17] transition-colors duration-200
           "
         >
-          BOOK A FREE HOME VISIT
+          BOOK A HOME VISIT
         </a>
       </div>
     </section>

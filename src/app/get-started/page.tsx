@@ -98,10 +98,9 @@ export default function GetStartedPage() {
           {/* Quick add: Home Visit only */}
           <div className="mt-10 border border-divider bg-parchment p-6 lg:p-8 flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8">
             <div className="flex-1">
-              <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-1">Quick path</p>
-              <p className="font-playfair text-[1.125rem] mb-1">Just want a Home Visit?</p>
-              <p className="font-sans font-light text-[0.875rem] text-muted">
-                Skip the catalogue — we&apos;ll add a £20 home visit to your order and take you straight to checkout.
+              <p className="font-playfair text-[1.25rem] mb-2">Home Visit</p>
+              <p className="font-sans font-light text-[0.875rem] text-muted leading-relaxed">
+                We can send a tailor to your door for a charge of only £20. Please note if you agree with the consultation and give us clothing to alter, the £20 will be credited onto the final amount.
               </p>
             </div>
             <GetStartedQuickAdd />

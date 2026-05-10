@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { saveConsultation } from '@/lib/kv'
 import type { Consultation } from '@/lib/kv'
 import { adminGreetingLink, normaliseUkPhone } from '@/lib/greeting'
+import { sendMail } from '@/lib/mail'
 
 function uuid() {
   return crypto.randomUUID()
@@ -76,55 +77,44 @@ export async function POST(req: NextRequest) {
     `💬 <a href="https://wa.me/${waPhone}">Open chat</a>\n` +
     `📞 <a href="tel:${phone}">Call now</a>`
 
-  const apiKey     = process.env.RESEND_API_KEY
   const adminEmail = process.env.NOTIFICATION_EMAIL
 
   await Promise.all([
     notifyTelegram(telegramMsg),
 
     // Admin email
-    apiKey && adminEmail
-      ? fetch('https://api.resend.com/emails', {
-          method:  'POST',
-          headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            from:    'Fine Tailors <onboarding@resend.dev>',
-            to:      [adminEmail],
-            subject: `📞 Phone Consultation — ${name}`,
-            text:
-              `Phone Consultation Request\n${'─'.repeat(40)}\n` +
-              `Name:  ${name}\nPhone: ${phone}\n` +
-              (email   ? `Email: ${email}\n`              : '') +
-              (slotStr ? `Best time: ${slotStr}\n`        : '') +
-              (commsPref ? `Contact pref: ${commsPref}\n` : '') +
-              `Received: ${timestamp}`,
-          }),
-        }).catch(() => {})
+    adminEmail
+      ? sendMail({
+          to: adminEmail,
+          subject: `📞 Phone Consultation — ${name}`,
+          text:
+            `Phone Consultation Request\n${'─'.repeat(40)}\n` +
+            `Name:  ${name}\nPhone: ${phone}\n` +
+            (email   ? `Email: ${email}\n`              : '') +
+            (slotStr ? `Best time: ${slotStr}\n`        : '') +
+            (commsPref ? `Contact pref: ${commsPref}\n` : '') +
+            `Received: ${timestamp}`,
+        }).catch((e) => console.error('[phone-consultation] admin email failed', e))
       : Promise.resolve(),
 
     // Customer confirmation email (only if they gave an email)
-    apiKey && email
-      ? fetch('https://api.resend.com/emails', {
-          method:  'POST',
-          headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            from:    'Fine Tailors <onboarding@resend.dev>',
-            to:      [email],
-            subject: 'We\'ll call you — Fine Tailors',
-            text:
-              `Hi ${name},\n\n` +
-              `We've received your callback request. A Fine Tailors specialist will call you at ${phone}` +
-              (slotStr ? ` during: ${slotStr}` : '') + `.\n\n` +
-              `What to expect on the call:\n` +
-              `• We'll discuss your tailoring needs\n` +
-              `• Recommend the right service for you\n` +
-              `• Answer any questions you have — no obligation\n\n` +
-              `Need us sooner?\n` +
-              `• WhatsApp: wa.me/447438145169\n` +
-              `• Phone: +44 7438 145169\n\n` +
-              `Fine Tailors`,
-          }),
-        }).catch(() => {})
+    email
+      ? sendMail({
+          to: email,
+          subject: 'We\'ll call you — Fine Tailors',
+          text:
+            `Hi ${name},\n\n` +
+            `We've received your callback request. A Fine Tailors specialist will call you at ${phone}` +
+            (slotStr ? ` during: ${slotStr}` : '') + `.\n\n` +
+            `What to expect on the call:\n` +
+            `• We'll discuss your tailoring needs\n` +
+            `• Recommend the right service for you\n` +
+            `• Answer any questions you have — no obligation\n\n` +
+            `Need us sooner?\n` +
+            `• WhatsApp: wa.me/447438145169\n` +
+            `• Phone: +44 7438 145169\n\n` +
+            `Fine Tailors`,
+        }).catch((e) => console.error('[phone-consultation] customer email failed', e))
       : Promise.resolve(),
   ])
 

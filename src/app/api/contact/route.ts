@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { adminGreetingLink, normaliseUkPhone } from '@/lib/greeting'
+import { sendMail } from '@/lib/mail'
 
 // ─── Telegram notification ────────────────────────────────────────────────────
 // Setup (2 min, completely free):
@@ -14,22 +15,12 @@ import { adminGreetingLink, normaliseUkPhone } from '@/lib/greeting'
 //   5. Redeploy — done. You'll get an instant Telegram ping for every inquiry.
 // ─────────────────────────────────────────────────────────────────────────────
 async function notifyEmail(subject: string, bodyText: string) {
-  const apiKey = process.env.RESEND_API_KEY
-  const to     = process.env.NOTIFICATION_EMAIL
-  if (!apiKey || !to) return
+  const to = process.env.NOTIFICATION_EMAIL
+  if (!to) return
   try {
-    await fetch('https://api.resend.com/emails', {
-      method:  'POST',
-      headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        from:    'Fine Tailors <onboarding@resend.dev>',
-        to:      [to],
-        subject,
-        text:    bodyText,
-      }),
-    })
+    await sendMail({ to, subject, text: bodyText })
   } catch (e) {
-    console.error('[email] failed', e)
+    console.error('[email] admin notify failed', e)
   }
 }
 
@@ -70,17 +61,11 @@ async function sendCustomerConfirmation(
   name: string,
   address: string,
 ) {
-  const apiKey = process.env.RESEND_API_KEY
-  if (!apiKey) return
-
   const needsAddress = !address.trim()
 
-  await fetch('https://api.resend.com/emails', {
-    method:  'POST',
-    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from:    'Fine Tailors <onboarding@resend.dev>',
-      to:      [to],
+  try {
+    await sendMail({
+      to,
       subject: 'We received your inquiry — Fine Tailors',
       text:
         `Hi ${name},\n\n` +
@@ -92,8 +77,10 @@ async function sendCustomerConfirmation(
           : '') +
         `Questions in the meantime? Reply to this email or WhatsApp us directly.\n\n` +
         `Fine Tailors`,
-    }),
-  }).catch(() => {})
+    })
+  } catch (e) {
+    console.error('[email] customer confirmation failed', e)
+  }
 }
 
 // ─── POST /api/contact ────────────────────────────────────────────────────────

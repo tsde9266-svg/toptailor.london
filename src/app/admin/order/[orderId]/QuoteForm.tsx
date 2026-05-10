@@ -16,10 +16,13 @@ export default function QuoteForm({ order }: { order: Order }) {
       needsPrice: e.price === 0,
     }))
   )
-  const [notes,   setNotes]   = useState('')
-  const [loading, setLoading] = useState(false)
-  const [sent,    setSent]    = useState(false)
-  const [error,   setError]   = useState('')
+  const [notes,        setNotes]        = useState('')
+  const [loading,      setLoading]      = useState(false)
+  const [sent,         setSent]         = useState(false)
+  const [emailSent,    setEmailSent]    = useState(true)
+  const [emailError,   setEmailError]   = useState('')
+  const [quoteLink,    setQuoteLink]    = useState('')
+  const [error,        setError]        = useState('')
 
   const total = items.reduce((sum, i) => sum + (Number(i.price) || 0), 0)
 
@@ -66,6 +69,10 @@ export default function QuoteForm({ order }: { order: Order }) {
         const data = await res.json().catch(() => ({}))
         setError(data.error ?? 'Failed to send quote. Try again.')
       } else {
+        const data = await res.json().catch(() => ({}))
+        setEmailSent(data.emailSent !== false)
+        setEmailError(data.emailError ?? '')
+        setQuoteLink(data.quoteLink ?? '')
         setSent(true)
       }
     } catch {
@@ -76,6 +83,59 @@ export default function QuoteForm({ order }: { order: Order }) {
   }
 
   if (sent) {
+    if (!emailSent) {
+      // Quote was saved to DB but the email failed to send — admin needs to send the link manually.
+      return (
+        <div className="bg-amber-50 border border-amber-300 p-6 mt-6">
+          <p className="font-playfair text-[1.25rem] text-amber-900 mb-2">⚠ Quote saved — email failed</p>
+          <p className="font-sans text-[0.875rem] text-amber-900 mb-4">
+            The quote is saved in the system, but <strong>the confirmation email to {order.customer.email} did not send</strong>.
+            Send the customer this link manually (WhatsApp / SMS / your own email):
+          </p>
+          {quoteLink && (
+            <div className="bg-white border border-amber-300 px-4 py-3 mb-4 font-mono text-[0.8125rem] break-all">
+              <a href={quoteLink} target="_blank" rel="noopener noreferrer" className="text-hunter underline">
+                {quoteLink}
+              </a>
+            </div>
+          )}
+          <details className="mb-4">
+            <summary className="font-sans text-[0.75rem] text-amber-900 cursor-pointer">
+              Why did it fail? (technical detail)
+            </summary>
+            <p className="font-sans text-[0.75rem] text-amber-900/80 mt-2 leading-relaxed">
+              {emailError || 'Unknown error.'}
+            </p>
+            <p className="font-sans text-[0.75rem] text-amber-900/80 mt-2 leading-relaxed">
+              Most common cause: <code>MAIL_FROM</code> is unset or pointing at Resend&apos;s sandbox sender
+              (<code>onboarding@resend.dev</code>), which only delivers to the Resend account owner.
+              Verify a domain in the Resend dashboard, then set <code>MAIL_FROM</code> in Vercel.
+            </p>
+          </details>
+          <div className="flex gap-3">
+            <a
+              href={`https://wa.me/?text=${encodeURIComponent(`Hi ${order.customer.name}, here is your confirmed quote: ${quoteLink}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
+                inline-block bg-green-600 text-white px-5 py-3
+                font-sans text-[0.75rem] font-medium tracking-widest uppercase
+                hover:bg-green-700 transition-colors
+              "
+            >
+              Share via WhatsApp
+            </a>
+            <a href="/admin" className="
+              inline-block bg-hunter text-parchment px-5 py-3
+              font-sans text-[0.75rem] font-medium tracking-widest uppercase
+              hover:bg-[#1E3D17] transition-colors
+            ">
+              Back to Orders
+            </a>
+          </div>
+        </div>
+      )
+    }
     return (
       <div className="bg-green-50 border border-green-200 rounded p-6 text-center mt-6">
         <p className="font-playfair text-[1.25rem] text-green-800 mb-2">Quote Sent ✓</p>

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getOrder, updateOrder } from '@/lib/kv'
+import { sendMail } from '@/lib/mail'
 
 async function notifyTelegram(text: string) {
   const token  = process.env.TELEGRAM_BOT_TOKEN
@@ -15,28 +16,20 @@ async function notifyTelegram(text: string) {
 async function sendConfirmEmail(
   to: string, name: string, total: number, payMethod: 'door' | 'bank'
 ) {
-  const apiKey = process.env.RESEND_API_KEY
-  if (!apiKey) return
-
   const payText = payMethod === 'bank'
     ? "You've chosen bank transfer. We'll confirm receipt and start work shortly."
     : "You've chosen to pay on collection / delivery."
 
-  await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from:    'Fine Tailors <onboarding@resend.dev>',
-      to:      [to],
-      subject: 'Quote approved — Fine Tailors',
-      text:
-        `Hi ${name},\n\n` +
-        `Your quote of £${total} has been approved. Thank you!\n\n` +
-        `${payText}\n\n` +
-        `We'll complete your alterations and be in touch to arrange return delivery.\n\n` +
-        `Fine Tailors`,
-    }),
-  }).catch(() => {})
+  await sendMail({
+    to,
+    subject: 'Quote approved — Fine Tailors',
+    text:
+      `Hi ${name},\n\n` +
+      `Your quote of £${total} has been approved. Thank you!\n\n` +
+      `${payText}\n\n` +
+      `We'll complete your alterations and be in touch to arrange return delivery.\n\n` +
+      `Fine Tailors`,
+  })
 }
 
 export async function POST(
@@ -85,7 +78,8 @@ export async function POST(
       (order.customer.phone ? `📞 <b>Phone:</b> ${order.customer.phone}\n` : '') +
       `⏱ <b>Approved:</b> ${ts}`
     ),
-    sendConfirmEmail(order.customer.email, order.customer.name, order.quote.total, paymentMethod),
+    sendConfirmEmail(order.customer.email, order.customer.name, order.quote.total, paymentMethod)
+      .catch((e) => console.error('[approve] confirm email failed', e)),
   ])
 
   return NextResponse.json({ ok: true })
