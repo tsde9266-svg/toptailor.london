@@ -142,30 +142,81 @@ export async function deleteReview(id: string): Promise<void> {
   await redis.lrem('reviews', 0, id)
 }
 
+// ─── Vouchers ─────────────────────────────────────────────────────────────────
+
+export type VoucherType = 'return_customer' | 'special' | 'general'
+
+export type Voucher = {
+  id:              string
+  code:            string
+  name:            string
+  description?:    string
+  discountPercent: number
+  type:            VoucherType
+  isActive:        boolean
+  createdAt:       string
+  usageCount:      number
+}
+
+export async function saveVoucher(v: Voucher): Promise<void> {
+  await redis.set(`voucher:${v.id}`, v)
+  await redis.lpush('vouchers', v.id)
+}
+
+export async function getVoucher(id: string): Promise<Voucher | null> {
+  return redis.get<Voucher>(`voucher:${id}`)
+}
+
+export async function updateVoucher(v: Voucher): Promise<void> {
+  await redis.set(`voucher:${v.id}`, v)
+}
+
+export async function deleteVoucher(id: string): Promise<void> {
+  await redis.del(`voucher:${id}`)
+  await redis.lrem('vouchers', 0, id)
+}
+
+export async function getAllVouchers(): Promise<Voucher[]> {
+  const ids = await redis.lrange<string>('vouchers', 0, -1)
+  if (!ids.length) return []
+  const vouchers = await Promise.all(ids.map(id => redis.get<Voucher>(`voucher:${id}`)))
+  return vouchers
+    .filter((v): v is Voucher => v !== null)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+}
+
 // ─── Invoices ─────────────────────────────────────────────────────────────────
 
 export type InvoiceStatus = 'draft' | 'sent' | 'paid'
 
 export type Invoice = {
-  id:            string
-  number:        string
-  status:        InvoiceStatus
-  createdAt:     string
-  dueDate:       string
-  orderId?:      string
+  id:              string
+  number:          string
+  status:          InvoiceStatus
+  createdAt:       string
+  dueDate:         string
+  orderId?:        string
   customer: {
     name:     string
     email:    string
     phone?:   string
     address?: string
   }
-  items:         Array<{ name: string; price: number }>
-  discount?:     number
-  subtotal:      number
-  total:         number
-  notes?:        string
-  paymentMethod: 'bank' | 'cash'
-  paidAt?:       string
+  items:           Array<{ name: string; price: number }>
+  discountPercent?: number
+  discountAmount?:  number
+  discountType?:   'voucher' | 'manual'
+  voucherId?:      string
+  voucherCode?:    string
+  voucherName?:    string
+  voucherType?:    VoucherType
+  /** @deprecated use discountAmount */
+  discount?:       number
+  subtotal:        number
+  total:           number
+  notes?:          string
+  paymentMethod:   'bank' | 'cash'
+  paidAt?:         string
 }
 
 async function nextInvoiceNumber(): Promise<string> {

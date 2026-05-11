@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getOrder, updateOrder, saveInvoice, nextInvoiceNumber } from '@/lib/kv'
+import { getOrder, updateOrder, saveInvoice, nextInvoiceNumber, getVoucher, updateVoucher } from '@/lib/kv'
 import type { Invoice } from '@/lib/kv'
 import { randomUUID } from 'crypto'
 
@@ -68,7 +68,6 @@ export async function POST(req: NextRequest) {
       paymentMethod: order.customer.paymentPreference === 'bank' ? 'bank' : 'cash',
     }
 
-    // Link order → invoice
     try {
       order.invoiceId = id
       await updateOrder(order)
@@ -76,23 +75,57 @@ export async function POST(req: NextRequest) {
 
   // ── Manual creation ───────────────────────────────────────────────────────
   } else {
-    const customer = body.customer as Invoice['customer']
-    const items    = body.items as Invoice['items']
-    const discount = body.discount ? Number(body.discount) : undefined
-    const dueDate  = String(body.dueDate ?? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0])
+    const customer        = body.customer as Invoice['customer']
+    const items           = body.items as Invoice['items']
+    const dueDate         = String(body.dueDate ?? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0])
+    const discountPercent = body.discountPercent ? Number(body.discountPercent) : undefined
+    const voucherId       = body.voucherId ? String(body.voucherId) : undefined
 
     if (!customer?.name || !customer?.email || !items?.length) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 422 })
     }
 
     const subtotal = items.reduce((s, i) => s + i.price, 0)
-    const total    = discount ? Math.max(0, subtotal - discount) : subtotal
+
+    let finalDiscountPercent = discountPercent
+    let voucherCode: string | undefined
+    let voucherName: string | undefined
+    let voucherType: import('@/lib/kv').VoucherType | undefined
+    let discountType: 'voucher' | 'manual' | undefined
+
+    if (voucherId) {
+      let voucher
+      try { voucher = await getVoucher(voucherId) } catch { /* non-fatal */ }
+      if (voucher && voucher.isActive) {
+        finalDiscountPercent = voucher.discountPercent
+        voucherCode          = voucher.code
+        voucherName          = voucher.name
+        discountType         = 'voucher'
+        voucherType          = voucher.type
+        // Increment usage count
+        voucher.usageCount = (voucher.usageCount ?? 0) + 1
+        await updateVoucher(voucher).catch(() => {})
+      }
+    } else if (discountPercent) {
+      discountType = 'manual'
+    }
+
+    const discountAmount = finalDiscountPercent
+      ? Math.round((subtotal * finalDiscountPercent) / 100 * 100) / 100
+      : undefined
+    const total = discountAmount ? Math.max(0, subtotal - discountAmount) : subtotal
 
     invoice = {
       id, number, status: 'draft', createdAt: now, dueDate,
       customer,
       items,
-      discount,
+      discountPercent:  finalDiscountPercent,
+      discountAmount,
+      discountType,
+      voucherId,
+      voucherCode,
+      voucherName,
+      voucherType,
       subtotal,
       total,
       notes:         body.notes ? String(body.notes) : undefined,

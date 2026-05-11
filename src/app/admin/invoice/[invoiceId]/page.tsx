@@ -85,19 +85,31 @@ export default async function AdminInvoicePage({ params }: { params: { invoiceId
               </li>
             ))}
           </ul>
-          {invoice.discount ? (
+          {(invoice.discountAmount ?? invoice.discount) ? (
             <div className="border-t border-divider pt-2 space-y-1.5 mb-0">
               <div className="flex justify-between font-sans text-[0.8125rem] text-muted">
                 <span>Subtotal</span><span>£{invoice.subtotal}</span>
               </div>
               <div className="flex justify-between font-sans text-[0.8125rem] text-muted">
-                <span>Discount</span><span>−£{invoice.discount}</span>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span>
+                    {invoice.voucherName ? invoice.voucherName : 'Discount'}
+                    {invoice.discountPercent ? ` (${invoice.discountPercent}%)` : ''}
+                  </span>
+                  {invoice.voucherCode && (
+                    <code className="font-mono text-[0.6875rem] bg-parchment px-1.5 py-0.5 border border-divider">{invoice.voucherCode}</code>
+                  )}
+                  {invoice.discountType === 'voucher' && (
+                    <span className="font-sans text-[0.5625rem] uppercase tracking-wider px-1.5 py-0.5 bg-amber-100 text-amber-800">Voucher</span>
+                  )}
+                </div>
+                <span>−£{(invoice.discountAmount ?? invoice.discount ?? 0).toFixed(2)}</span>
               </div>
             </div>
           ) : null}
           <div className="border-t border-divider pt-3 flex justify-between">
             <span className="font-sans text-[0.75rem] uppercase tracking-widest text-muted">Total</span>
-            <span className="font-playfair text-[1.5rem] text-charcoal">£{invoice.total}</span>
+            <span className="font-playfair text-[1.5rem] text-charcoal">£{invoice.total.toFixed(2)}</span>
           </div>
         </div>
 

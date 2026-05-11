@@ -30,8 +30,15 @@ export async function POST(req: NextRequest, { params }: { params: { invoiceId: 
     `<tr><td style="padding:10px 0;font-family:Georgia,serif;font-size:15px;color:#2C2C2C;border-bottom:1px solid #E8E2D8;">${i.name}</td><td style="padding:10px 0;text-align:right;font-family:Georgia,serif;font-size:15px;color:#2A5220;font-weight:600;border-bottom:1px solid #E8E2D8;">£${i.price}</td></tr>`
   ).join('')
 
-  const discountRow = invoice.discount
-    ? `<tr><td style="padding:8px 0;font-family:sans-serif;font-size:13px;color:#666;">Discount</td><td style="padding:8px 0;text-align:right;font-family:sans-serif;font-size:13px;color:#666;">−£${invoice.discount}</td></tr>`
+  const discountAmt = invoice.discountAmount ?? invoice.discount
+  const discountLabel = invoice.voucherName
+    ? `${invoice.voucherName}${invoice.discountPercent ? ` (${invoice.discountPercent}% off)` : ''}`
+    : invoice.discountPercent ? `Discount (${invoice.discountPercent}% off)` : 'Discount'
+  const discountRow = discountAmt
+    ? `<tr><td style="padding:8px 0;font-family:sans-serif;font-size:13px;color:#2A5220;">${discountLabel}</td><td style="padding:8px 0;text-align:right;font-family:sans-serif;font-size:13px;color:#2A5220;font-weight:600;">−£${discountAmt.toFixed(2)}</td></tr>`
+    : ''
+  const loyaltyBanner = invoice.discountType === 'voucher' && invoice.voucherType === 'return_customer'
+    ? `<div style="background:#EAF0E2;border-left:3px solid #2A5220;padding:16px 20px;margin:20px 0;"><p style="font-family:sans-serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#2A5220;margin-bottom:6px;font-weight:600;">Loyalty Reward · Returning Customer</p><p style="font-family:Georgia,serif;font-size:14px;color:#1C1C1A;line-height:1.6;font-style:italic;">Thank you for coming back to ${BUSINESS.name}. This discount is our way of saying thank you for your loyalty.</p></div>`
     : ''
 
   const bankBlock = invoice.paymentMethod === 'bank' ? `
@@ -73,6 +80,7 @@ export async function POST(req: NextRequest, { params }: { params: { invoiceId: 
         </tr>
       </table>
 
+      ${loyaltyBanner}
       ${bankBlock}
 
       <div style="margin-top:32px;text-align:center;">

@@ -64,12 +64,26 @@ export default async function InvoicesPage() {
           ← Orders
         </Link>
         <span className="font-playfair text-[1.0625rem]">Invoices</span>
-        <Link
-          href="/admin/invoice/new"
-          className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors"
-        >
-          + New Invoice
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/admin/vouchers"
+            className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/80 hover:text-parchment border border-parchment/30 px-3 py-1 transition-colors"
+          >
+            Vouchers
+          </Link>
+          <Link
+            href="/admin/pos"
+            className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/80 hover:text-parchment border border-parchment/30 px-3 py-1 transition-colors"
+          >
+            Quick Calc
+          </Link>
+          <Link
+            href="/admin/invoice/new"
+            className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors"
+          >
+            + New Invoice
+          </Link>
+        </div>
       </div>
 
       <div className="px-4 lg:px-8 py-8 max-w-3xl mx-auto">

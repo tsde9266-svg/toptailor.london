@@ -1,11 +1,23 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import type { Voucher, VoucherType } from '@/lib/kv'
 
 type LineItem = { name: string; price: number | '' }
 
 const labelClass = 'block font-sans text-[0.75rem] uppercase tracking-widest mb-2 text-charcoal'
 const inputClass = 'w-full border border-divider px-3 py-2.5 font-sans text-[0.9375rem] focus:outline-none focus:border-hunter bg-white'
+
+const TYPE_COLOR: Record<VoucherType, string> = {
+  return_customer: 'bg-amber-100 text-amber-800 border-amber-300',
+  special:         'bg-purple-100 text-purple-800 border-purple-300',
+  general:         'bg-blue-50 text-blue-800 border-blue-200',
+}
+const TYPE_LABEL: Record<VoucherType, string> = {
+  return_customer: 'Return Customer',
+  special:         'Special',
+  general:         'General',
+}
 
 function today() {
   const d = new Date()
@@ -21,12 +33,28 @@ export default function NewInvoiceForm() {
   const [phone,   setPhone]   = useState('')
   const [address, setAddress] = useState('')
   const [items,   setItems]   = useState<LineItem[]>([{ name: '', price: '' }])
-  const [discount, setDiscount] = useState<number | ''>('')
   const [notes,   setNotes]   = useState('')
   const [payment, setPayment] = useState<'bank' | 'cash'>('bank')
   const [dueDate, setDueDate] = useState(today())
   const [loading, setLoading] = useState(false)
   const [error,   setError]   = useState('')
+
+  // Discount state
+  const [discountMode,    setDiscountMode]    = useState<'none' | 'manual' | 'voucher'>('none')
+  const [discountPercent, setDiscountPercent] = useState<number | ''>('')
+  const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null)
+  const [vouchers,        setVouchers]        = useState<Voucher[]>([])
+  const [vouchersLoaded,  setVouchersLoaded]  = useState(false)
+
+  useEffect(() => {
+    fetch('/api/admin/vouchers')
+      .then(r => r.json())
+      .then((data: Voucher[]) => {
+        setVouchers(Array.isArray(data) ? data.filter(v => v.isActive) : [])
+        setVouchersLoaded(true)
+      })
+      .catch(() => setVouchersLoaded(true))
+  }, [])
 
   function setItemName(i: number, v: string) {
     setItems(p => p.map((it, idx) => idx === i ? { ...it, name: v } : it))
@@ -37,16 +65,32 @@ export default function NewInvoiceForm() {
   function removeItem(i: number) { setItems(p => p.filter((_, idx) => idx !== i)) }
   function addItem()              { setItems(p => [...p, { name: '', price: '' }]) }
 
+  function selectVoucher(v: Voucher) {
+    setSelectedVoucher(v)
+    setDiscountMode('voucher')
+    setDiscountPercent('')
+  }
+
+  function clearDiscount() {
+    setDiscountMode('none')
+    setSelectedVoucher(null)
+    setDiscountPercent('')
+  }
+
   const subtotal = items.reduce((s, it) => s + (Number(it.price) || 0), 0)
-  const total    = discount ? Math.max(0, subtotal - Number(discount)) : subtotal
+  const effectivePct = discountMode === 'voucher'
+    ? (selectedVoucher?.discountPercent ?? 0)
+    : (discountMode === 'manual' ? (Number(discountPercent) || 0) : 0)
+  const discountAmount = effectivePct > 0 ? Math.round(subtotal * effectivePct) / 100 : 0
+  const total          = Math.max(0, subtotal - discountAmount)
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
 
     for (const it of items) {
-      if (!it.name.trim())                       { setError('All services need a name.'); return }
-      if (it.price === '' || Number(it.price) <= 0) { setError(`Enter a price for "${it.name || 'service'}".`); return }
+      if (!it.name.trim())                           { setError('All services need a name.'); return }
+      if (it.price === '' || Number(it.price) <= 0)  { setError(`Enter a price for "${it.name || 'service'}".`); return }
     }
     if (items.length === 0) { setError('Add at least one service.'); return }
 
@@ -56,11 +100,12 @@ export default function NewInvoiceForm() {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          customer: { name, email, phone: phone || undefined, address: address || undefined },
-          items: items.map(it => ({ name: it.name, price: Number(it.price) })),
-          discount: discount || undefined,
-          notes:    notes   || undefined,
-          paymentMethod: payment,
+          customer:        { name, email, phone: phone || undefined, address: address || undefined },
+          items:           items.map(it => ({ name: it.name, price: Number(it.price) })),
+          discountPercent: effectivePct > 0 ? effectivePct : undefined,
+          voucherId:       discountMode === 'voucher' ? selectedVoucher?.id : undefined,
+          notes:           notes   || undefined,
+          paymentMethod:   payment,
           dueDate,
         }),
       })
@@ -153,39 +198,143 @@ export default function NewInvoiceForm() {
           <span className="text-[1.125rem] leading-none">+</span> Add service
         </button>
 
-        {/* Discount */}
-        <div className="mt-6 pt-4 border-t border-divider">
-          <div className="flex items-center gap-4">
-            <label className="font-sans text-[0.75rem] uppercase tracking-widest text-charcoal whitespace-nowrap">
-              Discount £ <span className="normal-case font-light tracking-normal">(optional)</span>
-            </label>
-            <input
-              type="number"
-              min="0"
-              step="1"
-              value={discount}
-              onChange={e => setDiscount(e.target.value === '' ? '' : Number(e.target.value))}
-              placeholder="0"
-              className="input-line font-sans text-[0.9rem] w-28"
-            />
+        {/* Discount section */}
+        <div className="mt-6 pt-5 border-t border-divider space-y-4">
+          <div className="flex items-center gap-3 flex-wrap">
+            <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted">Discount</p>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => { setDiscountMode('manual'); setSelectedVoucher(null) }}
+                className={`font-sans text-[0.6875rem] uppercase tracking-widest px-3 py-1.5 border transition-colors ${
+                  discountMode === 'manual' ? 'bg-hunter text-parchment border-hunter' : 'border-divider text-muted hover:border-hunter'
+                }`}
+              >
+                Manual %
+              </button>
+              <button
+                type="button"
+                onClick={() => { setDiscountMode('voucher'); setDiscountPercent('') }}
+                className={`font-sans text-[0.6875rem] uppercase tracking-widest px-3 py-1.5 border transition-colors ${
+                  discountMode === 'voucher' ? 'bg-hunter text-parchment border-hunter' : 'border-divider text-muted hover:border-hunter'
+                }`}
+              >
+                Apply Voucher
+              </button>
+              {discountMode !== 'none' && (
+                <button
+                  type="button"
+                  onClick={clearDiscount}
+                  className="font-sans text-[0.6875rem] uppercase tracking-widest px-3 py-1.5 border border-divider text-red-500 hover:border-red-300 transition-colors"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
           </div>
+
+          {/* Manual discount */}
+          {discountMode === 'manual' && (
+            <div className="flex items-center gap-4">
+              <label className="font-sans text-[0.75rem] uppercase tracking-widest text-charcoal whitespace-nowrap">
+                Discount %
+              </label>
+              <div className="flex items-center gap-1">
+                <input
+                  type="number"
+                  min="1"
+                  max="100"
+                  value={discountPercent}
+                  onChange={e => setDiscountPercent(e.target.value === '' ? '' : Number(e.target.value))}
+                  placeholder="20"
+                  className="input-line font-sans text-[0.9rem] w-20 text-center"
+                />
+                <span className="font-sans text-[0.9rem] text-muted">%</span>
+              </div>
+              {effectivePct > 0 && (
+                <span className="font-sans text-[0.8125rem] text-hunter">= −£{discountAmount.toFixed(2)}</span>
+              )}
+            </div>
+          )}
+
+          {/* Voucher picker */}
+          {discountMode === 'voucher' && (
+            <div className="space-y-2">
+              {!vouchersLoaded && (
+                <p className="font-sans text-[0.8125rem] text-muted">Loading vouchers…</p>
+              )}
+              {vouchersLoaded && vouchers.length === 0 && (
+                <p className="font-sans text-[0.8125rem] text-muted">
+                  No active vouchers.{' '}
+                  <a href="/admin/vouchers" target="_blank" className="text-hunter underline">Create one →</a>
+                </p>
+              )}
+              {vouchersLoaded && vouchers.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {vouchers.map(v => (
+                    <button
+                      key={v.id}
+                      type="button"
+                      onClick={() => selectVoucher(v)}
+                      className={`text-left p-3 border-2 transition-all ${
+                        selectedVoucher?.id === v.id
+                          ? 'border-hunter bg-hunter/5'
+                          : `border ${TYPE_COLOR[v.type]} hover:border-hunter`
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-0.5">
+                        <span className="font-sans text-[0.75rem] font-semibold text-charcoal">{v.name}</span>
+                        <span className="font-playfair text-[1rem] text-hunter">{v.discountPercent}%</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <code className="font-mono text-[0.6875rem] text-muted">{v.code}</code>
+                        <span className={`font-sans text-[0.5625rem] uppercase tracking-wider px-1.5 py-0.5 ${TYPE_COLOR[v.type]}`}>
+                          {TYPE_LABEL[v.type]}
+                        </span>
+                      </div>
+                      {v.description && (
+                        <p className="font-sans text-[0.6875rem] text-muted mt-0.5 truncate">{v.description}</p>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {selectedVoucher && (
+                <div className="bg-hunter/5 border border-hunter/30 px-4 py-3">
+                  <p className="font-sans text-[0.8125rem] text-hunter font-medium">
+                    ✓ {selectedVoucher.name} — {selectedVoucher.discountPercent}% off = −£{discountAmount.toFixed(2)}
+                  </p>
+                  {selectedVoucher.type === 'return_customer' && (
+                    <p className="font-sans text-[0.75rem] text-muted mt-0.5">
+                      Invoice will include a loyalty note for returning customers.
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Running total */}
         <div className="mt-4 pt-4 border-t border-divider space-y-1">
-          {subtotal !== total && (
-            <div className="flex justify-between font-sans text-[0.8125rem] text-muted">
-              <span>Subtotal</span><span>£{subtotal}</span>
-            </div>
+          {discountAmount > 0 && (
+            <>
+              <div className="flex justify-between font-sans text-[0.8125rem] text-muted">
+                <span>Subtotal</span><span>£{subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between font-sans text-[0.8125rem] text-muted">
+                <span>
+                  Discount ({effectivePct}%
+                  {discountMode === 'voucher' && selectedVoucher ? ` · ${selectedVoucher.code}` : ''})
+                </span>
+                <span>−£{discountAmount.toFixed(2)}</span>
+              </div>
+            </>
           )}
-          {discount ? (
-            <div className="flex justify-between font-sans text-[0.8125rem] text-muted">
-              <span>Discount</span><span>−£{discount}</span>
-            </div>
-          ) : null}
           <div className="flex justify-between">
             <span className="font-sans text-[0.75rem] uppercase tracking-widest text-muted">Total</span>
-            <span className="font-playfair text-[1.625rem] text-hunter">£{total}</span>
+            <span className="font-playfair text-[1.625rem] text-hunter">£{total.toFixed(2)}</span>
           </div>
         </div>
       </div>
@@ -246,7 +395,7 @@ export default function NewInvoiceForm() {
         disabled={loading}
         className="w-full bg-hunter text-parchment py-5 font-sans text-[0.8125rem] font-medium tracking-[0.2em] uppercase hover:bg-[#1E3D17] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
       >
-        {loading ? 'Creating Invoice…' : `Generate Invoice — £${total} →`}
+        {loading ? 'Creating Invoice…' : `Generate Invoice — £${total.toFixed(2)} →`}
       </button>
     </form>
   )
