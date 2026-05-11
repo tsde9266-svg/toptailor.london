@@ -24,7 +24,7 @@ export default function NewInvoiceForm() {
   const [address, setAddress] = useState('')
   const [items,   setItems]   = useState<LineItem[]>([{ name: '', price: '' }])
   const [notes,   setNotes]   = useState('')
-  const [payment, setPayment] = useState<'bank' | 'cash'>('bank')
+  const [payment, setPayment] = useState<'bank' | 'cash' | 'mobile'>('bank')
   const [dueDate, setDueDate] = useState(today())
   const [loading, setLoading] = useState(false)
   const [error,   setError]   = useState('')
@@ -37,6 +37,22 @@ export default function NewInvoiceForm() {
   const [vouchersLoaded,  setVouchersLoaded]  = useState(false)
 
   useEffect(() => {
+    // Pre-fill from POS quick calc if a draft was saved
+    try {
+      const raw = sessionStorage.getItem('pos_draft')
+      if (raw) {
+        const draft = JSON.parse(raw) as { items: Array<{ name: string; price: number }>; discountPercent: number }
+        if (Array.isArray(draft.items) && draft.items.length > 0) {
+          setItems(draft.items.map(i => ({ name: i.name, price: i.price })))
+        }
+        if (draft.discountPercent > 0) {
+          setDiscountMode('manual')
+          setDiscountPercent(draft.discountPercent)
+        }
+        sessionStorage.removeItem('pos_draft')
+      }
+    } catch { /* ignore malformed draft */ }
+
     fetch('/api/admin/vouchers')
       .then(r => r.json())
       .then((data: Voucher[]) => {
@@ -335,17 +351,21 @@ export default function NewInvoiceForm() {
 
         <div>
           <label className={labelClass}>Payment Method</label>
-          <div className="flex gap-2">
-            {(['bank', 'cash'] as const).map(m => (
+          <div className="flex flex-wrap gap-2">
+            {([
+              { id: 'bank',   label: 'Bank Transfer'   },
+              { id: 'cash',   label: 'Cash / Pay on Day' },
+              { id: 'mobile', label: 'Mobile / NFC'    },
+            ] as const).map(m => (
               <button
-                key={m}
+                key={m.id}
                 type="button"
-                onClick={() => setPayment(m)}
+                onClick={() => setPayment(m.id)}
                 className={`font-sans text-[0.75rem] uppercase tracking-widest px-4 py-2 border transition-colors ${
-                  payment === m ? 'bg-hunter text-parchment border-hunter' : 'border-divider text-muted hover:border-hunter hover:text-charcoal'
+                  payment === m.id ? 'bg-hunter text-parchment border-hunter' : 'border-divider text-muted hover:border-hunter hover:text-charcoal'
                 }`}
               >
-                {m === 'bank' ? 'Bank Transfer' : 'Cash / Pay on Day'}
+                {m.label}
               </button>
             ))}
           </div>

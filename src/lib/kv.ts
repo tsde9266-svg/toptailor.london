@@ -215,7 +215,7 @@ export type Invoice = {
   subtotal:        number
   total:           number
   notes?:          string
-  paymentMethod:   'bank' | 'cash'
+  paymentMethod:   'bank' | 'cash' | 'mobile'
   paidAt?:         string
 }
 

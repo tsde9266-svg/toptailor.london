@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
       subtotal,
       total:         subtotal,
       notes:         order.quote.notes,
-      paymentMethod: order.customer.paymentPreference === 'bank' ? 'bank' : 'cash',
+      paymentMethod: order.customer.paymentPreference === 'bank' ? 'bank' : 'cash' as 'bank' | 'cash' | 'mobile',
     }
 
     try {
@@ -118,7 +118,9 @@ export async function POST(req: NextRequest) {
       subtotal,
       total,
       notes:         body.notes ? String(body.notes) : undefined,
-      paymentMethod: body.paymentMethod === 'bank' ? 'bank' : 'cash',
+      paymentMethod: (['bank', 'cash', 'mobile'] as const).includes(body.paymentMethod as 'bank' | 'cash' | 'mobile')
+        ? body.paymentMethod as 'bank' | 'cash' | 'mobile'
+        : 'cash',
     }
   }
 

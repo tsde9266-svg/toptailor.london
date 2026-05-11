@@ -291,11 +291,20 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
             <p style={{ fontFamily: 'sans-serif', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#aaa', marginBottom: '14px' }}>
               Payment
             </p>
-            {invoice.paymentMethod === 'cash' ? (
+            {invoice.paymentMethod === 'cash' && (
               <p style={{ fontFamily: 'sans-serif', fontSize: '14px', color: '#1C1C1A' }}>
                 Cash on collection / delivery
               </p>
-            ) : (
+            )}
+            {invoice.paymentMethod === 'mobile' && (
+              <div style={{ fontFamily: 'sans-serif', fontSize: '14px', color: '#1C1C1A', lineHeight: '1.8' }}>
+                <p style={{ marginBottom: '6px' }}>Method: <strong>Mobile Payment</strong></p>
+                <p style={{ color: '#5C5C52', fontSize: '13px' }}>
+                  Payment collected via mobile / contactless (NFC). No further action required.
+                </p>
+              </div>
+            )}
+            {invoice.paymentMethod === 'bank' && (
               <div style={{ fontFamily: 'sans-serif', fontSize: '14px', color: '#1C1C1A', lineHeight: '2' }}>
                 <p>Method: <strong>Bank Transfer</strong></p>
                 {bankName     && <p>Bank: <strong>{bankName}</strong></p>}

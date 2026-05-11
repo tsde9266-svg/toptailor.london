@@ -118,7 +118,7 @@ export default async function AdminInvoicePage({ params }: { params: { invoiceId
           <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-3">Payment</p>
           <div className="space-y-1.5">
             {[
-              ['Method',   invoice.paymentMethod === 'bank' ? 'Bank Transfer' : 'Cash'],
+              ['Method',   invoice.paymentMethod === 'bank' ? 'Bank Transfer' : invoice.paymentMethod === 'mobile' ? 'Mobile / NFC' : 'Cash'],
               ['Due',      fmtDate(invoice.dueDate)],
               ['Paid',     invoice.paidAt ? fmtDate(invoice.paidAt) : '—'],
             ].map(([label, val]) => (

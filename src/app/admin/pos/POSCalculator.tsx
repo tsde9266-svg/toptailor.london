@@ -1,10 +1,11 @@
 'use client'
 import { useState, useRef } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { services } from '@/data/services'
 import {
   Ruler, Shirt, Sparkles, PenLine, ArrowLeft, ArrowRight,
-  X, MoreHorizontal, ShoppingBag, Share2, FileText, Percent,
+  X, MoreHorizontal, ShoppingBag, Share2,
 } from 'lucide-react'
 
 // ── Design tokens (Atelier Precise) ────────────────────────────────────────────
@@ -135,14 +136,23 @@ function CartRow({ item, index, onRemove, cat }: {
 
 // ── Main component ────────────────────────────────────────────────────────────
 export default function POSCalculator() {
+  const router                        = useRouter()
   const [cart, setCart]               = useState<Item[]>([])
   const [activeCat, setActiveCat]     = useState<typeof CATEGORY_ORDER[number]>('trousers')
   const [discountPct, setDiscountPct] = useState(0)
   const [customName, setCustomName]   = useState('')
   const [customPrice, setCustomPrice] = useState('')
   const [copied, setCopied]           = useState(false)
-  const [showCart, setShowCart]       = useState(false)  // mobile toggle
+  const [showCart, setShowCart]       = useState(false)
   const customNameRef                 = useRef<HTMLInputElement>(null)
+
+  function goToInvoice() {
+    sessionStorage.setItem('pos_draft', JSON.stringify({
+      items: cart.map(i => ({ name: i.name, price: i.price })),
+      discountPercent: discountPct,
+    }))
+    router.push('/admin/invoice/new')
+  }
 
   const cat = CATS[activeCat]
 
@@ -271,12 +281,13 @@ export default function POSCalculator() {
           </span>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 10 }}>
-          <a
-            href="/admin/invoice/new"
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: C.primary, color: C.onPrimary, textDecoration: 'none', padding: '15px 20px', borderRadius: 12, fontSize: 14, fontWeight: 700, boxShadow: '0 4px 14px rgba(2,54,22,0.25)', transition: 'opacity 0.15s' }}
+          <button
+            onClick={goToInvoice}
+            disabled={cart.length === 0}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: cart.length === 0 ? '#ccc' : C.primary, color: C.onPrimary, border: 'none', padding: '15px 20px', borderRadius: 12, fontSize: 14, fontWeight: 700, cursor: cart.length === 0 ? 'default' : 'pointer', boxShadow: cart.length === 0 ? 'none' : '0 4px 14px rgba(2,54,22,0.25)', transition: 'all 0.15s' }}
           >
             Create Invoice <ArrowRight size={18} strokeWidth={2.5} />
-          </a>
+          </button>
           <button
             onClick={shareQuote}
             disabled={cart.length === 0}
@@ -535,12 +546,13 @@ export default function POSCalculator() {
         >
           Order ({cart.length})
         </button>
-        <a
-          href="/admin/invoice/new"
-          style={{ display: 'flex', alignItems: 'center', gap: 6, background: C.primary, color: C.onPrimary, textDecoration: 'none', padding: '10px 18px', borderRadius: 10, fontSize: 13, fontWeight: 700, fontFamily: 'Inter, system-ui, sans-serif' }}
+        <button
+          onClick={goToInvoice}
+          disabled={cart.length === 0}
+          style={{ display: 'flex', alignItems: 'center', gap: 6, background: cart.length === 0 ? '#ccc' : C.primary, color: C.onPrimary, border: 'none', padding: '10px 18px', borderRadius: 10, fontSize: 13, fontWeight: 700, fontFamily: 'Inter, system-ui, sans-serif', cursor: cart.length === 0 ? 'default' : 'pointer' }}
         >
           Invoice <ArrowRight size={15} strokeWidth={2.5} />
-        </a>
+        </button>
       </div>
 
       {/* ── Mobile: cart sheet overlay ───────────────────────────────────────── */}

@@ -43,7 +43,10 @@ export async function POST(req: NextRequest, { params }: { params: { invoiceId: 
       <p style="font-family:sans-serif;font-size:13px;color:#444;margin-bottom:4px;">Sort Code: <strong>${BANK.sortCode}</strong></p>
       <p style="font-family:sans-serif;font-size:13px;color:#444;margin-bottom:4px;">Account: <strong>${BANK.account}</strong></p>
       <p style="font-family:sans-serif;font-size:13px;color:#444;">Reference: <strong>${invoice.number}</strong></p>
-    </div>` : `
+    </div>`
+  : invoice.paymentMethod === 'mobile' ? `
+    <p style="font-family:sans-serif;font-size:14px;color:#444;margin-top:24px;">Payment: <strong>Mobile Payment (NFC)</strong> — collected at time of service.</p>`
+  : `
     <p style="font-family:sans-serif;font-size:14px;color:#444;margin-top:24px;">Payment: <strong>Cash on collection / delivery</strong></p>`
 
   const html = `

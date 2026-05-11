@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { useCart } from '@/context/CartContext'
 
 const navLinks = [
-  { label: 'SERVICES',      href: '#services'      },
+  { label: 'SERVICES',      href: '/#services'     },
   { label: 'HOW IT WORKS',  href: '/how-it-works'  },
-  { label: 'ABOUT',         href: '#about'         },
+  { label: 'ABOUT',         href: '/#about'        },
   { label: 'GET STARTED',   href: '/get-started'   },
 ]
 
