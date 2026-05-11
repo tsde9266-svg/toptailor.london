@@ -2,7 +2,7 @@
 // Used by Telegram notifications, customer emails, and admin "Send greeting" buttons.
 
 const GREETING_MESSAGE =
-  'Thank you for contacting One Click Tailors! Someone will be in touch shortly to confirm the details of your appointment. In the meantime if you have any questions or changes to make feel free to message us.\n\n*One Click Tailors*\n_London’s finest tailors, at your door, in one click_'
+  `Thank you for contacting Fine Tailors! Someone will be in touch shortly to confirm the details of your appointment. In the meantime if you have any questions or changes to make feel free to message us.\n\n*Fine Tailors*\n_London's finest tailors, at your door_`
 
 export const BUSINESS_WHATSAPP = '447438145169'
 

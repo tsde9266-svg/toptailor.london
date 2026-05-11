@@ -28,6 +28,7 @@ export type Order = {
   id:            string
   status:        OrderStatus
   createdAt:     string
+  invoiceId?:    string
   customer: {
     name:      string
     email:     string
@@ -140,3 +141,59 @@ export async function deleteReview(id: string): Promise<void> {
   await redis.del(`review:${id}`)
   await redis.lrem('reviews', 0, id)
 }
+
+// ─── Invoices ─────────────────────────────────────────────────────────────────
+
+export type InvoiceStatus = 'draft' | 'sent' | 'paid'
+
+export type Invoice = {
+  id:            string
+  number:        string
+  status:        InvoiceStatus
+  createdAt:     string
+  dueDate:       string
+  orderId?:      string
+  customer: {
+    name:     string
+    email:    string
+    phone?:   string
+    address?: string
+  }
+  items:         Array<{ name: string; price: number }>
+  discount?:     number
+  subtotal:      number
+  total:         number
+  notes?:        string
+  paymentMethod: 'bank' | 'cash'
+  paidAt?:       string
+}
+
+async function nextInvoiceNumber(): Promise<string> {
+  const seq  = await redis.incr('invoice:seq')
+  const year = new Date().getFullYear()
+  return `FT-${year}-${String(seq).padStart(3, '0')}`
+}
+
+export async function saveInvoice(invoice: Invoice): Promise<void> {
+  await redis.set(`invoice:${invoice.id}`, invoice)
+  await redis.lpush('invoices', invoice.id)
+}
+
+export async function getInvoice(id: string): Promise<Invoice | null> {
+  return redis.get<Invoice>(`invoice:${id}`)
+}
+
+export async function updateInvoice(invoice: Invoice): Promise<void> {
+  await redis.set(`invoice:${invoice.id}`, invoice)
+}
+
+export async function getAllInvoices(): Promise<Invoice[]> {
+  const ids = await redis.lrange<string>('invoices', 0, -1)
+  if (!ids.length) return []
+  const invoices = await Promise.all(ids.map(id => redis.get<Invoice>(`invoice:${id}`)))
+  return invoices
+    .filter((inv): inv is Invoice => inv !== null)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+}
+
+export { nextInvoiceNumber }

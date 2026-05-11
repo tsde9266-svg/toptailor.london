@@ -6,6 +6,7 @@ import Hero          from '@/components/Hero'
 import Services      from '@/components/Services'
 import NeedleDivider from '@/components/NeedleDivider'
 import HowItWorks    from '@/components/HowItWorks'
+import TailorJourney from '@/components/TailorJourney'
 import About         from '@/components/About'
 import Reviews       from '@/components/Reviews'
 // Commented out — superseded by the unified /get-started flow.
@@ -108,6 +109,7 @@ export default async function Home() {
         <Services />
         <NeedleDivider />
         <HowItWorks />
+        <TailorJourney />
 
         {/* Areas We Visit */}
         <section id="areas" className="px-8 lg:px-24 py-20 border-t border-divider bg-parchment">

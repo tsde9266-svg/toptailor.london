@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
-
-const BANK = { sortCode: '04-00-03', account: '11282726', name: 'Tahir Hassan' }
+import { BANK } from '@/lib/constants'
 
 export default function ApprovePanel({
   orderId,

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { getOrder } from '@/lib/kv'
 import type { OrderStatus } from '@/lib/kv'
 import QuoteForm from './QuoteForm'
+import GenerateInvoiceButton from './GenerateInvoiceButton'
 
 const STATUS_LABEL: Record<OrderStatus, string> = {
   pending_collection: 'Pending Collection',
@@ -155,6 +156,32 @@ export default async function OrderDetailPage({
             </span>
           </div>
         </div>
+
+        {/* Invoice shortcut */}
+        {(order.status === 'quote_approved' || order.status === 'complete') && (
+          <div className="border border-divider bg-white p-5 mb-6">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-1">Invoice</p>
+                {order.invoiceId ? (
+                  <p className="font-sans text-[0.875rem] text-charcoal">Invoice already generated.</p>
+                ) : (
+                  <p className="font-sans text-[0.875rem] text-muted">Create a professional invoice from the approved quote.</p>
+                )}
+              </div>
+              {order.invoiceId ? (
+                <Link
+                  href={`/admin/invoice/${order.invoiceId}`}
+                  className="flex-shrink-0 bg-hunter text-parchment px-5 py-2.5 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:bg-[#1E3D17] transition-colors"
+                >
+                  View Invoice
+                </Link>
+              ) : (
+                <GenerateInvoiceButton orderId={order.id} />
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Quote section */}
         {order.status === 'quote_sent' || order.status === 'quote_approved' || order.status === 'complete' ? (

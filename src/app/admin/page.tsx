@@ -116,6 +116,12 @@ export default async function AdminPage({
         <span className="font-playfair text-[1.125rem]">Admin</span>
         <div className="flex items-center gap-2">
           <Link
+            href="/admin/invoices"
+            className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors"
+          >
+            Invoices
+          </Link>
+          <Link
             href="/admin/consultations"
             className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors"
           >
