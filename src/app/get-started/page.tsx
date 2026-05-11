@@ -79,7 +79,7 @@ export default function GetStartedPage() {
                 Browse &amp; Book
               </h2>
               <p className="font-sans font-light text-[0.9375rem] text-muted leading-relaxed flex-1 mb-8">
-                Pick the services you need — alterations, dresses, leather, plus a Home Visit (£20, credited to your order). Choose a slot, give us your address, done.
+                Pick the services you need — alterations, dresses, leather, plus a Home Visit. Choose a slot, give us your address, done.
               </p>
               <Link
                 href="/#services"
