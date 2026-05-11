@@ -112,47 +112,31 @@ export default async function AdminPage({
   return (
     <div className="min-h-screen bg-parchment">
       {/* Header */}
-      <div className="bg-hunter text-parchment px-6 py-4 flex items-center justify-between gap-3 flex-wrap">
-        <span className="font-playfair text-[1.125rem]">Admin</span>
-        <div className="flex items-center gap-2">
-          <Link
-            href="/admin/invoices"
-            className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors"
-          >
-            Invoices
-          </Link>
-          <Link
-            href="/admin/vouchers"
-            className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors"
-          >
-            Vouchers
-          </Link>
-          <Link
-            href="/admin/pos"
-            className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-amber-400/60 bg-amber-500/10 px-3 py-1 transition-colors"
-          >
-            Quick Calc
-          </Link>
-          <Link
-            href="/admin/consultations"
-            className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors"
-          >
-            Consultations
-          </Link>
-          <Link
-            href="/admin/log-call"
-            className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors"
-          >
-            + Log Call
-          </Link>
+      <div className="bg-hunter text-parchment">
+        <div className="px-4 py-3 flex items-center justify-between">
+          <span className="font-playfair text-[1.125rem]">Admin</span>
           <form action={signOut}>
-            <button
-              type="submit"
-              className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/70 hover:text-parchment transition-colors px-2"
-            >
+            <button type="submit" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/70 hover:text-parchment transition-colors">
               Sign Out
             </button>
           </form>
+        </div>
+        <div className="border-t border-parchment/10 px-4 py-2 flex items-center gap-2 overflow-x-auto">
+          <Link href="/admin/invoices" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
+            Invoices
+          </Link>
+          <Link href="/admin/vouchers" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
+            Vouchers
+          </Link>
+          <Link href="/admin/pos" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-amber-400/60 bg-amber-500/10 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
+            Quick Calc
+          </Link>
+          <Link href="/admin/consultations" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
+            Consultations
+          </Link>
+          <Link href="/admin/log-call" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
+            + Log Call
+          </Link>
         </div>
       </div>
 

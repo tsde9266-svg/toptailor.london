@@ -59,29 +59,22 @@ export default async function InvoicesPage() {
   return (
     <div className="min-h-screen bg-parchment">
       {/* Header */}
-      <div className="bg-hunter text-parchment px-6 py-4 flex items-center justify-between gap-3 flex-wrap">
-        <Link href="/admin" className="font-sans text-[0.75rem] uppercase tracking-widest text-parchment/70 hover:text-parchment transition-colors">
-          ← Orders
-        </Link>
-        <span className="font-playfair text-[1.0625rem]">Invoices</span>
-        <div className="flex items-center gap-2">
-          <Link
-            href="/admin/vouchers"
-            className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/80 hover:text-parchment border border-parchment/30 px-3 py-1 transition-colors"
-          >
+      <div className="bg-hunter text-parchment">
+        <div className="px-4 py-3 flex items-center justify-between">
+          <Link href="/admin" className="font-sans text-[0.75rem] uppercase tracking-widest text-parchment/70 hover:text-parchment transition-colors">
+            ← Orders
+          </Link>
+          <span className="font-playfair text-[1.0625rem]">Invoices</span>
+          <Link href="/admin/invoice/new" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors whitespace-nowrap">
+            + New
+          </Link>
+        </div>
+        <div className="border-t border-parchment/10 px-4 py-2 flex items-center gap-2 overflow-x-auto">
+          <Link href="/admin/vouchers" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/80 hover:text-parchment border border-parchment/30 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
             Vouchers
           </Link>
-          <Link
-            href="/admin/pos"
-            className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/80 hover:text-parchment border border-parchment/30 px-3 py-1 transition-colors"
-          >
+          <Link href="/admin/pos" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/80 hover:text-parchment border border-amber-400/60 bg-amber-500/10 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
             Quick Calc
-          </Link>
-          <Link
-            href="/admin/invoice/new"
-            className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors"
-          >
-            + New Invoice
           </Link>
         </div>
       </div>
