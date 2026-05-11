@@ -1,18 +1,7 @@
 'use client'
 import { useState } from 'react'
 import type { Voucher, VoucherType } from '@/lib/kv'
-
-const TYPE_LABEL: Record<VoucherType, string> = {
-  return_customer: 'Return Customer',
-  special:         'Special',
-  general:         'General',
-}
-
-const TYPE_COLOR: Record<VoucherType, string> = {
-  return_customer: 'bg-amber-100 text-amber-800',
-  special:         'bg-purple-100 text-purple-800',
-  general:         'bg-blue-100 text-blue-700',
-}
+import { VOUCHER_TYPE_LABEL as TYPE_LABEL, VOUCHER_TYPE_COLOR as TYPE_COLOR } from '@/lib/constants'
 
 const inputCls = 'w-full border border-divider px-3 py-2.5 font-sans text-[0.9375rem] focus:outline-none focus:border-hunter bg-white'
 const labelCls = 'block font-sans text-[0.75rem] uppercase tracking-widest mb-1.5 text-charcoal'
@@ -153,10 +142,11 @@ function VoucherForm({
 }
 
 export default function VouchersClient({ initialVouchers }: { initialVouchers: Voucher[] }) {
-  const [vouchers, setVouchers] = useState<Voucher[]>(initialVouchers)
-  const [creating, setCreating] = useState(false)
+  const [vouchers, setVouchers]   = useState<Voucher[]>(initialVouchers)
+  const [creating, setCreating]   = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [toggleError, setToggleError] = useState<string | null>(null)
 
   async function handleCreate(form: FormState) {
     const res = await fetch('/api/admin/vouchers', {
@@ -196,13 +186,18 @@ export default function VouchersClient({ initialVouchers }: { initialVouchers: V
   }
 
   async function handleToggle(voucher: Voucher) {
+    setToggleError(null)
     const res = await fetch(`/api/admin/vouchers/${voucher.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ isActive: !voucher.isActive }),
     })
     const data = await res.json()
-    if (res.ok) setVouchers(p => p.map(v => v.id === voucher.id ? data.voucher : v))
+    if (res.ok) {
+      setVouchers(p => p.map(v => v.id === voucher.id ? data.voucher : v))
+    } else {
+      setToggleError(data.error ?? 'Failed to update voucher. Please try again.')
+    }
   }
 
   async function handleDelete(id: string, name: string) {
@@ -232,6 +227,10 @@ export default function VouchersClient({ initialVouchers }: { initialVouchers: V
         <p><strong>Vouchers</strong> are saved discounts you apply to invoices. <strong>Return Customer</strong> vouchers show a special loyalty message on the invoice.</p>
         <p className="text-muted">Tip: Create a <em>Return Customer 20%</em> voucher — then apply it to any second-order invoice with one click.</p>
       </div>
+
+      {toggleError && (
+        <p className="font-sans text-sm text-red-700 bg-red-50 border border-red-200 px-4 py-3">{toggleError}</p>
+      )}
 
       {/* Create form */}
       {creating && (

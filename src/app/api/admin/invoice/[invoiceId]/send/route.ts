@@ -2,14 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getInvoice, updateInvoice } from '@/lib/kv'
 import { sendMail } from '@/lib/mail'
 import { BUSINESS, BANK } from '@/lib/constants'
+import { isAdmin } from '@/lib/auth'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.finetailors.co.uk'
-
-function isAdmin(req: NextRequest): boolean {
-  const session = req.cookies.get('admin_session')?.value
-  const secret  = process.env.ADMIN_SECRET
-  return Boolean(secret && session === secret)
-}
 
 function fmtDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })

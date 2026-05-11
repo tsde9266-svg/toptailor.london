@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { saveConsultation } from '@/lib/kv'
 import type { Consultation } from '@/lib/kv'
-
-function isAdmin(req: NextRequest): boolean {
-  const session = req.cookies.get('admin_session')?.value
-  const secret  = process.env.ADMIN_SECRET
-  return Boolean(secret && session === secret)
-}
+import { isAdmin } from '@/lib/auth'
 
 function uuid() {
   return crypto.randomUUID()

@@ -1,26 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getOrder, updateOrder, saveInvoice, nextInvoiceNumber, getVoucher, updateVoucher } from '@/lib/kv'
 import type { Invoice } from '@/lib/kv'
+import { isAdmin } from '@/lib/auth'
+import { notifyTelegram } from '@/lib/telegram'
 import { randomUUID } from 'crypto'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.finetailors.co.uk'
-
-function isAdmin(req: NextRequest): boolean {
-  const session = req.cookies.get('admin_session')?.value
-  const secret  = process.env.ADMIN_SECRET
-  return Boolean(secret && session === secret)
-}
-
-async function notifyTelegram(text: string) {
-  const token  = process.env.TELEGRAM_BOT_TOKEN
-  const chatId = process.env.TELEGRAM_CHAT_ID
-  if (!token || !chatId) return
-  await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' }),
-  }).catch(() => {})
-}
 
 export async function POST(req: NextRequest) {
   if (!isAdmin(req)) {
@@ -95,15 +80,19 @@ export async function POST(req: NextRequest) {
 
     if (voucherId) {
       let voucher
-      try { voucher = await getVoucher(voucherId) } catch { /* non-fatal */ }
-      if (voucher && voucher.isActive) {
+      try { voucher = await getVoucher(voucherId) } catch {
+        return NextResponse.json({ error: 'Storage unavailable' }, { status: 503 })
+      }
+      if (!voucher) {
+        return NextResponse.json({ error: 'Voucher not found' }, { status: 422 })
+      }
+      if (voucher.isActive) {
         finalDiscountPercent = voucher.discountPercent
         voucherCode          = voucher.code
         voucherName          = voucher.name
         discountType         = 'voucher'
         voucherType          = voucher.type
-        // Increment usage count
-        voucher.usageCount = (voucher.usageCount ?? 0) + 1
+        voucher.usageCount   = (voucher.usageCount ?? 0) + 1
         await updateVoucher(voucher).catch(() => {})
       }
     } else if (discountPercent) {
@@ -111,7 +100,7 @@ export async function POST(req: NextRequest) {
     }
 
     const discountAmount = finalDiscountPercent
-      ? Math.round((subtotal * finalDiscountPercent) / 100 * 100) / 100
+      ? Math.round(subtotal * finalDiscountPercent) / 100
       : undefined
     const total = discountAmount ? Math.max(0, subtotal - discountAmount) : subtotal
 

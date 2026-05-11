@@ -1,23 +1,13 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import type { Voucher, VoucherType } from '@/lib/kv'
+import type { Voucher } from '@/lib/kv'
+import { VOUCHER_TYPE_LABEL as TYPE_LABEL, VOUCHER_TYPE_COLOR as TYPE_COLOR, VOUCHER_TYPE_BORDER as TYPE_BORDER } from '@/lib/constants'
 
 type LineItem = { name: string; price: number | '' }
 
 const labelClass = 'block font-sans text-[0.75rem] uppercase tracking-widest mb-2 text-charcoal'
 const inputClass = 'w-full border border-divider px-3 py-2.5 font-sans text-[0.9375rem] focus:outline-none focus:border-hunter bg-white'
-
-const TYPE_COLOR: Record<VoucherType, string> = {
-  return_customer: 'bg-amber-100 text-amber-800 border-amber-300',
-  special:         'bg-purple-100 text-purple-800 border-purple-300',
-  general:         'bg-blue-50 text-blue-800 border-blue-200',
-}
-const TYPE_LABEL: Record<VoucherType, string> = {
-  return_customer: 'Return Customer',
-  special:         'Special',
-  general:         'General',
-}
 
 function today() {
   const d = new Date()
@@ -279,7 +269,7 @@ export default function NewInvoiceForm() {
                       className={`text-left p-3 border-2 transition-all ${
                         selectedVoucher?.id === v.id
                           ? 'border-hunter bg-hunter/5'
-                          : `border ${TYPE_COLOR[v.type]} hover:border-hunter`
+                          : `${TYPE_BORDER[v.type]} hover:border-hunter`
                       }`}
                     >
                       <div className="flex items-center justify-between mb-0.5">

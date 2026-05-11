@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getAllVouchers, saveVoucher } from '@/lib/kv'
 import type { Voucher } from '@/lib/kv'
+import { isAdmin } from '@/lib/auth'
 import { randomUUID } from 'crypto'
-
-function isAdmin(req: NextRequest): boolean {
-  const session = req.cookies.get('admin_session')?.value
-  const secret  = process.env.ADMIN_SECRET
-  return Boolean(secret && session === secret)
-}
 
 export async function GET(req: NextRequest) {
   if (!isAdmin(req)) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })

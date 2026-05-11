@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getConsultation, updateConsultation } from '@/lib/kv'
-
-function isAdmin(req: NextRequest): boolean {
-  const session = req.cookies.get('admin_session')?.value
-  const secret  = process.env.ADMIN_SECRET
-  return Boolean(secret && session === secret)
-}
+import { isAdmin } from '@/lib/auth'
 
 export async function POST(req: NextRequest) {
   if (!isAdmin(req)) {

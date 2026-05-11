@@ -2,15 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getOrder, updateOrder } from '@/lib/kv'
 import type { QuoteItem } from '@/lib/kv'
 import { sendMail } from '@/lib/mail'
+import { isAdmin } from '@/lib/auth'
+import { notifyTelegram } from '@/lib/telegram'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.finetailors.co.uk'
-
-// ─── Auth helper ──────────────────────────────────────────────────────────────
-function isAdmin(req: NextRequest): boolean {
-  const session = req.cookies.get('admin_session')?.value
-  const secret  = process.env.ADMIN_SECRET
-  return Boolean(secret && session === secret)
-}
 
 // ─── Email via Resend ─────────────────────────────────────────────────────────
 async function sendQuoteEmail(
@@ -54,18 +49,6 @@ async function sendQuoteEmail(
     subject: `Your confirmed quote — Fine Tailors`,
     html,
   })
-}
-
-// ─── Telegram ─────────────────────────────────────────────────────────────────
-async function notifyTelegram(text: string) {
-  const token  = process.env.TELEGRAM_BOT_TOKEN
-  const chatId = process.env.TELEGRAM_CHAT_ID
-  if (!token || !chatId) return
-  await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' }),
-  }).catch(() => {})
 }
 
 // ─── POST /api/admin/quote ────────────────────────────────────────────────────

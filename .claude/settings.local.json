@@ -64,7 +64,14 @@
       "Bash(Format-Table FullName)",
       "Bash(grep -v \"^$\")",
       "Bash(awk 'NR==69' src/app/blog/how-door-to-door-tailoring-works-london/page.tsx)",
-      "Bash(awk 'NR==79' src/app/blog/why-mayfair-clients-choose-visiting-tailor/page.tsx)"
+      "Bash(awk 'NR==79' src/app/blog/why-mayfair-clients-choose-visiting-tailor/page.tsx)",
+      "PowerShell(Get-ChildItem -Path \"D:\\\\toptailor\" -Force | Format-Table -AutoSize Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"Directory\"}else{\"File\"}}})",
+      "Bash(Get-ChildItem -Path \"D:\\\\toptailor\\\\src\" -Recurse -Filter \"*.tsx\" -o Name)",
+      "Bash(Measure-Object)",
+      "Bash(Select-Object -Property Count)",
+      "Bash(find D:\\\\\\\\toptailor\\\\\\\\src\\\\\\\\app\\\\\\\\api\\\\\\\\admin -type f -name \"*.ts\")",
+      "Bash(Get-ChildItem \"D:\\\\toptailor\\\\src\\\\app\\\\api\\\\admin\" -Recurse -Filter \"route.ts\")",
+      "Bash(Select-Object -ExpandProperty FullName)"
     ]
   }
 }
