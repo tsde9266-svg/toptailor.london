@@ -3,7 +3,8 @@ import { getOrder, updateOrder } from '@/lib/kv'
 import type { QuoteItem } from '@/lib/kv'
 import { sendMail } from '@/lib/mail'
 import { isAdmin } from '@/lib/auth'
-import { notifyTelegram } from '@/lib/telegram'
+import { notifyTelegram, escHtml } from '@/lib/telegram'
+import { quoteWALink } from '@/lib/greeting'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.finetailors.co.uk'
 
@@ -104,19 +105,34 @@ export async function POST(req: NextRequest) {
     console.error('[quote] email failed', emailError)
   }
 
-  // Notify tailor on Telegram
+  // Build WhatsApp quote link (works whether email sent or not)
+  const waLink = order.customer.phone
+    ? quoteWALink(order.customer.phone, {
+        name:  order.customer.name,
+        items,
+        total,
+        notes: notes || undefined,
+      })
+    : null
+
+  // Notify tailor on Telegram with inline WhatsApp button
   const ts = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })
-  await notifyTelegram(
+  const tgText =
     (emailSent
-      ? `📤 <b>Quote Sent</b> — ${order.customer.name}\n\n`
-      : `⚠️ <b>Quote saved — EMAIL FAILED</b> — ${order.customer.name}\n\n`) +
+      ? `📤 <b>Quote Sent</b> — ${escHtml(order.customer.name)}\n\n`
+      : `⚠️ <b>Quote saved — EMAIL FAILED</b> — ${escHtml(order.customer.name)}\n\n`) +
     `💰 <b>Total:</b> £${total}\n` +
-    `📧 <b>To:</b> ${order.customer.email}\n` +
+    `📧 <b>To:</b> ${escHtml(order.customer.email)}\n` +
     `⏱ <b>Sent:</b> ${ts}\n` +
     (emailSent
-      ? `\nWaiting for customer approval.`
-      : `\n<b>Send the link manually:</b>\n${BASE_URL}/quote/${orderId}\n\n<i>Reason:</i> ${emailError ?? 'unknown'}`)
-  )
+      ? `\nSend the quote breakdown via WhatsApp below.`
+      : `\n<b>Email failed — send via WhatsApp instead.</b>\n<i>Reason:</i> ${escHtml(emailError ?? 'unknown')}`)
+
+  const tgButtons = waLink
+    ? [[{ text: '💬 Send Quote on WhatsApp', url: waLink }]]
+    : undefined
+
+  await notifyTelegram(tgText, tgButtons)
 
   const quoteLink = `${BASE_URL}/quote/${orderId}`
   return NextResponse.json({
@@ -124,5 +140,6 @@ export async function POST(req: NextRequest) {
     emailSent,
     emailError,
     quoteLink,
+    waLink,
   })
 }

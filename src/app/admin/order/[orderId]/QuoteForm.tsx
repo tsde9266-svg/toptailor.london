@@ -22,6 +22,7 @@ export default function QuoteForm({ order }: { order: Order }) {
   const [emailSent,    setEmailSent]    = useState(true)
   const [emailError,   setEmailError]   = useState('')
   const [quoteLink,    setQuoteLink]    = useState('')
+  const [waLink,       setWaLink]       = useState('')
   const [error,        setError]        = useState('')
 
   const total = items.reduce((sum, i) => sum + (Number(i.price) || 0), 0)
@@ -73,6 +74,7 @@ export default function QuoteForm({ order }: { order: Order }) {
         setEmailSent(data.emailSent !== false)
         setEmailError(data.emailError ?? '')
         setQuoteLink(data.quoteLink ?? '')
+        setWaLink(data.waLink ?? '')
         setSent(true)
       }
     } catch {
@@ -83,73 +85,63 @@ export default function QuoteForm({ order }: { order: Order }) {
   }
 
   if (sent) {
-    if (!emailSent) {
-      // Quote was saved to DB but the email failed to send — admin needs to send the link manually.
-      return (
-        <div className="bg-amber-50 border border-amber-300 p-6 mt-6">
-          <p className="font-playfair text-[1.25rem] text-amber-900 mb-2">⚠ Quote saved — email failed</p>
-          <p className="font-sans text-[0.875rem] text-amber-900 mb-4">
-            The quote is saved in the system, but <strong>the confirmation email to {order.customer.email} did not send</strong>.
-            Send the customer this link manually (WhatsApp / SMS / your own email):
+    return (
+      <div className="mt-6 space-y-4">
+        {/* Status banner */}
+        <div className={`p-5 border ${emailSent ? 'bg-green-50 border-green-200' : 'bg-amber-50 border-amber-300'}`}>
+          <p className={`font-playfair text-[1.125rem] mb-1 ${emailSent ? 'text-green-800' : 'text-amber-900'}`}>
+            {emailSent ? 'Quote saved ✓' : '⚠ Quote saved — email failed'}
           </p>
-          {quoteLink && (
-            <div className="bg-white border border-amber-300 px-4 py-3 mb-4 font-mono text-[0.8125rem] break-all">
-              <a href={quoteLink} target="_blank" rel="noopener noreferrer" className="text-hunter underline">
-                {quoteLink}
-              </a>
-            </div>
+          <p className={`font-sans text-[0.8125rem] ${emailSent ? 'text-green-700' : 'text-amber-800'}`}>
+            {emailSent
+              ? `Confirmation email sent to ${order.customer.email}.`
+              : `Email to ${order.customer.email} did not send — send the quote via WhatsApp below.`}
+          </p>
+          {!emailSent && emailError && (
+            <details className="mt-3">
+              <summary className="font-sans text-[0.6875rem] text-amber-800 cursor-pointer">Why did it fail?</summary>
+              <p className="font-sans text-[0.6875rem] text-amber-700 mt-2 leading-relaxed">{emailError}</p>
+            </details>
           )}
-          <details className="mb-4">
-            <summary className="font-sans text-[0.75rem] text-amber-900 cursor-pointer">
-              Why did it fail? (technical detail)
-            </summary>
-            <p className="font-sans text-[0.75rem] text-amber-900/80 mt-2 leading-relaxed">
-              {emailError || 'Unknown error.'}
-            </p>
-            <p className="font-sans text-[0.75rem] text-amber-900/80 mt-2 leading-relaxed">
-              Most common cause: <code>MAIL_FROM</code> is unset or pointing at Resend&apos;s sandbox sender
-              (<code>onboarding@resend.dev</code>), which only delivers to the Resend account owner.
-              Verify a domain in the Resend dashboard, then set <code>MAIL_FROM</code> in Vercel.
-            </p>
-          </details>
-          <div className="flex gap-3">
+        </div>
+
+        {/* WhatsApp CTA — primary action */}
+        <div className="bg-white border border-divider p-5">
+          <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-3">
+            Send quote on WhatsApp
+          </p>
+          <p className="font-sans text-[0.8125rem] text-charcoal mb-4">
+            Opens WhatsApp with the full quote breakdown pre-filled — customer replies <strong>YES</strong> to approve or tells you what to change.
+          </p>
+          {waLink ? (
             <a
-              href={`https://wa.me/?text=${encodeURIComponent(`Hi ${order.customer.name}, here is your confirmed quote: ${quoteLink}`)}`}
+              href={waLink}
               target="_blank"
               rel="noopener noreferrer"
               className="
-                inline-block bg-green-600 text-white px-5 py-3
-                font-sans text-[0.75rem] font-medium tracking-widest uppercase
-                hover:bg-green-700 transition-colors
+                flex items-center justify-center gap-2 w-full
+                bg-[#25D366] text-white py-4
+                font-sans text-[0.8125rem] font-medium tracking-widest uppercase
+                hover:bg-[#1fad53] transition-colors
               "
             >
-              Share via WhatsApp
+              💬 Send Quote on WhatsApp — £{total}
             </a>
-            <a href="/admin" className="
-              inline-block bg-hunter text-parchment px-5 py-3
-              font-sans text-[0.75rem] font-medium tracking-widest uppercase
-              hover:bg-[#1E3D17] transition-colors
-            ">
-              Back to Orders
-            </a>
-          </div>
+          ) : (
+            <p className="font-sans text-[0.8125rem] text-muted italic">
+              No phone number on file for this customer — use email or call them.
+            </p>
+          )}
         </div>
-      )
-    }
-    return (
-      <div className="bg-green-50 border border-green-200 rounded p-6 text-center mt-6">
-        <p className="font-playfair text-[1.25rem] text-green-800 mb-2">Quote Sent ✓</p>
-        <p className="font-sans text-[0.875rem] text-green-700">
-          Email sent to <strong>{order.customer.email}</strong> with a link to review and approve.
-        </p>
-        <p className="font-sans text-[0.875rem] text-green-700 mt-1">
-          Total quoted: <strong>£{total}</strong>
-        </p>
-        <a href="/admin" className="
-          inline-block mt-5 bg-hunter text-parchment px-6 py-3
-          font-sans text-[0.75rem] font-medium tracking-widest uppercase
-          hover:bg-[#1E3D17] transition-colors
-        ">
+
+        <a
+          href="/admin"
+          className="
+            block text-center bg-hunter text-parchment py-3
+            font-sans text-[0.75rem] font-medium tracking-widest uppercase
+            hover:bg-[#1E3D17] transition-colors
+          "
+        >
           Back to Orders
         </a>
       </div>

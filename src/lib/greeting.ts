@@ -129,6 +129,36 @@ export function slotConfirmationWALink(phone: string, params: {
   return `https://wa.me/${num}?text=${encodeURIComponent(msg)}`
 }
 
+// Quote breakdown — sent to customer via WhatsApp instead of a link.
+// Customer replies YES to approve or describes what they want changed.
+export function quoteWALink(phone: string, params: {
+  name:   string
+  items:  Array<{ name: string; price: number }>
+  total:  number
+  notes?: string
+}): string {
+  const { name, items, total, notes } = params
+  const lines = [
+    `Hi ${name},`,
+    ``,
+    `Here is your quote from Fine Tailors:`,
+    ``,
+    ...items.map(i => `• ${i.name} — £${i.price}`),
+    ``,
+    `Total: £${total}`,
+  ]
+  if (notes?.trim()) lines.push(``, notes.trim())
+  lines.push(
+    ``,
+    `Reply *YES* to approve, or let us know what you'd like to add or remove and we'll update it for you.`,
+    ``,
+    `*Fine Tailors*`,
+    `_London's finest tailors, at your door_`,
+  )
+  const num = normaliseUkPhone(phone)
+  return `https://wa.me/${num}?text=${encodeURIComponent(lines.join('\n'))}`
+}
+
 // Proposed-times template — admin sends this when offering alternative slots.
 export function proposeTimesWALink(phone: string, params: {
   name:       string
