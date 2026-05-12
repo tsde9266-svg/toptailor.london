@@ -48,6 +48,7 @@ async function sendQuoteEmail(
     to,
     subject: `Your confirmed quote — Fine Tailors`,
     html,
+    replyTo: 'tsde9266@gmail.com',
   })
 }
 

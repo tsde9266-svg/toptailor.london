@@ -100,6 +100,7 @@ export async function POST(req: NextRequest, { params }: { params: { invoiceId: 
       to:      invoice.customer.email,
       subject: `Your invoice — ${invoice.number} | ${BUSINESS.name}`,
       html,
+      replyTo: BUSINESS.email,
     })
   } catch (e) {
     emailSent = false

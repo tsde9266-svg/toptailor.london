@@ -130,6 +130,7 @@ export async function POST(req: NextRequest, { params }: { params: { voucherId: 
       to:      customerEmail,
       subject: `${voucher.discountPercent}% off your next tailoring order — ${BUSINESS.name}`,
       html,
+      replyTo: BUSINESS.email,
     })
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e)
