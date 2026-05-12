@@ -71,6 +71,9 @@ export async function POST(req: NextRequest) {
   if (!orderId || !items.length) {
     return NextResponse.json({ error: 'Missing fields' }, { status: 422 })
   }
+  if (items.some(i => !Number.isFinite(i.price) || i.price < 0)) {
+    return NextResponse.json({ error: 'Invalid item price' }, { status: 422 })
+  }
 
   let order
   try {

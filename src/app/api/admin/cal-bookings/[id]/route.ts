@@ -19,8 +19,16 @@ export async function PATCH(
   const booking = await getCalBooking(params.id).catch(() => null)
   if (!booking) return NextResponse.json({ error: 'Booking not found' }, { status: 404 })
 
-  if (typeof body.name     === 'string') booking.attendee.name  = body.name.trim()
-  if (typeof body.email    === 'string') booking.attendee.email = body.email.trim()
+  if (typeof body.name === 'string') {
+    const v = body.name.trim()
+    if (!v) return NextResponse.json({ error: 'Name cannot be empty' }, { status: 422 })
+    booking.attendee.name = v
+  }
+  if (typeof body.email === 'string') {
+    const v = body.email.trim()
+    if (!v) return NextResponse.json({ error: 'Email cannot be empty' }, { status: 422 })
+    booking.attendee.email = v
+  }
   if (typeof body.phone    === 'string') booking.attendee.phone = body.phone.trim()
   if (typeof body.location === 'string') booking.location       = body.location.trim()
   if (typeof body.notes    === 'string') booking.notes          = body.notes.trim()

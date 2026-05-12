@@ -56,8 +56,7 @@ export type Order = {
 }
 
 export async function saveOrder(order: Order): Promise<void> {
-  await redis.set(`order:${order.id}`, order)
-  await redis.lpush('orders', order.id)
+  await redis.pipeline().set(`order:${order.id}`, order).lpush('orders', order.id).exec()
 }
 
 export async function getOrder(id: string): Promise<Order | null> {
@@ -93,8 +92,7 @@ export type Consultation = {
 }
 
 export async function saveConsultation(c: Consultation): Promise<void> {
-  await redis.set(`consultation:${c.id}`, c)
-  await redis.lpush('consultations', c.id)
+  await redis.pipeline().set(`consultation:${c.id}`, c).lpush('consultations', c.id).exec()
 }
 
 export async function getConsultation(id: string): Promise<Consultation | null> {
@@ -124,8 +122,7 @@ export type Review = {
 }
 
 export async function saveReview(review: Review): Promise<void> {
-  await redis.set(`review:${review.id}`, review)
-  await redis.lpush('reviews', review.id)
+  await redis.pipeline().set(`review:${review.id}`, review).lpush('reviews', review.id).exec()
 }
 
 export async function getAllReviews(): Promise<Review[]> {
@@ -159,8 +156,7 @@ export type Voucher = {
 }
 
 export async function saveVoucher(v: Voucher): Promise<void> {
-  await redis.set(`voucher:${v.id}`, v)
-  await redis.lpush('vouchers', v.id)
+  await redis.pipeline().set(`voucher:${v.id}`, v).lpush('vouchers', v.id).exec()
 }
 
 export async function getVoucher(id: string): Promise<Voucher | null> {
@@ -226,8 +222,7 @@ async function nextInvoiceNumber(): Promise<string> {
 }
 
 export async function saveInvoice(invoice: Invoice): Promise<void> {
-  await redis.set(`invoice:${invoice.id}`, invoice)
-  await redis.lpush('invoices', invoice.id)
+  await redis.pipeline().set(`invoice:${invoice.id}`, invoice).lpush('invoices', invoice.id).exec()
 }
 
 export async function getInvoice(id: string): Promise<Invoice | null> {
@@ -281,9 +276,9 @@ export type CalBooking = {
 }
 
 export async function saveCalBooking(b: CalBooking): Promise<void> {
-  await redis.set(`calbooking:${b.id}`, b)
-  await redis.lpush('calbookings', b.id)
-  if (b.calUid) await redis.set(`calbooking:uid:${b.calUid}`, b.id)
+  const p = redis.pipeline().set(`calbooking:${b.id}`, b).lpush('calbookings', b.id)
+  if (b.calUid) p.set(`calbooking:uid:${b.calUid}`, b.id)
+  await p.exec()
 }
 
 export async function getCalBooking(id: string): Promise<CalBooking | null> {

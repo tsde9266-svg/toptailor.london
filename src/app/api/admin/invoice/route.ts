@@ -33,6 +33,9 @@ export async function POST(req: NextRequest) {
     if (!order?.quote) {
       return NextResponse.json({ error: 'Order or approved quote not found' }, { status: 404 })
     }
+    if (order.invoiceId) {
+      return NextResponse.json({ error: 'Invoice already exists for this order', invoiceId: order.invoiceId }, { status: 409 })
+    }
 
     const subtotal = order.quote.total
     const due = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
@@ -63,14 +66,23 @@ export async function POST(req: NextRequest) {
     const customer        = body.customer as Invoice['customer']
     const items           = body.items as Invoice['items']
     const dueDate         = String(body.dueDate ?? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0])
-    const discountPercent = body.discountPercent ? Number(body.discountPercent) : undefined
+    const discountPercent = body.discountPercent != null ? Number(body.discountPercent) : undefined
     const voucherId       = body.voucherId ? String(body.voucherId) : undefined
 
     if (!customer?.name || !customer?.email || !items?.length) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 422 })
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) {
+      return NextResponse.json({ error: 'Invalid customer email' }, { status: 422 })
+    }
+    if (items.some((i: { price: number }) => !Number.isFinite(i.price) || i.price < 0)) {
+      return NextResponse.json({ error: 'Invalid item price' }, { status: 422 })
+    }
+    if (discountPercent !== undefined && (isNaN(discountPercent) || discountPercent < 0 || discountPercent > 100)) {
+      return NextResponse.json({ error: 'Invalid discount percent' }, { status: 422 })
+    }
 
-    const subtotal = items.reduce((s, i) => s + i.price, 0)
+    const subtotal = items.reduce((s: number, i: { price: number }) => s + i.price, 0)
 
     let finalDiscountPercent = discountPercent
     let voucherCode: string | undefined

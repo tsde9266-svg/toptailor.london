@@ -132,7 +132,7 @@ export async function POST(req: NextRequest) {
   try {
     const existing = calUid ? await getCalBookingByCalUid(calUid) : null
 
-    if (isReschedule && existing) {
+    if (existing && isReschedule) {
       // Customer rescheduled in cal.com — reset to pending with new times
       booking = {
         ...existing,
@@ -147,6 +147,10 @@ export async function POST(req: NextRequest) {
         confirmedTime: undefined,
       }
       await updateCalBooking(booking)
+    } else if (existing) {
+      // Webhook retry — booking already saved, skip duplicate creation
+      console.log('[cal-webhook] duplicate calUid, skipping', calUid)
+      return NextResponse.json({ ok: true })
     } else {
       booking = {
         id:          crypto.randomUUID(),
