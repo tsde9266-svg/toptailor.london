@@ -171,7 +171,7 @@ function SendForm({ voucherId, voucherName, onDone }: {
       {/* Preview of what gets sent */}
       <div className="bg-white border border-divider px-4 py-3 font-sans text-[0.8125rem] text-muted">
         <p className="font-medium text-charcoal mb-0.5">What the customer receives:</p>
-        <p>A branded email with the voucher code, the discount amount, and a "Book Online Now" button. The email includes the terms: <em>"This voucher is only applicable when making a booking online through the website."</em></p>
+        <p>A branded email with the voucher code, the discount amount, and a &ldquo;Book Online Now&rdquo; button. The email includes the terms: <em>&ldquo;This voucher is only applicable when making a booking online through the website.&rdquo;</em></p>
       </div>
 
       {err && <p className="font-sans text-sm text-red-700 bg-red-50 border border-red-200 px-3 py-2">{err}</p>}
