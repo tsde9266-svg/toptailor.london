@@ -72,8 +72,8 @@ export default function CheckoutPage() {
   }, [customer, commsPref, paymentPreference, step, bookedSlot, hydrated])
 
   // ── Detect Cal.com booking success ──────────────────────────────────────────
-  // Cal.com posts a window message when the booking completes — we use this to
-  // confirm the slot was actually booked before letting the user submit.
+  // Auto-advance to review the moment Cal.com confirms the booking — no second
+  // button needed.
   useEffect(() => {
     function onMessage(e: MessageEvent) {
       try {
@@ -81,12 +81,13 @@ export default function CheckoutPage() {
         const type = data?.type ?? data?.data?.type ?? ''
         if (type === 'bookingSuccessful' || type === 'CAL:booking:created') {
           setBookedSlot(true)
+          setStep('review')
         }
       } catch { /* non-JSON message */ }
     }
     window.addEventListener('message', onMessage)
     return () => window.removeEventListener('message', onMessage)
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Cal.com embed ─────────────────────────────────────────────────────────────
   // embed.js requires window.Cal to already exist as a command queue before it
@@ -391,52 +392,16 @@ export default function CheckoutPage() {
         </a>
       </p>
 
-      <div className={`border p-6 text-center transition-colors ${bookedSlot ? 'border-hunter bg-hunter/5' : 'border-divider'}`}>
-        {bookedSlot ? (
-          <>
-            <div className="flex items-center justify-center gap-2 mb-1">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2A5220" strokeWidth="1.8">
-                <path d="M20 6L9 17l-5-5" />
-              </svg>
-              <p className="font-sans text-[0.875rem] text-hunter font-medium">Slot confirmed</p>
-            </div>
-            <p className="font-sans text-[0.75rem] text-muted mb-5">
-              Continue to review and submit your request.
-            </p>
-          </>
-        ) : (
-          <>
-            <p className="font-sans text-[0.875rem] text-charcoal mb-1">Booked your slot above?</p>
-            <p className="font-sans text-[0.75rem] text-muted mb-5">
-              Pick a time in the calendar — once it shows confirmed, the button below will activate.
-            </p>
-          </>
-        )}
+      <p className="font-sans text-[0.6875rem] text-muted text-center">
+        Booked above but not moved on?{' '}
         <button
-          onClick={() => setStep('review')}
-          disabled={!bookedSlot}
-          className="
-            bg-hunter text-parchment px-10 py-4
-            font-sans text-[0.75rem] font-medium tracking-[0.2em] uppercase
-            hover:bg-[#1E3D17] transition-colors duration-200
-            disabled:opacity-40 disabled:cursor-not-allowed
-          "
+          type="button"
+          onClick={() => { setBookedSlot(true); setStep('review') }}
+          className="underline underline-offset-2 hover:text-charcoal"
         >
-          Review & Submit →
+          Tap here to continue.
         </button>
-        {!bookedSlot && (
-          <p className="font-sans text-[0.6875rem] text-muted mt-3">
-            Already booked but button is locked?{' '}
-            <button
-              type="button"
-              onClick={() => setBookedSlot(true)}
-              className="underline underline-offset-2 hover:text-charcoal"
-            >
-              Tap here to continue.
-            </button>
-          </p>
-        )}
-      </div>
+      </p>
 
       <div className="mt-6 text-center">
         <button
