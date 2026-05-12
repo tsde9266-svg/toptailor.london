@@ -1,13 +1,12 @@
 import Link from 'next/link'
 import { getOrder } from '@/lib/kv'
 import type { OrderStatus } from '@/lib/kv'
-import QuoteForm from './QuoteForm'
 import GenerateInvoiceButton from './GenerateInvoiceButton'
 
 const STATUS_LABEL: Record<OrderStatus, string> = {
   pending_collection: 'Pending Collection',
-  quote_sent:         'Quote Sent',
-  quote_approved:     'Quote Approved',
+  quote_sent:         'In Progress',
+  quote_approved:     'Approved',
   complete:           'Complete',
 }
 
@@ -183,49 +182,32 @@ export default async function OrderDetailPage({
           </div>
         )}
 
-        {/* Quote section */}
-        {order.status === 'quote_sent' || order.status === 'quote_approved' || order.status === 'complete' ? (
-          <div className="border border-divider p-5">
+        {/* Quote history — only shown for orders that already had a quote sent */}
+        {order.quote && (
+          <div className="border border-divider p-5 opacity-60">
             <div className="flex items-center justify-between mb-4">
               <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted">
-                Quote Sent
+                Quote (historical)
               </p>
-              {order.quote?.approvedAt && (
+              {order.quote.approvedAt && (
                 <span className="font-sans text-[0.6875rem] text-green-700 font-medium uppercase tracking-wider">
                   Approved ✓
                 </span>
               )}
             </div>
             <ul className="space-y-2 mb-4">
-              {order.quote!.items.map((item, i) => (
+              {order.quote.items.map((item, i) => (
                 <li key={i} className="flex justify-between font-sans text-[0.9rem]">
                   <span className="text-charcoal">{item.name}</span>
                   <span className="text-hunter font-medium">£{item.price}</span>
                 </li>
               ))}
             </ul>
-            <div className="border-t border-divider pt-3 flex justify-between mb-3">
-              <span className="font-sans text-[0.75rem] uppercase tracking-widest text-muted">Total Quoted</span>
-              <span className="font-playfair text-[1.125rem] text-charcoal">£{order.quote!.total}</span>
+            <div className="border-t border-divider pt-3 flex justify-between">
+              <span className="font-sans text-[0.75rem] uppercase tracking-widest text-muted">Total</span>
+              <span className="font-playfair text-[1.125rem] text-charcoal">£{order.quote.total}</span>
             </div>
-            {order.quote?.notes && (
-              <p className="font-sans text-[0.8125rem] text-muted italic">
-                Notes: {order.quote.notes}
-              </p>
-            )}
-            {order.quote?.approvedAt && (
-              <div className="mt-4 pt-4 border-t border-divider space-y-1">
-                <p className="font-sans text-[0.8125rem] text-green-700">
-                  Approved: {fmtDate(order.quote.approvedAt)}
-                </p>
-                <p className="font-sans text-[0.8125rem] text-charcoal">
-                  Payment: {order.quote.paymentMethod === 'bank' ? 'Bank Transfer' : 'Pay on Collection / Delivery'}
-                </p>
-              </div>
-            )}
           </div>
-        ) : (
-          <QuoteForm order={order} />
         )}
       </div>
     </div>

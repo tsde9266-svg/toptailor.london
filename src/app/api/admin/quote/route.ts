@@ -92,18 +92,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Failed to save quote' }, { status: 503 })
   }
 
-  // Send email to customer. The quote is *already* saved in KV, so an email
-  // failure shouldn't lose the work — instead we report it back so admin
-  // knows to follow up manually (and so the UI doesn't show a false "✓ Sent").
-  let emailSent: boolean = true
-  let emailError: string | undefined
-  try {
-    await sendQuoteEmail(order.customer.email, order.customer.name, orderId, items, total, notes || undefined)
-  } catch (e) {
-    emailSent = false
-    emailError = e instanceof Error ? e.message : String(e)
-    console.error('[quote] email failed', emailError)
-  }
+  // Email disabled — quotes are sent via WhatsApp only.
+  // Re-enable once finetailors.co.uk domain is verified in Resend.
+  // try { await sendQuoteEmail(...) } catch { ... }
+  const emailSent: boolean = false
+  const emailError: string | undefined = undefined
 
   // Build WhatsApp quote link (works whether email sent or not)
   const waLink = order.customer.phone
