@@ -98,8 +98,9 @@ export default function BookingActions({ booking }: Props) {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed')
       setStatus('awaiting_customer')
-      setWaLink(data.waLink ?? null)
-      // Update local proposed times so the confirm UI shows them without a page reload
+      const proposeLink = data.waLink ?? null
+      setWaLink(proposeLink)
+      if (proposeLink) window.open(proposeLink, '_blank')
       const built = slots
         .filter(s => s.date && s.startTime && s.endTime)
         .map(s => ({ start: `${s.date}T${s.startTime}`, end: `${s.date}T${s.endTime}` }))
@@ -153,7 +154,9 @@ export default function BookingActions({ booking }: Props) {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed')
-      setWaLink(data.waLink ?? null)
+      const resendLink = data.waLink ?? null
+      setWaLink(resendLink)
+      if (resendLink) window.open(resendLink, '_blank')
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong')
     } finally {
@@ -302,10 +305,10 @@ export default function BookingActions({ booking }: Props) {
 
           <div className="flex flex-wrap gap-3">
             <ActionBtn onClick={handleConfirmSlot} loading={loading === 'confirm'} variant="primary">
-              Confirm &amp; Open WhatsApp →
+              Customer chose — confirm &amp; notify →
             </ActionBtn>
             <ActionBtn onClick={handleResendPropose} loading={loading === 'resend'} variant="outline">
-              Re-send WhatsApp
+              Re-send propose message
             </ActionBtn>
           </div>
 

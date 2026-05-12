@@ -183,7 +183,8 @@ export async function POST(req: NextRequest) {
     (dateStr  ? `📅 <b>Date:</b> ${dateStr}${endStr ? ` – ${endStr}` : ''}\n` : '') +
     (location ? `📍 <b>Location:</b> ${escHtml(location)}\n`                   : '') +
     (notes    ? `\n💬 <b>Notes:</b>\n${escHtml(notes)}\n`                      : '') +
-    `\n⏳ <i>Awaiting your approval — no confirmation sent to customer yet.</i>`
+    `\n⏳ <i>Slot booked — awaiting your approval.</i>\n` +
+    `⚠️ <i>Customer has NOT yet submitted their order or chosen a payment method.</i>`
 
   const buttons = [[
     { text: '✅ Open Admin',        url: `${BASE_URL}/admin/bookings/${booking.id}` },

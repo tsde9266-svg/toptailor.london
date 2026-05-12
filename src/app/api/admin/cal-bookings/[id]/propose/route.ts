@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isAdmin } from '@/lib/auth'
 import { getCalBooking, updateCalBooking, type CalBookingSlot } from '@/lib/kv'
-import { proposeTimesWALink } from '@/lib/greeting'
+import { proposeTimesWALink, fmtSlotDate, fmtSlotTime } from '@/lib/greeting'
+import { notifyTelegram, escHtml } from '@/lib/telegram'
 
 export async function POST(
   req: NextRequest,
@@ -51,6 +52,17 @@ export async function POST(
         adminNote: adminNote || undefined,
       })
     : null
+
+  const slotSummary = slots.map((s, i) =>
+    `${i + 1}. ${fmtSlotDate(s.start)}, ${fmtSlotTime(s.start)} – ${fmtSlotTime(s.end)}`
+  ).join('\n')
+
+  await notifyTelegram(
+    `📋 <b>Alternative slots proposed</b> — ${escHtml(booking.attendee.name)}\n\n` +
+    `${slotSummary}\n\n` +
+    `Waiting for customer to reply with their choice.`,
+    waLink ? [[{ text: '💬 Send propose message', url: waLink }]] : undefined,
+  )
 
   return NextResponse.json({ ok: true, waLink })
 }
