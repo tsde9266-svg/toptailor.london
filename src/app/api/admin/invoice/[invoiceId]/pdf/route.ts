@@ -4,6 +4,8 @@ import { getInvoice } from '@/lib/kv'
 import { renderToBuffer } from '@react-pdf/renderer'
 import { InvoicePDF } from '@/lib/invoice-pdf'
 import React from 'react'
+import type { DocumentProps } from '@react-pdf/renderer'
+import type { ReactElement } from 'react'
 
 export async function GET(
   req: NextRequest,
@@ -14,15 +16,16 @@ export async function GET(
   const invoice = await getInvoice(params.invoiceId).catch(() => null)
   if (!invoice) return NextResponse.json({ error: 'Invoice not found' }, { status: 404 })
 
-  const buffer = await renderToBuffer(React.createElement(InvoicePDF, { invoice }))
+  const element = React.createElement(InvoicePDF, { invoice }) as unknown as ReactElement<DocumentProps>
+  const buffer  = await renderToBuffer(element)
 
   const filename = `Invoice-${invoice.number}-${invoice.customer.name.replace(/\s+/g, '-')}.pdf`
 
-  return new NextResponse(buffer, {
+  return new NextResponse(new Uint8Array(buffer), {
     headers: {
       'Content-Type':        'application/pdf',
       'Content-Disposition': `attachment; filename="${filename}"`,
-      'Content-Length':      String(buffer.length),
+      'Content-Length':      String(buffer.byteLength),
       'Cache-Control':       'no-store',
     },
   })

@@ -15,7 +15,7 @@ function fmtDate(iso: string) {
 
 const SAMPLE = {
   number:        'FT-2026-007',
-  status:        'sent' as const,
+  status:        'sent' as 'draft' | 'sent' | 'paid',
   createdAt:     '2026-05-12T10:00:00.000Z',
   dueDate:       '2026-05-19',
   paidAt:        undefined as string | undefined,

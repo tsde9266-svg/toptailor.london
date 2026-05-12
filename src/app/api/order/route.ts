@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
       email:             customer.email.trim(),
       phone:             customer.phone?.trim() || undefined,
       address:           customer.address.trim(),
-      postcode:          customer.postcode?.trim() || undefined,
+      postcode:          customer.postcode?.trim() || '',
       commsPref:         (commsPref === 'whatsapp' || commsPref === 'email') ? commsPref : undefined,
       paymentPreference: (paymentPreference === 'day' || paymentPreference === 'bank') ? paymentPreference : undefined,
     },
