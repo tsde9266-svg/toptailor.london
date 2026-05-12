@@ -58,7 +58,7 @@ export default function InvoicePreviewPage() {
           body { background: white !important; margin: 0; padding: 0; }
           * { -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
         }
-        @page { margin: 1.2cm; size: A4 portrait; }
+        @page { margin: 0; size: A4 portrait; }
       `}</style>
 
       <div className="no-print bg-[#1A3A12] text-parchment/70 px-6 py-3 flex items-center justify-between">

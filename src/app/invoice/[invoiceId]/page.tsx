@@ -34,7 +34,7 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
           body { background: white !important; margin: 0; padding: 0; }
           * { -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
         }
-        @page { margin: 1.2cm; size: A4 portrait; }
+        @page { margin: 0; size: A4 portrait; }
       `}</style>
 
       {/* Screen-only top bar */}

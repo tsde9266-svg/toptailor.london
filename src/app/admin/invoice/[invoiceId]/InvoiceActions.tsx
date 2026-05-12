@@ -34,14 +34,17 @@ export default function InvoiceActions({
       const filename = `Invoice-${invoiceNumber}.pdf`
       const file = new File([blob], filename, { type: 'application/pdf' })
 
-      if (typeof navigator !== 'undefined' && navigator.canShare?.({ files: [file] })) {
+      // Web Share API with files only works reliably on mobile (iOS/Android).
+      // Windows/macOS show a native share dialog that doesn't include WhatsApp,
+      // so we fall back to a direct download on non-mobile platforms.
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+      if (isMobile && navigator.canShare?.({ files: [file] })) {
         await navigator.share({
           files: [file],
           title: `Invoice ${invoiceNumber}`,
           text:  'Please find your invoice attached.',
         })
       } else {
-        // Desktop fallback — download the PDF
         const url = URL.createObjectURL(blob)
         const a   = document.createElement('a')
         a.href     = url
