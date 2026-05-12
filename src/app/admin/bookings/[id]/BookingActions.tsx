@@ -67,6 +67,7 @@ export default function BookingActions({ booking }: Props) {
 
   // ── Approve ────────────────────────────────────────────────────────────────
   async function handleApprove() {
+    if (!window.confirm('Approve this booking? A confirmation email will be sent to the customer.')) return
     setLoading('approve')
     setError(null)
     try {
@@ -97,9 +98,7 @@ export default function BookingActions({ booking }: Props) {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed')
       setStatus('awaiting_customer')
-      const proposeLink = data.waLink ?? null
-      setWaLink(proposeLink)
-      if (proposeLink) window.open(proposeLink, '_blank')
+      setWaLink(data.waLink ?? null)
       const built = slots
         .filter(s => s.date && s.startTime && s.endTime)
         .map(s => ({ start: `${s.date}T${s.startTime}`, end: `${s.date}T${s.endTime}` }))
@@ -113,6 +112,7 @@ export default function BookingActions({ booking }: Props) {
 
   // ── Confirm slot ───────────────────────────────────────────────────────────
   async function handleConfirmSlot() {
+    if (!window.confirm('Confirm this slot? This will mark the booking as approved.')) return
     setLoading('confirm')
     setError(null)
     try {
@@ -124,9 +124,7 @@ export default function BookingActions({ booking }: Props) {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed')
       setStatus('approved')
-      const link = data.waLink ?? null
-      setWaLink(link)
-      if (link) window.open(link, '_blank')
+      setWaLink(data.waLink ?? null)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong')
     } finally {
@@ -153,9 +151,7 @@ export default function BookingActions({ booking }: Props) {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed')
-      const resendLink = data.waLink ?? null
-      setWaLink(resendLink)
-      if (resendLink) window.open(resendLink, '_blank')
+      setWaLink(data.waLink ?? null)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong')
     } finally {
@@ -311,7 +307,7 @@ export default function BookingActions({ booking }: Props) {
             </ActionBtn>
           </div>
 
-          {waLink && <WAButton href={waLink} label="Open WhatsApp (retry)" />}
+          {waLink && <WAButton href={waLink} label="Send via WhatsApp" />}
         </div>
       </div>
     )

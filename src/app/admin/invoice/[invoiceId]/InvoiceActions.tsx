@@ -20,6 +20,7 @@ export default function InvoiceActions({ invoiceId, invoiceUrl, waLink, status, 
   const [copied,    setCopied]    = useState(false)
 
   async function sendEmail() {
+    if (!window.confirm(`Send invoice email to ${customerEmail}?`)) return
     setSending(true)
     setEmailErr('')
     try {
@@ -38,6 +39,7 @@ export default function InvoiceActions({ invoiceId, invoiceUrl, waLink, status, 
   }
 
   async function markPaid() {
+    if (!window.confirm('Mark this invoice as paid? This cannot be undone.')) return
     setMarking(true)
     try {
       await fetch(`/api/admin/invoice/${invoiceId}/mark-paid`, { method: 'POST' })
@@ -79,7 +81,7 @@ export default function InvoiceActions({ invoiceId, invoiceUrl, waLink, status, 
           View Invoice
         </a>
         <button
-          onClick={() => { const w = window.open(invoiceUrl, '_blank'); if (w) w.onload = () => w.print() }}
+          onClick={() => window.open(invoiceUrl, '_blank')}
           className="flex-1 text-center border border-charcoal text-charcoal py-2.5 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:bg-charcoal hover:text-parchment transition-colors"
         >
           Print / PDF
