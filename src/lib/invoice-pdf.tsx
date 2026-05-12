@@ -242,7 +242,7 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
           <View style={s.footer}>
             <View style={s.footerLeft}>
               <View style={s.footerEmblem}><Text style={s.footerEmblemTxt}>FT</Text></View>
-              <Text style={s.footerName}>{BUSINESS.name} · London's finest tailors, at your door</Text>
+              <Text style={s.footerName}>{BUSINESS.name} · London&apos;s finest tailors, at your door</Text>
             </View>
             <Text style={s.footerContact}>{BUSINESS.email}  ·  {BUSINESS.phone}</Text>
           </View>

@@ -224,7 +224,7 @@ export default function InvoicePreviewPage() {
               <div style={{ width: '28px', height: '28px', background: '#1A3A12', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <span style={{ color: '#F5F0E8', fontFamily: 'Georgia, serif', fontSize: '11px' }}>FT</span>
               </div>
-              <span style={{ fontFamily: 'sans-serif', fontSize: '12px', color: '#999' }}>{BUSINESS.name} · London's finest tailors, at your door</span>
+              <span style={{ fontFamily: 'sans-serif', fontSize: '12px', color: '#999' }}>{BUSINESS.name} · London&apos;s finest tailors, at your door</span>
             </div>
             <p style={{ fontFamily: 'sans-serif', fontSize: '12px', color: '#999', margin: 0, textAlign: 'right', lineHeight: 1.6 }}>
               <a href={`mailto:${BUSINESS.email}`} style={{ color: '#2A5220', textDecoration: 'none' }}>{BUSINESS.email}</a>

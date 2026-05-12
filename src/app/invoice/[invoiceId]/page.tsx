@@ -281,7 +281,7 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
                 <span style={{ color: '#F5F0E8', fontFamily: 'Georgia, serif', fontSize: '11px' }}>FT</span>
               </div>
               <span style={{ fontFamily: 'sans-serif', fontSize: '12px', color: '#999' }}>
-                {BUSINESS.name} · London's finest tailors, at your door
+                {BUSINESS.name} · London&apos;s finest tailors, at your door
               </span>
             </div>
             <p style={{ fontFamily: 'sans-serif', fontSize: '12px', color: '#999', margin: 0, textAlign: 'right', lineHeight: 1.6 }}>
