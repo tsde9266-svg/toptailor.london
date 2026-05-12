@@ -25,8 +25,8 @@ function fmtCreated(d: string) {
 
 function BookingCard({ b }: { b: CalBooking }) {
   const dateStr = b.scheduledAt ? fmtBookingDate(b.scheduledAt) : '—'
-  const timeStr = b.scheduledAt && b.endTime
-    ? `${fmt12h(b.scheduledAt)} – ${fmt12h(b.endTime)}`
+  const timeStr = b.scheduledAt
+    ? fmt12h(b.scheduledAt) + (b.endTime ? ` – ${fmt12h(b.endTime)}` : '')
     : ''
 
   return (

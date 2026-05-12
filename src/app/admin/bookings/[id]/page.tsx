@@ -24,8 +24,8 @@ export default async function BookingDetailPage({ params }: { params: { id: stri
   if (!booking) notFound()
 
   const dateStr = booking.scheduledAt ? fmtBookingDate(booking.scheduledAt) : '—'
-  const timeStr = booking.scheduledAt && booking.endTime
-    ? `${fmt12h(booking.scheduledAt)} – ${fmt12h(booking.endTime)}`
+  const timeStr = booking.scheduledAt
+    ? fmt12h(booking.scheduledAt) + (booking.endTime ? ` – ${fmt12h(booking.endTime)}` : '')
     : ''
 
   const confirmedDate = booking.confirmedTime

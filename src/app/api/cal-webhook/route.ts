@@ -66,16 +66,33 @@ export async function POST(req: NextRequest) {
   }
 
   // Extract attendee details
-  const attendees = (payload.attendees ?? []) as Array<Record<string, string>>
-  const attendee  = attendees[0] ?? {}
-  const name      = attendee.name        ?? String(payload.name        ?? 'Unknown')
-  const email     = attendee.email       ?? String(payload.email       ?? '')
-  const phone     = attendee.phoneNumber ?? String(payload.phoneNumber ?? '')
+  // Cal.com sends custom field responses (phone, address) in payload.responses,
+  // not always in the attendee object — check both.
+  const attendees  = (payload.attendees ?? []) as Array<Record<string, string>>
+  const attendee   = attendees[0] ?? {}
+  const responses  = (payload.responses ?? {}) as Record<string, { value?: unknown } | unknown>
+  const pickStr    = (r: unknown) => {
+    if (!r) return ''
+    if (typeof r === 'string') return r
+    const v = (r as { value?: unknown }).value
+    if (typeof v === 'string') return v
+    // location can be { value: "attendeeAddress", optionValue: "123 Street..." }
+    if (v && typeof v === 'object') return String((v as { optionValue?: unknown }).optionValue ?? '')
+    return ''
+  }
+
+  const name      = attendee.name  || pickStr(responses.name)  || String(payload.name  ?? 'Unknown')
+  const email     = attendee.email || pickStr(responses.email) || String(payload.email ?? '')
+  const phone     = attendee.phoneNumber
+    || pickStr(responses.phone)
+    || String(payload.phoneNumber ?? '')
   const startTime = String(payload.startTime ?? '')
   const endTime   = String(payload.endTime   ?? '')
-  const notes     = String(payload.description ?? payload.additionalNotes ?? '')
+  const notes     = pickStr(responses.notes)
+    || String(payload.description ?? payload.additionalNotes ?? '')
   const calUid    = String(payload.uid ?? '')
-  const location  = String(payload.location ?? '')
+  // location: prefer the responses address over the location-type label
+  const location  = pickStr(responses.location) || String(payload.location ?? '')
 
   const dateStr = startTime ? fmt(startTime) : ''
   const endStr  = endTime
