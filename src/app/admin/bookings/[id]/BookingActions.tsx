@@ -124,8 +124,9 @@ export default function BookingActions({ booking }: Props) {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed')
       setStatus('approved')
-      setWaLink(data.waLink ?? null)
-      setEmailOk(data.emailSent)
+      const link = data.waLink ?? null
+      setWaLink(link)
+      if (link) window.open(link, '_blank')
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong')
     } finally {
@@ -171,7 +172,7 @@ export default function BookingActions({ booking }: Props) {
         <p className="font-sans text-[0.875rem] text-green-800 font-medium">
           ✓ Booking confirmed
           {emailOk === true  && ' · Confirmation email sent to customer.'}
-          {emailOk === false && ' · Email failed — send WhatsApp manually.'}
+          {emailOk === false && ' · Email failed.'}
         </p>
         {waLink && <WAButton href={waLink} label="Send WhatsApp Confirmation" />}
       </div>
@@ -301,14 +302,14 @@ export default function BookingActions({ booking }: Props) {
 
           <div className="flex flex-wrap gap-3">
             <ActionBtn onClick={handleConfirmSlot} loading={loading === 'confirm'} variant="primary">
-              Confirm &amp; Send Email
+              Confirm &amp; Open WhatsApp →
             </ActionBtn>
             <ActionBtn onClick={handleResendPropose} loading={loading === 'resend'} variant="outline">
               Re-send WhatsApp
             </ActionBtn>
           </div>
 
-          {waLink && <WAButton href={waLink} label="Open WhatsApp" />}
+          {waLink && <WAButton href={waLink} label="Open WhatsApp (retry)" />}
         </div>
       </div>
     )
