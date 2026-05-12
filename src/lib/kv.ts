@@ -300,6 +300,12 @@ export async function updateCalBooking(b: CalBooking): Promise<void> {
   await redis.set(`calbooking:${b.id}`, b)
 }
 
+export async function deleteCalBooking(id: string, calUid?: string): Promise<void> {
+  await redis.del(`calbooking:${id}`)
+  await redis.lrem('calbookings', 0, id)
+  if (calUid) await redis.del(`calbooking:uid:${calUid}`)
+}
+
 export async function getAllCalBookings(): Promise<CalBooking[]> {
   const ids = await redis.lrange<string>('calbookings', 0, -1)
   if (!ids.length) return []
