@@ -5,12 +5,13 @@ import type { InvoiceStatus } from '@/lib/kv'
 type Props = {
   invoiceId:     string
   invoiceUrl:    string
-  waText:        string
+  waLink:        string
   status:        InvoiceStatus
   customerEmail: string
+  customerPhone?: string
 }
 
-export default function InvoiceActions({ invoiceId, invoiceUrl, waText, status, customerEmail }: Props) {
+export default function InvoiceActions({ invoiceId, invoiceUrl, waLink, status, customerEmail, customerPhone }: Props) {
   const [sending,   setSending]   = useState(false)
   const [marking,   setMarking]   = useState(false)
   const [emailDone, setEmailDone] = useState(false)
@@ -56,7 +57,18 @@ export default function InvoiceActions({ invoiceId, invoiceUrl, waText, status, 
     <div className="border border-divider bg-white p-5 space-y-3">
       <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-1">Actions</p>
 
-      {/* View + Print */}
+      {/* WhatsApp — primary send action */}
+      <a
+        href={waLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white py-3.5 font-sans text-[0.8125rem] font-medium tracking-widest uppercase hover:bg-[#1fad53] transition-colors"
+      >
+        💬 Send Invoice on WhatsApp
+        {customerPhone && <span className="font-normal opacity-80 text-[0.6875rem] normal-case tracking-normal">→ {customerPhone}</span>}
+      </a>
+
+      {/* Secondary actions */}
       <div className="flex gap-2">
         <a
           href={invoiceUrl}
@@ -67,26 +79,11 @@ export default function InvoiceActions({ invoiceId, invoiceUrl, waText, status, 
           View Invoice
         </a>
         <button
-          onClick={() => {
-            const win = window.open(invoiceUrl, '_blank')
-            if (win) { win.onload = () => win.print() }
-          }}
+          onClick={() => { const w = window.open(invoiceUrl, '_blank'); if (w) w.onload = () => w.print() }}
           className="flex-1 text-center border border-charcoal text-charcoal py-2.5 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:bg-charcoal hover:text-parchment transition-colors"
         >
           Print / PDF
         </button>
-      </div>
-
-      {/* Share */}
-      <div className="flex gap-2">
-        <a
-          href={`https://wa.me/?text=${waText}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex-1 text-center bg-[#25D366] text-white py-2.5 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:bg-[#1fad53] transition-colors"
-        >
-          Share WhatsApp
-        </a>
         <button
           onClick={copyLink}
           className="flex-1 text-center border border-divider text-muted py-2.5 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:border-charcoal hover:text-charcoal transition-colors"

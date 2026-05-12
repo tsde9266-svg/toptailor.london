@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getInvoice } from '@/lib/kv'
 import InvoiceActions from './InvoiceActions'
-import { BUSINESS } from '@/lib/constants'
+import { invoiceWALink } from '@/lib/greeting'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.finetailors.co.uk'
 
@@ -25,9 +25,20 @@ export default async function AdminInvoicePage({ params }: { params: { invoiceId
   if (!invoice) notFound()
 
   const invoiceUrl = `${BASE_URL}/invoice/${invoice.id}`
-  const waText     = encodeURIComponent(
-    `Hi ${invoice.customer.name}, here is your invoice from ${BUSINESS.name}:\n\n${invoice.number} — £${invoice.total}\n\n${invoiceUrl}`
-  )
+  const waLink     = invoiceWALink(invoice.customer.phone, {
+    name:            invoice.customer.name,
+    invoiceNumber:   invoice.number,
+    createdAt:       invoice.createdAt,
+    items:           invoice.items,
+    subtotal:        invoice.subtotal,
+    discountAmount:  invoice.discountAmount ?? invoice.discount,
+    discountPercent: invoice.discountPercent,
+    voucherCode:     invoice.voucherCode,
+    voucherName:     invoice.voucherName,
+    total:           invoice.total,
+    paymentMethod:   invoice.paymentMethod,
+    dueDate:         invoice.dueDate,
+  })
 
   return (
     <div className="min-h-screen bg-parchment">
@@ -134,9 +145,10 @@ export default async function AdminInvoicePage({ params }: { params: { invoiceId
         <InvoiceActions
           invoiceId={invoice.id}
           invoiceUrl={invoiceUrl}
-          waText={waText}
+          waLink={waLink}
           status={invoice.status}
           customerEmail={invoice.customer.email}
+          customerPhone={invoice.customer.phone}
         />
 
         {invoice.notes && (

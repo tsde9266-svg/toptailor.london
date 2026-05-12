@@ -129,6 +129,79 @@ export function slotConfirmationWALink(phone: string, params: {
   return `https://wa.me/${num}?text=${encodeURIComponent(msg)}`
 }
 
+// Full invoice breakdown — sent to customer via WhatsApp instead of emailing a link.
+// Includes items, discount, total, and bank details when payment method is bank transfer.
+export function invoiceWALink(phone: string | undefined | null, params: {
+  name:            string
+  invoiceNumber:   string
+  createdAt:       string
+  items:           Array<{ name: string; price: number }>
+  subtotal:        number
+  discountAmount?: number
+  discountPercent?: number
+  voucherCode?:    string
+  voucherName?:    string
+  total:           number
+  paymentMethod:   'bank' | 'cash' | 'mobile'
+  dueDate:         string
+}): string {
+  const {
+    name, invoiceNumber, createdAt, items,
+    subtotal, discountAmount, discountPercent, voucherCode, voucherName,
+    total, paymentMethod, dueDate,
+  } = params
+
+  const fmtDate = (iso: string) =>
+    new Date(iso).toLocaleDateString('en-GB', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+    })
+
+  const lines: string[] = [
+    `Hi ${name},`,
+    ``,
+    `Please find your invoice from Fine Tailors below.`,
+    ``,
+    `${invoiceNumber} · ${fmtDate(createdAt)}`,
+    ``,
+    ...items.map(i => `• ${i.name} — £${i.price.toFixed(2)}`),
+    ``,
+  ]
+
+  if (discountAmount && discountAmount > 0) {
+    lines.push(`Subtotal: £${subtotal.toFixed(2)}`)
+    const discountLabel = voucherName
+      ? `${voucherName}${discountPercent ? ` (${discountPercent}%)` : ''}${voucherCode ? ` [${voucherCode}]` : ''}`
+      : `Discount${discountPercent ? ` (${discountPercent}%)` : ''}`
+    lines.push(`${discountLabel}: −£${discountAmount.toFixed(2)}`)
+    lines.push(``)
+  }
+
+  lines.push(`*Total due: £${total.toFixed(2)}*`)
+
+  if (paymentMethod === 'bank') {
+    lines.push(
+      ``,
+      `─────────────────`,
+      `*Bank transfer details:*`,
+      `Account name: Tahir ul Hassan`,
+      `Sort code: 04-00-03`,
+      `Account no.: 11282726`,
+      `Reference: ${invoiceNumber}`,
+      `─────────────────`,
+    )
+  }
+
+  lines.push(``, `Due by: ${fmtDate(dueDate)}`)
+  lines.push(``, `Thank you for choosing Fine Tailors. If you have any questions please message us here.`)
+  lines.push(``, `*Fine Tailors*`, `_London's finest tailors, at your door_`)
+
+  const msg = lines.join('\n')
+  const num = phone ? normaliseUkPhone(phone) : ''
+  return num
+    ? `https://wa.me/${num}?text=${encodeURIComponent(msg)}`
+    : `https://wa.me/?text=${encodeURIComponent(msg)}`
+}
+
 // Quote breakdown — sent to customer via WhatsApp instead of a link.
 // Customer replies YES to approve or describes what they want changed.
 export function quoteWALink(phone: string, params: {
