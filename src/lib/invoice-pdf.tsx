@@ -3,7 +3,7 @@ import {
   Document, Page, View, Text, StyleSheet,
 } from '@react-pdf/renderer'
 import type { Invoice } from './kv'
-import { BUSINESS, BANK } from './constants'
+import { BUSINESS } from './constants'
 
 const GREEN  = '#1A3A12'
 const GREEN2 = '#2A5220'
@@ -211,22 +211,6 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
             )}
             {invoice.paymentMethod === 'mobile' && (
               <Text style={s.paySimple}>Collected via mobile / contactless — no further action required.</Text>
-            )}
-            {invoice.paymentMethod === 'bank' && (
-              <View style={s.payGrid}>
-                {[
-                  ['Method',       'Bank Transfer'],
-                  ['Account Name', BANK.name],
-                  ['Sort Code',    BANK.sortCode],
-                  ['Account No.',  BANK.account],
-                  ['Reference',    invoice.number],
-                ].map(([label, value]) => (
-                  <View key={label} style={s.payItem}>
-                    <Text style={s.payItemLabel}>{label}</Text>
-                    <Text style={s.payItemValue}>{value}</Text>
-                  </View>
-                ))}
-              </View>
             )}
           </View>
 

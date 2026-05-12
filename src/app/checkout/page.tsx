@@ -22,7 +22,7 @@ export default function CheckoutPage() {
     name: '', email: '', phone: '', address: '', postcode: '',
   })
   const [commsPref,         setCommsPref]         = useState<'whatsapp' | 'email' | ''>('')
-  const [paymentPreference, setPaymentPreference] = useState<'day' | 'bank' | ''>('')
+  const paymentPreference = 'day' as const
   const [bookedSlot,        setBookedSlot]        = useState(false)
   const [hydrated,          setHydrated]          = useState(false)
 
@@ -43,7 +43,7 @@ export default function CheckoutPage() {
         // Always restore form fields — typing them again is annoying.
         if (saved.customer  && typeof saved.customer === 'object') setCustomer(saved.customer)
         if (saved.commsPref)         setCommsPref(saved.commsPref)
-        if (saved.paymentPreference) setPaymentPreference(saved.paymentPreference)
+        // paymentPreference is always 'day' — no need to restore
 
         // Step + bookedSlot are time-sensitive — only restore if fresh.
         if (fresh) {
@@ -350,7 +350,6 @@ export default function CheckoutPage() {
               if (confirm('Clear all checkout details and start fresh?')) {
                 setCustomer({ name: '', email: '', phone: '', address: '', postcode: '' })
                 setCommsPref('')
-                setPaymentPreference('')
                 setBookedSlot(false)
                 setStep('details')
                 try { localStorage.removeItem(CHECKOUT_STORAGE_KEY) } catch {}
@@ -475,37 +474,10 @@ export default function CheckoutPage() {
         </p>
       </div>
 
-      {/* Payment preference */}
-      <div className="mb-8">
-        <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-3">
-          How would you like to pay?
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {([
-            { value: 'day',  label: 'Pay on the day',     desc: 'Cash or card on collection' },
-            { value: 'bank', label: 'Bank transfer',      desc: 'We’ll send our details' },
-          ] as const).map(opt => (
-            <button
-              key={opt.value}
-              type="button"
-              onClick={() => setPaymentPreference(opt.value)}
-              className={`
-                py-4 px-5 text-left border transition-colors duration-150
-                font-sans text-[0.8125rem]
-                ${paymentPreference === opt.value
-                  ? 'border-hunter bg-hunter/5 text-hunter'
-                  : 'border-divider text-muted hover:border-charcoal hover:text-charcoal'
-                }
-              `}
-            >
-              <span className="block font-medium mb-0.5">{opt.label}</span>
-              <span className="block text-[0.75rem] opacity-70">{opt.desc}</span>
-            </button>
-          ))}
-        </div>
-        <p className="font-sans text-[0.6875rem] text-muted mt-2">
-          You only pay after approving your final quote — this just tells us how you prefer to settle up.
-        </p>
+      {/* Payment info */}
+      <div className="mb-8 border border-divider px-5 py-4 bg-hunter/5">
+        <p className="font-sans text-[0.8125rem] text-charcoal font-medium mb-0.5">Payment on the day</p>
+        <p className="font-sans text-[0.75rem] text-muted">Cash or card (contactless / NFC) — collected when we return your garments. Nothing needed now.</p>
       </div>
 
       {/* Communication preference */}
@@ -547,7 +519,7 @@ export default function CheckoutPage() {
 
       <button
         onClick={submitRequest}
-        disabled={loading || !commsPref || !paymentPreference}
+        disabled={loading || !commsPref}
         className="
           w-full bg-hunter text-parchment py-5
           font-sans text-[0.8125rem] font-medium tracking-[0.2em] uppercase

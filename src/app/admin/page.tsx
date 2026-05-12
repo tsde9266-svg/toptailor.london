@@ -54,7 +54,7 @@ function OrderCard({ order }: { order: Order }) {
       <div className="flex items-center gap-2 flex-wrap mt-1">
         {order.customer.paymentPreference && (
           <span className="font-sans text-[0.625rem] uppercase tracking-wider px-1.5 py-0.5 rounded bg-hunter/10 text-hunter">
-            {order.customer.paymentPreference === 'bank' ? 'Bank' : 'Pay on day'}
+            Pay on day
           </span>
         )}
         {order.customer.commsPref && (

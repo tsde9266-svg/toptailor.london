@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getInvoice, updateInvoice } from '@/lib/kv'
 import { sendMail } from '@/lib/mail'
-import { BUSINESS, BANK } from '@/lib/constants'
+import { BUSINESS } from '@/lib/constants'
 import { isAdmin } from '@/lib/auth'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.finetailors.co.uk'
@@ -36,18 +36,9 @@ export async function POST(req: NextRequest, { params }: { params: { invoiceId: 
     ? `<div style="background:#EAF0E2;border-left:3px solid #2A5220;padding:16px 20px;margin:20px 0;"><p style="font-family:sans-serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#2A5220;margin-bottom:6px;font-weight:600;">Loyalty Reward · Returning Customer</p><p style="font-family:Georgia,serif;font-size:14px;color:#1C1C1A;line-height:1.6;font-style:italic;">Thank you for coming back to ${BUSINESS.name}. This discount is our way of saying thank you for your loyalty.</p></div>`
     : ''
 
-  const bankBlock = invoice.paymentMethod === 'bank' ? `
-    <div style="background:#F5F0E8;padding:20px;margin-top:24px;">
-      <p style="font-family:sans-serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#888;margin-bottom:12px;">Bank Transfer Details</p>
-      <p style="font-family:sans-serif;font-size:13px;color:#444;margin-bottom:4px;">Name: <strong>${BANK.name}</strong></p>
-      <p style="font-family:sans-serif;font-size:13px;color:#444;margin-bottom:4px;">Sort Code: <strong>${BANK.sortCode}</strong></p>
-      <p style="font-family:sans-serif;font-size:13px;color:#444;margin-bottom:4px;">Account: <strong>${BANK.account}</strong></p>
-      <p style="font-family:sans-serif;font-size:13px;color:#444;">Reference: <strong>${invoice.number}</strong></p>
-    </div>`
-  : invoice.paymentMethod === 'mobile' ? `
-    <p style="font-family:sans-serif;font-size:14px;color:#444;margin-top:24px;">Payment: <strong>Mobile Payment (NFC)</strong> — collected at time of service.</p>`
-  : `
-    <p style="font-family:sans-serif;font-size:14px;color:#444;margin-top:24px;">Payment: <strong>Cash on collection / delivery</strong></p>`
+  const bankBlock = invoice.paymentMethod === 'mobile'
+    ? `<p style="font-family:sans-serif;font-size:14px;color:#444;margin-top:24px;">Payment: <strong>Mobile / Card (NFC)</strong> — collected at time of service.</p>`
+    : `<p style="font-family:sans-serif;font-size:14px;color:#444;margin-top:24px;">Payment: <strong>Cash or card on collection / delivery</strong></p>`
 
   const html = `
     <div style="font-family:Georgia,serif;max-width:600px;margin:0 auto;color:#2C2C2C;background:#ffffff;padding:48px 40px;">

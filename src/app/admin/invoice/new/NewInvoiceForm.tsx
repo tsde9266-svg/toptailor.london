@@ -24,7 +24,7 @@ export default function NewInvoiceForm() {
   const [address, setAddress] = useState('')
   const [items,   setItems]   = useState<LineItem[]>([{ name: '', price: '' }])
   const [notes,   setNotes]   = useState('')
-  const [payment, setPayment] = useState<'bank' | 'cash' | 'mobile'>('bank')
+  const [payment, setPayment] = useState<'cash' | 'mobile'>('cash')
   const [dueDate, setDueDate] = useState(today())
   const [loading, setLoading] = useState(false)
   const [error,   setError]   = useState('')
@@ -353,7 +353,6 @@ export default function NewInvoiceForm() {
           <label className={labelClass}>Payment Method</label>
           <div className="flex flex-wrap gap-2">
             {([
-              { id: 'bank',   label: 'Bank Transfer'   },
               { id: 'cash',   label: 'Cash / Pay on Day' },
               { id: 'mobile', label: 'Mobile / NFC'    },
             ] as const).map(m => (

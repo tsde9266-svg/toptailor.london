@@ -98,9 +98,7 @@ export default async function OrderDetailPage({
               ['Contact', order.customer.commsPref
                 ? (order.customer.commsPref === 'whatsapp' ? 'WhatsApp' : 'Email')
                 : '—'],
-              ['Payment', order.customer.paymentPreference
-                ? (order.customer.paymentPreference === 'bank' ? 'Bank Transfer' : 'Pay on the day')
-                : '—'],
+              ['Payment', 'Cash / card on the day'],
             ].map(([label, val]) => (
               <div key={label} className="flex gap-4">
                 <span className="font-sans text-[0.8125rem] text-muted w-16 flex-shrink-0">{label}</span>

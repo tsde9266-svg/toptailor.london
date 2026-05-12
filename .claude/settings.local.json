@@ -71,7 +71,22 @@
       "Bash(Select-Object -Property Count)",
       "Bash(find D:\\\\\\\\toptailor\\\\\\\\src\\\\\\\\app\\\\\\\\api\\\\\\\\admin -type f -name \"*.ts\")",
       "Bash(Get-ChildItem \"D:\\\\toptailor\\\\src\\\\app\\\\api\\\\admin\" -Recurse -Filter \"route.ts\")",
-      "Bash(Select-Object -ExpandProperty FullName)"
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(New-Item -ItemType Directory -Force \"D:\\\\toptailor\\\\src\\\\app\\\\api\\\\admin\\\\cal-bookings\\\\[id]\\\\approve\")",
+      "Bash(Out-Null)",
+      "Bash(New-Item -ItemType Directory -Force \"D:\\\\toptailor\\\\src\\\\app\\\\api\\\\admin\\\\cal-bookings\\\\[id]\\\\propose\")",
+      "Bash(New-Item -ItemType Directory -Force \"D:\\\\toptailor\\\\src\\\\app\\\\api\\\\admin\\\\cal-bookings\\\\[id]\\\\confirm-slot\")",
+      "Bash(Write-Output \"done\")",
+      "Bash(cat next.config.js)",
+      "Bash(cat next.config.ts)",
+      "Bash(cat next.config.mjs)",
+      "Bash(Get-ChildItem -Path \"D:\\\\toptailor\\\\src\\\\app\\\\admin\" -Directory)",
+      "Bash(Select-Object -ExpandProperty Name)",
+      "Bash(Get-ChildItem \"D:\\\\toptailor\\\\src\\\\app\\\\api\\\\admin\\\\cal-bookings\\\\[id]\")",
+      "Bash(Select-Object Name)",
+      "Bash(Get-ChildItem -Path \"D:\\\\toptailor\" -Recurse -Filter \"*.ts\" -o)",
+      "Bash(cd /d D:\\\\toptailor)",
+      "Bash(start http://localhost:3000/invoice/preview)"
     ]
   }
 }

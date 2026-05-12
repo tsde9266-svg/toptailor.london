@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import PrintButton from '../[invoiceId]/PrintButton'
-import { BUSINESS, BANK } from '@/lib/constants'
+import { BUSINESS } from '@/lib/constants'
 
 export const metadata: Metadata = {
   title: 'Invoice Preview | Fine Tailors',
@@ -38,7 +38,7 @@ const SAMPLE = {
   voucherName:     'Loyal Customer',
   voucherType:     'return_customer' as const,
   total:           74.70,
-  paymentMethod:   'bank' as const,
+  paymentMethod:   'mobile' as const,
   notes:           'A pleasure working with you — your garments will be ready for collection within 5 working days.',
 }
 
@@ -194,20 +194,9 @@ export default function InvoicePreviewPage() {
           {/* PAYMENT */}
           <div style={{ background: '#F5F0E8', borderLeft: '4px solid #1A3A12', padding: '20px 24px', margin: '28px 0' }}>
             <p style={{ fontFamily: 'sans-serif', fontSize: '9.5px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#aaa', margin: '0 0 14px' }}>Payment</p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px 20px' }}>
-              {[
-                ['Method',       'Bank Transfer'],
-                ['Account Name', BANK.name],
-                ['Sort Code',    BANK.sortCode],
-                ['Account No.',  BANK.account],
-                ['Reference',    invoice.number],
-              ].map(([label, value]) => (
-                <div key={label}>
-                  <p style={{ fontFamily: 'sans-serif', fontSize: '9.5px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#aaa', margin: '0 0 2px' }}>{label}</p>
-                  <p style={{ fontFamily: 'sans-serif', fontSize: '13px', color: '#1C1C1A', fontWeight: 600, margin: 0 }}>{value}</p>
-                </div>
-              ))}
-            </div>
+            <p style={{ fontFamily: 'sans-serif', fontSize: '14px', color: '#1C1C1A', margin: 0 }}>
+              Collected via mobile / card (NFC) — no further action required.
+            </p>
           </div>
 
           {/* NOTES */}

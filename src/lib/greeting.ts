@@ -168,19 +168,6 @@ export function invoiceWALink(phone: string | undefined | null, params: {
 
   lines.push(`*Total due: £${total.toFixed(2)}*`)
 
-  if (paymentMethod === 'bank') {
-    lines.push(
-      ``,
-      `─────────────────`,
-      `*Bank transfer details:*`,
-      `Account name: Tahir ul Hassan`,
-      `Sort code: 04-00-03`,
-      `Account no.: 11282726`,
-      `Reference: ${invoiceNumber}`,
-      `─────────────────`,
-    )
-  }
-
   lines.push(``, `Due by: ${fmtDate(dueDate)}`)
   lines.push(``, `Thank you for choosing Fine Tailors. If you have any questions please message us here.`)
   lines.push(``, `*Fine Tailors*`, `_London's finest tailors, at your door_`)

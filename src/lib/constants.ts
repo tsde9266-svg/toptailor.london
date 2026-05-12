@@ -27,8 +27,3 @@ export const BUSINESS = {
   city:    'London, United Kingdom',
 }
 
-export const BANK = {
-  name:     'Tahir ul Hassan',
-  sortCode: '04-00-03',
-  account:  '11282726',
-}

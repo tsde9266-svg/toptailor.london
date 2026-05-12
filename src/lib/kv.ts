@@ -36,7 +36,7 @@ export type Order = {
     address:   string
     postcode:  string
     commsPref?:          'whatsapp' | 'email'
-    paymentPreference?:  'day' | 'bank'
+    paymentPreference?:  'day'
   }
   estimate: Array<{
     id:           string
@@ -51,7 +51,7 @@ export type Order = {
     total:          number
     notes?:         string
     approvedAt?:    string
-    paymentMethod?: 'door' | 'bank'
+    paymentMethod?: 'door'
   }
 }
 
@@ -210,7 +210,7 @@ export type Invoice = {
   subtotal:        number
   total:           number
   notes?:          string
-  paymentMethod:   'bank' | 'cash' | 'mobile'
+  paymentMethod:   'cash' | 'mobile'
   paidAt?:         string
 }
 

@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import { getInvoice } from '@/lib/kv'
 import type { Metadata } from 'next'
 import PrintButton from './PrintButton'
-import { BUSINESS, BANK } from '@/lib/constants'
+import { BUSINESS } from '@/lib/constants'
 
 export const metadata: Metadata = {
   title: 'Invoice | Fine Tailors',
@@ -230,35 +230,14 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
             <p style={{ fontFamily: 'sans-serif', fontSize: '9.5px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#aaa', margin: '0 0 14px' }}>
               Payment
             </p>
-            {invoice.paymentMethod === 'cash' && (
+            {invoice.paymentMethod === 'mobile' ? (
               <p style={{ fontFamily: 'sans-serif', fontSize: '14px', color: '#1C1C1A', margin: 0 }}>
-                Cash on collection or delivery.
+                Collected via mobile / card (NFC) — no further action required.
               </p>
-            )}
-            {invoice.paymentMethod === 'mobile' && (
+            ) : (
               <p style={{ fontFamily: 'sans-serif', fontSize: '14px', color: '#1C1C1A', margin: 0 }}>
-                Collected via mobile / contactless — no further action required.
+                Cash or card on collection / delivery.
               </p>
-            )}
-            {invoice.paymentMethod === 'bank' && (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px 20px' }}>
-                {[
-                  ['Method',       'Bank Transfer'],
-                  ['Account Name', BANK.name],
-                  ['Sort Code',    BANK.sortCode],
-                  ['Account No.',  BANK.account],
-                  ['Reference',    invoice.number],
-                ].map(([label, value]) => (
-                  <div key={label}>
-                    <p style={{ fontFamily: 'sans-serif', fontSize: '9.5px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#aaa', margin: '0 0 2px' }}>
-                      {label}
-                    </p>
-                    <p style={{ fontFamily: 'sans-serif', fontSize: '13px', color: '#1C1C1A', fontWeight: 600, margin: 0, letterSpacing: label === 'Reference' ? '0.05em' : 'normal' }}>
-                      {value}
-                    </p>
-                  </div>
-                ))}
-              </div>
             )}
           </div>
 

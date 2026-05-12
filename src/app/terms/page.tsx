@@ -58,8 +58,7 @@ export default function TermsPage() {
           </Section>
 
           <Section title="4. Payment">
-            <p>Payment is due upon approval of your confirmed quote. We accept cash or card payment on delivery, or bank transfer in advance.</p>
-            <p>Bank details: <strong className="font-medium text-charcoal">Tahir ul Hassan</strong>, Sort Code: 04-00-03, Account: 11282726.</p>
+            <p>Payment is due upon approval of your confirmed quote. We accept cash or card (contactless / NFC) on collection or delivery.</p>
           </Section>
 
           <Section title="5. Turnaround Times">

@@ -96,7 +96,7 @@ export default async function QuotePage({
               </svg>
               <p className="font-playfair text-[1.25rem] text-green-800 mb-2">Quote Approved</p>
               <p className="font-sans text-[0.875rem] text-green-700 mb-1">
-                Payment: {quote.paymentMethod === 'bank' ? 'Bank Transfer' : 'Pay on Collection / Delivery'}
+                Payment: Cash or card on collection / delivery
               </p>
               <p className="font-sans text-[0.875rem] text-green-700">
                 We&apos;re working on your garments and will be in touch to arrange delivery.
@@ -106,11 +106,6 @@ export default async function QuotePage({
             <ApprovePanel
               orderId={order.id}
               total={quote.total}
-              suggestedMethod={
-                customer.paymentPreference === 'bank' ? 'bank' :
-                customer.paymentPreference === 'day'  ? 'door' :
-                                                        null
-              }
             />
           )}
 

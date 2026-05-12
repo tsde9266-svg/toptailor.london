@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
   const items             = (body.items     ?? []) as Array<{ id: string; name: string; categoryName: string; price: number }>
   const rawTotal          = Number(body.total)
   const commsPref         = String(body.commsPref         ?? '').trim() as 'whatsapp' | 'email' | ''
-  const paymentPreference = String(body.paymentPreference ?? '').trim() as 'day' | 'bank' | ''
+  const paymentPreference = String(body.paymentPreference ?? '').trim() as 'day' | ''
 
   // Required field validation
   if (!customer.name?.trim() || !customer.email?.trim() || !customer.address?.trim()) {
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
       address:           customer.address.trim(),
       postcode:          customer.postcode?.trim() || '',
       commsPref:         (commsPref === 'whatsapp' || commsPref === 'email') ? commsPref : undefined,
-      paymentPreference: (paymentPreference === 'day' || paymentPreference === 'bank') ? paymentPreference : undefined,
+      paymentPreference: paymentPreference === 'day' ? 'day' : undefined,
     },
     estimate:      items,
     estimateTotal: rawTotal,
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
     `📋 <b>Order Submitted</b> — ${escHtml(order.customer.name)}\n` +
     `📍 ${escHtml(order.customer.address ?? '')}${order.customer.postcode ? `, ${escHtml(order.customer.postcode)}` : ''}\n` +
     `💰 £${rawTotal} · ${items.length} item${items.length !== 1 ? 's' : ''}\n` +
-    `💳 Payment: ${order.customer.paymentPreference === 'bank' ? 'Bank transfer' : 'Pay on day'}\n` +
+    `💳 Payment: Cash / card on day\n` +
     `💬 Comms: ${order.customer.commsPref ?? 'not specified'}`,
   ).catch(() => {})
 
