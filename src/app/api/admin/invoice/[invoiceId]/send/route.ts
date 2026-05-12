@@ -36,7 +36,7 @@ export async function POST(req: NextRequest, { params }: { params: { invoiceId: 
     ? `<div style="background:#EAF0E2;border-left:3px solid #2A5220;padding:16px 20px;margin:20px 0;"><p style="font-family:sans-serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#2A5220;margin-bottom:6px;font-weight:600;">Loyalty Reward · Returning Customer</p><p style="font-family:Georgia,serif;font-size:14px;color:#1C1C1A;line-height:1.6;font-style:italic;">Thank you for coming back to ${BUSINESS.name}. This discount is our way of saying thank you for your loyalty.</p></div>`
     : ''
 
-  const bankBlock = invoice.paymentMethod === 'mobile'
+  const paymentLine = invoice.paymentMethod === 'mobile'
     ? `<p style="font-family:sans-serif;font-size:14px;color:#444;margin-top:24px;">Payment: <strong>Mobile / Card (NFC)</strong> — collected at time of service.</p>`
     : `<p style="font-family:sans-serif;font-size:14px;color:#444;margin-top:24px;">Payment: <strong>Cash or card on collection / delivery</strong></p>`
 
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest, { params }: { params: { invoiceId: 
       </table>
 
       ${loyaltyBanner}
-      ${bankBlock}
+      ${paymentLine}
 
       <div style="margin-top:32px;text-align:center;">
         <a href="${BASE_URL}/invoice/${invoice.id}" style="display:inline-block;background:#2A5220;color:#F5F0E8;text-decoration:none;padding:16px 40px;font-family:sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;">
