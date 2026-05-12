@@ -26,26 +26,15 @@ export function customerToBusinessLink(prefilledText = ''): string {
 
 // ─── Booking date/time formatters ─────────────────────────────────────────────
 
-function toOrdinal(n: number): string {
-  const mod100 = n % 100
-  if (mod100 >= 11 && mod100 <= 13) return `${n}th`
-  switch (n % 10) {
-    case 1:  return `${n}st`
-    case 2:  return `${n}nd`
-    case 3:  return `${n}rd`
-    default: return `${n}th`
-  }
-}
-
 // For UTC ISO strings from cal.com webhook — displays in London timezone.
+// Format: "Wednesday 13 May 2026" (no ordinal suffix)
 export function fmtBookingDate(iso: string): string {
-  const d   = new Date(iso)
-  const tz  = 'Europe/London'
-  const day = parseInt(new Intl.DateTimeFormat('en-GB', { day: 'numeric', timeZone: tz }).format(d), 10)
+  const d  = new Date(iso)
+  const tz = 'Europe/London'
   return [
-    new Intl.DateTimeFormat('en-GB', { weekday: 'long',  timeZone: tz }).format(d),
-    toOrdinal(day),
-    new Intl.DateTimeFormat('en-GB', { month:   'long',  timeZone: tz }).format(d),
+    new Intl.DateTimeFormat('en-GB', { weekday: 'long',    timeZone: tz }).format(d),
+    new Intl.DateTimeFormat('en-GB', { day:     'numeric', timeZone: tz }).format(d),
+    new Intl.DateTimeFormat('en-GB', { month:   'long',    timeZone: tz }).format(d),
     new Intl.DateTimeFormat('en-GB', { year:    'numeric', timeZone: tz }).format(d),
   ].join(' ')
 }
@@ -63,14 +52,15 @@ export function fmt12h(iso: string): string {
 }
 
 // For admin-entered local datetime strings like "2026-05-13T09:00" — no timezone shift.
+// Format: "Wednesday 13 May 2026" (no ordinal suffix)
 export function fmtSlotDate(localDt: string): string {
   const datePart = localDt.split('T')[0] ?? localDt
   const [y, m, d] = datePart.split('-').map(Number)
   const date = new Date(y ?? 2000, (m ?? 1) - 1, d ?? 1)
   return [
-    date.toLocaleDateString('en-GB', { weekday: 'long'  }),
-    toOrdinal(d ?? 1),
-    date.toLocaleDateString('en-GB', { month:   'long'  }),
+    date.toLocaleDateString('en-GB', { weekday: 'long' }),
+    String(d ?? 1),
+    date.toLocaleDateString('en-GB', { month:   'long' }),
     String(y ?? ''),
   ].join(' ')
 }
@@ -98,13 +88,13 @@ export function bookingConfirmationWALink(phone: string, params: {
   const { startTime, endTime, location } = params
   const num = normaliseUkPhone(phone)
   const msg = [
-    `Hello. Thank you for booking with Fine Tailors,`,
+    `Thank you for booking with Fine Tailors.`,
     `Your pick up has been confirmed for`,
     `Date: ${fmtBookingDate(startTime)}`,
-    `◦ Time: ${fmt12h(startTime)} - ${fmt12h(endTime)}`,
+    `Time: ${fmt12h(startTime)} - ${fmt12h(endTime)}`,
     ...(location ? [`Location: ${location}`] : []),
-    ...(num      ? [`Contact: ${num}`]       : []),
-    `If you need to make any changes please get in touch with us.`,
+    ...(phone    ? [`Contact: ${phone}`]     : []),
+    `If you would like to make any changes please contact us.`,
   ].join('\n')
   return `https://wa.me/${num}?text=${encodeURIComponent(msg)}`
 }
@@ -118,13 +108,13 @@ export function slotConfirmationWALink(phone: string, params: {
   const { start, end, location } = params
   const num = normaliseUkPhone(phone)
   const msg = [
-    `Hello. Thank you for booking with Fine Tailors,`,
+    `Thank you for booking with Fine Tailors.`,
     `Your pick up has been confirmed for`,
     `Date: ${fmtSlotDate(start)}`,
-    `◦ Time: ${fmtSlotTime(start)} - ${fmtSlotTime(end)}`,
+    `Time: ${fmtSlotTime(start)} - ${fmtSlotTime(end)}`,
     ...(location ? [`Location: ${location}`] : []),
-    ...(num      ? [`Contact: ${num}`]       : []),
-    `If you need to make any changes please get in touch with us.`,
+    ...(phone    ? [`Contact: ${phone}`]     : []),
+    `If you would like to make any changes please contact us.`,
   ].join('\n')
   return `https://wa.me/${num}?text=${encodeURIComponent(msg)}`
 }
