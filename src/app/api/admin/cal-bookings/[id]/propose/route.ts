@@ -43,8 +43,6 @@ export async function POST(
   booking.proposedTimes = slots
   booking.adminNote     = adminNote || undefined
 
-  await updateCalBooking(booking).catch(() => {})
-
   const waLink = booking.attendee.phone
     ? proposeTimesWALink(booking.attendee.phone, {
         name:      booking.attendee.name,
@@ -57,12 +55,15 @@ export async function POST(
     `${i + 1}. ${fmtSlotDate(s.start)}, ${fmtSlotTime(s.start)} – ${fmtSlotTime(s.end)}`
   ).join('\n')
 
-  notifyTelegram(
-    `📋 <b>Alternative slots proposed</b> — ${escHtml(booking.attendee.name)}\n\n` +
-    `${slotSummary}\n\n` +
-    `Waiting for customer to reply with their choice.`,
-    waLink ? [[{ text: '💬 Send propose message', url: waLink }]] : undefined,
-  ).catch(() => {})
+  await Promise.allSettled([
+    updateCalBooking(booking),
+    notifyTelegram(
+      `📋 <b>Alternative slots proposed</b> — ${escHtml(booking.attendee.name)}\n\n` +
+      `${slotSummary}\n\n` +
+      `Waiting for customer to reply with their choice.`,
+      waLink ? [[{ text: '💬 Send propose message', url: waLink }]] : undefined,
+    ),
+  ])
 
   return NextResponse.json({ ok: true, waLink })
 }

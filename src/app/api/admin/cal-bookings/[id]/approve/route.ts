@@ -64,7 +64,6 @@ export async function POST(
 
   booking.status     = 'approved'
   booking.approvedAt = new Date().toISOString()
-  await updateCalBooking(booking).catch(() => {})
 
   const waLink = booking.attendee.phone
     ? bookingConfirmationWALink(booking.attendee.phone, {
@@ -74,27 +73,30 @@ export async function POST(
       })
     : null
 
-  // Fire email + Telegram in background — don't block the response
-  sendMail({
-    to:      booking.attendee.email,
-    subject: 'Your booking is confirmed — Fine Tailors',
-    html:    confirmationEmail(
-      booking.attendee.name,
-      booking.scheduledAt,
-      booking.endTime,
-      booking.location,
-    ),
-    replyTo: 'tsde9266@gmail.com',
-  }).then(() => {
-    notifyTelegram(
-      `✅ <b>Booking Approved</b> — ${escHtml(booking.attendee.name)}\nConfirmation email sent to ${escHtml(booking.attendee.email)}.`
-    ).catch(() => {})
-  }).catch((e) => {
-    console.error('[cal-bookings/approve] email failed', e)
-    notifyTelegram(
-      `⚠️ <b>Booking Approved — EMAIL FAILED</b> — ${escHtml(booking.attendee.name)}\n${escHtml(e instanceof Error ? e.message : String(e))}`
-    ).catch(() => {})
-  })
+  // Run KV update + email in parallel, then Telegram based on email result
+  const [, emailResult] = await Promise.allSettled([
+    updateCalBooking(booking),
+    sendMail({
+      to:      booking.attendee.email,
+      subject: 'Your booking is confirmed — Fine Tailors',
+      html:    confirmationEmail(
+        booking.attendee.name,
+        booking.scheduledAt,
+        booking.endTime,
+        booking.location,
+      ),
+      replyTo: 'tsde9266@gmail.com',
+    }),
+  ])
+
+  const emailSent = emailResult.status === 'fulfilled'
+  if (!emailSent) console.error('[cal-bookings/approve] email failed', (emailResult as PromiseRejectedResult).reason)
+
+  await notifyTelegram(
+    emailSent
+      ? `✅ <b>Booking Approved</b> — ${escHtml(booking.attendee.name)}\nConfirmation email sent to ${escHtml(booking.attendee.email)}.`
+      : `⚠️ <b>Booking Approved — EMAIL FAILED</b> — ${escHtml(booking.attendee.name)}`,
+  ).catch(() => {})
 
   return NextResponse.json({ ok: true, waLink })
 }

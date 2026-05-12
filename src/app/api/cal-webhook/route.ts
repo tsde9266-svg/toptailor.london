@@ -114,7 +114,7 @@ export async function POST(req: NextRequest) {
         console.error('[cal-webhook] failed to cancel booking in KV', e)
       }
     }
-    notifyTelegram(
+    await notifyTelegram(
       `❌ <b>Booking Cancelled</b>\n\n` +
       `👤 <b>Name:</b> ${escHtml(name)}\n` +
       `📧 <b>Email:</b> ${escHtml(email)}\n` +
@@ -191,7 +191,7 @@ export async function POST(req: NextRequest) {
     ...(waLink ? [{ text: '💬 WhatsApp Customer', url: waLink }] : []),
   ]]
 
-  notifyTelegram(message, buttons).catch(() => {})
+  await notifyTelegram(message, buttons).catch(() => {})
   console.log(`[cal-webhook:${triggerEvent}]`, { name, email, startTime, id: booking.id })
 
   return NextResponse.json({ ok: true })

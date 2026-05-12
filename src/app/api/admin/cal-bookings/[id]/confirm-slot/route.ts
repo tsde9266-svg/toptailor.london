@@ -31,8 +31,6 @@ export async function POST(
   booking.approvedAt    = new Date().toISOString()
   booking.confirmedTime = chosen
 
-  await updateCalBooking(booking).catch(() => {})
-
   const waLink = booking.attendee.phone
     ? slotConfirmationWALink(booking.attendee.phone, {
         start:    chosen.start,
@@ -41,11 +39,14 @@ export async function POST(
       })
     : null
 
-  notifyTelegram(
-    `✅ <b>Slot Confirmed (via WhatsApp)</b> — ${escHtml(booking.attendee.name)}\n` +
-    `📅 ${fmtSlotDate(chosen.start)}, ${fmtSlotTime(chosen.start)} – ${fmtSlotTime(chosen.end)}\n\n` +
-    `⚠️ <b>ACTION NEEDED:</b> Update this booking in Cal.com to the new time slot above.`,
-  ).catch(() => {})
+  await Promise.allSettled([
+    updateCalBooking(booking),
+    notifyTelegram(
+      `✅ <b>Slot Confirmed (via WhatsApp)</b> — ${escHtml(booking.attendee.name)}\n` +
+      `📅 ${fmtSlotDate(chosen.start)}, ${fmtSlotTime(chosen.start)} – ${fmtSlotTime(chosen.end)}\n\n` +
+      `⚠️ <b>ACTION NEEDED:</b> Update this booking in Cal.com to the new time slot above.`,
+    ),
+  ])
 
   return NextResponse.json({ ok: true, waLink })
 }
