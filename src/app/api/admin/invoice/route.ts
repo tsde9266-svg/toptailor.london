@@ -59,7 +59,9 @@ export async function POST(req: NextRequest) {
     try {
       order.invoiceId = id
       await updateOrder(order)
-    } catch { /* non-fatal */ }
+    } catch (e) {
+      console.error('[invoice] failed to link invoice to order', e)
+    }
 
   // ── Manual creation ───────────────────────────────────────────────────────
   } else {

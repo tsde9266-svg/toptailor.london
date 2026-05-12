@@ -206,8 +206,7 @@ export type Invoice = {
   voucherCode?:    string
   voucherName?:    string
   voucherType?:    VoucherType
-  /** @deprecated use discountAmount */
-  discount?:       number
+  discount?:       number  // legacy field — superseded by discountAmount, kept for old records
   subtotal:        number
   total:           number
   notes?:          string

@@ -76,13 +76,6 @@ export async function POST(req: NextRequest) {
     `💬 Comms: ${order.customer.commsPref ?? 'not specified'}`,
   ).catch(() => {})
 
-  console.log('[order:new]', {
-    id: orderId, name: customer.name,
-    address: customer.address, postcode: customer.postcode,
-    total: rawTotal, items: items.map(i => i.name),
-    ts: createdAt,
-  })
-
   return NextResponse.json({ ok: true, orderId })
 }
 
