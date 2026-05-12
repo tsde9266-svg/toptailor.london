@@ -41,11 +41,11 @@ export async function POST(
       })
     : null
 
-  await notifyTelegram(
+  notifyTelegram(
     `✅ <b>Slot Confirmed (via WhatsApp)</b> — ${escHtml(booking.attendee.name)}\n` +
     `📅 ${fmtSlotDate(chosen.start)}, ${fmtSlotTime(chosen.start)} – ${fmtSlotTime(chosen.end)}\n\n` +
     `⚠️ <b>ACTION NEEDED:</b> Update this booking in Cal.com to the new time slot above.`,
-  )
+  ).catch(() => {})
 
   return NextResponse.json({ ok: true, waLink })
 }

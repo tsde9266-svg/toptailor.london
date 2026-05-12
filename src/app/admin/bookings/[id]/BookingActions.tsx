@@ -75,7 +75,6 @@ export default function BookingActions({ booking }: Props) {
       if (!res.ok) throw new Error(data.error ?? 'Failed')
       setStatus('approved')
       setWaLink(data.waLink ?? null)
-      setEmailOk(data.emailSent)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong')
     } finally {

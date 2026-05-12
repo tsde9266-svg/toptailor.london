@@ -66,33 +66,6 @@ export async function POST(
   booking.approvedAt = new Date().toISOString()
   await updateCalBooking(booking).catch(() => {})
 
-  let emailSent  = true
-  let emailError: string | undefined
-
-  try {
-    await sendMail({
-      to:      booking.attendee.email,
-      subject: 'Your booking is confirmed — Fine Tailors',
-      html:    confirmationEmail(
-        booking.attendee.name,
-        booking.scheduledAt,
-        booking.endTime,
-        booking.location,
-      ),
-      replyTo: 'tsde9266@gmail.com',
-    })
-  } catch (e) {
-    emailSent  = false
-    emailError = e instanceof Error ? e.message : String(e)
-    console.error('[cal-bookings/approve] email failed', emailError)
-  }
-
-  await notifyTelegram(
-    emailSent
-      ? `✅ <b>Booking Approved</b> — ${escHtml(booking.attendee.name)}\nConfirmation email sent to ${escHtml(booking.attendee.email)}.`
-      : `⚠️ <b>Booking Approved — EMAIL FAILED</b> — ${escHtml(booking.attendee.name)}\n${escHtml(emailError ?? '')}`,
-  )
-
   const waLink = booking.attendee.phone
     ? bookingConfirmationWALink(booking.attendee.phone, {
         startTime: booking.scheduledAt,
@@ -101,5 +74,27 @@ export async function POST(
       })
     : null
 
-  return NextResponse.json({ ok: true, emailSent, emailError, waLink })
+  // Fire email + Telegram in background — don't block the response
+  sendMail({
+    to:      booking.attendee.email,
+    subject: 'Your booking is confirmed — Fine Tailors',
+    html:    confirmationEmail(
+      booking.attendee.name,
+      booking.scheduledAt,
+      booking.endTime,
+      booking.location,
+    ),
+    replyTo: 'tsde9266@gmail.com',
+  }).then(() => {
+    notifyTelegram(
+      `✅ <b>Booking Approved</b> — ${escHtml(booking.attendee.name)}\nConfirmation email sent to ${escHtml(booking.attendee.email)}.`
+    ).catch(() => {})
+  }).catch((e) => {
+    console.error('[cal-bookings/approve] email failed', e)
+    notifyTelegram(
+      `⚠️ <b>Booking Approved — EMAIL FAILED</b> — ${escHtml(booking.attendee.name)}\n${escHtml(e instanceof Error ? e.message : String(e))}`
+    ).catch(() => {})
+  })
+
+  return NextResponse.json({ ok: true, waLink })
 }
