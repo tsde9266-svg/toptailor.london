@@ -6,7 +6,7 @@
 // hit by random callers.
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getAllOrders, getAllConsultations } from '@/lib/kv'
+import { getAllOrders, getAllConsultations, getAllCalBookings } from '@/lib/kv'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.finetailors.co.uk'
 
@@ -38,10 +38,12 @@ export async function GET(req: NextRequest) {
 
   let orders        = []
   let consultations = []
+  let calBookings   = []
   try {
-    [orders, consultations] = await Promise.all([
+    [orders, consultations, calBookings] = await Promise.all([
       getAllOrders(),
       getAllConsultations(),
+      getAllCalBookings(),
     ])
   } catch (e) {
     console.error('[daily-digest] KV read failed', e)
@@ -65,8 +67,10 @@ export async function GET(req: NextRequest) {
   }
 
   // Pending items still open (any age) — these are the things that need attention
-  const stillPendingOrders = orders.filter(o => o.status === 'pending_collection').length
+  const stillPendingOrders        = orders.filter(o => o.status === 'pending_collection').length
   const stillPendingConsultations = consultations.filter(c => c.status === 'pending_call').length
+  const pendingCalBookings        = calBookings.filter(b => b.status === 'pending').length
+  const awaitingCalBookings       = calBookings.filter(b => b.status === 'awaiting_customer').length
 
   const today = new Date().toLocaleDateString('en-GB', {
     weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/London',
@@ -89,7 +93,10 @@ export async function GET(req: NextRequest) {
       : '\n') +
     `⏳ <b>Still needs action:</b>\n` +
     `  • ${stillPendingOrders} order${stillPendingOrders !== 1 ? 's' : ''} awaiting collection\n` +
-    `  • ${stillPendingConsultations} callback${stillPendingConsultations !== 1 ? 's' : ''} pending\n\n` +
+    `  • ${stillPendingConsultations} callback${stillPendingConsultations !== 1 ? 's' : ''} pending\n` +
+    (pendingCalBookings  > 0 ? `  • ${pendingCalBookings} booking${pendingCalBookings !== 1 ? 's' : ''} awaiting your approval\n` : '') +
+    (awaitingCalBookings > 0 ? `  • ${awaitingCalBookings} booking${awaitingCalBookings !== 1 ? 's' : ''} awaiting customer reply\n` : '') +
+    `\n`+
     `🔗 <a href="${BASE_URL}/admin">Open admin</a>`
 
   await notifyTelegram(message)

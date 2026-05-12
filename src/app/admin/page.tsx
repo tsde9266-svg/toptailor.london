@@ -122,6 +122,9 @@ export default async function AdminPage({
           </form>
         </div>
         <div className="border-t border-parchment/10 px-4 py-2 flex items-center gap-2 overflow-x-auto">
+          <Link href="/admin/bookings" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-amber-400/60 bg-amber-500/10 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
+            Bookings
+          </Link>
           <Link href="/admin/invoices" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
             Invoices
           </Link>

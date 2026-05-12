@@ -248,3 +248,63 @@ export async function getAllInvoices(): Promise<Invoice[]> {
 }
 
 export { nextInvoiceNumber }
+
+// ─── Cal.com Bookings (manual approval flow) ─────────────────────────────────
+
+export type CalBookingStatus = 'pending' | 'awaiting_customer' | 'approved' | 'cancelled'
+
+export type CalBookingSlot = {
+  start: string  // local datetime string "2026-05-13T09:00"
+  end:   string
+}
+
+export type CalBooking = {
+  id:          string
+  calUid:      string  // full cal.com booking UID for deduplication
+  status:      CalBookingStatus
+  createdAt:   string
+  attendee: {
+    name:  string
+    email: string
+    phone: string
+  }
+  scheduledAt: string  // UTC ISO from cal.com webhook
+  endTime:     string  // UTC ISO from cal.com webhook
+  location:    string
+  notes:       string
+  // Set by admin when proposing alternative times:
+  proposedTimes?: CalBookingSlot[]
+  adminNote?:     string
+  // Set on resolution:
+  approvedAt?:    string
+  confirmedTime?: CalBookingSlot  // null means original scheduledAt/endTime confirmed
+}
+
+export async function saveCalBooking(b: CalBooking): Promise<void> {
+  await redis.set(`calbooking:${b.id}`, b)
+  await redis.lpush('calbookings', b.id)
+  if (b.calUid) await redis.set(`calbooking:uid:${b.calUid}`, b.id)
+}
+
+export async function getCalBooking(id: string): Promise<CalBooking | null> {
+  return redis.get<CalBooking>(`calbooking:${id}`)
+}
+
+export async function getCalBookingByCalUid(calUid: string): Promise<CalBooking | null> {
+  const id = await redis.get<string>(`calbooking:uid:${calUid}`)
+  if (!id) return null
+  return redis.get<CalBooking>(`calbooking:${id}`)
+}
+
+export async function updateCalBooking(b: CalBooking): Promise<void> {
+  await redis.set(`calbooking:${b.id}`, b)
+}
+
+export async function getAllCalBookings(): Promise<CalBooking[]> {
+  const ids = await redis.lrange<string>('calbookings', 0, -1)
+  if (!ids.length) return []
+  const bookings = await Promise.all(ids.map(id => redis.get<CalBooking>(`calbooking:${id}`)))
+  return bookings
+    .filter((b): b is CalBooking => b !== null)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+}

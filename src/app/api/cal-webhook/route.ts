@@ -1,27 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
-import { adminGreetingLink, normaliseUkPhone } from '@/lib/greeting'
+import {
+  saveCalBooking,
+  getCalBookingByCalUid,
+  updateCalBooking,
+  type CalBooking,
+} from '@/lib/kv'
+import { bookingConfirmationWALink } from '@/lib/greeting'
+import { notifyTelegram, escHtml } from '@/lib/telegram'
 
-// ─── Telegram ─────────────────────────────────────────────────────────────────
-async function notifyTelegram(text: string) {
-  const token  = process.env.TELEGRAM_BOT_TOKEN
-  const chatId = process.env.TELEGRAM_CHAT_ID
-  if (!token || !chatId) return
-
-  try {
-    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' }),
-    })
-  } catch (e) {
-    console.error('[telegram] failed to send', e)
-  }
-}
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.finetailors.co.uk'
 
 // ─── Signature verification ────────────────────────────────────────────────────
-// Cal.com signs every webhook with HMAC-SHA256 using your webhook secret.
-// Add CAL_WEBHOOK_SECRET in Vercel env vars for full security (optional but recommended).
 function verifySignature(rawBody: string, signature: string, secret: string): boolean {
   try {
     const hmac     = crypto.createHmac('sha256', secret)
@@ -34,7 +24,7 @@ function verifySignature(rawBody: string, signature: string, secret: string): bo
   }
 }
 
-// ─── Date formatter ────────────────────────────────────────────────────────────
+// ─── Date formatter for Telegram messages ─────────────────────────────────────
 function fmt(iso: string) {
   return new Date(iso).toLocaleString('en-GB', {
     weekday:  'long',
@@ -49,10 +39,8 @@ function fmt(iso: string) {
 
 // ─── POST /api/cal-webhook ─────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
-  // Read raw body first (needed for signature verification)
   const rawBody = await req.text()
 
-  // Verify Cal.com signature if secret is set
   const secret = process.env.CALCOM_WEBHOOK_SECRET
   if (secret) {
     const sig = req.headers.get('x-cal-signature-256') ?? ''
@@ -72,7 +60,6 @@ export async function POST(req: NextRequest) {
   const triggerEvent = String(body.triggerEvent ?? '')
   const payload      = (body.payload ?? {}) as Record<string, unknown>
 
-  // Only handle booking lifecycle events
   const handled = ['BOOKING_CREATED', 'BOOKING_CANCELLED', 'BOOKING_RESCHEDULED']
   if (!handled.includes(triggerEvent)) {
     return NextResponse.json({ ok: true })
@@ -87,11 +74,8 @@ export async function POST(req: NextRequest) {
   const startTime = String(payload.startTime ?? '')
   const endTime   = String(payload.endTime   ?? '')
   const notes     = String(payload.description ?? payload.additionalNotes ?? '')
-  const uid       = String(payload.uid ?? '').slice(0, 8)
+  const calUid    = String(payload.uid ?? '')
   const location  = String(payload.location ?? '')
-
-  const waPhone      = phone ? normaliseUkPhone(phone)  : ''
-  const greetingLink = phone ? adminGreetingLink(phone) : ''
 
   const dateStr = startTime ? fmt(startTime) : ''
   const endStr  = endTime
@@ -100,27 +84,97 @@ export async function POST(req: NextRequest) {
       })
     : ''
 
-  const META: Record<string, { icon: string; label: string }> = {
-    BOOKING_CREATED:     { icon: '✅', label: 'New Booking Confirmed'  },
-    BOOKING_CANCELLED:   { icon: '❌', label: 'Booking Cancelled'      },
-    BOOKING_RESCHEDULED: { icon: '🔄', label: 'Booking Rescheduled'    },
+  // ── BOOKING_CANCELLED ──────────────────────────────────────────────────────
+  if (triggerEvent === 'BOOKING_CANCELLED') {
+    if (calUid) {
+      try {
+        const existing = await getCalBookingByCalUid(calUid)
+        if (existing && existing.status !== 'cancelled') {
+          existing.status = 'cancelled'
+          await updateCalBooking(existing)
+        }
+      } catch (e) {
+        console.error('[cal-webhook] failed to cancel booking in KV', e)
+      }
+    }
+    await notifyTelegram(
+      `❌ <b>Booking Cancelled</b>\n\n` +
+      `👤 <b>Name:</b> ${escHtml(name)}\n` +
+      `📧 <b>Email:</b> ${escHtml(email)}\n` +
+      (phone   ? `📞 <b>Phone:</b> ${escHtml(phone)}\n`   : '') +
+      (dateStr ? `📅 <b>Was:</b> ${dateStr}\n`   : '') +
+      (calUid  ? `\n🔑 Ref: <code>${calUid.slice(0, 8)}</code>` : '')
+    )
+    return NextResponse.json({ ok: true })
   }
-  const { icon, label } = META[triggerEvent]
+
+  // ── BOOKING_CREATED / BOOKING_RESCHEDULED ──────────────────────────────────
+  const isReschedule = triggerEvent === 'BOOKING_RESCHEDULED'
+  let booking: CalBooking
+
+  try {
+    const existing = calUid ? await getCalBookingByCalUid(calUid) : null
+
+    if (isReschedule && existing) {
+      // Customer rescheduled in cal.com — reset to pending with new times
+      booking = {
+        ...existing,
+        status:        'pending',
+        scheduledAt:   startTime,
+        endTime,
+        location,
+        notes,
+        proposedTimes: undefined,
+        adminNote:     undefined,
+        approvedAt:    undefined,
+        confirmedTime: undefined,
+      }
+      await updateCalBooking(booking)
+    } else {
+      booking = {
+        id:          crypto.randomUUID(),
+        calUid,
+        status:      'pending',
+        createdAt:   new Date().toISOString(),
+        attendee:    { name, email, phone },
+        scheduledAt: startTime,
+        endTime,
+        location,
+        notes,
+      }
+      await saveCalBooking(booking)
+    }
+  } catch (e) {
+    console.error('[cal-webhook] KV error', e)
+    // Still notify Telegram even if KV fails
+    await notifyTelegram(`⚠️ <b>Booking received but KV save failed</b>\n👤 ${escHtml(name)}\n📧 ${escHtml(email)}`)
+    return NextResponse.json({ ok: true })
+  }
+
+  const icon  = isReschedule ? '🔄' : '🆕'
+  const label = isReschedule ? 'Booking Rescheduled — Needs Approval' : 'New Booking — Awaiting Your Approval'
+
+  const waLink = phone
+    ? bookingConfirmationWALink(phone, { startTime, endTime, location })
+    : ''
 
   const message =
     `${icon} <b>${label}</b>\n\n` +
-    `👤 <b>Name:</b> ${name}\n` +
-    `📧 <b>Email:</b> ${email}\n` +
-    (phone    ? `📞 <b>Phone:</b> ${phone}\n`                                  : '') +
+    `👤 <b>Name:</b> ${escHtml(name)}\n` +
+    `📧 <b>Email:</b> ${escHtml(email)}\n` +
+    (phone    ? `📞 <b>Phone:</b> ${escHtml(phone)}\n`                         : '') +
     (dateStr  ? `📅 <b>Date:</b> ${dateStr}${endStr ? ` – ${endStr}` : ''}\n` : '') +
-    (location ? `📍 <b>Location:</b> ${location}\n`                            : '') +
-    (notes    ? `\n💬 <b>Notes:</b>\n${notes}\n`                               : '') +
-    (uid      ? `\n🔑 Ref: <code>${uid}</code>\n`                              : '') +
-    (greetingLink ? `\n👋 <a href="${greetingLink}">Send greeting on WhatsApp</a>\n` : '') +
-    (waPhone      ? `💬 <a href="https://wa.me/${waPhone}">Open chat</a>`       : '')
+    (location ? `📍 <b>Location:</b> ${escHtml(location)}\n`                   : '') +
+    (notes    ? `\n💬 <b>Notes:</b>\n${escHtml(notes)}\n`                      : '') +
+    `\n⏳ <i>Awaiting your approval — no confirmation sent to customer yet.</i>`
 
-  await notifyTelegram(message)
-  console.log(`[cal-webhook:${triggerEvent}]`, { name, email, startTime, uid })
+  const buttons = [[
+    { text: '✅ Open Admin',        url: `${BASE_URL}/admin/bookings/${booking.id}` },
+    ...(waLink ? [{ text: '💬 WhatsApp Customer', url: waLink }] : []),
+  ]]
+
+  await notifyTelegram(message, buttons)
+  console.log(`[cal-webhook:${triggerEvent}]`, { name, email, startTime, id: booking.id })
 
   return NextResponse.json({ ok: true })
 }
