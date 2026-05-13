@@ -257,7 +257,7 @@ export type Invoice = {
     phone?:   string
     address?: string
   }
-  items:           Array<{ name: string; price: number }>
+  items:           Array<{ name: string; price: number; qty?: number; priceEach?: number }>
   discountPercent?: number
   discountAmount?:  number
   discountType?:   'voucher' | 'manual'
@@ -301,6 +301,35 @@ export async function getAllInvoices(): Promise<Invoice[]> {
 }
 
 export { nextInvoiceNumber }
+
+// ─── Surveys ──────────────────────────────────────────────────────────────────
+
+export type SurveySource = 'delivery' | 'booking' | 'general'
+
+export type Survey = {
+  id:             string
+  createdAt:      string
+  source:         SurveySource
+  ref?:           string
+  customerName?:  string
+  bookingEase:    number  // 1–5
+  serviceQuality: number  // 1–5
+  heardFrom:      string  // google | referral | instagram | returning | other
+  comments?:      string
+}
+
+export async function saveSurvey(s: Survey): Promise<void> {
+  await redis.pipeline().set(`survey:${s.id}`, s).lpush('surveys', s.id).exec()
+}
+
+export async function getAllSurveys(): Promise<Survey[]> {
+  const ids = await redis.lrange<string>('surveys', 0, -1)
+  if (!ids.length) return []
+  const list = await Promise.all(ids.map(id => redis.get<Survey>(`survey:${id}`)))
+  return list
+    .filter((s): s is Survey => s !== null)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+}
 
 // ─── Cal.com Bookings (manual approval flow) ─────────────────────────────────
 

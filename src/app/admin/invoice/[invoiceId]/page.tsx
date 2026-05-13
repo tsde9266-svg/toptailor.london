@@ -126,6 +126,18 @@ export default async function AdminInvoicePage({ params }: { params: { invoiceId
           </div>
         </div>
 
+        {/* Edit button — unpaid only */}
+        {invoice.status !== 'paid' && (
+          <div>
+            <a
+              href={`/admin/invoice/${invoice.id}/edit`}
+              className="inline-block border border-divider text-muted font-sans text-[0.6875rem] uppercase tracking-widest px-4 py-2 hover:border-hunter hover:text-charcoal transition-colors"
+            >
+              Edit Invoice
+            </a>
+          </div>
+        )}
+
         {/* Actions */}
         <InvoiceActions
           invoiceId={invoice.id}
@@ -134,14 +146,8 @@ export default async function AdminInvoicePage({ params }: { params: { invoiceId
           status={invoice.status}
           customerEmail={invoice.customer.email}
           customerPhone={invoice.customer.phone}
+          notes={invoice.notes}
         />
-
-        {invoice.notes && (
-          <div className="border-l-2 border-hunter/30 pl-4">
-            <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-1">Notes</p>
-            <p className="font-sans text-[0.875rem] text-muted italic">{invoice.notes}</p>
-          </div>
-        )}
 
       </div>
     </div>
