@@ -21,10 +21,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Author and quote are required' }, { status: 422 })
   }
 
+  const stars = Number(body.stars ?? 5)
   const review: Review = {
     id:        crypto.randomUUID(),
     author,
     quote,
+    stars:     Number.isInteger(stars) && stars >= 1 && stars <= 5 ? stars : 5,
+    status:    'approved',  // admin-added reviews go live immediately
     createdAt: new Date().toISOString(),
   }
 

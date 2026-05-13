@@ -115,14 +115,21 @@ export async function getAllConsultations(): Promise<Consultation[]> {
 // ─── Reviews ──────────────────────────────────────────────────────────────────
 
 export type Review = {
-  id:        string
-  author:    string
-  quote:     string
-  createdAt: string
+  id:           string
+  author:       string
+  quote:        string
+  stars:        number  // 1–5
+  status:       'pending' | 'approved'
+  createdAt:    string
+  deliveryRef?: string  // optional delivery stop ID
 }
 
 export async function saveReview(review: Review): Promise<void> {
   await redis.pipeline().set(`review:${review.id}`, review).lpush('reviews', review.id).exec()
+}
+
+export async function updateReview(review: Review): Promise<void> {
+  await redis.set(`review:${review.id}`, review)
 }
 
 export async function getAllReviews(): Promise<Review[]> {
@@ -134,9 +141,61 @@ export async function getAllReviews(): Promise<Review[]> {
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 }
 
+export async function getReview(id: string): Promise<Review | null> {
+  return redis.get<Review>(`review:${id}`)
+}
+
 export async function deleteReview(id: string): Promise<void> {
   await redis.del(`review:${id}`)
   await redis.lrem('reviews', 0, id)
+}
+
+// ─── Deliveries ───────────────────────────────────────────────────────────────
+
+export type DeliveryStop = {
+  id:           string
+  name:         string
+  phone:        string
+  address:      string
+  items:        string   // free text: "Suit jacket + 2 trousers"
+  orderId?:     string
+  status:       'pending' | 'delivered'
+  deliveredAt?: string
+  reviewSent?:  boolean
+}
+
+export type Delivery = {
+  id:        string
+  date:      string    // YYYY-MM-DD
+  createdAt: string
+  notes?:    string
+  stops:     DeliveryStop[]
+}
+
+export async function saveDelivery(d: Delivery): Promise<void> {
+  await redis.pipeline().set(`delivery:${d.id}`, d).lpush('deliveries', d.id).exec()
+}
+
+export async function getDelivery(id: string): Promise<Delivery | null> {
+  return redis.get<Delivery>(`delivery:${id}`)
+}
+
+export async function updateDelivery(d: Delivery): Promise<void> {
+  await redis.set(`delivery:${d.id}`, d)
+}
+
+export async function deleteDelivery(id: string): Promise<void> {
+  await redis.del(`delivery:${id}`)
+  await redis.lrem('deliveries', 0, id)
+}
+
+export async function getAllDeliveries(): Promise<Delivery[]> {
+  const ids = await redis.lrange<string>('deliveries', 0, -1)
+  if (!ids.length) return []
+  const list = await Promise.all(ids.map(id => redis.get<Delivery>(`delivery:${id}`)))
+  return list
+    .filter((d): d is Delivery => d !== null)
+    .sort((a, b) => b.date.localeCompare(a.date))
 }
 
 // ─── Vouchers ─────────────────────────────────────────────────────────────────
