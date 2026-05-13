@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import type { InvoiceStatus } from '@/lib/kv'
 
 type Props = {
@@ -15,6 +16,7 @@ type Props = {
 export default function InvoiceActions({
   invoiceId, invoiceNumber, invoiceUrl, status, customerEmail, customerPhone, notes: initialNotes,
 }: Props) {
+  const router = useRouter()
   const [sending,    setSending]    = useState(false)
   const [marking,    setMarking]    = useState(false)
   const [pdfLoading, setPdfLoading] = useState(false)
@@ -91,6 +93,14 @@ export default function InvoiceActions({
       setEditingNotes(false)
     } catch { setNotesErr('Network error.') }
     finally  { setSavingNotes(false) }
+  }
+
+  async function deleteInvoice() {
+    if (!window.confirm(`Delete invoice ${invoiceNumber}? This cannot be undone.`)) return
+    try {
+      await fetch(`/api/admin/invoice/${invoiceId}`, { method: 'DELETE' })
+      router.push('/admin/invoices')
+    } catch { /* ignore */ }
   }
 
   async function copyLink() {
@@ -207,6 +217,16 @@ export default function InvoiceActions({
         ) : (
           <p className="font-sans text-[0.8125rem] text-muted/60">No note added yet.</p>
         )}
+      </div>
+
+      {/* Delete */}
+      <div className="pt-2 border-t border-divider">
+        <button
+          onClick={deleteInvoice}
+          className="font-sans text-[0.6875rem] text-red-500 hover:text-red-700 underline underline-offset-2 transition-colors"
+        >
+          Delete this invoice
+        </button>
       </div>
 
     </div>

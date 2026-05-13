@@ -291,6 +291,11 @@ export async function updateInvoice(invoice: Invoice): Promise<void> {
   await redis.set(`invoice:${invoice.id}`, invoice)
 }
 
+export async function deleteInvoice(id: string): Promise<void> {
+  await redis.del(`invoice:${id}`)
+  await redis.lrem('invoices', 0, id)
+}
+
 export async function getAllInvoices(): Promise<Invoice[]> {
   const ids = await redis.lrange<string>('invoices', 0, -1)
   if (!ids.length) return []
