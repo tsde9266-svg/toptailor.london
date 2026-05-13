@@ -115,10 +115,6 @@ export default function NewDeliveryPage() {
                 <input type="text" value={stop.items} onChange={e => updateStop(i, 'items', e.target.value)} placeholder="e.g. Suit jacket + 2 trousers" className={INPUT} />
               </div>
 
-              <div>
-                <label className={LABEL}>Order ID (optional)</label>
-                <input type="text" value={stop.orderId} onChange={e => updateStop(i, 'orderId', e.target.value)} placeholder="Link to order in system" className={INPUT} />
-              </div>
             </div>
           ))}
 
