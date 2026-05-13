@@ -1,12 +1,31 @@
 import type { Metadata } from 'next'
 import ReviewForm from './ReviewForm'
+import { getAllReviews } from '@/lib/kv'
 
 export const metadata: Metadata = {
-  title: 'Leave a Review | Fine Tailors',
+  title: 'Reviews | Fine Tailors',
   robots: { index: false, follow: false },
 }
 
-export default function ReviewPage({
+function Stars({ n }: { n?: number }) {
+  const count = n ?? 5
+  return (
+    <div className="flex gap-0.5 mb-3">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <svg key={i} width="13" height="13" viewBox="0 0 24 24"
+          fill={i < count ? '#F59E0B' : '#D1D5DB'} aria-hidden="true">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+        </svg>
+      ))}
+    </div>
+  )
+}
+
+function fmtDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
+}
+
+export default async function ReviewPage({
   searchParams,
 }: {
   searchParams: { name?: string; ref?: string }
@@ -14,9 +33,12 @@ export default function ReviewPage({
   const prefillName = searchParams.name?.slice(0, 100) ?? ''
   const deliveryRef = searchParams.ref?.slice(0, 40)   ?? ''
 
+  const allReviews = await getAllReviews().catch(() => [])
+  const reviews    = allReviews.filter(r => r.status === 'approved' || !r.status)
+
   return (
-    <div className="min-h-screen bg-parchment flex items-center justify-center px-4 py-16">
-      <div className="w-full max-w-lg">
+    <div className="min-h-screen bg-parchment px-4 py-16">
+      <div className="w-full max-w-lg mx-auto">
 
         {/* Brand */}
         <div className="flex items-center gap-3 mb-10">
@@ -38,7 +60,37 @@ export default function ReviewPage({
 
         <ReviewForm prefillName={prefillName} deliveryRef={deliveryRef} />
 
-        <p className="font-sans text-[0.6875rem] text-muted text-center mt-8">
+        {/* Reviews list */}
+        {reviews.length > 0 && (
+          <div className="mt-16">
+            <div className="border-t border-divider pt-12">
+              <p className="font-sans text-[0.6875rem] uppercase tracking-[0.3em] text-muted mb-8 text-center">
+                What our customers say
+              </p>
+
+              <div className="space-y-6">
+                {reviews.map(r => (
+                  <div key={r.id} className="border border-divider bg-white px-6 py-5">
+                    <Stars n={r.stars} />
+                    <blockquote className="font-playfair text-[1rem] italic text-charcoal leading-relaxed mb-4">
+                      {r.quote}
+                    </blockquote>
+                    <div className="flex items-center justify-between">
+                      <cite className="font-sans text-[0.75rem] uppercase tracking-widest text-hunter not-italic">
+                        — {r.author}
+                      </cite>
+                      <span className="font-sans text-[0.6875rem] text-muted">
+                        {fmtDate(r.createdAt)}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        <p className="font-sans text-[0.6875rem] text-muted text-center mt-12">
           Fine Tailors · London&apos;s finest tailors, at your door
         </p>
       </div>
