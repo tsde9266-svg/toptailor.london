@@ -96,7 +96,7 @@ export default function NewInvoiceForm() {
 
     for (const it of items) {
       if (!it.name.trim())                           { setError('All services need a name.'); return }
-      if (it.price === '' || Number(it.price) <= 0)  { setError(`Enter a price for "${it.name || 'service'}".`); return }
+      if (it.price === '' || Number(it.price) < 0)   { setError(`Enter a price for "${it.name || 'service'}".`); return }
     }
     if (items.length === 0) { setError('Add at least one service.'); return }
 
@@ -175,7 +175,7 @@ export default function NewInvoiceForm() {
               />
               <input
                 type="number"
-                min="1"
+                min="0"
                 step="1"
                 value={item.price}
                 onChange={e => setItemPrice(i, e.target.value)}
