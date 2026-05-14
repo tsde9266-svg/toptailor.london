@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
   }
 
   const date  = String(body.date  ?? '').trim()
+  const time  = String(body.time  ?? '').trim()
   const notes = String(body.notes ?? '').trim()
   const raw   = (body.stops ?? []) as Array<Record<string, string>>
 
@@ -41,6 +42,7 @@ export async function POST(req: NextRequest) {
   const delivery = {
     id:        crypto.randomUUID(),
     date,
+    time:      time || undefined,
     createdAt: new Date().toISOString(),
     notes:     notes || undefined,
     stops,

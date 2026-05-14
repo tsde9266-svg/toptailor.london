@@ -183,7 +183,7 @@ export default function Hero() {
           href="tel:+447438145169"
           className="
             lg:hidden flex items-center gap-2 mt-2
-            font-sans text-[0.8125rem] font-medium
+            font-sans text-[1.0625rem] font-medium
             text-parchment/80
             animate-fade-in
           "

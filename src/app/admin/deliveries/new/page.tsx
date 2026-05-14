@@ -14,6 +14,7 @@ const LABEL = 'block font-sans text-[0.625rem] uppercase tracking-widest text-mu
 export default function NewDeliveryPage() {
   const router = useRouter()
   const [date,    setDate]    = useState(today())
+  const [time,    setTime]    = useState('')
   const [notes,   setNotes]   = useState('')
   const [stops,   setStops]   = useState<Stop[]>([{ ...EMPTY }])
   const [loading, setLoading] = useState(false)
@@ -33,6 +34,7 @@ export default function NewDeliveryPage() {
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({
           date,
+          time:  time.trim() || undefined,
           notes: notes.trim() || undefined,
           stops: stops.map(s => ({
             name:    s.name.trim(),
@@ -72,9 +74,13 @@ export default function NewDeliveryPage() {
               <input type="date" value={date} onChange={e => setDate(e.target.value)} required className={INPUT} />
             </div>
             <div>
-              <label className={LABEL}>Notes (optional)</label>
-              <input type="text" value={notes} onChange={e => setNotes(e.target.value)} placeholder="e.g. Afternoon run" className={INPUT} />
+              <label className={LABEL}>Time (optional)</label>
+              <input type="time" value={time} onChange={e => setTime(e.target.value)} className={INPUT} />
             </div>
+          </div>
+          <div>
+            <label className={LABEL}>Notes (optional)</label>
+            <input type="text" value={notes} onChange={e => setNotes(e.target.value)} placeholder="e.g. Afternoon run" className={INPUT} />
           </div>
         </div>
 

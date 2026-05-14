@@ -167,6 +167,7 @@ export type DeliveryStop = {
 export type Delivery = {
   id:        string
   date:      string    // YYYY-MM-DD
+  time?:     string    // HH:MM (optional)
   createdAt: string
   notes?:    string
   stops:     DeliveryStop[]
