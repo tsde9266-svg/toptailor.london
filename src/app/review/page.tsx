@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ReviewForm from './ReviewForm'
+import SurveyForm from './SurveyForm'
 import { getAllReviews } from '@/lib/kv'
 
 export const metadata: Metadata = {
@@ -59,6 +60,17 @@ export default async function ReviewPage({
         </p>
 
         <ReviewForm prefillName={prefillName} deliveryRef={deliveryRef} />
+
+        {/* Survey */}
+        <div className="mt-14 border-t border-divider pt-12">
+          <p className="font-sans text-[0.6875rem] uppercase tracking-[0.3em] text-muted mb-2 text-center">
+            Quick Survey
+          </p>
+          <p className="font-sans font-light text-muted text-[0.9375rem] text-center mb-8">
+            Two quick questions to help us improve.
+          </p>
+          <SurveyForm prefillName={prefillName} deliveryRef={deliveryRef} />
+        </div>
 
         {/* Reviews list */}
         {reviews.length > 0 && (
