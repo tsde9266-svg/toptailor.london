@@ -44,7 +44,25 @@ const nextConfig = {
       {
         source: '/:path*',
         has: [{ type: 'host', value: 'www.toptailor.london' }],
-        destination: 'https://toptailor.london/:path*',
+        destination: 'https://www.finetailors.co.uk/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'toptailor.london' }],
+        destination: 'https://www.finetailors.co.uk/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.oneclicktailors.co.uk' }],
+        destination: 'https://www.finetailors.co.uk/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'oneclicktailors.co.uk' }],
+        destination: 'https://www.finetailors.co.uk/:path*',
         permanent: true,
       },
     ]

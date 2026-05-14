@@ -21,9 +21,37 @@ const breadcrumb = {
 
 const posts = [
   {
+    slug: 'best-tailor-london',
+    title: 'Best Tailor in London — What to Look for in 2026',
+    excerpt: 'What separates a truly great tailor from an average one in London — and why a mobile master tailor beats most shop alternatives.',
+    date: '2026-05-15',
+    readTime: '6 min read',
+  },
+  {
+    slug: 'suit-alteration-cost-london',
+    title: 'How Much Do Suit Alterations Cost in London?',
+    excerpt: 'A transparent guide to suit alteration prices in London — what affects cost, typical ranges, and whether a mobile tailor is more expensive.',
+    date: '2026-05-15',
+    readTime: '5 min read',
+  },
+  {
+    slug: 'master-tailor-home-visit-london',
+    title: 'Master Tailor Home Visit in London — What to Expect',
+    excerpt: 'What happens when a master tailor comes to your door in London? The visit process, what to prepare, and why the result is better.',
+    date: '2026-05-12',
+    readTime: '5 min read',
+  },
+  {
+    slug: 'tailor-near-me-london',
+    title: 'Searching for a Tailor Near You in London? Here Is the Best Answer.',
+    excerpt: 'A mobile tailor who comes to your home is the most convenient and professional answer to "tailor near me" in central London.',
+    date: '2026-05-12',
+    readTime: '4 min read',
+  },
+  {
     slug: 'how-door-to-door-tailoring-works-london',
     title: 'How Door-to-Door Tailoring Works in London',
-    excerpt: 'Discover how Fine Tailors\'s door-to-door tailoring service works in London — from booking to collection and return.',
+    excerpt: 'Discover how Fine Tailors’s door-to-door tailoring service works in London — from booking to collection and return.',
     date: '2026-03-10',
     readTime: '5 min read',
   },
@@ -37,7 +65,7 @@ const posts = [
   {
     slug: 'why-mayfair-clients-choose-visiting-tailor',
     title: 'Why Mayfair Clients Choose a Visiting Tailor',
-    excerpt: 'London\'s most discerning residents choose Fine Tailors for privacy, precision, and the premium convenience of a home visit.',
+    excerpt: 'London’s most discerning residents choose Fine Tailors for privacy, precision, and the premium convenience of a home visit.',
     date: '2026-03-24',
     readTime: '5 min read',
   },
