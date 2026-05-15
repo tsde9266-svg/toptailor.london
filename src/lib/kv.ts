@@ -402,3 +402,45 @@ export async function getAllCalBookings(): Promise<CalBooking[]> {
     .filter((b): b is CalBooking => b !== null)
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 }
+
+// ─── Calendar Entries (personal / work / blocked) ─────────────────────────────
+
+export type CalEntryType = 'personal' | 'work' | 'blocked'
+
+export type CalEntry = {
+  id:         string
+  createdAt:  string
+  title:      string
+  date:       string      // YYYY-MM-DD
+  startTime?: string      // HH:MM 24h
+  endTime?:   string      // HH:MM 24h
+  allDay?:    boolean
+  type:       CalEntryType
+  notes?:     string
+}
+
+export async function saveCalEntry(e: CalEntry): Promise<void> {
+  await redis.pipeline().set(`calentry:${e.id}`, e).lpush('calentries', e.id).exec()
+}
+
+export async function getCalEntry(id: string): Promise<CalEntry | null> {
+  return redis.get<CalEntry>(`calentry:${id}`)
+}
+
+export async function updateCalEntry(e: CalEntry): Promise<void> {
+  await redis.set(`calentry:${e.id}`, e)
+}
+
+export async function deleteCalEntry(id: string): Promise<void> {
+  await redis.del(`calentry:${id}`)
+  await redis.lrem('calentries', 0, id)
+}
+
+export async function getAllCalEntries(): Promise<CalEntry[]> {
+  const ids = await redis.lrange<string>('calentries', 0, -1)
+  if (!ids.length) return []
+  const entries = await Promise.all(ids.map(id => redis.get<CalEntry>(`calentry:${id}`)))
+  return entries
+    .filter((e): e is CalEntry => e !== null)
+    .sort((a, b) => a.date.localeCompare(b.date))
+}

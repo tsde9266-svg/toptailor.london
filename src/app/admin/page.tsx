@@ -125,6 +125,9 @@ export default async function AdminPage({
           <Link href="/admin/dashboard" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-green-400/60 bg-green-500/10 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
             Dashboard
           </Link>
+          <Link href="/admin/calendar" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-blue-400/60 bg-blue-500/10 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
+            📅 Calendar
+          </Link>
           <Link href="/admin/bookings" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-amber-400/60 bg-amber-500/10 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
             Bookings
           </Link>
