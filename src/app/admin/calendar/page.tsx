@@ -3,12 +3,17 @@ import CalendarClient from './CalendarClient'
 import type { CalEvent } from './CalendarClient'
 import Link from 'next/link'
 
+// For UTC ISO strings from cal.com (e.g. "2026-05-13T09:00:00Z")
 function toLocalYMD(iso: string): string {
   return new Date(iso).toLocaleDateString('en-CA', { timeZone: 'Europe/London' })
 }
 function toLocalHHMM(iso: string): string {
   return new Date(iso).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/London', hour12: false })
 }
+// For confirmedTime slots which are already local datetime strings ("2026-05-13T09:00")
+// Do NOT run these through timezone conversion — extract directly
+function slotYMD(dt: string): string  { return dt.split('T')[0] ?? '' }
+function slotHHMM(dt: string): string { return (dt.split('T')[1] ?? '').slice(0, 5) }
 
 export default async function CalendarPage() {
   const [bookings, deliveries, entries] = await Promise.all([
@@ -23,15 +28,15 @@ export default async function CalendarPage() {
   for (const b of bookings) {
     if (b.status === 'cancelled') continue
     const slot = b.confirmedTime ?? null
-    const start = slot ? slot.start : b.scheduledAt
-    const end   = slot ? slot.end   : b.endTime
+    // confirmedTime.start/end are local datetime strings already — extract directly
+    // b.scheduledAt / b.endTime are UTC ISO strings — convert via timezone
     events.push({
-      id:        b.id,
+      id:        `booking-${b.id}`,
       title:     b.attendee.name,
       subtitle:  b.location || undefined,
-      date:      toLocalYMD(start),
-      startTime: toLocalHHMM(start),
-      endTime:   toLocalHHMM(end),
+      date:      slot ? slotYMD(slot.start)    : toLocalYMD(b.scheduledAt),
+      startTime: slot ? slotHHMM(slot.start)   : toLocalHHMM(b.scheduledAt),
+      endTime:   slot ? slotHHMM(slot.end)     : toLocalHHMM(b.endTime),
       type:      b.status === 'approved' ? 'booking' : 'booking_pending',
       href:      `/admin/bookings/${b.id}`,
     })
@@ -41,11 +46,11 @@ export default async function CalendarPage() {
   for (const d of deliveries) {
     const names = d.stops.map(s => s.name).join(', ')
     events.push({
-      id:        d.id,
+      id:        `delivery-${d.id}`,
       title:     `Delivery · ${d.stops.length} stop${d.stops.length !== 1 ? 's' : ''}`,
       subtitle:  names,
       date:      d.date,
-      startTime: d.time ?? undefined,
+      startTime: d.time || undefined,
       endTime:   undefined,
       allDay:    !d.time,
       type:      'delivery',
@@ -56,13 +61,13 @@ export default async function CalendarPage() {
   // Personal / work / blocked entries
   for (const e of entries) {
     events.push({
-      id:        e.id,
+      id:        `entry-${e.id}`,
       title:     e.title,
       subtitle:  e.notes ?? undefined,
       date:      e.date,
-      startTime: e.startTime ?? undefined,
-      endTime:   e.endTime   ?? undefined,
-      allDay:    e.allDay    ?? !e.startTime,
+      startTime: e.startTime || undefined,
+      endTime:   e.endTime   || undefined,
+      allDay:    e.allDay ?? !e.startTime,
       type:      e.type,
       entryId:   e.id,
     })

@@ -86,7 +86,8 @@ function useIsMobile() {
 export default function CalendarClient({ events }: { events: CalEvent[] }) {
   const router   = useRouter()
   const isMobile = useIsMobile()
-  const today    = useMemo(() => { const d=new Date(); d.setHours(0,0,0,0); return d }, [])
+  // useState initialiser runs only on the client — avoids SSR/client date mismatch
+  const [today]  = useState(() => { const d=new Date(); d.setHours(0,0,0,0); return d })
 
   const [view,        setView]        = useState<CalView>('week')
   const [cursor,      setCursor]      = useState(today)
@@ -109,14 +110,16 @@ export default function CalendarClient({ events }: { events: CalEvent[] }) {
   }, [events])
 
   const goPrev = () => {
-    if (view==='week')  setCursor(d=>addDays(d,-7))
-    else if (view==='month') setCursor(d=>new Date(d.getFullYear(),d.getMonth()-1,1))
-    else setCursor(d=>addDays(d,-1))
+    if      (view==='week')   setCursor(d=>addDays(d,-7))
+    else if (view==='month')  setCursor(d=>new Date(d.getFullYear(),d.getMonth()-1,1))
+    else if (view==='agenda') setCursor(d=>addDays(d,-7))
+    else                      setCursor(d=>addDays(d,-1))
   }
   const goNext = () => {
-    if (view==='week')  setCursor(d=>addDays(d,7))
-    else if (view==='month') setCursor(d=>new Date(d.getFullYear(),d.getMonth()+1,1))
-    else setCursor(d=>addDays(d,1))
+    if      (view==='week')   setCursor(d=>addDays(d,7))
+    else if (view==='month')  setCursor(d=>new Date(d.getFullYear(),d.getMonth()+1,1))
+    else if (view==='agenda') setCursor(d=>addDays(d,7))
+    else                      setCursor(d=>addDays(d,1))
   }
   const goToday = () => setCursor(new Date(today))
 
@@ -210,10 +213,10 @@ export default function CalendarClient({ events }: { events: CalEvent[] }) {
             <div className="flex items-center gap-1 flex-1">
               <NavBtn dir="prev" onClick={goPrev} />
               <span className="font-sans text-[0.875rem] font-medium text-gray-800 flex-1 text-center truncate">
-                {view==='agenda'
+                {view==='month'
                   ? cursor.toLocaleDateString('en-GB',{month:'long',year:'numeric'})
-                  : view==='month'
-                  ? cursor.toLocaleDateString('en-GB',{month:'long',year:'numeric'})
+                  : view==='agenda'
+                  ? `${cursor.toLocaleDateString('en-GB',{day:'numeric',month:'short'})} – ${addDays(cursor,6).toLocaleDateString('en-GB',{day:'numeric',month:'short'})}`
                   : cursor.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
               </span>
               <NavBtn dir="next" onClick={goNext} />
@@ -313,7 +316,7 @@ function SidebarContent({ today, cursor, byDate, onNewEvent, onSelectDay }: {
     const days:Array<{date:Date;events:CalEvent[]}>=[]
     for(let i=-1;i<=30;i++){
       const d=addDays(today,i), ymd=toYMD(d)
-      const evs=(byDate[ymd]??[]).sort((a,b)=>{
+      const evs=[...(byDate[ymd]??[])].sort((a,b)=>{
         if(!a.startTime&&!b.startTime)return 0
         if(!a.startTime)return 1; if(!b.startTime)return -1
         return timeToMins(a.startTime)-timeToMins(b.startTime)
@@ -692,7 +695,7 @@ function AgendaView({cursor,today,byDate,onEventClick,onDayClick,onDeleteEntry}:
     const result:Array<{date:Date;events:CalEvent[]}>=[]
     for(let i=-7;i<=60;i++){
       const d=addDays(cursor,i), ymd=toYMD(d)
-      const evs=(byDate[ymd]??[]).sort((a,b)=>{
+      const evs=[...(byDate[ymd]??[])].sort((a,b)=>{
         if(!a.startTime&&!b.startTime) return 0
         if(!a.startTime) return 1; if(!b.startTime) return -1
         return timeToMins(a.startTime)-timeToMins(b.startTime)
