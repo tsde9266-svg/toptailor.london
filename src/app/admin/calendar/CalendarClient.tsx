@@ -347,18 +347,8 @@ function SidebarContent({ today, cursor, byDate, onNewEvent, onSelectDay }: {
 
   return (
     <>
-      <div className="px-4 pt-4 pb-3">
-        <button onClick={onNewEvent}
-          className="w-full flex items-center justify-center gap-2 bg-[#2A5220] hover:bg-[#1E3D17] text-white py-2.5 font-sans text-[0.6875rem] font-medium tracking-[0.15em] uppercase transition-colors">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
-          New Event
-        </button>
-      </div>
-
-      {/* Mini calendar */}
-      <div className="px-4 pb-3">
+      {/* Mini calendar — top of sidebar, matching Fantastical layout */}
+      <div className="px-4 pt-4 pb-2">
         <div className="flex items-center justify-between mb-2">
           <span className="font-sans text-[0.75rem] font-medium text-white/80">
             {miniMonth.toLocaleDateString('en-GB',{month:'short',year:'numeric'})}
@@ -402,6 +392,17 @@ function SidebarContent({ today, cursor, byDate, onNewEvent, onSelectDay }: {
         </div>
       </div>
 
+      {/* New Event button — below mini calendar, matching Fantastical */}
+      <div className="px-4 pb-3">
+        <button onClick={onNewEvent}
+          className="w-full flex items-center justify-center gap-2 bg-[#2A5220] hover:bg-[#1E3D17] text-white py-2 font-sans text-[0.625rem] font-medium tracking-[0.15em] uppercase transition-colors">
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+            <path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          New Event
+        </button>
+      </div>
+
       {/* Legend */}
       <div className="px-4 py-2 border-t border-white/10">
         <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
@@ -414,13 +415,27 @@ function SidebarContent({ today, cursor, byDate, onNewEvent, onSelectDay }: {
         </div>
       </div>
 
-      {/* Agenda */}
+      {/* Agenda — TODAY section is visually prominent, matching Fantastical */}
       <div className="flex-1 overflow-y-auto px-4 py-2 border-t border-white/10 space-y-3">
-        {agendaDays.map(({date,events:evs})=>(
+        {agendaDays.map(({date,events:evs})=>{
+          const isT = isSameDay(date,today)
+          return (
           <div key={toYMD(date)}>
-            <p className={`font-sans text-[0.5625rem] uppercase tracking-widest mb-1 ${isSameDay(date,today)?'text-[#97C459] font-semibold':'text-white/35'}`}>
-              {fmtDateLabel(date,today)}
-            </p>
+            {/* Section header — TODAY gets a stronger label */}
+            {isT ? (
+              <div className="flex items-center gap-2 mb-2">
+                <span className="font-sans text-[0.625rem] font-bold uppercase tracking-widest text-[#97C459]">
+                  Today
+                </span>
+                <span className="font-sans text-[0.5625rem] text-white/40">
+                  {date.toLocaleDateString('en-GB',{day:'numeric',month:'short'})}
+                </span>
+              </div>
+            ) : (
+              <p className="font-sans text-[0.5rem] uppercase tracking-widest mb-1 text-white/30">
+                {fmtDateLabel(date,today)}
+              </p>
+            )}
             {evs.length===0
               ? <p className="font-sans text-[0.625rem] text-white/20 italic">Free</p>
               : evs.map(ev=>(
@@ -434,7 +449,8 @@ function SidebarContent({ today, cursor, byDate, onNewEvent, onSelectDay }: {
               ))
             }
           </div>
-        ))}
+          )
+        })}
       </div>
     </>
   )
@@ -560,7 +576,7 @@ function WeekView({weekDays,today,byDate,onCellClick,onEventClick,onDeleteEntry,
         <div className="flex" style={{height:TOTAL_H}}>
           <div className="w-14 flex-shrink-0 border-r border-gray-100 relative">
             {Array.from({length:E_HOUR-S_HOUR},(_,i)=>(
-              <div key={i} className="absolute right-2 font-sans text-[0.5625rem] text-gray-400" style={{top:i*HOUR_H-6}}>
+              <div key={i} className="absolute right-2 font-sans text-[0.5625rem] text-gray-400" style={{top:i*HOUR_H+2}}>
                 {hourLabel(i+S_HOUR)}
               </div>
             ))}
@@ -588,9 +604,10 @@ function WeekView({weekDays,today,byDate,onCellClick,onEventClick,onDeleteEntry,
                   const startY = Math.max(0, rawY)
                   const height = Math.max(Math.min(TOTAL_H, rawEndY) - startY, 22)
                   return (
+                    // Only stopPropagation here — EventPill's own onClick handles the action
                     <div key={ev.id} className="absolute left-0 right-1"
                       style={{top:startY,height}}
-                      onClick={e=>{e.stopPropagation();onEventClick(ev)}}>
+                      onClick={e=>e.stopPropagation()}>
                       <EventPill ev={ev} onClick={()=>onEventClick(ev)} onDelete={onDeleteEntry}/>
                     </div>
                   )
@@ -696,7 +713,7 @@ function DayView({day,today,byDate,onCellClick,onEventClick,onDeleteEntry,scroll
         <div className="flex" style={{height:TOTAL_H}}>
           <div className="w-14 flex-shrink-0 border-r border-gray-100 relative">
             {Array.from({length:E_HOUR-S_HOUR},(_,i)=>(
-              <div key={i} className="absolute right-2 font-sans text-[0.5625rem] text-gray-400" style={{top:i*HOUR_H-6}}>
+              <div key={i} className="absolute right-2 font-sans text-[0.5625rem] text-gray-400" style={{top:i*HOUR_H+2}}>
                 {hourLabel(i+S_HOUR)}
               </div>
             ))}
@@ -719,7 +736,7 @@ function DayView({day,today,byDate,onCellClick,onEventClick,onDeleteEntry,scroll
               return (
                 <div key={ev.id} className="absolute left-0 right-2"
                   style={{top:startY,height}}
-                  onClick={e=>{e.stopPropagation();onEventClick(ev)}}>
+                  onClick={e=>e.stopPropagation()}>
                   <EventPill ev={ev} onClick={()=>onEventClick(ev)} onDelete={onDeleteEntry}/>
                 </div>
               )
