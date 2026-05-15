@@ -494,14 +494,17 @@ function TimeGridRows() {
 }
 
 function CurrentTimeLine({today,day}:{today:Date;day:Date}) {
+  const isToday = isSameDay(day, today)
   const [now, setNow] = useState(new Date())
+  // Only create the interval for today's column — not all 7 week columns
   useEffect(() => {
+    if (!isToday) return
     const id = setInterval(() => setNow(new Date()), 60000)
     return () => clearInterval(id)
-  }, [])
-  if(!isSameDay(day,today)) return null
-  const nowY=((now.getHours()+now.getMinutes()/60)-S_HOUR)*HOUR_H
-  if(nowY<0||nowY>TOTAL_H) return null
+  }, [isToday])
+  if (!isToday) return null
+  const nowY = ((now.getHours() + now.getMinutes()/60) - S_HOUR) * HOUR_H
+  if (nowY < 0 || nowY > TOTAL_H) return null
   return (
     <div className="absolute left-0 right-0 flex items-center pointer-events-none" style={{top:nowY}}>
       <div className="w-2.5 h-2.5 rounded-full bg-red-500 -ml-1 flex-shrink-0"/>
@@ -518,7 +521,12 @@ function WeekView({weekDays,today,byDate,onCellClick,onEventClick,onDeleteEntry,
   onDeleteEntry:(id:string)=>void;scrollRef:React.RefObject<HTMLDivElement>
 }) {
   const allDayByDay = weekDays.map(d=>(byDate[toYMD(d)]??[]).filter(e=>e.allDay||!e.startTime))
-  const timedByDay  = weekDays.map(d=>(byDate[toYMD(d)]??[]).filter(e=>!e.allDay&&!!e.startTime))
+  // Sort by startTime so later events render on top (higher DOM order = higher z-stack)
+  const timedByDay  = weekDays.map(d=>
+    (byDate[toYMD(d)]??[])
+      .filter(e=>!e.allDay&&!!e.startTime)
+      .sort((a,b)=>timeToMins(a.startTime!)-timeToMins(b.startTime!))
+  )
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
@@ -571,13 +579,17 @@ function WeekView({weekDays,today,byDate,onCellClick,onEventClick,onDeleteEntry,
                 <TimeGridRows/>
                 <CurrentTimeLine today={today} day={day}/>
                 {timedByDay[di]!.map(ev=>{
-                  const startY=timeToY(ev.startTime!)
-                  const eMins=ev.endTime?timeToMins(ev.endTime):timeToMins(ev.startTime!)+60
-                  const h=Math.max(((eMins-timeToMins(ev.startTime!))/60)*HOUR_H,22)
-                  if(startY<0||startY>TOTAL_H) return null
+                  const rawY  = timeToY(ev.startTime!)
+                  const eMins = ev.endTime ? timeToMins(ev.endTime) : timeToMins(ev.startTime!)+60
+                  const rawEndY = ((eMins/60)-S_HOUR)*HOUR_H
+                  // Skip events entirely outside the grid
+                  if (rawEndY <= 0 || rawY >= TOTAL_H) return null
+                  // Clip to grid boundaries so early/late events don't vanish
+                  const startY = Math.max(0, rawY)
+                  const height = Math.max(Math.min(TOTAL_H, rawEndY) - startY, 22)
                   return (
                     <div key={ev.id} className="absolute left-0 right-1"
-                      style={{top:startY,height:h}}
+                      style={{top:startY,height}}
                       onClick={e=>{e.stopPropagation();onEventClick(ev)}}>
                       <EventPill ev={ev} onClick={()=>onEventClick(ev)} onDelete={onDeleteEntry}/>
                     </div>
@@ -619,7 +631,12 @@ function MonthView({cursor,today,byDate,onDayClick,onEventClick}:{
             {week.map((cell,di)=>{
               if(!cell) return <div key={di} className="border-r border-gray-50 bg-gray-50/30"/>
               const ymd=toYMD(cell), isT=isSameDay(cell,today), isOther=cell.getMonth()!==month
-              const dayEvs=(byDate[ymd]??[]).slice(0,3), more=(byDate[ymd]??[]).length-3
+              const sorted=[...(byDate[ymd]??[])].sort((a,b)=>{
+                if(!a.startTime&&!b.startTime) return 0
+                if(!a.startTime) return 1; if(!b.startTime) return -1
+                return timeToMins(a.startTime)-timeToMins(b.startTime)
+              })
+              const dayEvs=sorted.slice(0,3), more=sorted.length-3
               return (
                 <div key={di}
                   className={`border-r border-gray-100 p-1 cursor-pointer hover:bg-gray-50 transition-colors ${isOther?'opacity-25':''}`}
@@ -657,7 +674,9 @@ function DayView({day,today,byDate,onCellClick,onEventClick,onDeleteEntry,scroll
 }) {
   const ymd=toYMD(day), isT=isSameDay(day,today)
   const allDay=(byDate[ymd]??[]).filter(e=>e.allDay||!e.startTime)
-  const timed=(byDate[ymd]??[]).filter(e=>!e.allDay&&!!e.startTime)
+  const timed=(byDate[ymd]??[])
+    .filter(e=>!e.allDay&&!!e.startTime)
+    .sort((a,b)=>timeToMins(a.startTime!)-timeToMins(b.startTime!))
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       {/* Day header */}
@@ -691,11 +710,15 @@ function DayView({day,today,byDate,onCellClick,onEventClick,onDeleteEntry,scroll
             <TimeGridRows/>
             <CurrentTimeLine today={today} day={day}/>
             {timed.map(ev=>{
-              const sY=timeToY(ev.startTime!), eMins=ev.endTime?timeToMins(ev.endTime):timeToMins(ev.startTime!)+60
-              const h=Math.max(((eMins-timeToMins(ev.startTime!))/60)*HOUR_H,22)
+              const rawY    = timeToY(ev.startTime!)
+              const eMins   = ev.endTime ? timeToMins(ev.endTime) : timeToMins(ev.startTime!)+60
+              const rawEndY = ((eMins/60)-S_HOUR)*HOUR_H
+              if (rawEndY <= 0 || rawY >= TOTAL_H) return null
+              const startY = Math.max(0, rawY)
+              const height = Math.max(Math.min(TOTAL_H, rawEndY) - startY, 22)
               return (
                 <div key={ev.id} className="absolute left-0 right-2"
-                  style={{top:sY,height:h}}
+                  style={{top:startY,height}}
                   onClick={e=>{e.stopPropagation();onEventClick(ev)}}>
                   <EventPill ev={ev} onClick={()=>onEventClick(ev)} onDelete={onDeleteEntry}/>
                 </div>
