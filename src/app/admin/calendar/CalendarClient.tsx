@@ -43,7 +43,9 @@ const DAY_SHORT  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
 const DAY_LETTER = ['S','M','T','W','T','F','S']
 
 function fmtTime(t: string) {
+  if (!t || !t.includes(':')) return ''
   const [h,m] = t.split(':').map(Number)
+  if (isNaN(h!) || isNaN(m!)) return ''
   const ap = h!>=12?'pm':'am', h12 = h!%12||12
   return m!>0 ? `${h12}:${String(m).padStart(2,'0')}${ap}` : `${h12}${ap}`
 }
@@ -144,8 +146,8 @@ export default function CalendarClient({ events }: { events: CalEvent[] }) {
   }, [])
   const deleteEntry = useCallback(async (id: string) => {
     if (!confirm('Delete this event?')) return
-    await fetch(`/api/admin/calendar/${id}`, { method:'DELETE' })
-    router.refresh()
+    const res = await fetch(`/api/admin/calendar/${id}`, { method:'DELETE' })
+    if (res.ok) router.refresh()
   }, [router])
 
   const weekStart = startOfWeek(cursor)
@@ -349,15 +351,20 @@ function SidebarContent({ today, cursor, byDate, onNewEvent, onSelectDay }: {
     <>
       {/* Mini calendar — top of sidebar, matching Fantastical layout */}
       <div className="px-4 pt-4 pb-2">
-        <div className="flex items-center justify-between mb-2">
-          <span className="font-sans text-[0.75rem] font-medium text-white/80">
-            {miniMonth.toLocaleDateString('en-GB',{month:'short',year:'numeric'})}
-          </span>
-          <div className="flex gap-1">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-baseline gap-1.5">
+            <span className="font-sans text-[1rem] font-semibold text-white leading-none">
+              {miniMonth.toLocaleDateString('en-GB',{month:'long'})}
+            </span>
+            <span className="font-sans text-[0.6875rem] text-white/40 leading-none">
+              {miniMonth.getFullYear()}
+            </span>
+          </div>
+          <div className="flex gap-0.5">
             {[[-1,'‹'],[1,'›']].map(([d,lbl])=>(
               <button key={lbl as string}
                 onClick={()=>setMiniMonth(m=>new Date(m.getFullYear(),m.getMonth()+(d as number),1))}
-                className="w-5 h-5 text-white/50 hover:text-white text-sm flex items-center justify-center">
+                className="w-6 h-6 text-white/50 hover:text-white hover:bg-white/10 rounded text-base flex items-center justify-center transition-colors">
                 {lbl as string}
               </button>
             ))}
@@ -382,8 +389,8 @@ function SidebarContent({ today, cursor, byDate, onNewEvent, onSelectDay }: {
                 </span>
                 {(hasBiz||hasPer)&&(
                   <div className="flex gap-0.5 mt-0.5">
-                    {hasBiz&&<div className="w-1 h-1 rounded-full bg-blue-400"/>}
-                    {hasPer&&<div className="w-1 h-1 rounded-full bg-purple-400"/>}
+                    {hasBiz&&<div className="w-1.5 h-1.5 rounded-full bg-blue-400"/>}
+                    {hasPer&&<div className="w-1.5 h-1.5 rounded-full bg-purple-400"/>}
                   </div>
                 )}
               </button>
@@ -561,7 +568,7 @@ function WeekView({weekDays,today,byDate,onCellClick,onEventClick,onDeleteEntry,
                   {day.getDate()}
                 </span>
               </div>
-              <div className="mt-1 px-0.5 space-y-0.5">
+              <div className="mt-1 px-0.5 space-y-0.5 max-h-16 overflow-y-auto">
                 {allDayByDay[i]!.map(ev=>(
                   <EventPill key={ev.id} ev={ev} compact onClick={()=>onEventClick(ev)} onDelete={onDeleteEntry}/>
                 ))}
@@ -763,10 +770,13 @@ function AgendaView({cursor,today,byDate,onEventClick,onDayClick,onDeleteEntry}:
         if(!a.startTime) return 1; if(!b.startTime) return -1
         return timeToMins(a.startTime)-timeToMins(b.startTime)
       })
+      const isPast = d < today && !isSameDay(d, today)
+      // Skip empty past days — only show past days that actually have events
+      if (isPast && evs.length === 0) continue
       result.push({date:d,events:evs})
     }
     return result
-  },[cursor,byDate])
+  },[cursor,byDate,today])
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -859,6 +869,10 @@ function EventModal({prefillDate,prefillTime,editEntry,onClose,onSaved,onDeleted
 
   async function save(){
     if(!title.trim()){setError('Title required');return}
+    if(!date){setError('Date required');return}
+    if(startTime && endTime && timeToMins(endTime) <= timeToMins(startTime)){
+      setError('End time must be after start time');return
+    }
     setLoading(true);setError('')
     try{
       const body={title:title.trim(),date,startTime:startTime||undefined,endTime:endTime||undefined,type,notes:notes||undefined}
