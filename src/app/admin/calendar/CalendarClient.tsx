@@ -48,9 +48,10 @@ function fmtTime(t: string) {
   return m!>0 ? `${h12}:${String(m).padStart(2,'0')}${ap}` : `${h12}${ap}`
 }
 function fmtDateLabel(d: Date, today: Date) {
-  const diff = Math.round((new Date(d).setHours(0,0,0,0) - new Date(today).setHours(0,0,0,0)) / 86400000)
-  if (diff===0) return 'Today'
-  if (diff===1) return 'Tomorrow'
+  // Both d and today are already at midnight — compare timestamps directly
+  const diff = Math.round((d.getTime() - today.getTime()) / 86400000)
+  if (diff===0)  return 'Today'
+  if (diff===1)  return 'Tomorrow'
   if (diff===-1) return 'Yesterday'
   return d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'})
 }
@@ -102,6 +103,18 @@ export default function CalendarClient({ events }: { events: CalEvent[] }) {
   useEffect(() => {
     if (isMobile && view === 'week') setView('agenda')
   }, [isMobile, view])
+
+  // Auto-scroll time grid to current time whenever week/day view is active
+  useEffect(() => {
+    if (view !== 'week' && view !== 'day') return
+    const id = setTimeout(() => {
+      if (!scrollRef.current) return
+      const now  = new Date()
+      const nowY = ((now.getHours() + now.getMinutes() / 60) - S_HOUR) * HOUR_H
+      scrollRef.current.scrollTop = Math.max(0, nowY - 120)
+    }, 60) // 60ms gives the view time to mount and assign the ref
+    return () => clearTimeout(id)
+  }, [view])
 
   const byDate = useMemo(() => {
     const m: Record<string,CalEvent[]> = {}
@@ -307,6 +320,11 @@ function SidebarContent({ today, cursor, byDate, onNewEvent, onSelectDay }: {
 }) {
   const [miniMonth, setMiniMonth] = useState(new Date(today.getFullYear(),today.getMonth(),1))
 
+  // Keep mini calendar in sync when main cursor moves to a different month
+  useEffect(() => {
+    setMiniMonth(new Date(cursor.getFullYear(), cursor.getMonth(), 1))
+  }, [cursor])
+
   const year=miniMonth.getFullYear(), month=miniMonth.getMonth()
   const first=new Date(year,month,1), pad=first.getDay(), total=new Date(year,month+1,0).getDate()
   const cells:Array<Date|null>=[...Array(pad).fill(null),...Array.from({length:total},(_,i)=>new Date(year,month,i+1))]
@@ -476,8 +494,13 @@ function TimeGridRows() {
 }
 
 function CurrentTimeLine({today,day}:{today:Date;day:Date}) {
+  const [now, setNow] = useState(new Date())
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 60000)
+    return () => clearInterval(id)
+  }, [])
   if(!isSameDay(day,today)) return null
-  const now=new Date(), nowY=((now.getHours()+now.getMinutes()/60)-S_HOUR)*HOUR_H
+  const nowY=((now.getHours()+now.getMinutes()/60)-S_HOUR)*HOUR_H
   if(nowY<0||nowY>TOTAL_H) return null
   return (
     <div className="absolute left-0 right-0 flex items-center pointer-events-none" style={{top:nowY}}>
@@ -747,7 +770,7 @@ function AgendaView({cursor,today,byDate,onEventClick,onDayClick,onDeleteEntry}:
                 className="flex items-start gap-3 px-4 py-2.5 hover:bg-gray-50 cursor-pointer border-t border-gray-50 group">
                 <div className="w-9 flex-shrink-0 text-right">
                   <span className="font-sans text-[0.625rem] text-gray-400">
-                    {ev.startTime?fmtTime(ev.startTime):ev.allDay?'All day':''}
+                    {ev.startTime ? fmtTime(ev.startTime) : 'All day'}
                   </span>
                 </div>
                 <div className="w-1 self-stretch rounded-full flex-shrink-0" style={{backgroundColor:TS[ev.type].border}}/>
@@ -859,7 +882,12 @@ function EventModal({prefillDate,prefillTime,editEntry,onClose,onSaved,onDeleted
               {loading?'Saving…':editEntry?'Update':'Save Event'}
             </button>
             {editEntry&&(
-              <button onClick={async()=>{if(!editEntry.entryId||!confirm('Delete?'))return;await fetch(`/api/admin/calendar/${editEntry.entryId}`,{method:'DELETE'});onDeleted()}}
+              <button
+                onClick={async()=>{
+                  if(!editEntry.entryId||!confirm('Delete?')) return
+                  const res=await fetch(`/api/admin/calendar/${editEntry.entryId}`,{method:'DELETE'})
+                  if(res.ok) onDeleted()
+                }}
                 className="px-4 py-3 border border-red-200 text-red-500 font-sans text-[0.75rem] uppercase tracking-widest hover:bg-red-50 transition-colors">
                 Delete
               </button>
