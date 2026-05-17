@@ -22,11 +22,11 @@ export async function POST(
   const dateStr = booking.scheduledAt ? fmtBookingDate(booking.scheduledAt) : '—'
   const timeStr = booking.scheduledAt ? fmt12h(booking.scheduledAt) : ''
 
-  notifyTelegram(
+  await notifyTelegram(
     `❌ <b>Booking Cancelled (by admin)</b> — ${escHtml(booking.attendee.name)}\n` +
     `📅 ${dateStr}${timeStr ? `, ${timeStr}` : ''}\n` +
     `📞 ${escHtml(booking.attendee.phone || '—')}`
-  ).catch(() => {})
+  )
 
   return NextResponse.json({ ok: true })
 }

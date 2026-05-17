@@ -50,10 +50,10 @@ export async function DELETE(
 
   await deleteCalBooking(booking.id, booking.calUid)
 
-  notifyTelegram(
+  await notifyTelegram(
     `🗑️ <b>Booking Deleted</b> — ${escHtml(booking.attendee.name)}\n` +
     `Was: ${booking.status} · Ref ${booking.calUid.slice(0, 8)}`
-  ).catch(() => {})
+  )
 
   return NextResponse.json({ ok: true })
 }

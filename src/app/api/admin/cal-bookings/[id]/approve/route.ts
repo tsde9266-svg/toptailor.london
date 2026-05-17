@@ -96,7 +96,7 @@ export async function POST(
     emailSent
       ? `✅ <b>Booking Approved</b> — ${escHtml(booking.attendee.name)}\nConfirmation email sent to ${escHtml(booking.attendee.email)}.`
       : `⚠️ <b>Booking Approved — EMAIL FAILED</b> — ${escHtml(booking.attendee.name)}`,
-  ).catch(() => {})
+  )
 
   return NextResponse.json({ ok: true, waLink })
 }

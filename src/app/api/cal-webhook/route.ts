@@ -44,10 +44,16 @@ export async function POST(req: NextRequest) {
   const secret = process.env.CALCOM_WEBHOOK_SECRET
   if (secret) {
     const sig = req.headers.get('x-cal-signature-256') ?? ''
-    if (!sig || !verifySignature(rawBody, sig, secret)) {
-      console.warn('[cal-webhook] signature mismatch — request rejected')
+    if (!sig) {
+      console.error('[cal-webhook] REJECTED — x-cal-signature-256 header missing. Cal.com webhook secret is not configured in cal.com settings, but CALCOM_WEBHOOK_SECRET is set on Vercel. Either set a matching secret in cal.com or remove CALCOM_WEBHOOK_SECRET from Vercel.')
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+    if (!verifySignature(rawBody, sig, secret)) {
+      console.error('[cal-webhook] REJECTED — signature mismatch. The CALCOM_WEBHOOK_SECRET on Vercel does not match the webhook secret configured in cal.com. Go to cal.com → Settings → Webhooks and sync the secrets.')
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+  } else {
+    console.warn('[cal-webhook] CALCOM_WEBHOOK_SECRET not set — accepting webhook without signature verification')
   }
 
   let body: Record<string, unknown>
@@ -121,7 +127,7 @@ export async function POST(req: NextRequest) {
       (phone   ? `📞 <b>Phone:</b> ${escHtml(phone)}\n`   : '') +
       (dateStr ? `📅 <b>Was:</b> ${dateStr}\n`   : '') +
       (calUid  ? `\n🔑 Ref: <code>${calUid.slice(0, 8)}</code>` : '')
-    ).catch(() => {})
+    )
     return NextResponse.json({ ok: true })
   }
 
@@ -195,7 +201,7 @@ export async function POST(req: NextRequest) {
     ...(waLink ? [{ text: '💬 WhatsApp Customer', url: waLink }] : []),
   ]]
 
-  await notifyTelegram(message, buttons).catch(() => {})
+  await notifyTelegram(message, buttons)
   console.log(`[cal-webhook:${triggerEvent}]`, { name, email, startTime, id: booking.id })
 
   return NextResponse.json({ ok: true })
