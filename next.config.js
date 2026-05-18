@@ -38,9 +38,16 @@ const nextConfig = {
     ]
   },
 
-  // Redirect www → non-www (or flip if you prefer www)
   async redirects() {
     return [
+      // non-www → www (canonical domain)
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'finetailors.co.uk' }],
+        destination: 'https://www.finetailors.co.uk/:path*',
+        permanent: true,
+      },
+      // Old domains → canonical domain
       {
         source: '/:path*',
         has: [{ type: 'host', value: 'www.toptailor.london' }],
