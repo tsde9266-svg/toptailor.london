@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Same Day Alterations London | Fine Tailors',
     description: 'Express clothing alterations in London for urgent occasions — collected and returned as fast as your timeline requires.',
     url: 'https://www.finetailors.co.uk/same-day-alterations-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Same day express alterations London service' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Same day express alterations London service' }],
   },
 }
 

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'How to Know If Your Suit Needs Altering',
     description: 'The 7 signs your suit doesn\'t fit right — and what a tailor can do about each one.',
     url: 'https://www.finetailors.co.uk/blog/how-to-know-if-suit-needs-altering',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Suit fit guide London' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Suit fit guide London' }],
   },
 }
 
@@ -22,9 +22,9 @@ const articleSchema = {
   '@type': 'BlogPosting',
   headline: 'How to Know If Your Suit Needs Altering',
   description: 'The 7 signs your suit doesn\'t fit right — and which alterations are worth doing. A practical guide for London professionals.',
-  image: 'https://www.finetailors.co.uk/og-image.jpg',
+  image: 'https://www.finetailors.co.uk/og-image.png',
   author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
-  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/icon-512.png' } },
+  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/logo-icon.png' } },
   datePublished: '2026-05-21',
   dateModified: '2026-05-21',
   mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.finetailors.co.uk/blog/how-to-know-if-suit-needs-altering' },

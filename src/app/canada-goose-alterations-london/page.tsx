@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Canada Goose Alterations London | Fine Tailors',
     description: 'Specialist Canada Goose jacket alterations collected from your London door. Expert handling for technical outerwear.',
     url: 'https://www.finetailors.co.uk/canada-goose-alterations-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Canada Goose alterations London specialist service' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Canada Goose alterations London specialist service' }],
   },
 }
 

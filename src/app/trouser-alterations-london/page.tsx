@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Trouser Alterations London | Fine Tailors',
     description: 'Professional trouser alterations collected from your London door. Hemming, tapering, waist adjustment — returned perfect in 5–7 days.',
     url: 'https://www.finetailors.co.uk/trouser-alterations-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Trouser alterations London collection service' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Trouser alterations London collection service' }],
   },
 }
 

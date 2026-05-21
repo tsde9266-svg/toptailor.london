@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: 'Wedding Dress Alterations in London: Timeline and What to Expect',
     description: 'When to book, what to expect and why collection is safer for your wedding dress. A practical guide to bridal alterations in London.',
     url: 'https://www.finetailors.co.uk/blog/wedding-dress-alterations-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Wedding dress alterations London guide' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Wedding dress alterations London guide' }],
   },
 }
 
@@ -28,9 +28,9 @@ const articleSchema = {
   '@type': 'BlogPosting',
   headline: 'Wedding Dress Alterations in London: Timeline and What to Expect',
   description: 'A practical guide to wedding dress alterations in London — when to book, what can be altered, realistic costs and why a home collection service protects your dress.',
-  image: 'https://www.finetailors.co.uk/og-image.jpg',
+  image: 'https://www.finetailors.co.uk/og-image.png',
   author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
-  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/icon-512.png' } },
+  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/logo-icon.png' } },
   datePublished: '2026-05-21',
   dateModified: '2026-05-21',
   mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.finetailors.co.uk/blog/wedding-dress-alterations-london' },

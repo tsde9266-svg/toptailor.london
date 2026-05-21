@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title: 'Clothing Alterations London | Home Collection | Fine Tailors',
     description: 'All clothing alterations in London — collected from your home and returned perfectly fitted. Master tailor comes to your door.',
     url: 'https://www.finetailors.co.uk/clothing-alterations-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Clothing alterations London home collection' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Clothing alterations London home collection' }],
   },
 }
 

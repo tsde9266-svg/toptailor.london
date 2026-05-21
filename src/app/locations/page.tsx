@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: 'Areas We Cover — Collection Tailoring Across Central London | Fine Tailors',
     description: 'Collection-based tailoring service covering all Central London postcodes. Find your area and book a collection.',
     url: 'https://www.finetailors.co.uk/locations',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Fine Tailors collection areas across Central London' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Fine Tailors collection areas across Central London' }],
   },
 }
 

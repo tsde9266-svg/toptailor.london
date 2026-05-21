@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: 'Tailoring & Alteration Services London | Fine Tailors',
     description: 'All garment alteration services in London collected from your door. Suits, dresses, coats, leather jackets and more.',
     url: 'https://www.finetailors.co.uk/services',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Fine Tailors collection alteration services London' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Fine Tailors collection alteration services London' }],
   },
 }
 

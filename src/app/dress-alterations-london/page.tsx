@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: 'Dress Alterations London | Home Collection | Fine Tailors',
     description: 'Expert dress alterations in London — collected from your home, returned perfectly fitted in 5–7 working days. Evening wear, occasion wear and everyday dresses.',
     url: 'https://www.finetailors.co.uk/dress-alterations-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Dress alterations London home collection service' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Dress alterations London home collection service' }],
   },
 }
 

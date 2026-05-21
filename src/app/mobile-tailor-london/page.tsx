@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: 'Mobile Tailor London | Collection Service | Fine Tailors',
     description: 'London\'s collection-based tailoring service. We collect from your door, alter in our workshop, and return perfect in 5–7 days. No shop visit. No stranger in your home.',
     url: 'https://www.finetailors.co.uk/mobile-tailor-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Mobile tailor London collection service' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Mobile tailor London collection service' }],
   },
 }
 

@@ -27,9 +27,9 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.finetailors.co.uk'),
   title: {
     template: '%s | Fine Tailors',
-    default: "Mobile Tailor London | Suit Alterations & Home Visits | Fine Tailors",
+    default: "Mobile Tailor Central London | Suit & Clothing Alterations | Fine Tailors",
   },
-  description: "Fine Tailors — London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations at your door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book your home visit today.",
+  description: "London's collection-based tailoring service. We collect from your door in Mayfair, Westminster, Knightsbridge & all Central London postcodes — returned perfect in 5–7 days.",
   keywords: [
     'mobile tailor London',
     'suit alterations London',
@@ -55,11 +55,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
-      { url: '/icon-512.png', type: 'image/png', sizes: '512x512' },
+      { url: '/logo-icon.png', type: 'image/png', sizes: '192x192' },
+      { url: '/logo-icon.png', type: 'image/png', sizes: '512x512' },
     ],
-    shortcut: '/favicon.ico',
-    apple: [{ url: '/icon-192.png', sizes: '192x192', type: 'image/png' }],
+    shortcut: '/logo-icon.png',
+    apple: [{ url: '/logo-icon.png', sizes: '180x180', type: 'image/png' }],
   },
   authors: [{ name: 'Fine Tailors' }],
   creator: 'Fine Tailors',
@@ -69,15 +69,15 @@ export const metadata: Metadata = {
     locale: 'en_GB',
     url: 'https://www.finetailors.co.uk',
     siteName: 'Fine Tailors',
-    title: "Mobile Tailor London | Suit Alterations & Home Visits | Fine Tailors",
-    description: 'Expert suit alterations, bespoke tailoring and clothing alterations at your London door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book your home visit today.',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Fine Tailors — Mobile tailoring and suit alterations in central London' }],
+    title: "Mobile Tailor Central London | Fine Tailors",
+    description: 'Expert suit alterations and bespoke tailoring collected from your Central London door. No shop visit, no stranger in your home. Returned pressed and perfect.',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Fine Tailors — Collection-based tailoring and suit alterations in Central London' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Mobile Tailor London | Suit Alterations at Home | Fine Tailors",
-    description: 'Expert suit alterations, bespoke tailoring and clothing alterations at your door in Mayfair, Chelsea & central London.',
-    images: ['/og-image.jpg'],
+    title: "Mobile Tailor Central London | Fine Tailors",
+    description: 'Expert suit alterations and bespoke tailoring collected from your Central London door. No shop visit. Returned pressed and perfect in 5–7 days.',
+    images: ['/og-image.png'],
   },
   alternates: {
     canonical: 'https://www.finetailors.co.uk',
@@ -113,17 +113,11 @@ const orgSchema = {
   '@type': 'Organization',
   '@id': 'https://www.finetailors.co.uk/#organization',
   name: 'Fine Tailors',
-  alternateName: 'Fine Tailorss',
   url: 'https://www.finetailors.co.uk',
-  logo: 'https://www.finetailors.co.uk/icon-512.png',
-  image: 'https://www.finetailors.co.uk/og-image.jpg',
-  telephone: '+44 7438 145169',
-  description: 'Fine Tailors are a professional mobile tailoring service based in London. Specialising in suit alterations, bespoke tailoring and clothing alterations with home visits across central London since 2014.',
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'London',
-    addressCountry: 'GB',
-  },
+  logo: 'https://www.finetailors.co.uk/logo-icon.png',
+  image: 'https://www.finetailors.co.uk/og-image.png',
+  telephone: '+447438145169',
+  description: 'Fine Tailors are a collection-based tailoring service operating across Central London since 2014. We collect garments from your door, alter them, and return them pressed and perfect in 5–7 days.',
   areaServed: { '@type': 'City', name: 'London' },
   sameAs: [
     'https://www.instagram.com/oneclicktailor',
@@ -138,6 +132,10 @@ const orgSchema = {
     'Made to Measure Suits',
     'Wedding Dress Alterations',
     'Leather Garment Alterations',
+    'Trouser Alterations',
+    'Jacket Alterations',
+    'Coat Alterations',
+    'Shirt Alterations',
   ],
 }
 
@@ -146,17 +144,11 @@ const siteSchema = {
   '@type': 'LocalBusiness',
   '@id': 'https://www.finetailors.co.uk/#business',
   name: 'Fine Tailors',
-  alternateName: 'Fine Tailorss',
   url: 'https://www.finetailors.co.uk',
-  telephone: '+44 7438 145169',
+  telephone: '+447438145169',
   priceRange: '££',
-  description: 'Fine Tailors are London\'s premier mobile tailoring service, offering expert suit alterations, bespoke tailoring and clothing alterations at your door. We visit homes and offices across Mayfair, Chelsea, Knightsbridge, Kensington, Belgravia and all central London postcodes.',
-  image: 'https://www.finetailors.co.uk/og-image.jpg',
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'London',
-    addressCountry: 'GB',
-  },
+  description: 'Fine Tailors is London\'s collection-based tailoring service. We collect garments from your door across Mayfair, Westminster, Knightsbridge, Kensington, Chelsea, Belgravia and all Central London postcodes — altered and returned pressed and perfect in 5–7 days.',
+  image: 'https://www.finetailors.co.uk/og-image.png',
   areaServed: [
     { '@type': 'City', name: 'London' },
     { '@type': 'Neighborhood', name: 'Mayfair' },
@@ -169,24 +161,34 @@ const siteSchema = {
     { '@type': 'Neighborhood', name: 'Fitzrovia' },
     { '@type': 'Neighborhood', name: 'Soho' },
     { '@type': 'Neighborhood', name: 'Covent Garden' },
+    { '@type': 'Neighborhood', name: 'Westminster' },
+    { '@type': 'Neighborhood', name: 'Bloomsbury' },
+    { '@type': 'Neighborhood', name: 'Islington' },
+    { '@type': 'Neighborhood', name: 'Paddington' },
+    { '@type': 'Neighborhood', name: 'Pimlico' },
+    { '@type': 'Neighborhood', name: 'Clerkenwell' },
+    { '@type': 'Neighborhood', name: 'Shoreditch' },
+    { '@type': 'Neighborhood', name: 'Canary Wharf' },
+    { '@type': 'Neighborhood', name: 'Notting Hill' },
   ],
   serviceArea: {
     '@type': 'GeoCircle',
     geoMidpoint: { '@type': 'GeoCoordinates', latitude: 51.5074, longitude: -0.1278 },
-    geoRadius: '5000',
+    geoRadius: '10000',
   },
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Mobile Tailoring & Alteration Services London',
+    name: 'Collection-Based Tailoring & Alteration Services, Central London',
     itemListElement: [
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Suit Alterations London', description: 'Expert suit alterations at your London home. Jacket, trouser and waistcoat alterations by a qualified mobile tailor.' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Dress Alterations London', description: 'Professional dress and occasion wear alterations collected from your home and returned within days.' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Mobile Tailor Home Visit London', description: 'A professional tailor visits your home or office anywhere in central London for fitting, collection and delivery.' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Bespoke Suit London', description: 'Made-to-measure bespoke suits fitted and delivered to your London address.' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Trouser Hemming at Home', description: 'Trouser hemming and leg alterations collected and returned to your door.' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Wedding Dress Alterations London', description: 'Specialist wedding and bridesmaid dress alterations with home collection across London.' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Leather Jacket Alterations London', description: 'Expert leather garment alterations by specialist mobile tailor.' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Clothing Alterations at Home London', description: 'All clothing alterations and repairs collected from your London address.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Suit Alterations London', description: 'Expert suit alterations collected from your Central London door. Jacket, trouser and waistcoat alterations returned in 5–7 days.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Dress Alterations London', description: 'Professional dress and occasion wear alterations collected from your door and returned within 5–7 days.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Trouser Alterations London', description: 'Trouser hemming, tapering and waist adjustments collected from your Central London address.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Bespoke Tailoring London', description: 'Made-to-measure bespoke suits and garments, collected and delivered to your Central London address.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Shirt Alterations London', description: 'Shirt alterations including sleeve shortening, body tapering and collar adjustments, collected from your door.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Wedding Dress Alterations London', description: 'Specialist wedding and bridesmaid dress alterations collected from your Central London door.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Jacket Alterations London', description: 'Jacket sleeve, body and lining alterations collected from your door and returned in 5–7 days.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Coat Alterations London', description: 'Coat shortening and body alterations collected from your Central London address.' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Leather Jacket Alterations London', description: 'Specialist leather garment alterations, quoted on inspection, collected from your door.' } },
     ],
   },
   foundingDate: '2014',
@@ -205,9 +207,9 @@ export default function RootLayout({
     <html lang="en-GB" className={`${playfair.variable} ${dmSans.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
-        <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
-        <link rel="apple-touch-icon" href="/icon-192.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/logo-icon.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/logo-icon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/logo-icon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="manifest" href="/manifest.json" />

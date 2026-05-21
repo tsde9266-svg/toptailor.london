@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Tailor in Victoria London | Collection Service | Fine Tailors',
     url: 'https://www.finetailors.co.uk/tailor-victoria',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Collection-based tailoring service in Victoria, London' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Victoria, London' }],
   },
 }
 

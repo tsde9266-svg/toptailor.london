@@ -7,8 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: base,                                        lastModified: new Date(), changeFrequency: 'daily',   priority: 1.0 },
     { url: `${base}/get-started`,                       lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.95 },
     { url: `${base}/how-it-works`,                      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/get-started/call`,                  lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8 },
-    { url: `${base}/book`,                              lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
+    { url: `${base}/about`,                             lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
 
     // Service pages — core
     { url: `${base}/mobile-tailor-london`,              lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.95 },
@@ -73,9 +72,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/blog/suit-alterations-at-home-london`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${base}/blog/why-mayfair-clients-choose-visiting-tailor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/difference-between-alterations-and-bespoke`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
-
-    // About
-    { url: `${base}/about`,                             lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
 
     // Legal
     { url: `${base}/terms`,                             lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.3 },

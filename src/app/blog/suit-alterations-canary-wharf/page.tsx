@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: 'Suit Alterations in Canary Wharf: A Guide for Finance Professionals',
     description: 'How finance professionals in E14 get their suits altered without leaving Canary Wharf — and why a collection service is the right answer.',
     url: 'https://www.finetailors.co.uk/blog/suit-alterations-canary-wharf',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Suit alterations Canary Wharf London guide' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Suit alterations Canary Wharf London guide' }],
   },
 }
 
@@ -28,9 +28,9 @@ const articleSchema = {
   '@type': 'BlogPosting',
   headline: 'Suit Alterations in Canary Wharf: A Guide for Finance Professionals',
   description: 'How finance professionals working in Canary Wharf get their suits altered efficiently — without leaving E14 or sacrificing quality.',
-  image: 'https://www.finetailors.co.uk/og-image.jpg',
+  image: 'https://www.finetailors.co.uk/og-image.png',
   author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
-  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/icon-512.png' } },
+  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/logo-icon.png' } },
   datePublished: '2026-05-21',
   dateModified: '2026-05-21',
   mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.finetailors.co.uk/blog/suit-alterations-canary-wharf' },

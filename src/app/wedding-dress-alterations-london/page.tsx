@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Wedding Dress Alterations London | Fine Tailors',
     description: 'Specialist wedding dress alterations in London — collected from your home, handled with care, returned perfect. No shop visit required.',
     url: 'https://www.finetailors.co.uk/wedding-dress-alterations-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Wedding dress alterations London collection service' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Wedding dress alterations London collection service' }],
   },
 }
 

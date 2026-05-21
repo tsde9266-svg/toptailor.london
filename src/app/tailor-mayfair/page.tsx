@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Tailor in Mayfair London | Collection Service | Fine Tailors',
     url: 'https://www.finetailors.co.uk/tailor-mayfair',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Collection-based tailoring service in Mayfair, Central London' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Mayfair, Central London' }],
   },
 }
 

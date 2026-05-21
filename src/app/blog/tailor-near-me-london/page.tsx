@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: 'Tailor Near Me London — Fine Tailors Comes to Your Door',
     description: 'The best answer to "tailor near me" in London is a mobile tailor who visits your home. Fine Tailors covers all of central London.',
     url: 'https://www.finetailors.co.uk/blog/tailor-near-me-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Mobile tailor near me London' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Mobile tailor near me London' }],
   },
 }
 
@@ -30,9 +30,9 @@ const articleSchema = {
   '@type': 'BlogPosting',
   headline: 'Tailor Near Me London — Why a Mobile Tailor Is the Best Answer',
   description: 'When you search for a tailor near you in London, a mobile master tailor who comes to your home is the most convenient and professional option.',
-  image: 'https://www.finetailors.co.uk/og-image.jpg',
+  image: 'https://www.finetailors.co.uk/og-image.png',
   author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
-  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/icon-512.png' } },
+  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/logo-icon.png' } },
   datePublished: '2026-05-12',
   dateModified: '2026-05-12',
   mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.finetailors.co.uk/blog/tailor-near-me-london' },

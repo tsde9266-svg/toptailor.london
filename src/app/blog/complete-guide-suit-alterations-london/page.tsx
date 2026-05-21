@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: 'The Complete Guide to Suit Alterations in London',
     description: 'A comprehensive guide to suit alterations in London — every alteration type, prices, timelines and how to find the right tailor for your garment.',
     url: 'https://www.finetailors.co.uk/blog/complete-guide-suit-alterations-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Complete guide to suit alterations London' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Complete guide to suit alterations London' }],
   },
 }
 
@@ -28,9 +28,9 @@ const articleSchema = {
   '@type': 'BlogPosting',
   headline: 'The Complete Guide to Suit Alterations in London',
   description: 'A comprehensive guide to suit alterations in London covering every alteration type, realistic prices, turnaround times and how to choose the right tailor.',
-  image: 'https://www.finetailors.co.uk/og-image.jpg',
+  image: 'https://www.finetailors.co.uk/og-image.png',
   author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
-  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/icon-512.png' } },
+  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/logo-icon.png' } },
   datePublished: '2026-05-21',
   dateModified: '2026-05-21',
   mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.finetailors.co.uk/blog/complete-guide-suit-alterations-london' },

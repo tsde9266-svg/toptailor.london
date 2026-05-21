@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Coat Alterations London | Fine Tailors',
     description: 'Professional coat alterations collected from your London door. Shortening, sleeve work, body adjustment — returned perfect in 5–7 days.',
     url: 'https://www.finetailors.co.uk/coat-alterations-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Coat alterations London collection service' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Coat alterations London collection service' }],
   },
 }
 

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Collection Tailor vs High Street Shop — Which Is Better for London?',
     description: 'An honest comparison of collection-based tailoring vs a high-street alteration shop in London. When each makes sense.',
     url: 'https://www.finetailors.co.uk/blog/collection-tailor-vs-shop-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Collection tailor vs shop London guide' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection tailor vs shop London guide' }],
   },
 }
 
@@ -22,9 +22,9 @@ const articleSchema = {
   '@type': 'BlogPosting',
   headline: 'Collection Tailor vs High Street Shop London — Which Is Better?',
   description: 'An honest comparison of collection tailoring vs a high-street alteration shop in London. The real differences, who wins on what, and when each makes sense.',
-  image: 'https://www.finetailors.co.uk/og-image.jpg',
+  image: 'https://www.finetailors.co.uk/og-image.png',
   author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
-  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/icon-512.png' } },
+  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/logo-icon.png' } },
   datePublished: '2026-05-21',
   dateModified: '2026-05-21',
   mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.finetailors.co.uk/blog/collection-tailor-vs-shop-london' },

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Jacket Alterations London | Fine Tailors',
     description: 'Professional jacket alterations collected from your London door. Sleeve shorten, waist suppression, lining — returned perfect in 5–7 days.',
     url: 'https://www.finetailors.co.uk/jacket-alterations-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Jacket alterations London collection service' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Jacket alterations London collection service' }],
   },
 }
 

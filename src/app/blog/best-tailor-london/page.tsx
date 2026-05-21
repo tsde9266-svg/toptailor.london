@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: 'Best Tailor in London — What to Look for',
     description: 'What separates the best tailors from the rest in London? A guide to finding a master tailor who delivers on quality, convenience and fit.',
     url: 'https://www.finetailors.co.uk/blog/best-tailor-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Best tailor London Fine Tailors' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Best tailor London Fine Tailors' }],
   },
 }
 
@@ -30,9 +30,9 @@ const articleSchema = {
   '@type': 'BlogPosting',
   headline: 'Best Tailor in London — What to Look for in 2026',
   description: 'What makes the best tailor in London? Master tailoring experience, home visit service, quality assessment in person, and full collect and return.',
-  image: 'https://www.finetailors.co.uk/og-image.jpg',
+  image: 'https://www.finetailors.co.uk/og-image.png',
   author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
-  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/icon-512.png' } },
+  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/logo-icon.png' } },
   datePublished: '2026-05-15',
   dateModified: '2026-05-15',
   mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.finetailors.co.uk/blog/best-tailor-london' },

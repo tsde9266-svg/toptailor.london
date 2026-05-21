@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Leather Jacket Alterations in London: What to Expect',
     description: 'What can be altered on a leather jacket, what cannot, and why specialist handling is non-negotiable for premium leather.',
     url: 'https://www.finetailors.co.uk/blog/leather-jacket-alterations-london-guide',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Leather jacket alterations London guide' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Leather jacket alterations London guide' }],
   },
 }
 
@@ -22,9 +22,9 @@ const articleSchema = {
   '@type': 'BlogPosting',
   headline: 'Leather Jacket Alterations in London: What to Expect',
   description: 'What can and cannot be altered on a leather jacket — and why specialist handling matters. For London clients with premium leather garments.',
-  image: 'https://www.finetailors.co.uk/og-image.jpg',
+  image: 'https://www.finetailors.co.uk/og-image.png',
   author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
-  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/icon-512.png' } },
+  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/logo-icon.png' } },
   datePublished: '2026-05-21',
   dateModified: '2026-05-21',
   mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.finetailors.co.uk/blog/leather-jacket-alterations-london-guide' },

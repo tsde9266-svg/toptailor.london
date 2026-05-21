@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Bespoke Tailoring London | Fine Tailors',
     description: 'Made-to-measure suits, shirts and tailoring in London — fitted and made at your home. No shop visit required.',
     url: 'https://www.finetailors.co.uk/bespoke-tailoring-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Bespoke tailoring London home service' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Bespoke tailoring London home service' }],
   },
 }
 

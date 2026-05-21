@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 const links = {
   directives: [
     { label: 'ABOUT',        href: '/about'        },
@@ -67,8 +69,8 @@ export default function Footer() {
       <div className="hidden lg:grid grid-cols-4 gap-10 px-24 py-24">
         {/* Col 1 — logo + tagline + phone */}
         <div>
-          <div className="font-playfair text-2xl text-parchment mb-8">
-            FINE TAILORS
+          <div className="mb-8">
+            <Image src="/logo-white.png" alt="Fine Tailors" width={150} height={107} className="h-14 w-auto" />
           </div>
           <p className="font-sans text-sm font-light max-w-xs leading-relaxed mb-4">
             Collection-Based Tailoring &amp; Alterations — Central London
@@ -170,8 +172,8 @@ export default function Footer() {
 
       {/* ══ MOBILE — logo + 2-col links (< lg) ══════════════ */}
       <div className="lg:hidden px-8 py-12 space-y-6">
-        <div className="font-playfair text-2xl italic text-parchment">
-          Fine Tailors
+        <div>
+          <Image src="/logo-white.png" alt="Fine Tailors" width={130} height={92} className="h-10 w-auto" />
         </div>
         <p className="font-sans text-xs font-light text-green-soft/70 mt-2">
           Mobile Tailoring &amp; Alterations — Central London

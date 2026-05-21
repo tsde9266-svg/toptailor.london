@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: 'How Much Do Suit Alterations Cost in London?',
     description: 'What should you expect to pay for suit alterations in London? A transparent guide to pricing, value, and what affects cost.',
     url: 'https://www.finetailors.co.uk/blog/suit-alteration-cost-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Suit alteration cost London guide' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Suit alteration cost London guide' }],
   },
 }
 
@@ -30,9 +30,9 @@ const articleSchema = {
   '@type': 'BlogPosting',
   headline: 'How Much Do Suit Alterations Cost in London?',
   description: 'A complete guide to suit alteration prices in London — jacket waist, trouser hem, shoulder work, and what a mobile master tailor costs compared to a high-street shop.',
-  image: 'https://www.finetailors.co.uk/og-image.jpg',
+  image: 'https://www.finetailors.co.uk/og-image.png',
   author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
-  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/icon-512.png' } },
+  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/logo-icon.png' } },
   datePublished: '2026-05-15',
   dateModified: '2026-05-15',
   mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.finetailors.co.uk/blog/suit-alteration-cost-london' },

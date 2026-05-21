@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Tailor in Fulham London | Collection Service | Fine Tailors',
     url: 'https://www.finetailors.co.uk/tailor-fulham',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Collection-based tailoring service in Fulham, London' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Fulham, London' }],
   },
 }
 

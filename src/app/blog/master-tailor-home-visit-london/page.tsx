@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title: 'Master Tailor Home Visit London — What to Expect',
     description: 'What happens when a master tailor comes to your door in London? Fine Tailors walks you through the experience.',
     url: 'https://www.finetailors.co.uk/blog/master-tailor-home-visit-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Master tailor home visit London' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Master tailor home visit London' }],
   },
 }
 
@@ -29,9 +29,9 @@ const articleSchema = {
   '@type': 'BlogPosting',
   headline: 'Master Tailor Home Visit London — What to Expect',
   description: 'What happens when a master tailor comes to your door in London? Fine Tailors explains the process, the difference between master and standard tailoring, and how to prepare.',
-  image: 'https://www.finetailors.co.uk/og-image.jpg',
+  image: 'https://www.finetailors.co.uk/og-image.png',
   author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
-  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/icon-512.png' } },
+  publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/logo-icon.png' } },
   datePublished: '2026-05-12',
   dateModified: '2026-05-12',
   mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://www.finetailors.co.uk/blog/master-tailor-home-visit-london' },

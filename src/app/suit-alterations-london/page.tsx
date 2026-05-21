@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: 'Suit Alterations London | Home Collection | Fine Tailors',
     description: 'Professional suit alterations in London. We collect from your home, alter to a perfect fit, and return within 5–7 working days.',
     url: 'https://www.finetailors.co.uk/suit-alterations-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Suit alterations London collection service' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Suit alterations London collection service' }],
   },
 }
 

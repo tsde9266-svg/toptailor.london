@@ -1,12 +1,13 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useCart } from '@/context/CartContext'
 
 const navLinks = [
   { label: 'SERVICES',      href: '/#services'     },
   { label: 'HOW IT WORKS',  href: '/how-it-works'  },
-  { label: 'ABOUT',         href: '/#about'        },
+  { label: 'ABOUT',         href: '/about'          },
   { label: 'REVIEWS',       href: '/review'        },
   { label: 'GET STARTED',   href: '/get-started'   },
 ]
@@ -95,16 +96,23 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
         {/* ── Logo ── */}
         <Link
           href="/"
-          className={`
-            font-playfair font-medium tracking-tight uppercase whitespace-nowrap
-            text-[1rem] lg:text-xl lg:tracking-tight
-            absolute left-1/2 -translate-x-1/2
-            lg:static lg:left-auto lg:translate-x-0
-            transition-colors duration-300
-            ${light ? 'text-charcoal' : 'text-parchment lg:text-charcoal'}
-          `}
+          className="absolute left-1/2 -translate-x-1/2 lg:static lg:left-auto lg:translate-x-0"
+          aria-label="Fine Tailors — Home"
         >
-          FINE TAILORS
+          {light ? (
+            <Image
+              src="/logo.png"
+              alt="Fine Tailors"
+              width={130}
+              height={92}
+              className="h-10 w-auto"
+              priority
+            />
+          ) : (
+            <span className="font-playfair font-medium tracking-tight uppercase whitespace-nowrap text-[1rem] text-parchment">
+              FINE TAILORS
+            </span>
+          )}
         </Link>
 
         {/* ── Desktop nav links ── */}
@@ -148,14 +156,17 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
 
       {/* ── Mobile full-screen menu overlay ── */}
       {menuOpen && (
-        <div className="fixed inset-0 z-[60] bg-parchment flex flex-col px-8 pt-20 pb-12">
-          <button
-            aria-label="Close menu"
-            onClick={() => setMenuOpen(false)}
-            className="absolute top-5 right-8 text-charcoal text-2xl leading-none"
-          >
-            ×
-          </button>
+        <div className="fixed inset-0 z-[60] bg-parchment flex flex-col px-8 pt-6 pb-12">
+          <div className="flex justify-between items-center mb-8">
+            <Image src="/logo.png" alt="Fine Tailors" width={130} height={92} className="h-10 w-auto" />
+            <button
+              aria-label="Close menu"
+              onClick={() => setMenuOpen(false)}
+              className="text-charcoal text-2xl leading-none"
+            >
+              ×
+            </button>
+          </div>
 
           <nav className="flex flex-col gap-10 mt-4">
             {navLinks.map((l) => (

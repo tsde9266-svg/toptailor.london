@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Leather Jacket Alterations London | Fine Tailors',
     description: 'Specialist leather jacket alterations collected from your London door. Sleeve, body, zip, lining — expert handling for premium and luxury leather.',
     url: 'https://www.finetailors.co.uk/leather-jacket-alterations-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Leather jacket alterations London specialist service' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Leather jacket alterations London specialist service' }],
   },
 }
 

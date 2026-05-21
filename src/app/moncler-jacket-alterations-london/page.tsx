@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Moncler Jacket Alterations London | Fine Tailors',
     description: 'Specialist Moncler jacket alterations collected from your London door. Expert handling for luxury down outerwear.',
     url: 'https://www.finetailors.co.uk/moncler-jacket-alterations-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Moncler jacket alterations London specialist service' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Moncler jacket alterations London specialist service' }],
   },
 }
 

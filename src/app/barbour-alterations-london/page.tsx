@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Barbour Jacket Alterations London | Fine Tailors',
     description: 'Specialist Barbour jacket alterations collected from your London door. Waxed cotton and quilted — expert handling.',
     url: 'https://www.finetailors.co.uk/barbour-alterations-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Barbour jacket alterations London specialist service' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Barbour jacket alterations London specialist service' }],
   },
 }
 

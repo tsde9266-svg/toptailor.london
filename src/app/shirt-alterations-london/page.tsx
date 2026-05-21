@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Shirt Alterations London | Fine Tailors',
     description: 'Professional shirt alterations collected from your London door. Body take-in, sleeve, collar — returned perfect in 5–7 days.',
     url: 'https://www.finetailors.co.uk/shirt-alterations-london',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Shirt alterations London collection service' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Shirt alterations London collection service' }],
   },
 }
 
