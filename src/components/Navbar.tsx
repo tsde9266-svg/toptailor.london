@@ -99,20 +99,14 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
           className="absolute left-1/2 -translate-x-1/2 lg:static lg:left-auto lg:translate-x-0"
           aria-label="Fine Tailors — Home"
         >
-          {light ? (
-            <Image
-              src="/logo-navbar.png"
-              alt="Fine Tailors"
-              width={130}
-              height={92}
-              className="h-10 w-auto"
-              priority
-            />
-          ) : (
-            <span className="font-playfair font-medium tracking-tight uppercase whitespace-nowrap text-[1rem] text-parchment">
-              FINE TAILORS
-            </span>
-          )}
+          <Image
+            src="/logo-green.png"
+            alt="Fine Tailors"
+            width={130}
+            height={92}
+            className="h-10 w-auto"
+            priority
+          />
         </Link>
 
         {/* ── Desktop nav links ── */}
@@ -158,7 +152,7 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
       {menuOpen && (
         <div className="fixed inset-0 z-[60] bg-parchment flex flex-col px-8 pt-6 pb-12">
           <div className="flex justify-between items-center mb-8">
-            <Image src="/logo-navbar.png" alt="Fine Tailors" width={130} height={92} className="h-10 w-auto" />
+            <Image src="/logo-green.png" alt="Fine Tailors" width={130} height={92} className="h-10 w-auto" />
             <button
               aria-label="Close menu"
               onClick={() => setMenuOpen(false)}
