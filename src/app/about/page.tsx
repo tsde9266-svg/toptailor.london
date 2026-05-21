@@ -3,6 +3,7 @@ import Script from 'next/script'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
   title: 'About Fine Tailors — London\'s Collection-Based Tailoring Service',
@@ -49,6 +50,8 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <Script id="schema-about-page" type="application/ld+json" strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }} />
+      <Script id="schema-faq-about" type="application/ld+json" strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <Navbar solid />
       <main className="pt-[57px] lg:pt-[65px] bg-parchment min-h-screen">
@@ -179,6 +182,8 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
+
+        <FAQ />
 
         {/* ── CTA ──────────────────────────────────────────── */}
         <div className="px-8 lg:px-24 py-16">

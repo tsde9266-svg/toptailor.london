@@ -51,14 +51,14 @@ const serviceSchema = {
 }
 
 const services = [
-  { title: 'Suit Alterations', href: '/suit-alterations-london', desc: 'Jacket, trouser and waistcoat alterations to a perfect fit.' },
-  { title: 'Dress Alterations', href: '/dress-alterations-london', desc: 'Everyday dresses, evening gowns and occasion wear altered at home.' },
-  { title: 'Trouser Alterations', href: null, desc: 'Hemming, waist and seat adjustments for all trouser styles.' },
-  { title: 'Jacket & Coat Alterations', href: null, desc: 'Resizing, reshaping and repair for all outer garments.' },
-  { title: 'Shirt & Blouse Alterations', href: null, desc: 'Taking in, sleeve adjustments and collar alterations.' },
-  { title: 'Wedding & Bridal Wear', href: null, desc: 'Specialist bridal alterations with full collect and return.' },
-  { title: 'Leather Garment Alterations', href: null, desc: 'Leather jackets, coats and accessories altered by a specialist.' },
-  { title: 'Clothing Repairs', href: null, desc: 'Zip replacement, button replacement, seam repair and lining repair.' },
+  { title: 'Suit Alterations', href: '/suit-alterations-london', desc: 'Jacket, trouser and waistcoat alterations to a perfect fit. From £18.' },
+  { title: 'Dress Alterations', href: '/dress-alterations-london', desc: 'Everyday dresses, evening gowns and occasion wear. From £25.' },
+  { title: 'Trouser Alterations', href: '/trouser-alterations-london', desc: 'Hemming, waist and seat adjustments for all trouser styles. From £18.' },
+  { title: 'Jacket & Coat Alterations', href: '/jacket-alterations-london', desc: 'Sleeve shortening, body take-in, relining and repair. From £18.' },
+  { title: 'Shirt & Blouse Alterations', href: '/shirt-alterations-london', desc: 'Body take-in, sleeve shortening and collar adjustments.' },
+  { title: 'Wedding & Bridal Wear', href: '/wedding-dress-alterations-london', desc: 'Specialist bridal alterations with full collection and return.' },
+  { title: 'Leather Garment Alterations', href: '/leather-jacket-alterations-london', desc: 'Leather jackets and coats altered by a specialist. Quoted on inspection.' },
+  { title: 'Same Day & Express', href: '/same-day-alterations-london', desc: 'Urgent alterations available subject to availability. Call to confirm.' },
 ]
 
 export default function ClothingAlterationsLondon() {
@@ -80,7 +80,7 @@ export default function ClothingAlterationsLondon() {
             <span className="mx-2">/</span>
             <span>Clothing Alterations London</span>
           </nav>
-          <p className="font-sans text-[0.6875rem] uppercase tracking-[0.3em] text-hunter mb-4">All Garments · Home Collection · Central London</p>
+          <p className="font-sans text-[0.6875rem] uppercase tracking-[0.3em] text-hunter mb-4">Collection Service · 5–7 Working Days · Central London</p>
           <h1 className="font-playfair text-[2.5rem] lg:text-[3.5rem] leading-[1.1] font-medium text-charcoal mb-6">
             Clothing Alterations in London — At Your Door
           </h1>
@@ -100,7 +100,7 @@ export default function ClothingAlterationsLondon() {
         <div className="px-8 lg:px-24 py-16 border-b border-divider max-w-4xl">
           <h2 className="font-playfair text-[1.75rem] font-medium mb-6">Every Garment, Altered at Home</h2>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
-            Fine Tailors handles all <strong>clothing alterations in London</strong> with a single, simple process: our master tailor visits your home anywhere in central London, assesses every garment in person, and collects everything. Your clothes are returned to your door within 3–5 days, altered to exactly the fit you need.
+            Fine Tailors handles all <strong>clothing alterations in London</strong> with a single, simple process: we collect your garments from your door anywhere in Central London, alter every piece in our specialist workshop, and return them pressed and ready. Your clothes come back within 5–7 working days. Garments are fully insured while in our care.
           </p>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
             This service works for one garment or an entire wardrobe. Many of our clients use the home visit to go through multiple pieces at once — having a professional eye cast over suits, dresses and everyday clothes together. This is both more efficient and more informative than multiple separate shop visits.
@@ -141,7 +141,11 @@ export default function ClothingAlterationsLondon() {
               ['Marylebone', '/tailor-marylebone'], ['Notting Hill', '/tailor-notting-hill'],
               ['South Kensington', '/tailor-south-kensington'], ['Fulham', '/tailor-fulham'],
               ['Islington', '/tailor-islington'], ['Soho', '/tailor-soho'],
-              ['City of London', '/tailor-city-of-london'],
+              ['City of London', '/tailor-city-of-london'], ['Covent Garden', '/tailor-covent-garden'],
+              ['Canary Wharf', '/tailor-canary-wharf'], ['Fitzrovia', '/tailor-fitzrovia'],
+              ['Bloomsbury', '/tailor-bloomsbury'], ['Paddington', '/tailor-paddington'],
+              ['Pimlico', '/tailor-pimlico'], ['Clerkenwell', '/tailor-clerkenwell'],
+              ['Shoreditch', '/tailor-shoreditch'],
             ].map(([name, href]) => (
               <Link key={name} href={href}
                 className="border border-divider px-4 py-2 font-sans text-[0.8125rem] text-charcoal hover:border-hunter hover:text-hunter transition-colors">

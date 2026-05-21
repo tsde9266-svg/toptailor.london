@@ -28,6 +28,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/moncler-jacket-alterations-london`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/barbour-alterations-london`,        lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
 
+    // Hub pages
+    { url: `${base}/locations`,                         lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${base}/services`,                          lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+
     // Location pages — existing
     { url: `${base}/tailor-mayfair`,                    lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${base}/tailor-chelsea`,                    lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
@@ -42,6 +46,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/tailor-islington`,                  lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${base}/tailor-soho`,                       lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${base}/tailor-city-of-london`,             lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
+    { url: `${base}/tailor-victoria`,                    lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8 },
     // Location pages — new
     { url: `${base}/tailor-covent-garden`,              lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${base}/tailor-canary-wharf`,               lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8 },
@@ -55,8 +60,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Blog
     { url: `${base}/blog`,                              lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.75 },
     { url: `${base}/blog/complete-guide-suit-alterations-london`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${base}/blog/how-to-know-if-suit-needs-altering`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${base}/blog/suit-alterations-canary-wharf`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${base}/blog/collection-tailor-vs-shop-london`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${base}/blog/wedding-dress-alterations-london`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${base}/blog/leather-jacket-alterations-london-guide`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/blog/best-tailor-london`,           lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${base}/blog/suit-alteration-cost-london`,  lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${base}/blog/tailor-near-me-london`,        lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },

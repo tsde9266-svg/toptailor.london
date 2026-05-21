@@ -123,6 +123,42 @@ export default async function Home() {
       <main>
         <Services />
         <NeedleDivider />
+
+        {/* ── Trust differentiators ─────────────────────────── */}
+        <section className="px-8 lg:px-24 py-16 border-t border-divider bg-parchment">
+          <h2 className="font-playfair text-[2rem] lg:text-[2.5rem] font-medium mb-4">
+            Why Fine Tailors Is Different
+          </h2>
+          <p className="font-sans font-light text-muted max-w-xl mb-12 leading-relaxed">
+            Every other London tailor asks you to come to them. Fine Tailors collects from your door — and that changes everything.
+          </p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl">
+            {[
+              {
+                title: 'No stranger enters your home',
+                body: 'We collect from your door — lobby, concierge, or threshold. No tailor sets foot inside. Your home stays yours.',
+              },
+              {
+                title: 'Your garments never sit in a public shop',
+                body: 'From your door to our workshop and straight back. Not in a shop window. Not handled by a dozen different staff members.',
+              },
+              {
+                title: 'Fully insured while in our care',
+                body: 'All garments are fully insured from the moment we collect to the moment we return. Hand over your £1,500 suit with confidence.',
+              },
+              {
+                title: 'One tailor — start to finish',
+                body: 'The Single Needle Guarantee. One person handles your clothes throughout. Consistent quality, no handoffs, no production line.',
+              },
+            ].map(({ title, body }) => (
+              <div key={title} className="border border-divider p-6">
+                <h3 className="font-playfair text-lg font-medium text-charcoal mb-3">{title}</h3>
+                <p className="font-sans font-light text-muted text-sm leading-relaxed">{body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <HowItWorks />
         <TailorJourney />
 

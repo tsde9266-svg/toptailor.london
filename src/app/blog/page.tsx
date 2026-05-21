@@ -28,6 +28,13 @@ const posts = [
     readTime: '12 min read',
   },
   {
+    slug: 'how-to-know-if-suit-needs-altering',
+    title: 'How to Know If Your Suit Needs Altering',
+    excerpt: 'The 7 signs your suit doesn\'t fit right — and which alterations are worth doing. A practical guide for London professionals.',
+    date: '2026-05-21',
+    readTime: '7 min read',
+  },
+  {
     slug: 'suit-alterations-canary-wharf',
     title: 'Suit Alterations in Canary Wharf: A Guide for Finance Professionals',
     excerpt: 'How E14 finance workers get their suits altered without leaving Canary Wharf — and why a collection service is the practical answer.',
@@ -35,11 +42,25 @@ const posts = [
     readTime: '6 min read',
   },
   {
+    slug: 'collection-tailor-vs-shop-london',
+    title: 'Collection Tailor vs High Street Shop London — Which Is Better?',
+    excerpt: 'An honest comparison of collection-based tailoring vs a high-street alteration shop. When each makes sense for London clients.',
+    date: '2026-05-21',
+    readTime: '7 min read',
+  },
+  {
     slug: 'wedding-dress-alterations-london',
     title: 'Wedding Dress Alterations in London: Timeline and What to Expect',
     excerpt: 'When to book, what can be altered, realistic costs, and why a collection service is safer for a delicate bridal gown.',
     date: '2026-05-21',
     readTime: '8 min read',
+  },
+  {
+    slug: 'leather-jacket-alterations-london-guide',
+    title: 'Leather Jacket Alterations in London: What to Expect',
+    excerpt: 'What can and cannot be altered on a leather jacket — and why specialist handling is non-negotiable for premium leather garments.',
+    date: '2026-05-21',
+    readTime: '6 min read',
   },
   {
     slug: 'best-tailor-london',

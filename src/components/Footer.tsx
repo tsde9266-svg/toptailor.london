@@ -1,21 +1,36 @@
 const links = {
   directives: [
-    { label: 'THE ATELIER',     href: '#about'    },
-    { label: 'SERVICES',        href: '#services' },
-    { label: 'HOW IT WORKS',    href: '#how-it-works' },
-    { label: 'CONTACT',         href: '#book'     },
+    { label: 'ABOUT',        href: '/about'        },
+    { label: 'HOW IT WORKS', href: '/how-it-works' },
+    { label: 'BLOG',         href: '/blog'         },
+    { label: 'CONTACT',      href: '/#book'        },
   ],
   legal: [
     { label: 'TERMS',   href: '/terms'   },
     { label: 'PRIVACY', href: '/privacy' },
   ],
+  services: [
+    { label: 'Suit Alterations',         href: '/suit-alterations-london'         },
+    { label: 'Dress Alterations',        href: '/dress-alterations-london'        },
+    { label: 'Trouser Alterations',      href: '/trouser-alterations-london'      },
+    { label: 'Jacket Alterations',       href: '/jacket-alterations-london'       },
+    { label: 'Coat Alterations',         href: '/coat-alterations-london'         },
+    { label: 'Wedding Dress',            href: '/wedding-dress-alterations-london'},
+    { label: 'Leather Jacket',           href: '/leather-jacket-alterations-london'},
+    { label: 'Same Day Alterations',     href: '/same-day-alterations-london'     },
+  ],
   locations: [
-    { label: 'Tailor in Mayfair',          href: '/tailor-mayfair'        },
-    { label: 'Tailor in Chelsea',          href: '/tailor-chelsea'        },
-    { label: 'Tailor in Knightsbridge',    href: '/tailor-knightsbridge'  },
-    { label: 'Tailor in Kensington',       href: '/tailor-kensington'     },
-    { label: 'Tailor in Belgravia',        href: '/tailor-belgravia'      },
-    { label: 'Tailor in City of London',   href: '/tailor-city-of-london' },
+    { label: 'Tailor in Mayfair',        href: '/tailor-mayfair'        },
+    { label: 'Tailor in Chelsea',        href: '/tailor-chelsea'        },
+    { label: 'Tailor in Knightsbridge',  href: '/tailor-knightsbridge'  },
+    { label: 'Tailor in Kensington',     href: '/tailor-kensington'     },
+    { label: 'Tailor in Belgravia',      href: '/tailor-belgravia'      },
+    { label: 'Tailor in Westminster',    href: '/tailor-westminster'    },
+    { label: 'Tailor in Canary Wharf',   href: '/tailor-canary-wharf'   },
+    { label: 'Tailor in Shoreditch',     href: '/tailor-shoreditch'     },
+    { label: 'Tailor in City of London', href: '/tailor-city-of-london' },
+    { label: 'Tailor in Islington',      href: '/tailor-islington'      },
+    { label: 'Tailor in Notting Hill',   href: '/tailor-notting-hill'   },
   ],
 }
 
@@ -48,22 +63,58 @@ export default function Footer() {
         </a>
       </div>
 
-      {/* ══ DESKTOP — 3-column grid (≥ lg) ══════════════════ */}
-      <div className="hidden lg:grid grid-cols-3 gap-12 px-24 py-24">
-        {/* Col 1 — logo + tagline */}
+      {/* ══ DESKTOP — 4-column grid (≥ lg) ══════════════════ */}
+      <div className="hidden lg:grid grid-cols-4 gap-10 px-24 py-24">
+        {/* Col 1 — logo + tagline + phone */}
         <div>
           <div className="font-playfair text-2xl text-parchment mb-8">
             FINE TAILORS
           </div>
-          <p className="font-sans text-sm font-light max-w-xs leading-relaxed">
-            London&apos;s finest tailors at your door. Expert alterations &amp; bespoke tailoring across Mayfair, Chelsea, Knightsbridge and central London.
+          <p className="font-sans text-sm font-light max-w-xs leading-relaxed mb-4">
+            Collection-Based Tailoring &amp; Alterations — Central London
           </p>
+          <p className="font-sans text-sm font-light max-w-xs leading-relaxed mb-6">
+            We collect from your door, alter in our workshop, and return pressed and perfect in 5–7 days. No shop visit.
+          </p>
+          <a
+            href="tel:+447438145169"
+            className="
+              inline-flex items-center gap-2
+              font-sans text-sm font-medium text-parchment
+              hover:text-green-bright transition-colors duration-200
+            "
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.02 2.22 2 2 0 012 .04h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+            </svg>
+            +44 7438 145169
+          </a>
         </div>
 
-        {/* Col 2 — nav links */}
+        {/* Col 2 — services */}
+        <div className="flex flex-col gap-3">
+          <span className="font-sans text-[0.65rem] text-parchment tracking-widest uppercase mb-3">
+            SERVICES
+          </span>
+          {links.services.map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              className="
+                font-sans text-sm font-light text-green-soft
+                tracking-tight
+                hover:text-parchment transition-colors duration-150
+              "
+            >
+              {l.label}
+            </a>
+          ))}
+        </div>
+
+        {/* Col 3 — nav + legal */}
         <div className="flex flex-col gap-4">
           <span className="font-sans text-[0.65rem] text-parchment tracking-widest uppercase mb-4">
-            DIRECTIVES
+            NAVIGATE
           </span>
           {links.directives.map((l) => (
             <a
@@ -78,11 +129,7 @@ export default function Footer() {
               {l.label}
             </a>
           ))}
-        </div>
-
-        {/* Col 3 — legal + locations */}
-        <div className="flex flex-col gap-4">
-          <span className="font-sans text-[0.65rem] text-parchment tracking-widest uppercase mb-4">
+          <span className="font-sans text-[0.65rem] text-parchment tracking-widest uppercase mt-4 mb-2">
             LEGAL
           </span>
           {links.legal.map((l) => (
@@ -98,7 +145,11 @@ export default function Footer() {
               {l.label}
             </a>
           ))}
-          <span className="font-sans text-[0.65rem] text-parchment tracking-widest uppercase mt-4 mb-2">
+        </div>
+
+        {/* Col 4 — locations */}
+        <div className="flex flex-col gap-3">
+          <span className="font-sans text-[0.65rem] text-parchment tracking-widest uppercase mb-3">
             LOCATIONS
           </span>
           {links.locations.map((l) => (
@@ -122,6 +173,18 @@ export default function Footer() {
         <div className="font-playfair text-2xl italic text-parchment">
           Fine Tailors
         </div>
+        <p className="font-sans text-xs font-light text-green-soft/70 mt-2">
+          Mobile Tailoring &amp; Alterations — Central London
+        </p>
+        <a
+          href="tel:+447438145169"
+          className="inline-flex items-center gap-2 mt-2 font-sans text-sm font-medium text-parchment hover:text-green-bright transition-colors duration-200"
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.02 2.22 2 2 0 012 .04h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+          </svg>
+          +44 7438 145169
+        </a>
 
         <div className="border-t border-divider/20" />
 
@@ -170,7 +233,7 @@ export default function Footer() {
       {/* ── Service area text ─────────────────────── */}
       <div className="px-8 lg:px-24 py-4 border-t border-divider/20 text-center">
         <span className="font-sans text-[0.6rem] font-light tracking-[0.05em] text-green-soft/50">
-          Service Area: Mayfair, Chelsea, Knightsbridge, Kensington, Belgravia, City of London, Central London, UK
+          Collection Service Area: Mayfair · Chelsea · Knightsbridge · Kensington · Belgravia · Westminster · Marylebone · Soho · Covent Garden · Fitzrovia · Bloomsbury · Islington · Notting Hill · Paddington · Pimlico · Clerkenwell · Shoreditch · Canary Wharf · City of London · Central London
         </span>
       </div>
 
