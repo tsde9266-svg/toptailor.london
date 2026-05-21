@@ -6,13 +6,13 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor in Fulham London | Collection Service | Fine Tailors',
-  description: 'Collection-based tailor in Fulham. We collect from your SW6 door, alter suits, dresses and clothing to a perfect fit, and return in 5–7 days. No shop visit.',
-  alternates: { canonical: 'https://www.finetailors.co.uk/tailor-fulham' },
+  title: 'Tailor in Covent Garden London | Collection Service | Fine Tailors',
+  description: 'Collection-based tailor in Covent Garden. We collect from your WC2E door, alter suits, stage wear and clothing to a perfect fit, and return in 5–7 days.',
+  alternates: { canonical: 'https://www.finetailors.co.uk/tailor-covent-garden' },
   openGraph: {
-    title: 'Tailor in Fulham London | Collection Service | Fine Tailors',
-    url: 'https://www.finetailors.co.uk/tailor-fulham',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Collection-based tailoring service in Fulham, London' }],
+    title: 'Tailor in Covent Garden London | Collection Service | Fine Tailors',
+    url: 'https://www.finetailors.co.uk/tailor-covent-garden',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Collection-based tailoring service in Covent Garden, London' }],
   },
 }
 
@@ -21,7 +21,7 @@ const breadcrumb = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.finetailors.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Tailor in Fulham', item: 'https://www.finetailors.co.uk/tailor-fulham' },
+    { '@type': 'ListItem', position: 2, name: 'Tailor in Covent Garden', item: 'https://www.finetailors.co.uk/tailor-covent-garden' },
   ],
 }
 
@@ -32,29 +32,29 @@ const localBusiness = {
   url: 'https://www.finetailors.co.uk',
   telephone: '+447438145169',
   priceRange: '££',
-  areaServed: { '@type': 'Neighborhood', name: 'Fulham' },
-  description: 'Collection-based tailoring service covering Fulham and Parsons Green. Garments collected from SW6 addresses, altered, and returned in 5–7 days.',
+  areaServed: { '@type': 'Neighborhood', name: 'Covent Garden' },
+  description: 'Collection-based tailoring service covering Covent Garden. Garments collected from WC2E addresses, altered, and returned in 5–7 days.',
 }
 
 const areaFaqs = [
   {
-    q: 'Do you cover Parsons Green, Sands End and Munster Village in Fulham?',
-    a: 'Yes. We cover all of SW6 including Parsons Green, Sands End, Munster Village and the streets around Fulham Broadway. From New King\'s Road to Fulham Road, we collect from any Fulham address.',
+    q: 'Can you collect from a WC2E address near the Strand or Long Acre?',
+    a: 'Yes. We cover all WC2E postcodes and the surrounding Covent Garden streets — Long Acre, Seven Dials, the Strand corridor and the residential and office buildings throughout the area.',
   },
   {
-    q: 'Can you alter smart-casual garments as well as formal wear?',
-    a: 'Yes. We alter all garment types — suits, chinos, jeans, casual jackets, coats, dresses and knitwear. There is no minimum formality requirement. If it needs altering, we can most likely help.',
+    q: 'Do you work with theatrical or performance wear for the theatre district?',
+    a: 'Yes. Covent Garden&apos;s theatre district means we regularly work with performers, production staff and hospitality workers who need precise-fit garments. We handle all garment types including tailored costumes, uniforms and stage clothing, quoted on inspection for specialist pieces.',
   },
 ]
 
-export default function TailorFulham() {
+export default function TailorCoventGarden() {
   return (
     <>
-      <Script id="schema-breadcrumb-fulham" type="application/ld+json" strategy="afterInteractive"
+      <Script id="schema-breadcrumb-covent" type="application/ld+json" strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <Script id="schema-business-fulham" type="application/ld+json" strategy="afterInteractive"
+      <Script id="schema-business-covent" type="application/ld+json" strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusiness) }} />
-      <Script id="schema-faq-fulham" type="application/ld+json" strategy="afterInteractive"
+      <Script id="schema-faq-covent" type="application/ld+json" strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <Navbar solid />
@@ -64,40 +64,40 @@ export default function TailorFulham() {
           <nav className="font-sans text-xs text-muted mb-8">
             <Link href="/" className="hover:text-hunter">Home</Link>
             <span className="mx-2">/</span>
-            <span>Tailor in Fulham</span>
+            <span>Tailor in Covent Garden</span>
           </nav>
           <h1 className="font-playfair text-[2.5rem] lg:text-[3.5rem] leading-[1.1] font-medium text-charcoal mb-6">
-            Mobile Tailor in Fulham, London —{' '}
+            Mobile Tailor in Covent Garden, London —{' '}
             <em className="font-playfair italic">Collected From Your Door</em>
           </h1>
           <p className="font-sans font-light text-lg text-muted max-w-2xl leading-relaxed">
-            Fine Tailors collects garments from Fulham and Parsons Green addresses — New King&apos;s Road, Fulham Road, Munster Village and beyond — and returns them perfectly altered within 5–7 days. No travel, no shop visit.
+            Fine Tailors collects garments from Covent Garden addresses — Long Acre, Seven Dials, the Strand and beyond — and returns them altered to a perfect fit within 5–7 days. For theatre professionals, restaurant workers, hospitality staff and Covent Garden residents.
           </p>
         </div>
 
         <div className="px-8 lg:px-24 py-16 border-b border-divider max-w-4xl">
-          <h2 className="font-playfair text-[1.75rem] font-medium mb-6">Tailoring Collections Across Fulham</h2>
+          <h2 className="font-playfair text-[1.75rem] font-medium mb-6">Tailoring Collections Across Covent Garden</h2>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
-            Fulham is home to busy professionals and young families who appreciate quality local services — and who expect those services to come to them rather than requiring a trip across London. Our <strong>Fulham tailoring collection service</strong> is designed precisely for this community.
+            Covent Garden is one of London&apos;s most distinctive areas — the theatre district, the market piazza, Seven Dials&apos; independent boutiques, and the Strand&apos;s mix of offices and hotels all converge in a small area that has a unique professional population. Performers who need stage garments to fit precisely. Hospitality and restaurant workers who need smart uniforms altered. Production staff who have little time for a shop visit.
           </p>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
-            We collect from your SW6 door at a time you choose — whether you&apos;re on the New King&apos;s Road, near Parsons Green tube, or in the quiet streets of Munster Village. Your garments go to our specialist workshop, are altered to a perfect fit, and returned to your door within 5–7 working days. No carrying bags to a shop. No waiting in a queue on your lunch break.
+            Our <strong>Covent Garden tailoring collection service</strong> serves all of these clients. We collect from your WC2E address at a time you choose, alter every piece in our specialist workshop, and return everything pressed and perfect within 5–7 working days. For residents, the same service applies — no travel, no shop visit, just collection from your door and return to it.
           </p>
           <p className="font-sans font-light text-muted leading-relaxed">
-            We handle everything from suit alterations to casual garments, coats, dresses and occasion wear. One tailor handles your clothes from collection to return.
+            Covent Garden sits at the junction of the West End, the legal district and the creative corridor running towards Soho. We serve the full WC2 and surrounding area.
           </p>
         </div>
 
         <div className="px-8 lg:px-24 py-16 border-b border-divider">
-          <h2 className="font-playfair text-[1.75rem] font-medium mb-8">Services &amp; Prices — Collected From Fulham</h2>
+          <h2 className="font-playfair text-[1.75rem] font-medium mb-8">Services &amp; Prices — Collected From Covent Garden</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 max-w-3xl">
             {[
               ['Suit Alterations', 'Jacket back take-in from £18 · Sleeve shortening from £30 · Trouser hemming from £18'],
               ['Dress Alterations', 'Plain dress shortening from £25 · Dress take-in from £28 · Zip replacement from £28'],
               ['Trouser & Jean Alterations', 'Shortening from £18 · Tapering from £18 · Waist adjustment from £22'],
               ['Jacket & Coat Alterations', 'Sleeve shorten from £30 · Body take-in from £18 · Coat shorten from £45'],
+              ['Uniforms & Workwear', 'Smart uniforms, hospitality and front-of-house workwear alterations'],
               ['Wedding & Occasion Wear', 'Quoted on inspection — specialist handling for formal pieces'],
-              ['Clothing Repairs', 'Zip replacements, rehem from £8, patch repairs from £18'],
             ].map(([title, desc]) => (
               <div key={title} className="border border-divider p-5">
                 <h3 className="font-playfair text-base font-medium text-charcoal mb-2">{title}</h3>
@@ -105,17 +105,17 @@ export default function TailorFulham() {
               </div>
             ))}
           </div>
-          <p className="font-sans text-sm font-light text-muted mt-6">Minimum order £20. All prices include collection and return to your Fulham address.</p>
+          <p className="font-sans text-sm font-light text-muted mt-6">Minimum order £20. All prices include collection and return to your Covent Garden address.</p>
         </div>
 
         <div className="px-8 lg:px-24 py-16 border-b border-divider max-w-4xl">
-          <h2 className="font-playfair text-[1.75rem] font-medium mb-8">How It Works in Fulham</h2>
+          <h2 className="font-playfair text-[1.75rem] font-medium mb-8">How It Works in Covent Garden</h2>
           <ol className="space-y-6">
             {[
-              ['Book a Collection Slot', 'Book online or call us. We confirm a time at your Fulham SW6 address.'],
-              ['We Collect From Your Door', 'At your chosen time we collect your garments from your door. No entry to your home required.'],
+              ['Book a Collection Slot', 'Book online or call us. We confirm a time at your Covent Garden WC2E address.'],
+              ['We Collect From Your Door', 'At your chosen time we collect your garments. Office, residential and hotel collections all accommodated.'],
               ['We Alter Every Piece', 'Your garments are handled in our specialist workshop with a written quote approved by you first.'],
-              ['We Return, Pressed and Perfect', 'Within 5–7 working days your clothes are returned to your Fulham door.'],
+              ['We Return, Pressed and Perfect', 'Within 5–7 working days your clothes are returned to your Covent Garden address.'],
             ].map(([title, desc], i) => (
               <li key={i} className="flex gap-6">
                 <span className="font-playfair text-2xl text-hunter/30 shrink-0 w-8">{i + 1}</span>
@@ -129,17 +129,17 @@ export default function TailorFulham() {
         </div>
 
         <div className="px-8 lg:px-24 py-16 border-b border-divider max-w-4xl">
-          <h2 className="font-playfair text-[1.75rem] font-medium mb-6">What Fulham Clients Say</h2>
+          <h2 className="font-playfair text-[1.75rem] font-medium mb-6">What Covent Garden Clients Say</h2>
           <blockquote className="border-l-2 border-hunter pl-6">
             <p className="font-playfair italic text-lg text-charcoal mb-3">
-              &ldquo;Three pairs of trousers and a jacket collected from my Parsons Green flat. Back within a week, everything fits perfectly. So much easier than going to a shop.&rdquo;
+              &ldquo;Had stage costumes and two suits collected from our Seven Dials flat. Everything came back fitting perfectly — and the turnaround was exactly as promised.&rdquo;
             </p>
-            <cite className="font-sans text-sm text-muted not-italic">— Tom, Fulham</cite>
+            <cite className="font-sans text-sm text-muted not-italic">— Marcus, Covent Garden</cite>
           </blockquote>
         </div>
 
         <div className="px-8 lg:px-24 py-16 border-b border-divider max-w-4xl">
-          <h2 className="font-playfair text-[1.75rem] font-medium mb-4">Fulham-Specific Questions</h2>
+          <h2 className="font-playfair text-[1.75rem] font-medium mb-4">Covent Garden-Specific Questions</h2>
           <dl className="space-y-6 max-w-3xl">
             {areaFaqs.map((item, i) => (
               <div key={i} className="border-b border-divider pb-6 last:border-0">
@@ -153,15 +153,12 @@ export default function TailorFulham() {
         <FAQ />
 
         <div className="px-8 lg:px-24 py-16 border-t border-divider">
-          <h2 className="font-playfair text-[1.75rem] font-medium mb-4">Book a Collection in Fulham</h2>
+          <h2 className="font-playfair text-[1.75rem] font-medium mb-4">Book a Collection in Covent Garden</h2>
           <p className="font-sans font-light text-muted mb-6 max-w-lg leading-relaxed">
             We also cover nearby{' '}
-            <Link href="/tailor-chelsea" className="text-hunter underline">Chelsea</Link>,{' '}
-            <Link href="/tailor-south-kensington" className="text-hunter underline">South Kensington</Link> and{' '}
-            <Link href="/tailor-kensington" className="text-hunter underline">Kensington</Link>.
-          </p>
-          <p className="font-sans text-sm font-light text-muted mb-6 max-w-lg leading-relaxed">
-            Services: <Link href="/suit-alterations-london" className="text-hunter underline">suit alterations</Link> · <Link href="/dress-alterations-london" className="text-hunter underline">dress alterations</Link> · <Link href="/trouser-alterations-london" className="text-hunter underline">trouser alterations</Link>.
+            <Link href="/tailor-soho" className="text-hunter underline">Soho</Link>,{' '}
+            <Link href="/tailor-bloomsbury" className="text-hunter underline">Bloomsbury</Link> and{' '}
+            <Link href="/tailor-fitzrovia" className="text-hunter underline">Fitzrovia</Link>.
           </p>
           <div className="flex gap-6 flex-wrap items-center">
             <Link href="/get-started" className="bg-hunter text-parchment px-10 py-4 font-sans text-xs font-medium tracking-[0.15em] uppercase hover:bg-[#1E3D17] transition-colors">

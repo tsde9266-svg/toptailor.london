@@ -6,13 +6,13 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor in South Kensington London | Collection Service | Fine Tailors',
-  description: 'Collection-based tailor in South Kensington. We collect from your SW7 door, alter to a perfect fit, and return pressed and perfect in 5–7 days. No shop visit.',
-  alternates: { canonical: 'https://www.finetailors.co.uk/tailor-south-kensington' },
+  title: 'Tailor in Pimlico London | Collection Service | Fine Tailors',
+  description: 'Collection-based tailor in Pimlico. We collect from your SW1V door, alter suits and clothing, and return pressed and perfect in 5–7 days. No shop visit needed.',
+  alternates: { canonical: 'https://www.finetailors.co.uk/tailor-pimlico' },
   openGraph: {
-    title: 'Tailor in South Kensington London | Collection Service | Fine Tailors',
-    url: 'https://www.finetailors.co.uk/tailor-south-kensington',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Collection-based tailoring service in South Kensington, London' }],
+    title: 'Tailor in Pimlico London | Collection Service | Fine Tailors',
+    url: 'https://www.finetailors.co.uk/tailor-pimlico',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Collection-based tailoring service in Pimlico, London' }],
   },
 }
 
@@ -21,7 +21,7 @@ const breadcrumb = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.finetailors.co.uk' },
-    { '@type': 'ListItem', position: 2, name: 'Tailor in South Kensington', item: 'https://www.finetailors.co.uk/tailor-south-kensington' },
+    { '@type': 'ListItem', position: 2, name: 'Tailor in Pimlico', item: 'https://www.finetailors.co.uk/tailor-pimlico' },
   ],
 }
 
@@ -32,29 +32,29 @@ const localBusiness = {
   url: 'https://www.finetailors.co.uk',
   telephone: '+447438145169',
   priceRange: '££',
-  areaServed: { '@type': 'Neighborhood', name: 'South Kensington' },
-  description: 'Collection-based tailoring service covering South Kensington. Garments collected from SW7 addresses, altered, and returned in 5–7 days.',
+  areaServed: { '@type': 'Neighborhood', name: 'Pimlico' },
+  description: 'Collection-based tailoring service covering Pimlico. Garments collected from SW1V and surrounding addresses, altered, and returned in 5–7 days.',
 }
 
 const areaFaqs = [
   {
-    q: 'Do you cover Onslow Square, Cranley Gardens and the wider SW7 area?',
-    a: 'Yes. We cover all SW7 postcodes including Onslow Square, Cranley Gardens, Gloucester Road and the streets around South Kensington station. If you are on the SW5 or SW3 border, we almost certainly cover your address.',
+    q: 'Do you cover Warwick Way, Tachbrook Street and the residential streets of Pimlico?',
+    a: 'Yes. We cover all SW1V postcodes and the residential streets throughout Pimlico — Warwick Way, Tachbrook Street, Churton Street, Cambridge Street and surrounding areas. Pimlico is well within our regular collection zone.',
   },
   {
-    q: 'Can you alter evening wear for cultural events at the V&A, Science Museum or nearby venues?',
-    a: 'Yes. Evening wear and occasion wear alterations are a regular part of our service. If you have a specific event date, mention it when booking and we will confirm whether your timeline can be accommodated.',
+    q: 'As a quiet residential area, does Fine Tailors work for everyday wardrobe alterations as well as formal wear?',
+    a: 'Yes. Many Pimlico clients come to us for exactly this — everyday suits, casual trousers, jeans, coats and dresses that need a better fit. There is no minimum formality requirement. Minimum order £20.',
   },
 ]
 
-export default function TailorSouthKensington() {
+export default function TailorPimlico() {
   return (
     <>
-      <Script id="schema-breadcrumb-sk" type="application/ld+json" strategy="afterInteractive"
+      <Script id="schema-breadcrumb-pimlico" type="application/ld+json" strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <Script id="schema-business-sk" type="application/ld+json" strategy="afterInteractive"
+      <Script id="schema-business-pimlico" type="application/ld+json" strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusiness) }} />
-      <Script id="schema-faq-sk" type="application/ld+json" strategy="afterInteractive"
+      <Script id="schema-faq-pimlico" type="application/ld+json" strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <Navbar solid />
@@ -64,40 +64,40 @@ export default function TailorSouthKensington() {
           <nav className="font-sans text-xs text-muted mb-8">
             <Link href="/" className="hover:text-hunter">Home</Link>
             <span className="mx-2">/</span>
-            <span>Tailor in South Kensington</span>
+            <span>Tailor in Pimlico</span>
           </nav>
           <h1 className="font-playfair text-[2.5rem] lg:text-[3.5rem] leading-[1.1] font-medium text-charcoal mb-6">
-            Mobile Tailor in South Kensington, London —{' '}
+            Mobile Tailor in Pimlico, London —{' '}
             <em className="font-playfair italic">Collected From Your Door</em>
           </h1>
           <p className="font-sans font-light text-lg text-muted max-w-2xl leading-relaxed">
-            Fine Tailors collects garments from South Kensington addresses — Onslow Square, Cranley Gardens, Gloucester Road and beyond — and returns them altered to a perfect fit within 5–7 days. Premium service for one of London&apos;s most cosmopolitan neighbourhoods.
+            Fine Tailors collects garments from Pimlico addresses — Warwick Way, Tachbrook Street, Claverton Street and beyond — and returns them altered to a perfect fit within 5–7 days. Quiet, residential, convenient.
           </p>
         </div>
 
         <div className="px-8 lg:px-24 py-16 border-b border-divider max-w-4xl">
-          <h2 className="font-playfair text-[1.75rem] font-medium mb-6">Tailoring Collections Across South Kensington</h2>
+          <h2 className="font-playfair text-[1.75rem] font-medium mb-6">Tailoring Collections Across Pimlico</h2>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
-            South Kensington is one of London&apos;s most cosmopolitan and affluent neighbourhoods — the tree-lined garden squares, the grand Victorian mansion blocks, and proximity to Exhibition Road&apos;s world-class cultural institutions create a community that expects quality in every service. Fine Tailors delivers precisely that.
+            Pimlico is one of central London&apos;s most quietly residential neighbourhoods — close to Westminster and Victoria, bordered by the Thames, and home to a steady professional community that has lived here long enough to know what they want from local services. Discretion, reliability, and the service coming to them.
           </p>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
-            Our <strong>South Kensington tailoring collection service</strong> covers all SW7 postcodes. We collect from your door at a time you choose — whether you&apos;re on Onslow Square, Cranley Gardens or anywhere in the area — alter every piece in our specialist workshop, and return them pressed and perfect within 5–7 working days. No travel, no shop visit, no inconvenience.
+            Our <strong>Pimlico tailoring collection service</strong> covers all SW1V postcodes and the surrounding streets. We collect from your door at a time you choose — whether you&apos;re on a Victorian terrace near Tachbrook Street Market or in one of the larger apartment blocks on Vauxhall Bridge Road. Your garments go to our specialist workshop, are altered to a precise fit, and returned within 5–7 working days.
           </p>
           <p className="font-sans font-light text-muted leading-relaxed">
-            South Kensington&apos;s international resident community means we regularly handle garments from all over the world — luxury Italian suits, French designer dresses, British tailored coats — each treated with equal care and expertise.
+            Pimlico is a short distance from Westminster and Belgravia. We serve the full SW1 corridor with equal regularity.
           </p>
         </div>
 
         <div className="px-8 lg:px-24 py-16 border-b border-divider">
-          <h2 className="font-playfair text-[1.75rem] font-medium mb-8">Services &amp; Prices — Collected From South Kensington</h2>
+          <h2 className="font-playfair text-[1.75rem] font-medium mb-8">Services &amp; Prices — Collected From Pimlico</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 max-w-3xl">
             {[
               ['Suit Alterations', 'Jacket back take-in from £18 · Sleeve shortening from £30 · Trouser hemming from £18'],
               ['Dress Alterations', 'Plain dress shortening from £25 · Dress take-in from £28 · Zip replacement from £28'],
               ['Trouser & Jean Alterations', 'Shortening from £18 · Tapering from £18 · Waist adjustment from £22'],
               ['Jacket & Coat Alterations', 'Sleeve shorten from £30 · Body take-in from £18 · Coat shorten from £45'],
-              ['Wedding & Occasion Wear', 'Quoted on inspection — specialist handling for bridal and formal pieces'],
-              ['Leather Jacket Alterations', 'Quoted on inspection — specialist work on leather garments'],
+              ['Wedding & Occasion Wear', 'Quoted on inspection — specialist handling for formal pieces'],
+              ['Clothing Repairs', 'Zip replacements, rehem from £8, patch repairs from £18'],
             ].map(([title, desc]) => (
               <div key={title} className="border border-divider p-5">
                 <h3 className="font-playfair text-base font-medium text-charcoal mb-2">{title}</h3>
@@ -105,17 +105,17 @@ export default function TailorSouthKensington() {
               </div>
             ))}
           </div>
-          <p className="font-sans text-sm font-light text-muted mt-6">Minimum order £20. All prices include collection and return to your South Kensington address.</p>
+          <p className="font-sans text-sm font-light text-muted mt-6">Minimum order £20. All prices include collection and return to your Pimlico address.</p>
         </div>
 
         <div className="px-8 lg:px-24 py-16 border-b border-divider max-w-4xl">
-          <h2 className="font-playfair text-[1.75rem] font-medium mb-8">How It Works in South Kensington</h2>
+          <h2 className="font-playfair text-[1.75rem] font-medium mb-8">How It Works in Pimlico</h2>
           <ol className="space-y-6">
             {[
-              ['Book a Collection Slot', 'Book online or call us. We confirm a time at your South Kensington SW7 address.'],
+              ['Book a Collection Slot', 'Book online or call us. We confirm a time at your Pimlico SW1V address.'],
               ['We Collect From Your Door', 'At your chosen time we collect your garments from your door. No entry to your home.'],
               ['We Alter Every Piece', 'Your garments are handled in our specialist workshop with a written quote approved by you first.'],
-              ['We Return, Pressed and Perfect', 'Within 5–7 working days your clothes are returned to your South Kensington door.'],
+              ['We Return, Pressed and Perfect', 'Within 5–7 working days your clothes are returned to your Pimlico door.'],
             ].map(([title, desc], i) => (
               <li key={i} className="flex gap-6">
                 <span className="font-playfair text-2xl text-hunter/30 shrink-0 w-8">{i + 1}</span>
@@ -129,17 +129,17 @@ export default function TailorSouthKensington() {
         </div>
 
         <div className="px-8 lg:px-24 py-16 border-b border-divider max-w-4xl">
-          <h2 className="font-playfair text-[1.75rem] font-medium mb-6">What South Kensington Clients Say</h2>
+          <h2 className="font-playfair text-[1.75rem] font-medium mb-6">What Pimlico Clients Say</h2>
           <blockquote className="border-l-2 border-hunter pl-6">
             <p className="font-playfair italic text-lg text-charcoal mb-3">
-              &ldquo;Collected from Cranley Gardens on Monday, delivered back Thursday. Two dresses and a suit, all perfectly altered. Effortless from start to finish.&rdquo;
+              &ldquo;Had garments collected from my Warwick Way flat. Everything came back perfectly altered within the week. Exactly the kind of service Pimlico has needed.&rdquo;
             </p>
-            <cite className="font-sans text-sm text-muted not-italic">— Isabelle, South Kensington</cite>
+            <cite className="font-sans text-sm text-muted not-italic">— Sarah, Pimlico</cite>
           </blockquote>
         </div>
 
         <div className="px-8 lg:px-24 py-16 border-b border-divider max-w-4xl">
-          <h2 className="font-playfair text-[1.75rem] font-medium mb-4">South Kensington-Specific Questions</h2>
+          <h2 className="font-playfair text-[1.75rem] font-medium mb-4">Pimlico-Specific Questions</h2>
           <dl className="space-y-6 max-w-3xl">
             {areaFaqs.map((item, i) => (
               <div key={i} className="border-b border-divider pb-6 last:border-0">
@@ -153,12 +153,12 @@ export default function TailorSouthKensington() {
         <FAQ />
 
         <div className="px-8 lg:px-24 py-16 border-t border-divider">
-          <h2 className="font-playfair text-[1.75rem] font-medium mb-4">Book a Collection in South Kensington</h2>
+          <h2 className="font-playfair text-[1.75rem] font-medium mb-4">Book a Collection in Pimlico</h2>
           <p className="font-sans font-light text-muted mb-6 max-w-lg leading-relaxed">
             We also cover nearby{' '}
-            <Link href="/tailor-chelsea" className="text-hunter underline">Chelsea</Link>,{' '}
-            <Link href="/tailor-kensington" className="text-hunter underline">Kensington</Link> and{' '}
-            <Link href="/tailor-fulham" className="text-hunter underline">Fulham</Link>.
+            <Link href="/tailor-westminster" className="text-hunter underline">Westminster</Link>,{' '}
+            <Link href="/tailor-belgravia" className="text-hunter underline">Belgravia</Link> and{' '}
+            <Link href="/tailor-chelsea" className="text-hunter underline">Chelsea</Link>.
           </p>
           <p className="font-sans text-sm font-light text-muted mb-6 max-w-lg leading-relaxed">
             Services: <Link href="/suit-alterations-london" className="text-hunter underline">suit alterations</Link> · <Link href="/dress-alterations-london" className="text-hunter underline">dress alterations</Link> · <Link href="/trouser-alterations-london" className="text-hunter underline">trouser alterations</Link>.

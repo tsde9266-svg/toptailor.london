@@ -18,8 +18,8 @@ import FAQ, { faqSchema } from '@/components/FAQ'
 import { getAllReviews } from '@/lib/kv'
 
 export const metadata: Metadata = {
-  title: "Mobile Tailor London | Suit Alterations & Home Visits | Fine Tailors",
-  description: "Fine Tailors — London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations at your door. Home visits across Mayfair, Chelsea, Knightsbridge and central London. Book your home visit today.",
+  title: "Mobile Tailor Central London | Suit & Clothing Alterations | Fine Tailors",
+  description: "London's collection-based tailoring service. We collect from your door in Mayfair, Westminster, Knightsbridge & all Central London postcodes — returned perfect in 5–7 days.",
   alternates: { canonical: 'https://www.finetailors.co.uk' },
 }
 
@@ -28,8 +28,8 @@ const speakableSchema = {
   '@type': 'WebPage',
   '@id': 'https://www.finetailors.co.uk/#webpage',
   url: 'https://www.finetailors.co.uk',
-  name: "Mobile Tailor London | Suit Alterations & Home Visits | Fine Tailors",
-  description: "Fine Tailors is London's premier mobile tailoring service. Expert suit alterations, bespoke tailoring and clothing alterations collected from your home across Mayfair, Chelsea, Knightsbridge and central London.",
+  name: "Mobile Tailor Central London | Suit & Clothing Alterations | Fine Tailors",
+  description: "Fine Tailors is London's collection-based tailoring service. We collect garments from your door across Mayfair, Westminster, Knightsbridge and all Central London postcodes — returned pressed and perfect in 5–7 days.",
   speakable: {
     '@type': 'SpeakableSpecification',
     cssSelector: ['h1', '.hero-intro', '#services-intro'],
@@ -72,12 +72,27 @@ const howToSchema = {
 }
 
 const areas = [
-  { name: 'Mayfair',        href: '/tailor-mayfair',        desc: 'Home visits for Mayfair & Grosvenor Square residents.' },
-  { name: 'Chelsea',        href: '/tailor-chelsea',        desc: 'Serving Chelsea, King\'s Road & surrounding SW3.' },
-  { name: 'Knightsbridge',  href: '/tailor-knightsbridge',  desc: 'Minutes from Harrods & Harvey Nichols.' },
-  { name: 'Kensington',     href: '/tailor-kensington',     desc: 'Covering all W8 and Kensington postcodes.' },
-  { name: 'Belgravia',      href: '/tailor-belgravia',      desc: 'Premium tailoring for Belgravia\'s SW1 addresses.' },
+  { name: 'Mayfair',        href: '/tailor-mayfair',        desc: 'Collections from Grosvenor Square, Berkeley Square & W1J.' },
+  { name: 'Chelsea',        href: '/tailor-chelsea',        desc: 'King\'s Road, Sloane Square & SW3/SW10.' },
+  { name: 'Knightsbridge',  href: '/tailor-knightsbridge',  desc: 'Steps from Harrods — SW1X & SW7.' },
+  { name: 'Kensington',     href: '/tailor-kensington',     desc: 'Holland Park, High Street Kensington & W8.' },
+  { name: 'Belgravia',      href: '/tailor-belgravia',      desc: 'Eaton Square, Chester Square & SW1W.' },
+  { name: 'Westminster',    href: '/tailor-westminster',    desc: 'Whitehall, Victoria, Pimlico & SW1.' },
+  { name: 'Marylebone',     href: '/tailor-marylebone',     desc: 'Harley Street, Chiltern Street & W1G.' },
+  { name: 'Soho',           href: '/tailor-soho',           desc: 'Dean Street, Wardour Street & W1D.' },
   { name: 'City of London', href: '/tailor-city-of-london', desc: 'EC1, EC2, EC3 and EC4 covered.' },
+  { name: 'Islington',      href: '/tailor-islington',      desc: 'Upper Street, Angel, Canonbury & N1.' },
+  { name: 'Notting Hill',   href: '/tailor-notting-hill',   desc: 'Portobello Road, Westbourne Grove & W11.' },
+  { name: 'Canary Wharf',    href: '/tailor-canary-wharf',    desc: 'Canada Square, Bank Street & E14.' },
+  { name: 'Covent Garden',  href: '/tailor-covent-garden',   desc: 'Long Acre, Seven Dials & WC2E.' },
+  { name: 'Fitzrovia',      href: '/tailor-fitzrovia',       desc: 'Charlotte Street, Goodge Street & W1T.' },
+  { name: 'Bloomsbury',     href: '/tailor-bloomsbury',      desc: 'Russell Square, Gower Street & WC1B.' },
+  { name: 'Paddington',     href: '/tailor-paddington',      desc: 'Praed Street, Hyde Park & W2.' },
+  { name: 'Pimlico',        href: '/tailor-pimlico',         desc: 'Warwick Way, Tachbrook Street & SW1V.' },
+  { name: 'Clerkenwell',    href: '/tailor-clerkenwell',     desc: 'Exmouth Market, Farringdon Road & EC1.' },
+  { name: 'Shoreditch',     href: '/tailor-shoreditch',      desc: 'Brick Lane, Old Street & E1/EC2A.' },
+  { name: 'South Kensington', href: '/tailor-south-kensington', desc: 'Cromwell Road, Exhibition Road & SW7.' },
+  { name: 'Fulham',         href: '/tailor-fulham',          desc: "Fulham Road, Parson's Green & SW6." },
 ]
 
 export default async function Home() {

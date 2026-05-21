@@ -21,6 +21,27 @@ const breadcrumb = {
 
 const posts = [
   {
+    slug: 'complete-guide-suit-alterations-london',
+    title: 'The Complete Guide to Suit Alterations in London',
+    excerpt: 'Every alteration type, realistic prices, how to choose a tailor, and why collection-based tailoring works for busy London professionals.',
+    date: '2026-05-21',
+    readTime: '12 min read',
+  },
+  {
+    slug: 'suit-alterations-canary-wharf',
+    title: 'Suit Alterations in Canary Wharf: A Guide for Finance Professionals',
+    excerpt: 'How E14 finance workers get their suits altered without leaving Canary Wharf — and why a collection service is the practical answer.',
+    date: '2026-05-21',
+    readTime: '6 min read',
+  },
+  {
+    slug: 'wedding-dress-alterations-london',
+    title: 'Wedding Dress Alterations in London: Timeline and What to Expect',
+    excerpt: 'When to book, what can be altered, realistic costs, and why a collection service is safer for a delicate bridal gown.',
+    date: '2026-05-21',
+    readTime: '8 min read',
+  },
+  {
     slug: 'best-tailor-london',
     title: 'Best Tailor in London — What to Look for in 2026',
     excerpt: 'What separates a truly great tailor from an average one in London — and why a mobile master tailor beats most shop alternatives.',
