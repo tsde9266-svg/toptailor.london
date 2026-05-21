@@ -210,6 +210,7 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="192x192" href="/logo-icon.png" />
         <link rel="icon" type="image/png" sizes="512x512" href="/logo-icon.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/logo-icon.png" />
+        <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="manifest" href="/manifest.json" />
