@@ -75,6 +75,21 @@ export default function Reviews({ reviews }: { reviews: Review[] }) {
           </div>
         ))}
       </div>
+
+      {/* ── Google review CTA ───────────────────────────────── */}
+      <div className="mt-16 pt-10 border-t border-divider/30 text-center">
+        <a
+          href="[GOOGLE_REVIEW_LINK]"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="
+            font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase
+            text-forest hover:text-hunter transition-colors duration-200
+          "
+        >
+          Leave us a review on Google →
+        </a>
+      </div>
     </section>
   )
 }

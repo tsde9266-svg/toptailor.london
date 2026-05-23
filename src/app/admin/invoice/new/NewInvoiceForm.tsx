@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import type { Voucher, Invoice } from '@/lib/kv'
 import { VOUCHER_TYPE_LABEL as TYPE_LABEL, VOUCHER_TYPE_COLOR as TYPE_COLOR, VOUCHER_TYPE_BORDER as TYPE_BORDER } from '@/lib/constants'
+import { services as SERVICE_CATALOGUE } from '@/data/services'
+
+const ALL_SERVICE_NAMES = SERVICE_CATALOGUE.flatMap(c => c.items.map(i => i.name))
 
 type LineItem = {
   mode: 'simple' | 'qty'
@@ -207,8 +210,8 @@ export default function NewInvoiceForm({ invoice }: Props) {
             <input required type="text" value={name} onChange={e => setName(e.target.value)} className={inputClass} placeholder="James Wilson" />
           </div>
           <div>
-            <label className={labelClass}>Email *</label>
-            <input required type="email" value={email} onChange={e => setEmail(e.target.value)} className={inputClass} placeholder="james@email.com" />
+            <label className={labelClass}>Email <span className="normal-case font-light tracking-normal">(optional)</span></label>
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} className={inputClass} placeholder="james@email.com" />
           </div>
         </div>
 
@@ -277,35 +280,68 @@ export default function NewInvoiceForm({ invoice }: Props) {
                 </div>
               ) : (
                 /* ── Qty mode ── */
-                <div className="space-y-2">
-                  <div className="grid gap-2 items-center" style={{ gridTemplateColumns: '60px auto 1fr auto 1fr 36px' }}>
+                <div className="space-y-2.5">
+                  {/* Row 1: qty × item + delete */}
+                  <div className="flex items-center gap-2">
                     <input
                       type="number" min="1" step="1"
                       value={item.qty}
                       onChange={e => updateItem(i, { qty: e.target.value === '' ? '' : Number(e.target.value) })}
-                      placeholder="6"
-                      className="input-line font-sans text-[0.9rem] text-center"
+                      placeholder="1"
+                      className="input-line font-sans text-[0.9rem] text-center w-14 shrink-0"
                     />
-                    <span className="font-sans text-[0.9rem] text-muted px-1">×</span>
+                    <span className="font-sans text-[0.9rem] text-muted shrink-0">×</span>
                     <input
                       value={item.itemType}
                       onChange={e => updateItem(i, { itemType: e.target.value })}
-                      placeholder="Shirt"
-                      className="input-line font-sans text-[0.9rem]"
-                    />
-                    <span className="font-sans text-[0.9rem] text-muted px-1">—</span>
-                    <input
-                      value={item.service}
-                      onChange={e => updateItem(i, { service: e.target.value })}
-                      placeholder="Length Shortening"
-                      className="input-line font-sans text-[0.9rem]"
+                      placeholder="Item (e.g. Shirt)"
+                      className="input-line font-sans text-[0.9rem] flex-1 min-w-0"
                     />
                     <button type="button" onClick={() => removeItem(i)}
-                      className="w-8 h-8 flex items-center justify-center text-muted hover:text-red-500 transition-colors" aria-label="Remove">
+                      className="w-8 h-8 shrink-0 flex items-center justify-center text-muted hover:text-red-500 transition-colors" aria-label="Remove">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
                     </button>
                   </div>
-                  <div className="flex items-center gap-3 pl-1">
+
+                  {/* Row 2: service select */}
+                  {(() => {
+                    const isCustom = item.service !== '' && !ALL_SERVICE_NAMES.includes(item.service)
+                    const selectVal = isCustom ? '__custom' : item.service
+                    return (
+                      <div className="space-y-1.5">
+                        <select
+                          value={selectVal}
+                          onChange={e => {
+                            const v = e.target.value
+                            if (v === '__custom') updateItem(i, { service: '' })
+                            else updateItem(i, { service: v })
+                          }}
+                          className="w-full border border-divider px-3 py-2 font-sans text-[0.875rem] focus:outline-none focus:border-hunter bg-white text-charcoal"
+                        >
+                          <option value="">— Select service (optional) —</option>
+                          {SERVICE_CATALOGUE.map(cat => (
+                            <optgroup key={cat.id} label={cat.name}>
+                              {cat.items.map(s => (
+                                <option key={s.id} value={s.name}>{s.name}</option>
+                              ))}
+                            </optgroup>
+                          ))}
+                          <option value="__custom">Custom…</option>
+                        </select>
+                        {(selectVal === '__custom') && (
+                          <input
+                            value={item.service}
+                            onChange={e => updateItem(i, { service: e.target.value })}
+                            placeholder="Describe the service"
+                            className="input-line font-sans text-[0.9rem] w-full"
+                          />
+                        )}
+                      </div>
+                    )
+                  })()}
+
+                  {/* Row 3: price per item */}
+                  <div className="flex items-center gap-3">
                     <span className="font-sans text-[0.75rem] text-muted">@ £</span>
                     <input
                       type="number" min="0" step="0.01"

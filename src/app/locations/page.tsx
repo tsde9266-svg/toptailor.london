@@ -157,7 +157,7 @@ const areas = [
 export default function LocationsPage() {
   return (
     <>
-      <Script id="schema-breadcrumb-locations" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
       <Navbar solid />

@@ -81,11 +81,11 @@ const faqSchema = {
 export default function SuitAlterationsCanaryWharf() {
   return (
     <>
-      <Script id="schema-article-cw" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-      <Script id="schema-breadcrumb-cw" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <Script id="schema-faq-cw" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <Navbar solid />

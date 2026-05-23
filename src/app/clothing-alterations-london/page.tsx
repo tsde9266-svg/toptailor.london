@@ -64,11 +64,11 @@ const services = [
 export default function ClothingAlterationsLondon() {
   return (
     <>
-      <Script id="schema-breadcrumb-clothing" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <Script id="schema-service-clothing" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
-      <Script id="schema-faq-clothing" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <Navbar solid />

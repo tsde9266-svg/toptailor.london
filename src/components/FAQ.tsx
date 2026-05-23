@@ -3,44 +3,40 @@ import { useState } from 'react'
 
 const faqs = [
   {
-    q: 'Do you come to my home?',
-    a: 'Yes — Fine Tailors visit your home, apartment or office anywhere in central London including Mayfair, Chelsea, Knightsbridge and Kensington. You never need to travel to us.',
+    q: 'How does the collection service work?',
+    a: 'Book a collection slot online or by phone. At your chosen time we collect your garments directly from your door — no need to carry anything or visit a shop. We alter every piece in our workshop, then return everything pressed and perfect to your door, usually within 5–7 working days.',
   },
   {
-    q: 'Which areas do you cover?',
-    a: 'We cover all central London postcodes including W1, SW1, SW3, EC1, WC1, WC2, W8 and SW7. If you\'re unsure whether we cover your address, just get in touch.',
+    q: 'Do you enter my home?',
+    a: 'No. Fine Tailors is a collection-based service — your garments are collected from your door and returned to your door. No tailor enters your home. This keeps things discreet, convenient, and means your garments are never left sitting in a public shop.',
   },
   {
-    q: 'How do I book a home visit?',
-    a: 'Contact us by phone or the booking form. We agree a convenient time, visit your home, assess your garments, collect them and return everything perfectly altered — usually within 3–5 days.',
-  },
-  {
-    q: 'How much experience do you have?',
-    a: 'Over 10 years of professional tailoring experience working with clients across central London, handling everything from everyday alterations to luxury designer garments.',
-  },
-  {
-    q: 'What alterations can you do at home?',
-    a: 'Suit alterations, dress and occasion wear, trouser hemming, waist adjustments, jacket resizing, sleeve shortening, zip replacements, and all clothing repairs — completed at the highest standard.',
+    q: 'How much do alterations cost?',
+    a: 'Trouser shortening from £18. Trouser tapering from £18. Jacket sleeve shortening from £30. Jacket back take-in from £18. Plain dress shortening from £25. Dress take-in from £28. Coat shortening from £45. Leather jacket and wedding dress alterations are quoted on inspection. Minimum order £20.',
   },
   {
     q: 'How long do alterations take?',
-    a: 'Most alterations are returned within 3–5 days. An express 24–48 hour service is available for urgent requirements — just let us know when booking.',
+    a: 'Most alterations are returned within 5–7 working days. If you have an urgent requirement, mention it when booking and we will do our best to accommodate.',
+  },
+  {
+    q: 'Which London areas do you cover?',
+    a: 'We cover all Central London postcodes: W1 (Mayfair, Marylebone, Soho, Fitzrovia), SW1 (Westminster, Belgravia, Pimlico), SW3/SW10 (Chelsea), SW7 (South Kensington), W8 (Kensington), SW1X (Knightsbridge), WC1/WC2 (Bloomsbury, Covent Garden), EC1/EC2 (City of London, Clerkenwell, Shoreditch), E14 (Canary Wharf), N1 (Islington), W11 (Notting Hill), W2 (Paddington). If your postcode isn\'t listed, get in touch — we cover a wide area.',
+  },
+  {
+    q: 'What alterations can you do?',
+    a: 'Suit alterations, dress and occasion wear, trouser hemming and tapering, waist adjustments, jacket resizing, sleeve shortening, coat alterations, zip replacements, leather jacket alterations, and wedding dress alterations — all handled at the highest standard.',
   },
   {
     q: 'Do you work with designer and luxury garments?',
-    a: 'Yes. We regularly work with luxury and designer pieces including suits, gowns and occasion wear, handling each garment with the care and expertise it deserves.',
+    a: 'Yes. We regularly handle luxury and designer pieces including suits, gowns, leather jackets and occasion wear. The collection model is particularly suited to valuable garments — they go straight from your door to our workshop and back, never sitting in a shop.',
   },
   {
-    q: 'What makes Fine Tailors different from a shop?',
-    a: 'We come to you. No travelling across London, no waiting rooms, no carrying garments on public transport. One dedicated tailor handles your clothes from collection to return.',
+    q: 'What makes Fine Tailors different from a high street shop?',
+    a: 'No shop visit, no travel, no dropping off. Your garments are collected from your door, altered by a dedicated tailor, and returned pressed and perfect. One tailor handles your clothes from collection to return — not a different person each time.',
   },
   {
     q: 'Do you offer suit alterations in London?',
-    a: 'Yes — suit alterations are one of our most requested services. Fine Tailors collect your suit from your London home or office, make precise alterations to the jacket, trousers or waistcoat, and return everything perfectly fitted within 3–5 days. We cover all central London areas including Mayfair, Chelsea and Knightsbridge.',
-  },
-  {
-    q: 'Can I get a mobile tailor to come to my home in London?',
-    a: 'Absolutely — that is exactly what Fine Tailors do. Our mobile tailors visit homes, apartments and offices across central London. Whether you need suit alterations, dress alterations or a full bespoke fitting, simply book a home visit and we come to you.',
+    a: 'Yes — suit alterations are our most requested service. We collect your suit from your Central London address, make precise alterations to the jacket, trousers or waistcoat, and return everything perfectly fitted within 5–7 days. We cover all Central London postcodes.',
   },
 ]
 

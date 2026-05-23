@@ -44,11 +44,11 @@ const serviceSchema = {
 export default function BarbourAlterationsLondon() {
   return (
     <>
-      <Script id="schema-breadcrumb-barbour" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <Script id="schema-service-barbour" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
-      <Script id="schema-faq-barbour" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <Navbar solid />

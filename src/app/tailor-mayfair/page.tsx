@@ -50,11 +50,11 @@ const areaFaqs = [
 export default function TailorMayfair() {
   return (
     <>
-      <Script id="schema-breadcrumb-mayfair" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <Script id="schema-business-mayfair" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusiness) }} />
-      <Script id="schema-faq-mayfair" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <Navbar solid />

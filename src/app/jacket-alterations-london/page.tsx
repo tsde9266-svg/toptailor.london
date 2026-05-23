@@ -55,11 +55,11 @@ const alterationTypes = [
 export default function JacketAlterationsLondon() {
   return (
     <>
-      <Script id="schema-breadcrumb-jacket" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <Script id="schema-service-jacket" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
-      <Script id="schema-faq-jacket" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <Navbar solid />

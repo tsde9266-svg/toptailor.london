@@ -109,7 +109,7 @@ const luxuryServices = [
 export default function ServicesPage() {
   return (
     <>
-      <Script id="schema-breadcrumb-services" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
       <Navbar solid />

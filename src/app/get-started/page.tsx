@@ -85,7 +85,7 @@ export default function GetStartedPage() {
                 href="/#services"
                 className="
                   w-full text-center py-4
-                  font-sans text-[0.75rem] font-medium tracking-[0.18em] uppercase
+                  font-sans text-[0.75rem] font-medium tracking-[0.18em] uppercased
                   transition-colors duration-200
                   bg-hunter text-parchment hover:bg-[#1E3D17]
                 "

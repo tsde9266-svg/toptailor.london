@@ -52,9 +52,9 @@ const breadcrumb = {
 export default function TailorNearMeLondon() {
   return (
     <>
-      <Script id="schema-article-near-me" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-      <Script id="schema-breadcrumb-near-me" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
       <Navbar solid />

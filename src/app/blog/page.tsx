@@ -123,7 +123,7 @@ const posts = [
 export default function BlogIndex() {
   return (
     <>
-      <Script id="schema-breadcrumb-blog" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
       <Navbar solid />

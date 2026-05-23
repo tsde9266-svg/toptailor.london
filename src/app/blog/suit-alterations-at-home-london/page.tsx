@@ -42,9 +42,9 @@ const breadcrumb = {
 export default function Post2() {
   return (
     <>
-      <Script id="schema-article-2" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-      <Script id="schema-breadcrumb-post2" type="application/ld+json" strategy="afterInteractive"
+      <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
       <Navbar solid />

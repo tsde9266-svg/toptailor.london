@@ -86,7 +86,20 @@
       "Bash(Select-Object Name)",
       "Bash(Get-ChildItem -Path \"D:\\\\toptailor\" -Recurse -Filter \"*.ts\" -o)",
       "Bash(cd /d D:\\\\toptailor)",
-      "Bash(start http://localhost:3000/invoice/preview)"
+      "Bash(start http://localhost:3000/invoice/preview)",
+      "Bash(Get-ChildItem -Path \"D:\\\\toptailor\" -Recurse -Directory)",
+      "Bash(grep -v \"notifyTelegram\\\\|import\\\\|//\")",
+      "Bash(git *)",
+      "Bash(Remove-Item *)",
+      "Bash(Get-ChildItem -Path \"D:\\\\toptailor\" -Recurse -Directory -ErrorAction SilentlyContinue)",
+      "PowerShell(Head *)",
+      "Read(//mnt/d/toptailor/public/**)",
+      "Read(//mnt/d/toptailor/**)",
+      "Bash(xargs ls -lh)",
+      "PowerShell(Get-ChildItem \"D:\\\\toptailor\\\\public\\\\images\\\\tailor.jpg\" | Select-Object Name, @{N='SizeKB';E={[math]::Round\\($_.Length/1KB,1\\)}})",
+      "PowerShell(Get-Item *)",
+      "PowerShell(New-Item *)",
+      "PowerShell(Copy-Item *)"
     ]
   }
 }
