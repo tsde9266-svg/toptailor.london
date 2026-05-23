@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Script from 'next/script'
+import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
@@ -20,6 +20,92 @@ const breadcrumb = {
 }
 
 const posts = [
+  // ── New FAQ posts (May 2026) ──────────────────────────────────────────────
+  {
+    slug: 'what-is-a-good-suit-fit',
+    title: 'What Is a Good Suit Fit? 5 Checks Every Man Should Know',
+    excerpt: 'The five points a master tailor checks on every suit — from shoulders to trouser break — and why getting each one right matters.',
+    date: '2026-05-23',
+    readTime: '7 min read',
+  },
+  {
+    slug: 'alterations-that-make-suit-look-expensive',
+    title: '5 Alterations That Make a Suit Look More Expensive',
+    excerpt: 'The alterations with the highest visual return — transforming an average off-the-peg suit into something that looks genuinely expensive.',
+    date: '2026-05-23',
+    readTime: '6 min read',
+  },
+  {
+    slug: 'how-long-do-alterations-take',
+    title: 'How Long Do Clothing Alterations Take in London?',
+    excerpt: 'From simple hems to shoulder reconstruction — realistic turnaround times for every type of alteration, and when same-day service is possible.',
+    date: '2026-05-23',
+    readTime: '5 min read',
+  },
+  {
+    slug: 'how-to-prepare-for-tailor-visit',
+    title: 'How to Prepare for a Tailor\'s Home Visit',
+    excerpt: 'What to wear, what to gather, and how to communicate what you want — the six things that make a home tailor visit more effective.',
+    date: '2026-05-23',
+    readTime: '5 min read',
+  },
+  {
+    slug: 'is-it-worth-altering-cheap-clothes',
+    title: 'Is It Worth Altering Cheap Clothes?',
+    excerpt: 'An honest guide to the value equation — when altering inexpensive garments makes financial sense and when it does not.',
+    date: '2026-05-23',
+    readTime: '5 min read',
+  },
+  {
+    slug: 'how-to-make-jeans-fit-better',
+    title: 'How to Make Jeans Fit Better — Ask a Tailor',
+    excerpt: 'Tapering, waist adjustment, same-finish hem — what a tailor can do to a pair of jeans, and what each alteration typically costs.',
+    date: '2026-05-23',
+    readTime: '5 min read',
+  },
+  {
+    slug: 'what-can-a-tailor-do-to-a-shirt',
+    title: 'What Can a Tailor Do to a Shirt?',
+    excerpt: 'Body slimming, sleeve shortening, length reduction, cuff adjustment — the full range of shirt alterations and typical costs.',
+    date: '2026-05-23',
+    readTime: '5 min read',
+  },
+  {
+    slug: 'can-a-tailor-make-clothes-bigger',
+    title: 'Can a Tailor Make Clothes Bigger?',
+    excerpt: 'Yes — by letting out seams. A guide to when it works, how much bigger a garment can be made, and the one limit that cannot be overcome.',
+    date: '2026-05-23',
+    readTime: '5 min read',
+  },
+  {
+    slug: 'how-many-sizes-can-a-suit-be-altered',
+    title: 'How Many Sizes Can a Suit Be Altered?',
+    excerpt: 'The structural limits of suit alterations — how much the body can be taken in or let out, and why shoulders are the hardest constraint.',
+    date: '2026-05-23',
+    readTime: '6 min read',
+  },
+  {
+    slug: 'dress-alteration-cost-london',
+    title: 'How Much Do Dress Alterations Cost in London?',
+    excerpt: 'Transparent pricing for dress shortening, taking in, zip replacement, and specialist work on delicate or beaded fabrics.',
+    date: '2026-05-23',
+    readTime: '5 min read',
+  },
+  {
+    slug: 'trouser-alteration-cost-london',
+    title: 'How Much Do Trouser Alterations Cost in London?',
+    excerpt: 'A full price guide for trouser hemming, tapering, waist adjustment, and pocket work — plus what makes some trouser jobs more expensive.',
+    date: '2026-05-23',
+    readTime: '4 min read',
+  },
+  {
+    slug: 'can-a-tailor-fix-a-broken-zip',
+    title: 'Can a Tailor Fix a Broken Zip?',
+    excerpt: 'Yes — from slider repair to full replacement on jackets, dresses, and trousers. What each type of zip job involves and what it costs.',
+    date: '2026-05-23',
+    readTime: '4 min read',
+  },
+  // ── Original posts ────────────────────────────────────────────────────────
   {
     slug: 'complete-guide-suit-alterations-london',
     title: 'The Complete Guide to Suit Alterations in London',
@@ -149,22 +235,33 @@ export default function BlogIndex() {
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="border border-divider p-8 hover:border-hunter hover:bg-hunter/5 transition-colors duration-200 group"
+                className="border border-divider hover:border-hunter hover:bg-hunter/5 transition-colors duration-200 group overflow-hidden"
               >
-                <div className="flex gap-4 font-sans text-xs text-muted mb-4">
-                  <time dateTime={post.date}>{new Date(post.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</time>
-                  <span>·</span>
-                  <span>{post.readTime}</span>
+                <div className="relative w-full h-44 overflow-hidden">
+                  <Image
+                    src="/images/tailor.jpg"
+                    alt={post.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
                 </div>
-                <h2 className="font-playfair text-xl font-medium text-charcoal group-hover:text-hunter mb-3 leading-snug">
-                  {post.title}
-                </h2>
-                <p className="font-sans font-light text-muted text-sm leading-relaxed">
-                  {post.excerpt}
-                </p>
-                <span className="inline-block mt-6 font-sans text-xs font-medium text-hunter uppercase tracking-widest">
-                  Read article →
-                </span>
+                <div className="p-8">
+                  <div className="flex gap-4 font-sans text-xs text-muted mb-4">
+                    <time dateTime={post.date}>{new Date(post.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</time>
+                    <span>·</span>
+                    <span>{post.readTime}</span>
+                  </div>
+                  <h2 className="font-playfair text-xl font-medium text-charcoal group-hover:text-hunter mb-3 leading-snug">
+                    {post.title}
+                  </h2>
+                  <p className="font-sans font-light text-muted text-sm leading-relaxed">
+                    {post.excerpt}
+                  </p>
+                  <span className="inline-block mt-6 font-sans text-xs font-medium text-hunter uppercase tracking-widest">
+                    Read article →
+                  </span>
+                </div>
               </Link>
             ))}
           </div>
