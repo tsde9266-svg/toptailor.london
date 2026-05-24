@@ -28,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/barbour-alterations-london`,        lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
 
     // Hub pages
+    { url: `${base}/tailor-near-me`,                    lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.97 },
     { url: `${base}/locations`,                         lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${base}/services`,                          lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
 
@@ -72,6 +73,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/blog/suit-alterations-at-home-london`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${base}/blog/why-mayfair-clients-choose-visiting-tailor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/difference-between-alterations-and-bespoke`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
+
+    // Blog — FAQ posts
+    { url: `${base}/blog/what-is-a-good-suit-fit`,            lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${base}/blog/alterations-that-make-suit-look-expensive`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${base}/blog/how-long-do-alterations-take`,       lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${base}/blog/how-to-prepare-for-tailor-visit`,    lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/blog/is-it-worth-altering-cheap-clothes`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/blog/how-to-make-jeans-fit-better`,       lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/blog/what-can-a-tailor-do-to-a-shirt`,    lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/blog/can-a-tailor-make-clothes-bigger`,   lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/blog/how-many-sizes-can-a-suit-be-altered`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/blog/dress-alteration-cost-london`,       lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${base}/blog/trouser-alteration-cost-london`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${base}/blog/can-a-tailor-fix-a-broken-zip`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.75 },
 
     // Legal
     { url: `${base}/terms`,                             lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.3 },
