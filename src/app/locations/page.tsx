@@ -174,7 +174,7 @@ export default function LocationsPage() {
             <em className="font-playfair italic">Collection Tailoring Across Central London</em>
           </h1>
           <p className="font-sans font-light text-lg text-muted max-w-2xl leading-relaxed">
-            Fine Tailors collects from all Central London postcodes. Find your area below — each page covers local streets, client types, and exactly how the collection service works for your neighbourhood.
+            Fine Tailors collects from all Central London postcodes. Find your area below — each page covers local streets, client types, and exactly how the collection service works for your neighbourhood. Or visit the <Link href="/tailor-near-me" className="text-hunter underline">tailor near me</Link> hub page for a full overview.
           </p>
         </div>
 

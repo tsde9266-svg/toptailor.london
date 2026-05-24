@@ -131,7 +131,7 @@ export default function ClothingAlterationsLondon() {
         <div className="px-8 lg:px-24 py-16 border-b border-divider max-w-4xl">
           <h2 className="font-playfair text-[1.75rem] font-medium mb-6">Areas We Cover</h2>
           <p className="font-sans font-light text-muted leading-relaxed mb-6">
-            We cover all of central London for clothing alterations at home:
+            We cover all of central London for clothing alterations at home. Searching for a <Link href="/tailor-near-me" className="text-hunter underline">tailor near me</Link>? See every postcode we serve.
           </p>
           <div className="flex flex-wrap gap-2">
             {[

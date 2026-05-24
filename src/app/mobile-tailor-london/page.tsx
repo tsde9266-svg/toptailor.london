@@ -176,7 +176,7 @@ export default function MobileTailorLondon() {
         <div className="px-8 lg:px-24 py-16 border-b border-divider">
           <h2 className="font-playfair text-[1.75rem] font-medium mb-6">Areas We Cover in London</h2>
           <p className="font-sans font-light text-muted mb-8 max-w-2xl">
-            Our collection service covers all of Central London. Select your area to learn more:
+            Our collection service covers all of Central London. Select your area to learn more, or see the full <Link href="/tailor-near-me" className="text-hunter underline">tailor near me</Link> coverage page.
           </p>
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 max-w-2xl">
             {areas.map(({ name, href }) => (

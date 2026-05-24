@@ -20,6 +20,49 @@ const breadcrumb = {
 }
 
 const posts = [
+  // ── Tailor near me — local guides (May 2026) ─────────────────────────────
+  {
+    slug: 'tailor-near-me-mayfair',
+    title: 'Tailor Near Me in Mayfair London — Collection Service',
+    excerpt: 'How Fine Tailors serves Mayfair W1 — collecting from your door, altering suits and luxury garments, and returning them perfect in 5–7 days.',
+    date: '2026-05-24',
+    readTime: '5 min read',
+  },
+  {
+    slug: 'tailor-near-me-chelsea',
+    title: 'Tailor Near Me in Chelsea London — Collection Service',
+    excerpt: 'The answer to "tailor near me" in Chelsea SW3/SW10 — a collection service that comes to your King\'s Road or Cheyne Walk address.',
+    date: '2026-05-24',
+    readTime: '5 min read',
+  },
+  {
+    slug: 'tailor-near-me-kensington',
+    title: 'Tailor Near Me in Kensington London — Collection Service',
+    excerpt: 'Fine Tailors collects from your Kensington W8 door, alters suits and luxury garments, and returns them pressed and perfect in 5–7 days.',
+    date: '2026-05-24',
+    readTime: '5 min read',
+  },
+  {
+    slug: 'tailor-near-me-canary-wharf',
+    title: 'Tailor Near Me in Canary Wharf — Collection Service',
+    excerpt: 'Suit alterations for finance professionals in E14 — collected from your Canada Square apartment or office, returned in 5–7 days.',
+    date: '2026-05-24',
+    readTime: '5 min read',
+  },
+  {
+    slug: 'tailor-near-me-shoreditch',
+    title: 'Tailor Near Me in Shoreditch London — Collection Service',
+    excerpt: 'From blazers for client meetings to leather jackets and vintage finds — Fine Tailors collects from your E1/EC2A door and handles it all.',
+    date: '2026-05-24',
+    readTime: '5 min read',
+  },
+  {
+    slug: 'tailor-near-me-city-of-london',
+    title: 'Tailor Near Me in City of London — Collection Service',
+    excerpt: 'The Square Mile\'s collection-based tailoring service — suits collected from EC1–EC4 offices and apartments, returned in 5–7 days.',
+    date: '2026-05-24',
+    readTime: '5 min read',
+  },
   // ── New FAQ posts (May 2026) ──────────────────────────────────────────────
   {
     slug: 'what-is-a-good-suit-fit',

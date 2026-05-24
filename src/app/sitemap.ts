@@ -74,6 +74,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/blog/why-mayfair-clients-choose-visiting-tailor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/difference-between-alterations-and-bespoke`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
 
+    // Blog — Tailor near me local guides
+    { url: `${base}/blog/tailor-near-me-mayfair`,        lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${base}/blog/tailor-near-me-chelsea`,        lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${base}/blog/tailor-near-me-kensington`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${base}/blog/tailor-near-me-canary-wharf`,   lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${base}/blog/tailor-near-me-shoreditch`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${base}/blog/tailor-near-me-city-of-london`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+
     // Blog — FAQ posts
     { url: `${base}/blog/what-is-a-good-suit-fit`,            lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${base}/blog/alterations-that-make-suit-look-expensive`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },

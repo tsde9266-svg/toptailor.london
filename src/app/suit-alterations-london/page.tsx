@@ -93,7 +93,7 @@ export default function SuitAlterationsLondon() {
             <em className="font-playfair italic">Collected From Your Door</em>
           </h1>
           <p className="font-sans font-light text-lg text-muted max-w-2xl leading-relaxed">
-            Fine Tailors provides professional <strong>suit alterations in London</strong> with a full collection and return service. We collect your suit from your door, alter it in our specialist workshop, and return it pressed and perfect — without you leaving home. Garments are fully insured while in our care.
+            Fine Tailors provides professional <strong>suit alterations in London</strong> with a full collection and return service. We collect your suit from your door, alter it in our specialist workshop, and return it pressed and perfect — without you leaving home. Garments are fully insured while in our care. Searching for a <Link href="/tailor-near-me" className="text-hunter underline">tailor near me</Link>? We cover all central London postcodes.
           </p>
           <div className="flex gap-4 flex-wrap mt-8">
             <Link href="/get-started" className="bg-hunter text-parchment px-10 py-4 font-sans text-xs font-medium tracking-[0.15em] uppercase hover:bg-[#1E3D17] transition-colors">
