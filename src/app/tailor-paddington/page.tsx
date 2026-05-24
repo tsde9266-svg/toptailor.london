@@ -6,11 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor in Paddington London | Collection Service | Fine Tailors',
-  description: 'Collection-based tailor in Paddington. We collect from your W2 door, alter suits and clothing, and return pressed and perfect in 5–7 days. No shop visit needed.',
+  title: 'Tailor Near Me in Paddington London | Fine Tailors',
+  description: 'Searching for a tailor near you in Paddington? We collect from your W2 door, alter suits and clothing, and return pressed and perfect in 5–7 days. No shop visit needed.',
+  keywords: ['tailor near me Paddington', 'tailor near me Paddington London', 'Paddington tailor near me', 'nearest tailor Paddington', 'tailor Paddington'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-paddington' },
   openGraph: {
-    title: 'Tailor in Paddington London | Collection Service | Fine Tailors',
+    title: 'Tailor Near Me in Paddington London | Fine Tailors',
     url: 'https://www.finetailors.co.uk/tailor-paddington',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Paddington, London' }],
   },
@@ -32,7 +33,7 @@ const localBusiness = {
   url: 'https://www.finetailors.co.uk',
   telephone: '+447438145169',
   priceRange: '££',
-  areaServed: { '@type': 'Neighborhood', name: 'Paddington' },
+  areaServed: { '@type': 'Neighborhood', name: 'Paddington', containedInPlace: { '@type': 'City', name: 'London' } },
   description: 'Collection-based tailoring service covering Paddington. Garments collected from W2 addresses including hotels and apartments, altered, and returned in 5–7 days.',
 }
 
@@ -154,11 +155,14 @@ export default function TailorPaddington() {
 
         <div className="px-8 lg:px-24 py-16 border-t border-divider">
           <h2 className="font-playfair text-[1.75rem] font-medium mb-4">Book a Collection in Paddington</h2>
-          <p className="font-sans font-light text-muted mb-6 max-w-lg leading-relaxed">
+          <p className="font-sans font-light text-muted mb-4 max-w-lg leading-relaxed">
             We also cover nearby{' '}
             <Link href="/tailor-notting-hill" className="text-hunter underline">Notting Hill</Link>,{' '}
             <Link href="/tailor-marylebone" className="text-hunter underline">Marylebone</Link> and{' '}
             <Link href="/tailor-kensington" className="text-hunter underline">Kensington</Link>.
+          </p>
+          <p className="font-sans text-sm font-light text-muted mb-6 max-w-lg leading-relaxed">
+            Looking for a <Link href="/tailor-near-me" className="text-hunter underline">tailor near me</Link> across all of London? See every area we cover.
           </p>
           <p className="font-sans text-sm font-light text-muted mb-6 max-w-lg leading-relaxed">
             Services: <Link href="/suit-alterations-london" className="text-hunter underline">suit alterations</Link> · <Link href="/dress-alterations-london" className="text-hunter underline">dress alterations</Link> · <Link href="/trouser-alterations-london" className="text-hunter underline">trouser alterations</Link>.

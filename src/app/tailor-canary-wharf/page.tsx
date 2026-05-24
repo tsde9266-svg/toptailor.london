@@ -6,11 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor in Canary Wharf London | Collection Service | Fine Tailors',
-  description: 'Collection-based tailor in Canary Wharf. We collect from your E14 door, alter suits for finance professionals, and return pressed and perfect in 5–7 days.',
+  title: 'Tailor Near Me in Canary Wharf London | Fine Tailors',
+  description: 'Searching for a tailor near you in Canary Wharf? We collect from your E14 door, alter suits for finance professionals, and return pressed and perfect in 5–7 days.',
+  keywords: ['tailor near me Canary Wharf', 'tailor near me Canary Wharf London', 'Canary Wharf tailor near me', 'nearest tailor Canary Wharf', 'tailor Canary Wharf'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-canary-wharf' },
   openGraph: {
-    title: 'Tailor in Canary Wharf London | Collection Service | Fine Tailors',
+    title: 'Tailor Near Me in Canary Wharf London | Fine Tailors',
     url: 'https://www.finetailors.co.uk/tailor-canary-wharf',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Canary Wharf, London' }],
   },
@@ -32,7 +33,7 @@ const localBusiness = {
   url: 'https://www.finetailors.co.uk',
   telephone: '+447438145169',
   priceRange: '££',
-  areaServed: { '@type': 'Neighborhood', name: 'Canary Wharf' },
+  areaServed: { '@type': 'Neighborhood', name: 'Canary Wharf', containedInPlace: { '@type': 'City', name: 'London' } },
   description: 'Collection-based tailoring service covering Canary Wharf. Garments collected from E14 addresses, altered, and returned in 5–7 days.',
 }
 
@@ -154,11 +155,14 @@ export default function TailorCanaryWharf() {
 
         <div className="px-8 lg:px-24 py-16 border-t border-divider">
           <h2 className="font-playfair text-[1.75rem] font-medium mb-4">Book a Collection in Canary Wharf</h2>
-          <p className="font-sans font-light text-muted mb-6 max-w-lg leading-relaxed">
+          <p className="font-sans font-light text-muted mb-4 max-w-lg leading-relaxed">
             We also cover nearby{' '}
             <Link href="/tailor-city-of-london" className="text-hunter underline">City of London</Link>,{' '}
             <Link href="/tailor-shoreditch" className="text-hunter underline">Shoreditch</Link> and{' '}
             <Link href="/tailor-clerkenwell" className="text-hunter underline">Clerkenwell</Link>.
+          </p>
+          <p className="font-sans text-sm font-light text-muted mb-6 max-w-lg leading-relaxed">
+            Looking for a <Link href="/tailor-near-me" className="text-hunter underline">tailor near me</Link> across all of London? See every area we cover.
           </p>
           <div className="flex gap-6 flex-wrap items-center">
             <Link href="/get-started" className="bg-hunter text-parchment px-10 py-4 font-sans text-xs font-medium tracking-[0.15em] uppercase hover:bg-[#1E3D17] transition-colors">
