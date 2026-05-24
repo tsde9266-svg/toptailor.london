@@ -7,10 +7,6 @@ const faqs = [
     a: 'Book a collection slot online or by phone. At your chosen time we collect your garments directly from your door — no need to carry anything or visit a shop. We alter every piece in our workshop, then return everything pressed and perfect to your door, usually within 5–7 working days.',
   },
   {
-    q: 'Do you enter my home?',
-    a: 'No. Fine Tailors is a collection-based service — your garments are collected from your door and returned to your door. No tailor enters your home. This keeps things discreet, convenient, and means your garments are never left sitting in a public shop.',
-  },
-  {
     q: 'How much do alterations cost?',
     a: 'Trouser shortening from £18. Trouser tapering from £18. Jacket sleeve shortening from £30. Jacket back take-in from £18. Plain dress shortening from £25. Dress take-in from £28. Coat shortening from £45. Leather jacket and wedding dress alterations are quoted on inspection. Minimum order £20.',
   },
