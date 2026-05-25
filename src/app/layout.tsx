@@ -192,6 +192,24 @@ const siteSchema = {
     ],
   },
   foundingDate: '2014',
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 51.5074,
+    longitude: -0.1278,
+  },
+  hasMap: 'https://maps.google.com/?q=Fine+Tailors+London',
+  openingHoursSpecification: [
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '08:00', closes: '20:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '09:00', closes: '18:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Sunday', opens: '10:00', closes: '16:00' },
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+447438145169',
+    contactType: 'customer service',
+    areaServed: 'GB',
+    availableLanguage: 'English',
+  },
   sameAs: [
     'https://www.instagram.com/oneclicktailor',
     'https://www.facebook.com/oneclicktailor',

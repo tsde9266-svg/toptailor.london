@@ -6,11 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor in Fitzrovia London | Collection Service | Fine Tailors',
-  description: 'Collection-based tailor in Fitzrovia. We collect from your W1T/W1W door, alter for media and creative professionals, and return pressed and perfect in 5–7 days.',
+  title: 'Tailor Near Me in Fitzrovia London | Fine Tailors',
+  description: 'Searching for a tailor near you in Fitzrovia? We collect from your W1T/W1W door, alter for media and creative professionals, and return pressed and perfect in 5–7 days.',
+  keywords: ['tailor Fitzrovia', 'tailor near me Fitzrovia', 'tailor near me Fitzrovia London', 'Fitzrovia tailor near me', 'nearest tailor Fitzrovia'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-fitzrovia' },
   openGraph: {
-    title: 'Tailor in Fitzrovia London | Collection Service | Fine Tailors',
+    title: 'Tailor Near Me in Fitzrovia London | Fine Tailors',
     url: 'https://www.finetailors.co.uk/tailor-fitzrovia',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Fitzrovia, London' }],
   },

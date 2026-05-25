@@ -6,11 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor in Pimlico London | Collection Service | Fine Tailors',
-  description: 'Collection-based tailor in Pimlico. We collect from your SW1V door, alter suits and clothing, and return pressed and perfect in 5–7 days. No shop visit needed.',
+  title: 'Tailor Near Me in Pimlico London | Fine Tailors',
+  description: 'Searching for a tailor near you in Pimlico? We collect from your SW1V door, alter suits and clothing, and return pressed and perfect in 5–7 days.',
+  keywords: ['tailor Pimlico', 'tailor near me Pimlico', 'tailor near me Pimlico London', 'Pimlico tailor near me', 'nearest tailor Pimlico'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-pimlico' },
   openGraph: {
-    title: 'Tailor in Pimlico London | Collection Service | Fine Tailors',
+    title: 'Tailor Near Me in Pimlico London | Fine Tailors',
     url: 'https://www.finetailors.co.uk/tailor-pimlico',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Pimlico, London' }],
   },

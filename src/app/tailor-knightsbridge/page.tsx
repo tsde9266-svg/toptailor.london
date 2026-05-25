@@ -6,11 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor in Knightsbridge London | Collection Service | Fine Tailors',
-  description: 'Collection-based tailor in Knightsbridge. We collect from your SW1X/SW7 door, alter luxury garments to a perfect fit, and return in 5–7 days. No shop visit.',
+  title: 'Tailor Near Me in Knightsbridge London | Fine Tailors',
+  description: 'Searching for a tailor near you in Knightsbridge? We collect from your SW1X/SW7 door, alter luxury garments to a perfect fit, and return in 5–7 days.',
+  keywords: ['tailor Knightsbridge', 'tailor near me Knightsbridge', 'tailor near me Knightsbridge London', 'Knightsbridge tailor near me', 'nearest tailor Knightsbridge'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-knightsbridge' },
   openGraph: {
-    title: 'Tailor in Knightsbridge London | Collection Service | Fine Tailors',
+    title: 'Tailor Near Me in Knightsbridge London | Fine Tailors',
     url: 'https://www.finetailors.co.uk/tailor-knightsbridge',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Knightsbridge, London' }],
   },

@@ -6,11 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor in Belgravia London | Collection Service | Fine Tailors',
-  description: 'Collection-based tailor in Belgravia. We collect from your SW1W/SW1X door, alter to a perfect fit, and return pressed and perfect in 5–7 days. No shop visit.',
+  title: 'Tailor Near Me in Belgravia London | Fine Tailors',
+  description: 'Searching for a tailor near you in Belgravia? We collect from your SW1W/SW1X door, alter to a perfect fit, and return pressed and perfect in 5–7 days.',
+  keywords: ['tailor Belgravia', 'tailor near me Belgravia', 'tailor near me Belgravia London', 'Belgravia tailor near me', 'nearest tailor Belgravia'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-belgravia' },
   openGraph: {
-    title: 'Tailor in Belgravia London | Collection Service | Fine Tailors',
+    title: 'Tailor Near Me in Belgravia London | Fine Tailors',
     url: 'https://www.finetailors.co.uk/tailor-belgravia',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Belgravia, London' }],
   },

@@ -6,11 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor in Marylebone London | Collection Service | Fine Tailors',
-  description: 'Collection-based tailor in Marylebone. We collect from your W1G/W1U door, alter to a perfect fit, and return pressed and perfect in 5–7 days. No shop visit.',
+  title: 'Tailor Near Me in Marylebone London | Fine Tailors',
+  description: 'Searching for a tailor near you in Marylebone? We collect from your W1G/W1U door, alter to a perfect fit, and return pressed and perfect in 5–7 days.',
+  keywords: ['tailor Marylebone', 'tailor near me Marylebone', 'tailor near me Marylebone London', 'Marylebone tailor near me', 'nearest tailor Marylebone'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-marylebone' },
   openGraph: {
-    title: 'Tailor in Marylebone London | Collection Service | Fine Tailors',
+    title: 'Tailor Near Me in Marylebone London | Fine Tailors',
     url: 'https://www.finetailors.co.uk/tailor-marylebone',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Marylebone, London' }],
   },

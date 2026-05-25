@@ -6,11 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor in Bloomsbury London | Collection Service | Fine Tailors',
-  description: 'Collection-based tailor in Bloomsbury. We collect from your WC1B/WC1N door, alter suits and clothing, and return pressed and perfect in 5–7 days. No shop visit.',
+  title: 'Tailor Near Me in Bloomsbury London | Fine Tailors',
+  description: 'Searching for a tailor near you in Bloomsbury? We collect from your WC1B/WC1N door, alter suits and clothing, and return pressed and perfect in 5–7 days.',
+  keywords: ['tailor Bloomsbury', 'tailor near me Bloomsbury', 'tailor near me Bloomsbury London', 'Bloomsbury tailor near me', 'nearest tailor Bloomsbury'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-bloomsbury' },
   openGraph: {
-    title: 'Tailor in Bloomsbury London | Collection Service | Fine Tailors',
+    title: 'Tailor Near Me in Bloomsbury London | Fine Tailors',
     url: 'https://www.finetailors.co.uk/tailor-bloomsbury',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Bloomsbury, London' }],
   },

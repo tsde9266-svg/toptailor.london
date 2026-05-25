@@ -6,11 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor in South Kensington London | Collection Service | Fine Tailors',
-  description: 'Collection-based tailor in South Kensington. We collect from your SW7 door, alter to a perfect fit, and return pressed and perfect in 5–7 days. No shop visit.',
+  title: 'Tailor Near Me in South Kensington London | Fine Tailors',
+  description: 'Searching for a tailor near you in South Kensington? We collect from your SW7 door, alter to a perfect fit, and return pressed and perfect in 5–7 days.',
+  keywords: ['tailor South Kensington', 'tailor near me South Kensington', 'tailor near me South Kensington London', 'South Kensington tailor near me', 'nearest tailor South Kensington'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-south-kensington' },
   openGraph: {
-    title: 'Tailor in South Kensington London | Collection Service | Fine Tailors',
+    title: 'Tailor Near Me in South Kensington London | Fine Tailors',
     url: 'https://www.finetailors.co.uk/tailor-south-kensington',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in South Kensington, London' }],
   },

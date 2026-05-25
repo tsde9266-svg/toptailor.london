@@ -36,6 +36,18 @@ const aboutSchema = {
   about: { '@id': 'https://www.finetailors.co.uk/#business' },
 }
 
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': 'https://www.finetailors.co.uk/about#tailor',
+  name: 'Fine Tailors Master Tailor',
+  jobTitle: 'Master Tailor',
+  description: 'Professional master tailor with over 10 years of experience serving Central London clients. Specialising in suit alterations, dress alterations, bespoke tailoring and collection-based garment care.',
+  knowsAbout: ['Suit Alterations', 'Dress Alterations', 'Bespoke Tailoring', 'Garment Construction', 'Fabric Types', 'Wedding Dress Alterations', 'Leather Garment Work'],
+  worksFor: { '@id': 'https://www.finetailors.co.uk/#business' },
+  url: 'https://www.finetailors.co.uk/about',
+}
+
 const steps = [
   { num: '01', title: 'Book', body: 'Choose your services and book a collection slot online or by phone. We confirm a time at your address.' },
   { num: '02', title: 'We Collect', body: 'At your chosen time, we collect your garments from your door. No need to travel anywhere.' },
@@ -50,6 +62,8 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }} />
+      <script type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
       <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
