@@ -24,10 +24,10 @@ export async function PATCH(
   const customer = body.customer as Invoice['customer']
   const items    = body.items    as Invoice['items']
 
-  if (!customer?.name || !customer?.email || !items?.length) {
+  if (!customer?.name || !items?.length) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 422 })
   }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) {
+  if (customer.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) {
     return NextResponse.json({ error: 'Invalid customer email' }, { status: 422 })
   }
   if (items.some((i) => !Number.isFinite(i.price) || i.price < 0)) {

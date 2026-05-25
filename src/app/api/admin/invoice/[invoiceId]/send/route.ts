@@ -20,6 +20,7 @@ export async function POST(req: NextRequest, { params }: { params: { invoiceId: 
     return NextResponse.json({ error: 'Storage unavailable' }, { status: 503 })
   }
   if (!invoice) return NextResponse.json({ error: 'Invoice not found' }, { status: 404 })
+  if (!invoice.customer.email) return NextResponse.json({ error: 'No email address on file for this customer' }, { status: 422 })
 
   const rows = invoice.items.map(i =>
     `<tr><td style="padding:10px 0;font-family:Georgia,serif;font-size:15px;color:#2C2C2C;border-bottom:1px solid #E8E2D8;">${i.name}</td><td style="padding:10px 0;text-align:right;font-family:Georgia,serif;font-size:15px;color:#2A5220;font-weight:600;border-bottom:1px solid #E8E2D8;">£${i.price}</td></tr>`

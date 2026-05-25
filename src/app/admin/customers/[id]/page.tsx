@@ -42,7 +42,7 @@ export default async function CustomerProfilePage({ params }: { params: { id: st
     ])
   } catch { notFound() }
 
-  const myInvoices      = invoices.filter(i => i.customer.email.toLowerCase() === emailLower)
+  const myInvoices      = invoices.filter(i => i.customer.email?.toLowerCase() === emailLower)
   const myOrders        = orders.filter(o => o.customer.email.toLowerCase() === emailLower)
   const myBookings      = bookings.filter(b => b.attendee.email.toLowerCase() === emailLower)
   const myConsultations = consultations.filter(c => c.email?.toLowerCase() === emailLower)

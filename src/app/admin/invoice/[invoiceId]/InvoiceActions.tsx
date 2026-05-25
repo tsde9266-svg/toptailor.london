@@ -8,7 +8,7 @@ type Props = {
   invoiceNumber:  string
   invoiceUrl:     string
   status:         InvoiceStatus
-  customerEmail:  string
+  customerEmail?:  string
   customerPhone?: string
   notes?:         string
 }
@@ -141,15 +141,21 @@ export default function InvoiceActions({
           </button>
         </div>
 
-        {emailDone ? (
-          <p className="font-sans text-[0.8125rem] text-green-700 bg-green-50 border border-green-200 px-4 py-2.5">
-            Email sent to {customerEmail} ✓
-          </p>
+        {customerEmail ? (
+          emailDone ? (
+            <p className="font-sans text-[0.8125rem] text-green-700 bg-green-50 border border-green-200 px-4 py-2.5">
+              Email sent to {customerEmail} ✓
+            </p>
+          ) : (
+            <button onClick={sendEmail} disabled={sending}
+              className="w-full text-center border border-hunter text-hunter py-2.5 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:bg-hunter hover:text-parchment transition-colors disabled:opacity-50">
+              {sending ? 'Sending…' : `Email Invoice → ${customerEmail}`}
+            </button>
+          )
         ) : (
-          <button onClick={sendEmail} disabled={sending}
-            className="w-full text-center border border-hunter text-hunter py-2.5 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:bg-hunter hover:text-parchment transition-colors disabled:opacity-50">
-            {sending ? 'Sending…' : `Email Invoice → ${customerEmail}`}
-          </button>
+          <p className="font-sans text-[0.75rem] text-muted border border-divider px-4 py-2.5 text-center">
+            No email on file — share the link instead
+          </p>
         )}
         {emailErr && (
           <details className="mt-1">

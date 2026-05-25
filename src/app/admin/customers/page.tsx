@@ -54,6 +54,7 @@ export default async function CustomersPage() {
   consultations.forEach(c => c.email && upsert(c.email, c.name, c.phone, c.createdAt))
 
   invoices.forEach(inv => {
+    if (!inv.customer.email) return
     const key = inv.customer.email.toLowerCase().trim()
     upsert(inv.customer.email, inv.customer.name, inv.customer.phone, inv.createdAt)
     const row = map.get(key)
@@ -66,6 +67,7 @@ export default async function CustomersPage() {
   // Tags
   const emailInvoiceCounts = new Map<string, number>()
   invoices.forEach(inv => {
+    if (!inv.customer.email) return
     const k = inv.customer.email.toLowerCase()
     emailInvoiceCounts.set(k, (emailInvoiceCounts.get(k) ?? 0) + 1)
   })

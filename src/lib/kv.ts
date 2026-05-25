@@ -254,11 +254,11 @@ export type Invoice = {
   orderId?:        string
   customer: {
     name:     string
-    email:    string
+    email?:   string
     phone?:   string
     address?: string
   }
-  items:           Array<{ name: string; price: number; qty?: number; priceEach?: number }>
+  items:           Array<{ name: string; price: number; qty?: number; priceEach?: number; garment?: string }>
   discountPercent?: number
   discountAmount?:  number
   discountType?:   'voucher' | 'manual'
