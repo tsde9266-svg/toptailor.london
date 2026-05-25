@@ -64,7 +64,7 @@ const faqSchema = {
       name: 'How much do wedding dress alterations cost in London?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Wedding dress alteration costs in London vary significantly by gown complexity. Simple hemming on a straight gown may cost £80–£120. Complex work on a layered ball gown — multiple hem layers, bodice adjustment, bustle fitting — can cost £200–£400 or more. Every gown is quoted individually after inspection.',
+        text: 'Wedding dress alteration costs in London vary significantly by gown complexity — the fabric, construction, number of layers and extent of work all affect the price. We inspect every gown before quoting, so you receive an accurate written price before any work begins.',
       },
     },
     {
@@ -206,29 +206,15 @@ export default function WeddingDressAlterationsLondonBlog() {
           <h2 className="font-playfair text-[1.75rem] font-medium mb-4 mt-10">What Wedding Dress Alterations Cost in London</h2>
 
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
-            Wedding dress alteration costs in London are highly variable — the most honest answer is that every gown is different. Here are typical ranges:
+            Wedding dress alteration costs in London are highly variable — the most honest answer is that every gown is different. The fabric, construction, number of layers, and extent of work all affect the price significantly.
           </p>
 
-          <div className="border border-divider divide-y divide-divider mb-6">
-            {[
-              ['Simple hem (straight gown)', '£80–£120', 'Single-layer satin or crepe'],
-              ['Layered hem (tulle/lace)', '£150–£300+', 'Multiple layers, each cut separately'],
-              ['Bodice taking-in', '£80–£150', 'Depends on construction and lace'],
-              ['Strap adjustment', '£40–£80', 'Per strap'],
-              ['Bustle fitting', '£60–£120', 'Depends on bustle type'],
-              ['Full package (hem + bodice + bustle)', '£300–£500+', 'Complex gowns — quoted individually'],
-            ].map(([service, range, note]) => (
-              <div key={service} className="flex flex-wrap justify-between px-4 py-3 gap-2">
-                <div>
-                  <span className="font-sans font-light text-muted text-sm block">{service}</span>
-                  <span className="font-sans font-light text-muted/70 text-xs">{note}</span>
-                </div>
-                <span className="font-sans font-medium text-charcoal text-sm">{range}</span>
-              </div>
-            ))}
+          <div className="border border-divider p-6 mb-8">
+            <p className="font-playfair text-lg font-medium text-charcoal mb-3">We will look at your dress and give you a quote.</p>
+            <p className="font-sans font-light text-muted leading-relaxed text-sm">
+              Every gown is inspected before any price is discussed. Once we have seen the construction, fabric and what work is required, we provide a written quote covering everything. There are no surprises.
+            </p>
           </div>
-
-          <p className="font-sans text-sm font-light text-muted mb-8">All Fine Tailors wedding dress work is quoted individually after inspection. Collection and return to your London address included.</p>
 
           <h2 className="font-playfair text-[1.75rem] font-medium mb-4 mt-10">Why Collection Is Safer for a Wedding Dress</h2>
 
