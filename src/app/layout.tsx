@@ -192,6 +192,19 @@ const siteSchema = {
     ],
   },
   foundingDate: '2014',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'London',
+    addressRegion: 'England',
+    addressCountry: 'GB',
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '5.0',
+    reviewCount: '3',
+    bestRating: '5',
+    worstRating: '1',
+  },
   geo: {
     '@type': 'GeoCoordinates',
     latitude: 51.5074,

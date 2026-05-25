@@ -168,7 +168,7 @@ export default async function Home() {
             Areas We Visit
           </h2>
           <p className="font-sans font-light text-muted max-w-xl mb-12 leading-relaxed">
-            Your central London mobile tailor — we visit homes, apartments and offices across the capital&apos;s most prestigious postcodes. As a dedicated <strong>mobile tailor London</strong> residents trust, we come to you for expert <strong>suit alterations</strong>, bespoke tailoring and clothing repairs. Searching for a <Link href="/tailor-near-me" className="text-hunter underline">tailor near me</Link>? See every area we cover.
+            Your central London mobile tailor — we visit homes, apartments and offices across the capital&apos;s most prestigious postcodes. As a dedicated <strong>mobile tailor London</strong> residents trust, we come to you for expert <strong>suit alterations</strong>, bespoke tailoring and clothing repairs. Searching for a <Link href="/tailor-near-me" className="text-hunter underline">tailor near me</Link> or <Link href="/alterations-near-me-london" className="text-hunter underline">alterations near me</Link>? See every area we cover.
           </p>
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
             {areas.map((area) => (

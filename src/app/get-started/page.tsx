@@ -5,9 +5,15 @@ import GetStartedQuickAdd from './GetStartedQuickAdd'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Get Started — Fine Tailors',
-  description: "Choose how you'd like to start with Fine Tailors — a free phone consultation or browse our services and book a home visit, all in one flow.",
+  title: 'Book a Tailoring Collection in London | Fine Tailors',
+  description: 'Book your collection slot online — we collect from your Central London door, alter your garments, and return them pressed and perfect in 5–7 days. Seven days a week.',
   alternates: { canonical: 'https://www.finetailors.co.uk/get-started' },
+  openGraph: {
+    title: 'Book a Tailoring Collection in London | Fine Tailors',
+    description: 'Book your collection slot online — we collect from your Central London door, alter your garments, and return them pressed and perfect in 5–7 days.',
+    url: 'https://www.finetailors.co.uk/get-started',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Fine Tailors — Book a Collection' }],
+  },
 }
 
 export default function GetStartedPage() {
