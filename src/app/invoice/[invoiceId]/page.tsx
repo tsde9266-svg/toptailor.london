@@ -114,8 +114,8 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
             <p style={{ color: 'rgba(245,240,232,0.45)', fontFamily: 'sans-serif', fontSize: '9.5px', letterSpacing: '0.28em', textTransform: 'uppercase', margin: '0 0 6px' }}>Invoice</p>
             <p style={{ color: '#F5F0E8', fontFamily: 'Georgia, serif', fontSize: '30px', margin: '0 0 5px', lineHeight: 1 }}>{invoice.number}</p>
             <p style={{ color: 'rgba(245,240,232,0.5)', fontFamily: 'sans-serif', fontSize: '11px', margin: '0 0 4px' }}>{fmtDate(invoice.createdAt)}</p>
-            <p style={{ color: 'rgba(245,240,232,0.3)', fontFamily: 'sans-serif', fontSize: '10px', margin: 0 }}>
-              {garmentCount > 0 ? `${garmentCount} garment${garmentCount !== 1 ? 's' : ''} · ` : ''}{serviceCount} service{serviceCount !== 1 ? 's' : ''}
+            <p style={{ color: 'rgba(245,240,232,0.6)', fontFamily: 'sans-serif', fontSize: '11px', margin: 0 }}>
+              {garmentCount > 0 ? `${garmentCount} garment${garmentCount !== 1 ? 's' : ''} · ` : ''}{serviceCount} item{serviceCount !== 1 ? 's' : ''}
             </p>
           </div>
 
@@ -197,22 +197,28 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
             <tbody>
               {groups.map((group, gi) =>
                 group.items.map((p, si) => {
-                  const isFirst = si === 0
-                  const isLast  = si === group.items.length - 1
-                  const rowBg   = gi % 2 === 1 ? '#FDFAF6' : '#ffffff'
+                  const isFirst   = si === 0
+                  const isLast    = si === group.items.length - 1
+                  const hasGarment = !!group.garment
+                  const rowBg     = gi % 2 === 1 ? '#FDFAF6' : '#ffffff'
+                  // Old-format items (no garment): show service name in Item column, leave Service blank
+                  const itemCell    = hasGarment ? (isFirst ? group.garment! : '') : p.service
+                  const qtyCell     = hasGarment && isFirst && group.qty ? String(group.qty) : ''
+                  const serviceCell = hasGarment ? p.service : ''
+                  const itemBold    = hasGarment ? isFirst : true
                   return (
                     <tr key={`${gi}-${si}`} style={{
                       borderBottom: isLast ? '1px solid #EDE8DF' : '1px solid #F4F0E8',
                       background: rowBg,
                     }}>
-                      <td style={{ padding: isFirst ? '13px 14px 4px' : '4px 14px', fontFamily: 'sans-serif', fontSize: '13px', color: '#1C1C1A', verticalAlign: 'top', fontWeight: isFirst ? 500 : 400 }}>
-                        {isFirst ? (group.garment ?? '') : ''}
+                      <td style={{ padding: isFirst ? '13px 14px 4px' : '4px 14px', fontFamily: 'sans-serif', fontSize: '13px', color: '#1C1C1A', verticalAlign: 'top', fontWeight: itemBold ? 500 : 400 }}>
+                        {itemCell}
                       </td>
                       <td style={{ padding: isFirst ? '13px 10px 4px' : '4px 10px', fontFamily: 'sans-serif', fontSize: '13px', color: '#777', textAlign: 'center', verticalAlign: 'top' }}>
-                        {isFirst && group.qty ? group.qty : ''}
+                        {qtyCell}
                       </td>
                       <td style={{ padding: isFirst ? '13px 14px 4px' : '4px 14px', fontFamily: 'sans-serif', fontSize: '13px', color: '#1C1C1A', verticalAlign: 'top' }}>
-                        {p.service}
+                        {serviceCell}
                       </td>
                       <td style={{ padding: isFirst ? '13px 14px 4px' : '4px 14px', fontFamily: 'sans-serif', fontSize: '13px', color: '#1C1C1A', textAlign: 'right', verticalAlign: 'top' }}>
                         £{p.original.price.toFixed(2)}

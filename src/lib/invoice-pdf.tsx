@@ -156,7 +156,7 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
             <Text style={s.invNumber}>{invoice.number}</Text>
             <Text style={s.invDate}>{fmtDate(invoice.createdAt)}</Text>
             <Text style={s.invCount}>
-              {garmentCount > 0 ? `${garmentCount} garment${garmentCount !== 1 ? 's' : ''}  ·  ` : ''}{serviceCount} service{serviceCount !== 1 ? 's' : ''}
+              {garmentCount > 0 ? `${garmentCount} garment${garmentCount !== 1 ? 's' : ''}  ·  ` : ''}{serviceCount} item{serviceCount !== 1 ? 's' : ''}
             </Text>
           </View>
         </View>
@@ -198,19 +198,21 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
           {/* Table rows — grouped by garment */}
           {groups.map((group, gi) =>
             group.items.map((p, si) => {
-              const isFirst  = si === 0
-              const isLast   = si === group.items.length - 1
-              const altBg    = gi % 2 === 1 ? s.tableRowAlt : {}
-              const sepStyle = isLast ? s.tableRowSep : {}
+              const isFirst    = si === 0
+              const isLast     = si === group.items.length - 1
+              const hasGarment = !!group.garment
+              const altBg      = gi % 2 === 1 ? s.tableRowAlt : {}
+              const sepStyle   = isLast ? s.tableRowSep : {}
+              const itemCell    = hasGarment ? (isFirst ? group.garment! : '') : p.service
+              const qtyCell     = hasGarment && isFirst && group.qty ? String(group.qty) : ''
+              const serviceCell = hasGarment ? p.service : ''
               return (
                 <View key={`${gi}-${si}`} style={[s.tableRow, altBg, sepStyle]}>
-                  <Text style={[s.tdItem, isFirst ? s.tdItemFirst : {}]}>
-                    {isFirst ? (group.garment ?? '') : ''}
+                  <Text style={[s.tdItem, (hasGarment ? isFirst : true) ? s.tdItemFirst : {}]}>
+                    {itemCell}
                   </Text>
-                  <Text style={s.tdQty}>
-                    {isFirst && group.qty ? String(group.qty) : ''}
-                  </Text>
-                  <Text style={s.tdService}>{p.service}</Text>
+                  <Text style={s.tdQty}>{qtyCell}</Text>
+                  <Text style={s.tdService}>{serviceCell}</Text>
                   <Text style={s.tdAmount}>£{p.original.price.toFixed(2)}</Text>
                 </View>
               )
