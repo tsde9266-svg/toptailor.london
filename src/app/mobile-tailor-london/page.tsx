@@ -7,7 +7,7 @@ import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
   title: 'Mobile Tailor London | Collection Service — No Shop Visit | Fine Tailors',
-  description: 'Fine Tailors — London\'s collection-based tailoring service. We collect your garments from your Central London door, alter them, and return them pressed and perfect in 5–7 working days. No stranger enters your home.',
+  description: 'Fine Tailors — London\'s collection-based tailoring service. We collect your garments from your Central London door, alter them, and return them pressed and perfect in 5–7 working days. Doorstep collection only.',
   alternates: { canonical: 'https://www.finetailors.co.uk/mobile-tailor-london' },
   keywords: [
     'mobile tailor London',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Mobile Tailor London | Collection Service | Fine Tailors',
-    description: 'London\'s collection-based tailoring service. We collect from your door, alter in our workshop, and return perfect in 5–7 days. No shop visit. No stranger in your home.',
+    description: 'London\'s collection-based tailoring service. We collect from your door, alter in our workshop, and return perfect in 5–7 days. No shop visit required.',
     url: 'https://www.finetailors.co.uk/mobile-tailor-london',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Mobile tailor London collection service' }],
   },
@@ -106,7 +106,7 @@ export default function MobileTailorLondon() {
             <em className="font-playfair italic">Collected From Your Door</em>
           </h1>
           <p className="font-sans font-light text-lg text-muted max-w-2xl leading-relaxed">
-            Fine Tailors is London&apos;s collection-based tailoring service. We collect your garments from your Central London door, alter them in our specialist workshop, and return them pressed and perfect in 5–7 working days. No shop visit. No stranger enters your home. Garments fully insured while in our care.
+            Fine Tailors is London&apos;s collection-based tailoring service. We collect your garments from your Central London door, alter them in our specialist workshop, and return them pressed and perfect in 5–7 working days. No shop visit. Doorstep collection only. Garments fully insured while in our care.
           </p>
           <div className="flex gap-4 flex-wrap mt-8">
             <Link href="/get-started" className="bg-hunter text-parchment px-10 py-4 font-sans text-xs font-medium tracking-[0.15em] uppercase hover:bg-[#1E3D17] transition-colors">
@@ -157,7 +157,7 @@ export default function MobileTailorLondon() {
           <div className="space-y-6">
             {[
               ['No travel required', 'You stay at home. We come to you — in Mayfair, Chelsea, Canary Wharf or anywhere in Central London. No tubes, no parking, no carrying garments.'],
-              ['No stranger in your home', 'We collect from your door. No tailor sets up at your kitchen table. Your garments leave your threshold and come back to it. That\'s the extent of the contact.'],
+              ['Doorstep collection only', 'We collect from your door. No tailor sets up at your kitchen table. Your garments leave your threshold and come back to it. That\'s the extent of the contact.'],
               ['Garments never sit in a public shop', 'Your suit, dress or leather jacket goes from your door to our workshop and back. It\'s not in a shop window for a week. It\'s not handled by a dozen different staff members.'],
               ['Fully insured in transit', 'All garments are fully insured while in our care — from collection to return.'],
               ['One tailor from start to finish', 'The Single Needle Guarantee — one person handles your clothes throughout. Consistent quality, consistent results.'],

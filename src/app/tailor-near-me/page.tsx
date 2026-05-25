@@ -6,7 +6,7 @@ import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
   title: 'Tailor Near Me in London | Fine Tailors — We Come to You',
-  description: 'Looking for a tailor near you in London? Fine Tailors is a mobile master tailor covering all of Central London — we come to your door. No travel, no shop, no strangers in your home.',
+  description: 'Looking for a tailor near you in London? Fine Tailors is a mobile master tailor covering all of Central London — we come to your door. No travel, no shop.',
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-near-me' },
   keywords: [
     'tailor near me',

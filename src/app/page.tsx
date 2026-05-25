@@ -135,10 +135,6 @@ export default async function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl">
             {[
               {
-                title: 'No stranger enters your home',
-                body: 'We collect from your door — lobby, concierge, or threshold. No tailor sets foot inside. Your home stays yours.',
-              },
-              {
                 title: 'Your garments never sit in a public shop',
                 body: 'From your door to our workshop and straight back. Not in a shop window. Not handled by a dozen different staff members.',
               },

@@ -116,7 +116,7 @@ export default function AlterationsNearMeLondon() {
             <em className="font-playfair italic">We Come to Your Door</em>
           </h1>
           <p className="font-sans font-light text-lg text-muted max-w-2xl leading-relaxed">
-            When you search for <strong>alterations near me</strong> in London, the nearest tailor is not always the best answer. Fine Tailors is a mobile alterations service covering all of Central London — we come to your door, collect your garments, alter them at our specialist workshop, and return them within 5–7 working days. No travel, no shop, no strangers in your home.
+            When you search for <strong>alterations near me</strong> in London, the nearest tailor is not always the best answer. Fine Tailors is a mobile alterations service covering all of Central London — we come to your door, collect your garments, alter them at our specialist workshop, and return them within 5–7 working days. No travel, no shop.
           </p>
           <div className="flex gap-4 flex-wrap mt-8">
             <Link href="/get-started" className="bg-hunter text-parchment px-10 py-4 font-sans text-xs font-medium tracking-[0.15em] uppercase hover:bg-[#1E3D17] transition-colors">

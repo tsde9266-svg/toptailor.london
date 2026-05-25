@@ -42,13 +42,15 @@ const serviceSchema = {
 }
 
 const alterationTypes = [
-  { title: 'Body Take-In', desc: 'Reducing the body of a shirt along the side seams for a slimmer, more tailored fit. From £18.' },
-  { title: 'Sleeve Shortening', desc: 'Adjusting sleeve length at the cuff with the placket preserved. From £18.' },
-  { title: 'Collar Adjustment', desc: 'Tightening or loosening the collar band for a better neck fit. Quoted on inspection.' },
-  { title: 'Shirt Length Shortening', desc: 'Reducing shirt length for a cleaner tuck or to wear untucked. From £15.' },
+  { title: 'Sleeve Shortening (same finish)', desc: 'Shortening sleeves with the original cuff finish preserved — single cuff shirts. From £18.' },
+  { title: 'Sleeve Shortening (same finish, button cuff)', desc: 'Shortening sleeves on dress and formal shirts with button cuff, original finish preserved. From £22.' },
+  { title: 'Shirt Length Shortening', desc: 'Reducing shirt length for a cleaner tuck or to wear untucked. From £25.' },
+  { title: 'Sides / Body Take-In', desc: 'Reducing the body of a shirt along the side seams for a slimmer, more tailored fit. From £18.' },
+  { title: 'Sleeve Take-In', desc: 'Narrowing the width of the sleeve for a slimmer arm — taken in along the underarm seam. From £12.' },
+  { title: 'Add Darts', desc: 'Adding back darts to create a fitted shape in formal dress shirts. From £12.' },
+  { title: 'Collar Adjustment', desc: 'Tightening or loosening the collar band for a better neck fit. From £20.' },
   { title: 'Shoulder Narrowing', desc: 'Taking in the shoulder of a shirt — complex, quoted on inspection.' },
   { title: 'Button Replacement', desc: 'Replacing buttons on dress shirts, casual shirts or formal wear. From £10.' },
-  { title: 'Dart Addition', desc: 'Adding back darts to create a fitted shape in formal dress shirts. From £20.' },
   { title: 'Repair & Restoration', desc: 'Collar turn, fraying repair, split seams — quoted on inspection.' },
 ]
 

@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     url: 'https://www.finetailors.co.uk',
     siteName: 'Fine Tailors',
     title: "Mobile Tailor Central London | Fine Tailors",
-    description: 'Expert suit alterations and bespoke tailoring collected from your Central London door. No shop visit, no stranger in your home. Returned pressed and perfect.',
+    description: 'Expert suit alterations and bespoke tailoring collected from your Central London door. No shop visit required. Returned pressed and perfect.',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Fine Tailors — Collection-based tailoring and suit alterations in Central London' }],
   },
   twitter: {

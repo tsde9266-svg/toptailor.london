@@ -82,7 +82,7 @@ export default function TailorVictoria() {
             Victoria occupies a distinct position in Central London — adjacent to Westminster and Pimlico, close to Belgravia, and home to a mix of government workers, business travellers staying in the area&apos;s many hotels, and residents who value the area&apos;s quieter residential streets. It is a working postcode as much as a residential one, which means many clients need a tailoring service that works around business hours.
           </p>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
-            Fine Tailors&apos; collection model works precisely for this context. We collect from your SW1E address — hotel, office or apartment — at a time that suits your day. Your garments go directly from your door to our specialist workshop and come back to your exact address, pressed and ready. No shop visit. No stranger in your home. Everything fully insured in transit.
+            Fine Tailors&apos; collection model works precisely for this context. We collect from your SW1E address — hotel, office or apartment — at a time that suits your day. Your garments go directly from your door to our specialist workshop and come back to your exact address, pressed and ready. No shop visit required. Everything fully insured in transit.
           </p>
           <p className="font-sans font-light text-muted leading-relaxed">
             One tailor handles your clothes throughout — the Single Needle Guarantee. The same person who collects is the same person who alters and returns.

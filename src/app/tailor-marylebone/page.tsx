@@ -82,7 +82,7 @@ export default function TailorMarylebone() {
             Marylebone sits between the bustle of Oxford Street and the quiet elegance of Regent&apos;s Park. Its residents — medical consultants on Harley Street, private practice professionals on Welbeck Street, design-conscious residents of Chiltern Street and the Georgian streets to the east — share an appreciation for quality delivered without compromise. Fine Tailors is built for exactly this clientele.
           </p>
           <p className="font-sans font-light text-muted leading-relaxed mb-4">
-            Our <strong>Marylebone tailoring collection service</strong> covers all W1G and W1U postcodes and the surrounding streets. We collect from your door at a time you choose, alter every piece — suits, dresses, coats, tailored shirts — in our specialist workshop, and return them pressed and perfect within 5–7 working days. No travel required from you. No strangers in your home.
+            Our <strong>Marylebone tailoring collection service</strong> covers all W1G and W1U postcodes and the surrounding streets. We collect from your door at a time you choose, alter every piece — suits, dresses, coats, tailored shirts — in our specialist workshop, and return them pressed and perfect within 5–7 working days. No travel required from you. Doorstep collection only.
           </p>
           <p className="font-sans font-light text-muted leading-relaxed">
             Garments from the boutiques of Chiltern Street and Marylebone High Street require the same care and precision as any bespoke piece. We handle them all with equal attention.

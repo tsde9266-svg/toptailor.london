@@ -182,7 +182,7 @@ export default function ServicesPage() {
           <div className="space-y-4">
             {[
               ['Collection from your door', 'We come to your Central London address — home, office or hotel. No travel required.'],
-              ['No stranger in your home', 'We collect from your door, not from your kitchen table. The collection is the only contact.'],
+              ['Doorstep collection only', 'We collect from your door, not from your kitchen table. The collection is the only contact.'],
               ['Garments insured in transit', 'All garments are fully insured from collection to return. Hand over a £1,500 suit with confidence.'],
               ['Written quote before work begins', 'We send a detailed quote after assessing your garments. No work begins without your approval.'],
               ['One tailor from start to finish', 'The Single Needle Guarantee — one person handles your clothes throughout.'],

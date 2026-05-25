@@ -7,7 +7,7 @@ import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
   title: 'About Fine Tailors — London\'s Collection-Based Tailoring Service',
-  description: 'Fine Tailors collects your garments from your Central London door, alters them to a perfect fit, and returns them pressed and perfect in 5–7 days. No shop visit. No stranger in your home.',
+  description: 'Fine Tailors collects your garments from your Central London door, alters them to a perfect fit, and returns them pressed and perfect in 5–7 days. No shop visit required.',
   alternates: { canonical: 'https://www.finetailors.co.uk/about' },
   openGraph: {
     title: 'About Fine Tailors — London\'s Collection-Based Tailoring Service',
@@ -82,7 +82,7 @@ export default function AboutPage() {
             <em className="font-playfair italic">London&apos;s Collection-Based Tailoring Service</em>
           </h1>
           <p className="font-sans font-light text-lg text-muted max-w-2xl leading-relaxed">
-            We collect your garments from your Central London door, alter them to a perfect fit, and return them pressed and perfect in 5–7 days. No shop visit. No stranger in your home.
+            We collect your garments from your Central London door, alter them to a perfect fit, and return them pressed and perfect in 5–7 days. No shop visit required.
           </p>
         </div>
 

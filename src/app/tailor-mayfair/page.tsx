@@ -72,7 +72,7 @@ export default function TailorMayfair() {
             <em className="font-playfair italic">Collected From Your Door</em>
           </h1>
           <p className="font-sans font-light text-lg text-muted max-w-2xl leading-relaxed">
-            Fine Tailors is a collection-based tailoring service covering all Mayfair addresses. We collect your garments from your Grosvenor Square apartment or Mount Street townhouse, alter them at our specialist workshop, and return them pressed and perfect in 5–7 days. No shop visit. No stranger in your home.
+            Fine Tailors is a collection-based tailoring service covering all Mayfair addresses. We collect your garments from your Grosvenor Square apartment or Mount Street townhouse, alter them at our specialist workshop, and return them pressed and perfect in 5–7 days. No shop visit required.
           </p>
         </div>
 
