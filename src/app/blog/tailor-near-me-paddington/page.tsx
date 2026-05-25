@@ -141,7 +141,7 @@ export default function TailorNearMePaddington() {
             <li className="flex gap-2"><span className="text-hunter">—</span>Westbourne Terrace</li>
             <li className="flex gap-2"><span className="text-hunter">—</span>Craven Road</li>
             <li className="flex gap-2"><span className="text-hunter">—</span>Porchester Square</li>
-            <li className="flex gap-2"><span className="text-hunter">—</span>Bishop's Bridge Road</li>
+            <li className="flex gap-2"><span className="text-hunter">—</span>Bishop&apos;s Bridge Road</li>
             <li className="flex gap-2"><span className="text-hunter">—</span>W2</li>
             <li className="flex gap-2"><span className="text-hunter">—</span>W9</li>
             <li className="flex gap-2"><span className="text-hunter">—</span>Paddington residential streets and canal-side apartments</li>

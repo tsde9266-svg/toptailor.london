@@ -77,7 +77,7 @@ export default function SuitAlterationsNearMeLondon() {
             <em className="font-playfair italic">Why Collection Beats Proximity</em>
           </h1>
           <p className="font-sans font-light text-lg text-muted max-w-2xl leading-relaxed">
-            When you search "suit alterations near me" in London, you get a map of local shops — some of which you have never heard of, with reviews that tell you little about the quality of work on a tailored suit versus a pair of budget trousers. There is a better question to ask: which service is best for your specific garment, regardless of distance?
+            When you search &ldquo;suit alterations near me&rdquo; in London, you get a map of local shops — some of which you have never heard of, with reviews that tell you little about the quality of work on a tailored suit versus a pair of budget trousers. There is a better question to ask: which service is best for your specific garment, regardless of distance?
           </p>
         </div>
 

@@ -67,7 +67,7 @@ export default function TailorNearMeSouthKensington() {
             Tailor Near Me in South Kensington, London
           </h1>
           <p className="font-sans font-light text-lg text-muted leading-relaxed mb-12">
-            South Kensington is one of London's most elegant neighbourhoods — the great museum quarter, the French-speaking community around the Institut francais, and some of the finest mansion blocks and garden squares in the city. A tailor near you in South Kensington should match that standard. Fine Tailors collects from your SW7 door and returns your garments perfectly altered within 5–7 working days.
+            South Kensington is one of London&apos;s most elegant neighbourhoods — the great museum quarter, the French-speaking community around the Institut francais, and some of the finest mansion blocks and garden squares in the city. A tailor near you in South Kensington should match that standard. Fine Tailors collects from your SW7 door and returns your garments perfectly altered within 5–7 working days.
           </p>
 
           <h2 className="font-playfair text-[1.75rem] font-medium mb-4">What &lsquo;Tailor Near Me&rsquo; Really Means in South Kensington</h2>

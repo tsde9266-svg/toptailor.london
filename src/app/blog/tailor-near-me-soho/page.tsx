@@ -67,7 +67,7 @@ export default function TailorNearMeSoho() {
             Tailor Near Me in Soho, London
           </h1>
           <p className="font-sans font-light text-lg text-muted leading-relaxed mb-12">
-            Soho is London at its most concentrated — restaurants, media offices, creative agencies, and a residential community tucked between the streets. Fashion and presentation matter here. If you're searching for a tailor near you in Soho, Fine Tailors makes the process seamless. Fine Tailors collects from your W1D or W1F door and returns your garments perfectly altered within 5–7 working days.
+            Soho is London at its most concentrated — restaurants, media offices, creative agencies, and a residential community tucked between the streets. Fashion and presentation matter here. If you&apos;re searching for a tailor near you in Soho, Fine Tailors makes the process seamless. Fine Tailors collects from your W1D or W1F door and returns your garments perfectly altered within 5–7 working days.
           </p>
 
           <h2 className="font-playfair text-[1.75rem] font-medium mb-4">What &lsquo;Tailor Near Me&rsquo; Really Means in Soho</h2>

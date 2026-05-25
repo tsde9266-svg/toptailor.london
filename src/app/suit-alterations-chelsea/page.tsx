@@ -76,7 +76,7 @@ export default function SuitAlterationsChelsea() {
             <em className="font-playfair italic">Collected From Your Door</em>
           </h1>
           <p className="font-sans font-light text-lg text-muted max-w-2xl leading-relaxed">
-            Fine Tailors provides expert <strong>suit alterations in Chelsea</strong> with a full home collection and return service. Chelsea residents have always had high standards when it comes to clothes — the King's Road, the boutiques of the Fulham Road, the well-dressed households of Cheyne Walk. If your suit needs altering, Fine Tailors provides the right answer: collection from your Chelsea door, expert alteration, and return within 5-7 days.
+            Fine Tailors provides expert <strong>suit alterations in Chelsea</strong> with a full home collection and return service. Chelsea residents have always had high standards when it comes to clothes — the King&apos;s Road, the boutiques of the Fulham Road, the well-dressed households of Cheyne Walk. If your suit needs altering, Fine Tailors provides the right answer: collection from your Chelsea door, expert alteration, and return within 5-7 days.
           </p>
           <div className="flex gap-4 flex-wrap mt-8">
             <Link href="/get-started" className="bg-hunter text-parchment px-10 py-4 font-sans text-xs font-medium tracking-[0.15em] uppercase hover:bg-[#1E3D17] transition-colors">
@@ -124,7 +124,7 @@ export default function SuitAlterationsChelsea() {
         <div className="px-8 lg:px-24 py-16 border-b border-divider max-w-4xl">
           <h2 className="font-playfair text-[1.75rem] font-medium mb-6">Chelsea Areas We Collect From</h2>
           <ul className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            <li className="font-sans font-light text-sm text-muted border border-divider px-4 py-3">King's Road</li>
+            <li className="font-sans font-light text-sm text-muted border border-divider px-4 py-3">King&apos;s Road</li>
             <li className="font-sans font-light text-sm text-muted border border-divider px-4 py-3">Sloane Square</li>
             <li className="font-sans font-light text-sm text-muted border border-divider px-4 py-3">Fulham Road</li>
             <li className="font-sans font-light text-sm text-muted border border-divider px-4 py-3">Cheyne Walk</li>

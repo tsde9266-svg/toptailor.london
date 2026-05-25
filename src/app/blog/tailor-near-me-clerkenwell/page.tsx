@@ -67,7 +67,7 @@ export default function TailorNearMeClerkenwell() {
             Tailor Near Me in Clerkenwell, London
           </h1>
           <p className="font-sans font-light text-lg text-muted leading-relaxed mb-12">
-            Clerkenwell is one of London's most design-conscious neighbourhoods — the creative studios around Exmouth Market, the historic streets near St John's Gate, and a professional community with high standards. If you're looking for a tailor near you in Clerkenwell, Fine Tailors collects from your door. Fine Tailors collects from your EC1 door and returns your garments perfectly altered within 5–7 working days.
+            Clerkenwell is one of London&apos;s most design-conscious neighbourhoods — the creative studios around Exmouth Market, the historic streets near St John&apos;s Gate, and a professional community with high standards. If you&apos;re looking for a tailor near you in Clerkenwell, Fine Tailors collects from your door. Fine Tailors collects from your EC1 door and returns your garments perfectly altered within 5–7 working days.
           </p>
 
           <h2 className="font-playfair text-[1.75rem] font-medium mb-4">What &lsquo;Tailor Near Me&rsquo; Really Means in Clerkenwell</h2>

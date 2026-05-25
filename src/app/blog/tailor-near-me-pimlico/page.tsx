@@ -139,7 +139,7 @@ export default function TailorNearMePimlico() {
             <li className="flex gap-2"><span className="text-hunter">—</span>Tachbrook Street</li>
             <li className="flex gap-2"><span className="text-hunter">—</span>Churton Street</li>
             <li className="flex gap-2"><span className="text-hunter">—</span>Bessborough Street</li>
-            <li className="flex gap-2"><span className="text-hunter">—</span>St George's Square</li>
+            <li className="flex gap-2"><span className="text-hunter">—</span>St George&apos;s Square</li>
             <li className="flex gap-2"><span className="text-hunter">—</span>Moreton Street</li>
             <li className="flex gap-2"><span className="text-hunter">—</span>Charlwood Street</li>
             <li className="flex gap-2"><span className="text-hunter">—</span>SW1V</li>

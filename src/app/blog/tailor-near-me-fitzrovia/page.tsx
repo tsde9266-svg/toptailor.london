@@ -67,7 +67,7 @@ export default function TailorNearMeFitzrovia() {
             Tailor Near Me in Fitzrovia, London
           </h1>
           <p className="font-sans font-light text-lg text-muted leading-relaxed mb-12">
-            Fitzrovia sits between Marylebone, Soho and Bloomsbury — a creative, media-heavy neighbourhood with a mix of well-dressed professionals and a strong independent-business culture. If you're looking for a tailor near you in Fitzrovia, Fine Tailors makes it easy. Fine Tailors collects from your W1T or W1W door and returns your garments perfectly altered within 5–7 working days.
+            Fitzrovia sits between Marylebone, Soho and Bloomsbury — a creative, media-heavy neighbourhood with a mix of well-dressed professionals and a strong independent-business culture. If you&apos;re looking for a tailor near you in Fitzrovia, Fine Tailors makes it easy. Fine Tailors collects from your W1T or W1W door and returns your garments perfectly altered within 5–7 working days.
           </p>
 
           <h2 className="font-playfair text-[1.75rem] font-medium mb-4">What &lsquo;Tailor Near Me&rsquo; Really Means in Fitzrovia</h2>

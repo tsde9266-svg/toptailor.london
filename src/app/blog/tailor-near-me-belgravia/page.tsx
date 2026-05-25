@@ -67,7 +67,7 @@ export default function TailorNearMeBelgravia() {
             Tailor Near Me in Belgravia, London
           </h1>
           <p className="font-sans font-light text-lg text-muted leading-relaxed mb-12">
-            Belgravia is one of London's most exclusive residential districts — Eaton Square, Chester Square, the white stucco townhouses of Belgrave Square. Residents here expect precision in everything, including their tailoring. Fine Tailors collects from your SW1W or SW1X door and returns your garments perfectly altered within 5–7 working days.
+            Belgravia is one of London&apos;s most exclusive residential districts — Eaton Square, Chester Square, the white stucco townhouses of Belgrave Square. Residents here expect precision in everything, including their tailoring. Fine Tailors collects from your SW1W or SW1X door and returns your garments perfectly altered within 5–7 working days.
           </p>
 
           <h2 className="font-playfair text-[1.75rem] font-medium mb-4">What &lsquo;Tailor Near Me&rsquo; Really Means in Belgravia</h2>

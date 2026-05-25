@@ -67,7 +67,7 @@ export default function TailorNearMeMarylebone() {
             Tailor Near Me in Marylebone, London
           </h1>
           <p className="font-sans font-light text-lg text-muted leading-relaxed mb-12">
-            Marylebone has a distinctive character — village-feeling streets, independent boutiques on the High Street, the professional addresses of Harley Street and Wimpole Street. If you're searching for a tailor near you in Marylebone, Fine Tailors provides the right answer. Fine Tailors collects from your W1G, W1U or NW1 door and returns your garments perfectly altered within 5–7 working days.
+            Marylebone has a distinctive character — village-feeling streets, independent boutiques on the High Street, the professional addresses of Harley Street and Wimpole Street. If you&apos;re searching for a tailor near you in Marylebone, Fine Tailors provides the right answer. Fine Tailors collects from your W1G, W1U or NW1 door and returns your garments perfectly altered within 5–7 working days.
           </p>
 
           <h2 className="font-playfair text-[1.75rem] font-medium mb-4">What &lsquo;Tailor Near Me&rsquo; Really Means in Marylebone</h2>
