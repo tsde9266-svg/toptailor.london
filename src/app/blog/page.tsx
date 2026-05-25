@@ -20,6 +20,14 @@ const breadcrumb = {
 }
 
 const posts = [
+  // ── Batch 8 — cost guide (May 2026) ─────────────────────────────────────
+  {
+    slug: 'how-much-do-suit-alterations-cost-london',
+    title: 'How Much Do Suit Alterations Cost in London? 2026 Guide',
+    excerpt: 'Clear London suit alteration prices: trouser hem from £18, jacket sleeve from £25, full suit from £60. Collection included. What drives costs up and when it\'s worth it.',
+    date: '2026-05-25',
+    readTime: '7 min read',
+  },
   // ── Batch 4 — high-intent search posts (May 2026) ────────────────────────
   {
     slug: 'tailor-that-comes-to-you-london',

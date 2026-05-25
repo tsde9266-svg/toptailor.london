@@ -130,6 +130,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/blog/tailor-that-comes-to-you-london`,   lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${base}/blog/suit-alterations-near-me-london`,   lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
 
+    // Blog — Batch 8 (May 2026)
+    { url: `${base}/blog/how-much-do-suit-alterations-cost-london`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+
+    // Service pages — Batch 8 (May 2026)
+    { url: `${base}/can-tailor-collect-from-home-london`,    lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.95 },
+    { url: `${base}/alteration-costs-london`,                lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.95 },
+    { url: `${base}/evening-wear-alterations-london`,        lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
+    { url: `${base}/bridesmaid-dress-alterations-london`,    lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
+
     // Legal
     { url: `${base}/terms`,                             lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.3 },
     { url: `${base}/privacy`,                           lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.3 },
