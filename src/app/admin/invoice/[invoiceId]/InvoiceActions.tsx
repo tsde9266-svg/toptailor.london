@@ -11,10 +11,11 @@ type Props = {
   customerEmail?:  string
   customerPhone?: string
   notes?:         string
+  itemCount?:     number
 }
 
 export default function InvoiceActions({
-  invoiceId, invoiceNumber, invoiceUrl, status, customerEmail, customerPhone, notes: initialNotes,
+  invoiceId, invoiceNumber, invoiceUrl, status, customerEmail, customerPhone, notes: initialNotes, itemCount: initialItemCount,
 }: Props) {
   const router = useRouter()
   const [sending,    setSending]    = useState(false)
@@ -34,6 +35,13 @@ export default function InvoiceActions({
   const [savedNotes,   setSavedNotes]   = useState(initialNotes ?? '')
   const [savingNotes,  setSavingNotes]  = useState(false)
   const [notesErr,     setNotesErr]     = useState('')
+
+  // Item count state
+  const [editingCount, setEditingCount] = useState(false)
+  const [itemCount,    setItemCount]    = useState<number | ''>(initialItemCount ?? '')
+  const [savedCount,   setSavedCount]   = useState<number | undefined>(initialItemCount)
+  const [savingCount,  setSavingCount]  = useState(false)
+  const [countErr,     setCountErr]     = useState('')
 
   async function handleSendPdf() {
     setPdfLoading(true)
@@ -95,6 +103,21 @@ export default function InvoiceActions({
       setEditingNotes(false)
     } catch { setNotesErr('Network error.') }
     finally  { setSavingNotes(false) }
+  }
+
+  async function saveItemCount() {
+    setSavingCount(true); setCountErr('')
+    try {
+      const res = await fetch(`/api/admin/invoice/${invoiceId}/item-count`, {
+        method:  'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ itemCount: itemCount !== '' ? Number(itemCount) : null }),
+      })
+      if (!res.ok) { setCountErr('Failed to save.'); return }
+      setSavedCount(itemCount !== '' ? Number(itemCount) : undefined)
+      setEditingCount(false)
+    } catch { setCountErr('Network error.') }
+    finally  { setSavingCount(false) }
   }
 
   async function deleteInvoice() {
@@ -234,6 +257,50 @@ export default function InvoiceActions({
           <p className="font-sans text-[0.875rem] text-muted italic leading-relaxed">&ldquo;{savedNotes}&rdquo;</p>
         ) : (
           <p className="font-sans text-[0.8125rem] text-muted/60">No note added yet.</p>
+        )}
+      </div>
+
+      {/* Items to Collect */}
+      <div className="border border-hunter/30 bg-hunter/5 p-5">
+        <div className="flex items-center justify-between mb-2">
+          <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-hunter">Items to Collect</p>
+          {!editingCount && (
+            <button onClick={() => { setItemCount(savedCount ?? ''); setEditingCount(true) }}
+              className="font-sans text-[0.6875rem] uppercase tracking-widest text-hunter border border-hunter/40 px-3 py-1 hover:bg-hunter/10 transition-colors">
+              {savedCount != null ? 'Edit' : '+ Set Count'}
+            </button>
+          )}
+        </div>
+
+        {editingCount ? (
+          <div className="space-y-3">
+            <input
+              type="number" min="1" step="1"
+              value={itemCount}
+              onChange={e => setItemCount(e.target.value === '' ? '' : Number(e.target.value))}
+              autoFocus
+              className="w-28 border border-hunter/40 px-3 py-2 font-sans text-[1.125rem] font-medium text-center text-hunter focus:outline-none focus:border-hunter bg-white"
+            />
+            {countErr && <p className="font-sans text-[0.75rem] text-red-600">{countErr}</p>}
+            <div className="flex gap-2">
+              <button onClick={saveItemCount} disabled={savingCount}
+                className="bg-hunter text-parchment px-5 py-2 font-sans text-[0.6875rem] tracking-widest uppercase hover:bg-[#1E3D17] transition-colors disabled:opacity-50">
+                {savingCount ? 'Saving…' : 'Save'}
+              </button>
+              <button onClick={() => { setEditingCount(false); setCountErr('') }}
+                className="border border-divider text-muted px-5 py-2 font-sans text-[0.6875rem] tracking-widest uppercase hover:border-charcoal transition-colors">
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : savedCount != null ? (
+          <p className="font-playfair text-[2.5rem] text-hunter leading-none">{savedCount}
+            <span className="font-sans text-[0.75rem] text-muted ml-2 normal-case tracking-normal">
+              garment{savedCount !== 1 ? 's' : ''}
+            </span>
+          </p>
+        ) : (
+          <p className="font-sans text-[0.8125rem] text-muted/60">Not set — tap &lsquo;+ Set Count&rsquo; to add.</p>
         )}
       </div>
 

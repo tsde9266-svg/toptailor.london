@@ -47,6 +47,8 @@ export async function PATCH(
   invoice.discountAmount  = discountAmount
   invoice.discountType    = discountPercent && !body.voucherId ? 'manual' : invoice.discountType
   invoice.notes           = body.notes ? String(body.notes) : undefined
+  invoice.itemCount       = body.itemCount != null && Number.isInteger(Number(body.itemCount)) && Number(body.itemCount) > 0
+                              ? Number(body.itemCount) : undefined
   invoice.paymentMethod   = (['cash', 'mobile'] as const).includes(body.paymentMethod as 'cash' | 'mobile')
     ? body.paymentMethod as 'cash' | 'mobile'
     : invoice.paymentMethod

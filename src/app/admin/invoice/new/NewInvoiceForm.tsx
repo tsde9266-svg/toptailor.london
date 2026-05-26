@@ -64,8 +64,9 @@ export default function NewInvoiceForm({ invoice }: Props) {
   const [phone,   setPhone]   = useState(invoice?.customer.phone   ?? '')
   const [address, setAddress] = useState(invoice?.customer.address ?? '')
   const [rows,    setRows]    = useState<GarmentRow[]>(() => invoice ? fromInvoiceItems(invoice.items) : [])
-  const [notes,   setNotes]   = useState(invoice?.notes            ?? '')
-  const [payment, setPayment] = useState<'cash' | 'mobile'>(invoice?.paymentMethod ?? 'cash')
+  const [notes,     setNotes]     = useState(invoice?.notes             ?? '')
+  const [itemCount, setItemCount] = useState<number | ''>(invoice?.itemCount ?? '')
+  const [payment,   setPayment]   = useState<'cash' | 'mobile'>(invoice?.paymentMethod ?? 'cash')
   const [dueDate, setDueDate] = useState(invoice?.dueDate          ?? today())
   const [loading, setLoading] = useState(false)
   const [error,   setError]   = useState('')
@@ -150,6 +151,7 @@ export default function NewInvoiceForm({ invoice }: Props) {
       discountPercent: effectivePct > 0 ? effectivePct : undefined,
       voucherId:       discountMode === 'voucher' ? selectedVoucher?.id : undefined,
       notes:           notes || undefined,
+      itemCount:       itemCount !== '' ? Number(itemCount) : undefined,
       paymentMethod:   payment,
       dueDate,
     }
@@ -446,6 +448,23 @@ export default function NewInvoiceForm({ invoice }: Props) {
         <textarea rows={3} value={notes} onChange={e => setNotes(e.target.value)}
           placeholder="e.g. Your jacket required specialist thread — adjusted accordingly."
           className="w-full border border-divider px-3 py-2.5 font-sans text-[0.9rem] focus:outline-none focus:border-hunter resize-none bg-white" />
+      </div>
+
+      {/* ── Items to Collect ────────────────────────────────────────── */}
+      <div className="border border-hunter/40 bg-hunter/5 p-6">
+        <label className="block font-sans text-[0.75rem] uppercase tracking-widest mb-1 text-hunter">
+          Items to Collect
+        </label>
+        <p className="font-sans text-[0.75rem] text-muted mb-3">
+          How many garments are you physically picking up? This appears on the invoice as a reference count.
+        </p>
+        <input
+          type="number" min="1" step="1"
+          value={itemCount}
+          onChange={e => setItemCount(e.target.value === '' ? '' : Number(e.target.value))}
+          placeholder="e.g. 4"
+          className="w-32 border border-hunter/30 px-3 py-2.5 font-sans text-[1.125rem] font-medium text-center text-hunter focus:outline-none focus:border-hunter bg-white"
+        />
       </div>
 
       {error && (

@@ -132,6 +132,8 @@ export async function POST(req: NextRequest) {
       subtotal,
       total,
       notes:         body.notes ? String(body.notes) : undefined,
+      itemCount:     body.itemCount != null && Number.isInteger(Number(body.itemCount)) && Number(body.itemCount) > 0
+                       ? Number(body.itemCount) : undefined,
       paymentMethod: (['cash', 'mobile'] as const).includes(body.paymentMethod as 'cash' | 'mobile')
         ? body.paymentMethod as 'cash' | 'mobile'
         : 'cash',

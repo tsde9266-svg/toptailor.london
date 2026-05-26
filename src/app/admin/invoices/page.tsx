@@ -42,6 +42,11 @@ function InvoiceCard({ inv }: { inv: Invoice }) {
             <span className={inv.status === 'paid' ? 'line-through' : 'text-hunter font-medium'}>
               £{inv.total}
             </span>
+            {inv.itemCount != null && (
+              <span className="ml-2 inline-flex items-center gap-1 font-sans text-[0.6875rem] uppercase tracking-widest bg-hunter/10 text-hunter px-2 py-0.5">
+                {inv.itemCount} item{inv.itemCount !== 1 ? 's' : ''}
+              </span>
+            )}
           </span>
           <span className="font-sans text-[0.6875rem] text-muted">{fmt(inv.createdAt)}</span>
         </div>

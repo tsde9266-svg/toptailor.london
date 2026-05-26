@@ -270,6 +270,7 @@ export type Invoice = {
   subtotal:        number
   total:           number
   notes?:          string
+  itemCount?:      number   // manually entered collection count
   paymentMethod:   'cash' | 'mobile'
   paidAt?:         string
 }

@@ -103,10 +103,16 @@ export default async function AdminInvoicePage({ params }: { params: { invoiceId
               </div>
             </div>
           ) : null}
-          <div className="border-t border-divider pt-3 flex justify-between">
+          <div className="border-t border-divider pt-3 flex justify-between items-baseline">
             <span className="font-sans text-[0.75rem] uppercase tracking-widest text-muted">Total</span>
             <span className="font-playfair text-[1.5rem] text-charcoal">£{invoice.total.toFixed(2)}</span>
           </div>
+          {invoice.itemCount != null && (
+            <div className="mt-3 flex items-center justify-between border-t border-divider pt-3">
+              <span className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted">Items to Collect</span>
+              <span className="font-playfair text-[1.25rem] text-hunter">{invoice.itemCount}</span>
+            </div>
+          )}
         </div>
 
         {/* Payment + dates */}
@@ -147,6 +153,7 @@ export default async function AdminInvoicePage({ params }: { params: { invoiceId
           customerEmail={invoice.customer.email}
           customerPhone={invoice.customer.phone}
           notes={invoice.notes}
+          itemCount={invoice.itemCount}
         />
 
       </div>

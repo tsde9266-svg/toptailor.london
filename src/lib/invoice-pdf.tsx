@@ -153,7 +153,8 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
   const groups       = groupInvoiceItems(invoice.items)
   const garmentCount = groups.filter(g => g.garment).length
   const serviceCount = invoice.items.length
-  const totalItems   = groups.reduce((sum, g) => sum + (g.qty ?? g.items.length), 0)
+  const computedTotal = groups.reduce((sum, g) => sum + (g.qty ?? g.items.length), 0)
+  const totalItems    = invoice.itemCount ?? computedTotal
 
   const contactLine = [invoice.customer.email, invoice.customer.phone].filter(Boolean).join('  ·  ')
 
