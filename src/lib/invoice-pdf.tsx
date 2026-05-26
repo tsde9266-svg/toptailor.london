@@ -102,6 +102,7 @@ const s = StyleSheet.create({
   thQty:        { fontSize: 8, letterSpacing: 1.8, textTransform: 'uppercase', color: PARCH, width: '8%', textAlign: 'center' },
   thService:    { fontSize: 8, letterSpacing: 1.8, textTransform: 'uppercase', color: PARCH, flex: 1, paddingHorizontal: 10 },
   thAmount:     { fontSize: 8, letterSpacing: 1.8, textTransform: 'uppercase', color: PARCH, width: '14%', textAlign: 'right', paddingHorizontal: 12 },
+  thTotalItems: { fontSize: 8, letterSpacing: 1.8, textTransform: 'uppercase', color: 'rgba(245,240,232,0.5)', width: '13%', textAlign: 'right', paddingHorizontal: 12 },
 
   tableRow:     { flexDirection: 'row', paddingVertical: 3, borderBottomWidth: 1, borderBottomColor: DIVID },
   tableRowAlt:  { backgroundColor: ROW2 },
@@ -152,6 +153,7 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
   const groups       = groupInvoiceItems(invoice.items)
   const garmentCount = groups.filter(g => g.garment).length
   const serviceCount = invoice.items.length
+  const totalItems   = groups.reduce((sum, g) => sum + (g.qty ?? g.items.length), 0)
 
   const contactLine = [invoice.customer.email, invoice.customer.phone].filter(Boolean).join('  ·  ')
 
@@ -210,6 +212,7 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
             <Text style={s.thQty}>Qty</Text>
             <Text style={s.thService}>Service</Text>
             <Text style={s.thAmount}>Amount</Text>
+            <Text style={s.thTotalItems}>Total Items</Text>
           </View>
 
           {/* Table rows — grouped by garment */}
@@ -256,7 +259,12 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
               </>
             )}
             <View style={s.grandRow}>
-              <Text style={s.grandLabel}>Total Due</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 18 }}>
+                <Text style={s.grandLabel}>Total Due</Text>
+                <Text style={{ fontSize: 8, letterSpacing: 1.5, textTransform: 'uppercase', color: '#aaa' }}>
+                  Total Items  <Text style={{ fontFamily: 'Times-Roman', fontSize: 13, color: '#555', letterSpacing: 0 }}>{totalItems}</Text>
+                </Text>
+              </View>
               <Text style={s.grandValue}>£{invoice.total.toFixed(2)}</Text>
             </View>
           </View>

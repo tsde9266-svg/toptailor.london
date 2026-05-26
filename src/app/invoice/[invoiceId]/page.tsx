@@ -90,6 +90,7 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
   const groups       = groupInvoiceItems(invoice.items)
   const garmentCount = groups.filter(g => g.garment).length
   const serviceCount = invoice.items.length
+  const totalItems   = groups.reduce((sum, g) => sum + (g.qty ?? g.items.length), 0)
 
   const contactLine = [invoice.customer.email, invoice.customer.phone].filter(Boolean).join(' · ')
 
@@ -215,6 +216,9 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
                 <th style={{ textAlign: 'right', padding: '10px 14px', fontFamily: 'sans-serif', fontSize: '9px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#F5F0E8', fontWeight: 400, width: '15%' }}>
                   Amount
                 </th>
+                <th style={{ textAlign: 'right', padding: '10px 14px', fontFamily: 'sans-serif', fontSize: '9px', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(245,240,232,0.55)', fontWeight: 400, width: '13%' }}>
+                  Total Items
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -247,6 +251,7 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
                       <td style={{ padding: isFirst ? '13px 14px 4px' : '4px 14px', fontFamily: 'sans-serif', fontSize: '13px', color: '#1C1C1A', textAlign: 'right', verticalAlign: 'top' }}>
                         £{p.original.price.toFixed(2)}
                       </td>
+                      <td style={{ padding: isFirst ? '13px 14px 4px' : '4px 14px' }} />
                     </tr>
                   )
                 })
@@ -279,7 +284,12 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
               </>
             )}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', padding: '20px 14px' }}>
-              <span style={{ fontFamily: 'sans-serif', fontSize: '10px', letterSpacing: '0.28em', textTransform: 'uppercase', color: '#777' }}>Total Due</span>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
+                <span style={{ fontFamily: 'sans-serif', fontSize: '10px', letterSpacing: '0.28em', textTransform: 'uppercase', color: '#777' }}>Total Due</span>
+                <span style={{ fontFamily: 'sans-serif', fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#aaa' }}>
+                  Total Items · <strong style={{ color: '#555', fontFamily: 'Georgia, serif', fontSize: '16px', letterSpacing: 0, fontWeight: 400 }}>{totalItems}</strong>
+                </span>
+              </div>
               <span style={{ fontFamily: 'Georgia, serif', fontSize: '42px', color: '#1C1C1A', lineHeight: 1 }}>£{invoice.total.toFixed(2)}</span>
             </div>
           </div>
