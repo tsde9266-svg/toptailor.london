@@ -175,9 +175,6 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
             <Text style={s.invLabel}>Invoice</Text>
             <Text style={s.invNumber}>{invoice.number}</Text>
             <Text style={s.invDate}>{fmtDate(invoice.createdAt)}</Text>
-            <Text style={s.invCount}>
-              {garmentCount > 0 ? `${garmentCount} garment${garmentCount !== 1 ? 's' : ''}  ·  ` : ''}{serviceCount} item{serviceCount !== 1 ? 's' : ''}
-            </Text>
           </View>
         </View>
 

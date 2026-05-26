@@ -139,9 +139,6 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
             <p style={{ color: 'rgba(245,240,232,0.45)', fontFamily: 'sans-serif', fontSize: '9.5px', letterSpacing: '0.28em', textTransform: 'uppercase', margin: '0 0 6px' }}>Invoice</p>
             <p style={{ color: '#F5F0E8', fontFamily: 'Georgia, serif', fontSize: '30px', margin: '0 0 5px', lineHeight: 1 }}>{invoice.number}</p>
             <p style={{ color: 'rgba(245,240,232,0.5)', fontFamily: 'sans-serif', fontSize: '11px', margin: '0 0 4px' }}>{fmtDate(invoice.createdAt)}</p>
-            <p style={{ color: 'rgba(245,240,232,0.6)', fontFamily: 'sans-serif', fontSize: '11px', margin: 0 }}>
-              {garmentCount > 0 ? `${garmentCount} garment${garmentCount !== 1 ? 's' : ''} · ` : ''}{serviceCount} item{serviceCount !== 1 ? 's' : ''}
-            </p>
           </div>
 
           {isPaid && (
