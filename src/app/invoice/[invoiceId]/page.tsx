@@ -28,16 +28,37 @@ type Group = {
   items:  ParsedItem[]
 }
 
+// Known garment types — checked in order (longer names first to avoid "Trouser" matching "Trouser" in "Trouser shortening" before "Wedding Dress" is tried)
+const KNOWN_GARMENTS = [
+  'Wedding Dress', 'Leather Jacket',
+  'Trouser', 'Jeans', 'Jacket', 'Coat', 'Shirt',
+  'Dress', 'Skirt', 'Waistcoat', 'Suit',
+]
+
+function parseOldName(name: string): { garment: string | null; service: string } {
+  for (const g of KNOWN_GARMENTS) {
+    if (name.toLowerCase().startsWith(g.toLowerCase())) {
+      const rest = name.slice(g.length).replace(/^\s*[—\-\s]+/, '').trim()
+      return { garment: g, service: rest || name }
+    }
+  }
+  return { garment: null, service: name }
+}
+
 function groupInvoiceItems(items: Invoice['items']): Group[] {
   const parsed: ParsedItem[] = items.map(item => {
+    // New format — garment stored explicitly
     if (item.garment) {
       return { original: item, garment: item.garment, qty: item.qty ?? null, service: item.name }
     }
+    // Old qty-mode format: "2× Trouser — Waist taken in"
     const match = item.name.match(/^(\d+)[×x]\s*(.+?)(?:\s+[—\-]\s+(.+))?$/)
-    if (match) {
+    if (match && item.qty) {
       return { original: item, garment: match[2].trim(), qty: parseInt(match[1]), service: (match[3] ?? match[2]).trim() }
     }
-    return { original: item, garment: null, qty: null, service: item.name }
+    // Old simple-mode format: "Trouser shortening", "Jacket back take in — 1 seam"
+    const { garment, service } = parseOldName(item.name)
+    return { original: item, garment, qty: null, service }
   })
 
   const seen = new Set<string>()
@@ -45,7 +66,9 @@ function groupInvoiceItems(items: Invoice['items']): Group[] {
   const groups: Record<string, Group> = {}
 
   for (const p of parsed) {
-    const key = p.garment ? `${p.garment}::${p.qty}` : `__free::${p.service}`
+    // Group by garment name; for old items with garment but no qty, use qty=null as key
+    // Items with no garment get their own unique row
+    const key = p.garment ? `${p.garment}::${p.qty ?? 'any'}` : `__free::${p.service}`
     if (!seen.has(key)) { seen.add(key); order.push(key); groups[key] = { key, garment: p.garment, qty: p.qty, items: [] } }
     groups[key].items.push(p)
   }

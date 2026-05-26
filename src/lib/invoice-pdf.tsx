@@ -28,16 +28,33 @@ type ParsedItem = {
 
 type Group = { key: string; garment: string | null; qty: number | null; items: ParsedItem[] }
 
+const KNOWN_GARMENTS = [
+  'Wedding Dress', 'Leather Jacket',
+  'Trouser', 'Jeans', 'Jacket', 'Coat', 'Shirt',
+  'Dress', 'Skirt', 'Waistcoat', 'Suit',
+]
+
+function parseOldName(name: string): { garment: string | null; service: string } {
+  for (const g of KNOWN_GARMENTS) {
+    if (name.toLowerCase().startsWith(g.toLowerCase())) {
+      const rest = name.slice(g.length).replace(/^\s*[—\-\s]+/, '').trim()
+      return { garment: g, service: rest || name }
+    }
+  }
+  return { garment: null, service: name }
+}
+
 function groupInvoiceItems(items: Invoice['items']): Group[] {
   const parsed: ParsedItem[] = items.map(item => {
     if (item.garment) {
       return { original: item, garment: item.garment, qty: item.qty ?? null, service: item.name }
     }
     const match = item.name.match(/^(\d+)[×x]\s*(.+?)(?:\s+[—\-]\s+(.+))?$/)
-    if (match) {
+    if (match && item.qty) {
       return { original: item, garment: match[2].trim(), qty: parseInt(match[1]), service: (match[3] ?? match[2]).trim() }
     }
-    return { original: item, garment: null, qty: null, service: item.name }
+    const { garment, service } = parseOldName(item.name)
+    return { original: item, garment, qty: null, service }
   })
 
   const seen = new Set<string>()
@@ -45,7 +62,7 @@ function groupInvoiceItems(items: Invoice['items']): Group[] {
   const groups: Record<string, Group> = {}
 
   for (const p of parsed) {
-    const key = p.garment ? `${p.garment}::${p.qty}` : `__free::${p.service}`
+    const key = p.garment ? `${p.garment}::${p.qty ?? 'any'}` : `__free::${p.service}`
     if (!seen.has(key)) { seen.add(key); order.push(key); groups[key] = { key, garment: p.garment, qty: p.qty, items: [] } }
     groups[key].items.push(p)
   }
