@@ -220,8 +220,9 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
               const hasGarment = !!group.garment
               const altBg      = gi % 2 === 1 ? s.tableRowAlt : {}
               const sepStyle   = isLast ? s.tableRowSep : {}
+              const displayQty  = group.qty ?? group.items.length
               const itemCell    = hasGarment ? (isFirst ? group.garment! : '') : p.service
-              const qtyCell     = hasGarment && isFirst && group.qty ? String(group.qty) : ''
+              const qtyCell     = hasGarment && isFirst ? String(displayQty) : ''
               const serviceCell = hasGarment ? p.service : ''
               return (
                 <View key={`${gi}-${si}`} style={[s.tableRow, altBg, sepStyle]}>

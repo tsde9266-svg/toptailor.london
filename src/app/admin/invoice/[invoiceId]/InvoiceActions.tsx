@@ -25,6 +25,8 @@ export default function InvoiceActions({
   const [paid,       setPaid]       = useState(status === 'paid')
   const [copied,     setCopied]     = useState(false)
   const [pdfErr,     setPdfErr]     = useState('')
+  const [deleting,   setDeleting]   = useState(false)
+  const [deleteErr,  setDeleteErr]  = useState('')
 
   // Notes state
   const [editingNotes, setEditingNotes] = useState(false)
@@ -97,10 +99,20 @@ export default function InvoiceActions({
 
   async function deleteInvoice() {
     if (!window.confirm(`Delete invoice ${invoiceNumber}? This cannot be undone.`)) return
+    setDeleting(true); setDeleteErr('')
     try {
-      await fetch(`/api/admin/invoice/${invoiceId}`, { method: 'DELETE' })
+      const res = await fetch(`/api/admin/invoice/${invoiceId}`, { method: 'DELETE' })
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}))
+        setDeleteErr(d.error ?? 'Failed to delete. Try again.')
+        return
+      }
       router.push('/admin/invoices')
-    } catch { /* ignore */ }
+    } catch {
+      setDeleteErr('Network error. Please try again.')
+    } finally {
+      setDeleting(false)
+    }
   }
 
   async function copyLink() {
@@ -226,13 +238,17 @@ export default function InvoiceActions({
       </div>
 
       {/* Delete */}
-      <div className="pt-2 border-t border-divider">
+      <div className="pt-2 border-t border-divider space-y-1">
         <button
           onClick={deleteInvoice}
-          className="font-sans text-[0.6875rem] text-red-500 hover:text-red-700 underline underline-offset-2 transition-colors"
+          disabled={deleting}
+          className="font-sans text-[0.6875rem] text-red-500 hover:text-red-700 underline underline-offset-2 transition-colors disabled:opacity-50"
         >
-          Delete this invoice
+          {deleting ? 'Deleting…' : 'Delete this invoice'}
         </button>
+        {deleteErr && (
+          <p className="font-sans text-[0.75rem] text-red-600">{deleteErr}</p>
+        )}
       </div>
 
     </div>

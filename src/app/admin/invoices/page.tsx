@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getAllInvoices } from '@/lib/kv'
 import type { Invoice, InvoiceStatus } from '@/lib/kv'
+import InvoiceDeleteButton from './InvoiceDeleteButton'
 
 const STATUS_LABEL: Record<InvoiceStatus, string> = {
   draft: 'Draft',
@@ -21,29 +22,34 @@ function fmt(d: string) {
 
 function InvoiceCard({ inv }: { inv: Invoice }) {
   return (
-    <Link
-      href={`/admin/invoice/${inv.id}`}
-      className="block border border-divider bg-white p-5 hover:border-hunter transition-colors duration-200"
-    >
-      <div className="flex items-start justify-between gap-4 mb-1.5">
-        <div>
-          <span className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted">{inv.number}</span>
-          <p className="font-playfair text-[1.0625rem] text-charcoal">{inv.customer.name}</p>
-        </div>
-        <span className={`font-sans text-[0.6875rem] font-medium uppercase tracking-wider px-2 py-0.5 flex-shrink-0 ${STATUS_COLOR[inv.status]}`}>
-          {STATUS_LABEL[inv.status]}
-        </span>
-      </div>
-      <div className="flex items-center justify-between mt-2">
-        <span className="font-sans text-[0.8125rem] text-muted">
-          {inv.items.length} service{inv.items.length !== 1 ? 's' : ''} ·{' '}
-          <span className={inv.status === 'paid' ? 'line-through' : 'text-hunter font-medium'}>
-            £{inv.total}
+    <div className="flex items-stretch border border-divider bg-white hover:border-hunter transition-colors duration-200">
+      <Link
+        href={`/admin/invoice/${inv.id}`}
+        className="flex-1 block p-5"
+      >
+        <div className="flex items-start justify-between gap-4 mb-1.5">
+          <div>
+            <span className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted">{inv.number}</span>
+            <p className="font-playfair text-[1.0625rem] text-charcoal">{inv.customer.name}</p>
+          </div>
+          <span className={`font-sans text-[0.6875rem] font-medium uppercase tracking-wider px-2 py-0.5 flex-shrink-0 ${STATUS_COLOR[inv.status]}`}>
+            {STATUS_LABEL[inv.status]}
           </span>
-        </span>
-        <span className="font-sans text-[0.6875rem] text-muted">{fmt(inv.createdAt)}</span>
+        </div>
+        <div className="flex items-center justify-between mt-2">
+          <span className="font-sans text-[0.8125rem] text-muted">
+            {inv.items.length} service{inv.items.length !== 1 ? 's' : ''} ·{' '}
+            <span className={inv.status === 'paid' ? 'line-through' : 'text-hunter font-medium'}>
+              £{inv.total}
+            </span>
+          </span>
+          <span className="font-sans text-[0.6875rem] text-muted">{fmt(inv.createdAt)}</span>
+        </div>
+      </Link>
+      <div className="flex items-center px-3 border-l border-divider">
+        <InvoiceDeleteButton invoiceId={inv.id} invoiceNumber={inv.number} />
       </div>
-    </Link>
+    </div>
   )
 }
 

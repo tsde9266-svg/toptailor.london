@@ -225,8 +225,9 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
                   const hasGarment = !!group.garment
                   const rowBg     = gi % 2 === 1 ? '#FDFAF6' : '#ffffff'
                   // Old-format items (no garment): show service name in Item column, leave Service blank
+                  const displayQty  = group.qty ?? group.items.length
                   const itemCell    = hasGarment ? (isFirst ? group.garment! : '') : p.service
-                  const qtyCell     = hasGarment && isFirst && group.qty ? String(group.qty) : ''
+                  const qtyCell     = hasGarment && isFirst ? String(displayQty) : ''
                   const serviceCell = hasGarment ? p.service : ''
                   const itemBold    = hasGarment ? isFirst : true
                   return (
