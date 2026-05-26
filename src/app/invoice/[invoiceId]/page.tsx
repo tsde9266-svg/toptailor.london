@@ -121,8 +121,6 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
           .inv-info-grid { grid-template-columns: 1fr; gap: 20px; margin-bottom: 26px; }
           .inv-bill-name { font-size: 18px !important; }
           .inv-grand     { font-size: 32px !important; }
-          .inv-col-ti    { display: none; }
-          .inv-td-ti     { display: none; }
           .inv-footer    { flex-direction: column; align-items: flex-start; gap: 8px; }
           .inv-footer-right { text-align: left !important; }
           .inv-payment   { padding: 16px !important; margin: 20px 0 !important; }
@@ -227,7 +225,7 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
 
           {/* ── SERVICES TABLE ────────────────────────────────────── */}
           <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '380px' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '480px' }}>
               <thead>
                 <tr style={{ background: '#1A3A12' }}>
                   <th style={{ textAlign: 'left', padding: '10px 12px', fontFamily: 'sans-serif', fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#F5F0E8', fontWeight: 400, width: '22%' }}>
