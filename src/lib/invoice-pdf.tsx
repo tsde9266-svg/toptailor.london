@@ -212,7 +212,7 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
             <Text style={s.thQty}>Qty</Text>
             <Text style={s.thService}>Service</Text>
             <Text style={s.thAmount}>Amount</Text>
-            <Text style={s.thTotalItems}>Total Items</Text>
+            <Text style={s.thTotalItems}>Total Items ({totalItems})</Text>
           </View>
 
           {/* Table rows — grouped by garment */}
@@ -259,12 +259,7 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
               </>
             )}
             <View style={s.grandRow}>
-              <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 18 }}>
-                <Text style={s.grandLabel}>Total Due</Text>
-                <Text style={{ fontSize: 8, letterSpacing: 1.5, textTransform: 'uppercase', color: '#aaa' }}>
-                  Total Items  <Text style={{ fontFamily: 'Times-Roman', fontSize: 13, color: '#555', letterSpacing: 0 }}>{totalItems}</Text>
-                </Text>
-              </View>
+              <Text style={s.grandLabel}>Total Due</Text>
               <Text style={s.grandValue}>£{invoice.total.toFixed(2)}</Text>
             </View>
           </View>
