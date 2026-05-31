@@ -244,7 +244,11 @@ export default function CheckoutPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ customer, items, total, commsPref, paymentPreference }),
       })
-      if (!res.ok) throw new Error('server error')
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({})) as Record<string, unknown>
+        const msg  = typeof json.error === 'string' ? json.error : 'Something went wrong. Please try again or contact us directly.'
+        throw new Error(msg)
+      }
       clear()
       setStep('done')
       // Wipe persisted checkout state — we're done.
@@ -256,8 +260,8 @@ export default function CheckoutPage() {
           send_to: 'AW-18127638127/SsX4CLuIgqUcEO-c98ND',
         })
       }
-    } catch {
-      setError('Something went wrong. Please try again or contact us directly.')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again or contact us directly.')
     } finally {
       setLoading(false)
     }

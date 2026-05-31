@@ -29,16 +29,28 @@ export default function PhoneConsultationPage() {
     if (!commsPref) { setError("Please choose how you'd like us to contact you."); return }
     setLoading(true)
     setError('')
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 15000)
     try {
       const res = await fetch('/api/phone-consultation', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, email, day, time, commsPref }),
+        body:    JSON.stringify({ name, phone, email, day, time, commsPref }),
+        signal:  controller.signal,
       })
-      if (!res.ok) throw new Error('server error')
+      clearTimeout(timeout)
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({})) as Record<string, unknown>
+        throw new Error(typeof d.error === 'string' ? d.error : 'Something went wrong. Please try again or WhatsApp us directly.')
+      }
       setDone(true)
-    } catch {
-      setError('Something went wrong. Please try again or WhatsApp us directly.')
+    } catch (err) {
+      clearTimeout(timeout)
+      if (err instanceof Error && err.name === 'AbortError') {
+        setError('Request timed out — please check your connection and try again.')
+      } else {
+        setError(err instanceof Error ? err.message : 'Something went wrong. Please try again or WhatsApp us directly.')
+      }
     } finally {
       setLoading(false)
     }

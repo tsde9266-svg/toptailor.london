@@ -21,19 +21,28 @@ export default function ReviewForm({
     if (stars === 0) { setError('Please select a star rating.'); return }
     setLoading(true)
     setError('')
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 15000)
     try {
       const res = await fetch('/api/review/submit', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({ author: name, quote, stars, deliveryRef: deliveryRef || undefined }),
+        signal:  controller.signal,
       })
+      clearTimeout(timeout)
       if (!res.ok) {
         const d = await res.json().catch(() => ({}))
         throw new Error(d.error ?? 'Something went wrong')
       }
       setDone(true)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Something went wrong — please try again.')
+      clearTimeout(timeout)
+      if (e instanceof Error && e.name === 'AbortError') {
+        setError('Request timed out — please check your connection and try again.')
+      } else {
+        setError(e instanceof Error ? e.message : 'Something went wrong — please try again.')
+      }
     } finally {
       setLoading(false)
     }

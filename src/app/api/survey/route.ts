@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { saveSurvey } from '@/lib/kv'
+import { saveSurvey, logError } from '@/lib/kv'
 import type { Survey, SurveySource } from '@/lib/kv'
 import { randomUUID } from 'crypto'
 
@@ -34,7 +34,8 @@ export async function POST(req: NextRequest) {
     comments:       body.comments ? String(body.comments).trim() : undefined,
   }
 
-  try { await saveSurvey(survey) } catch {
+  try { await saveSurvey(survey) } catch (e) {
+    logError({ route: '/api/survey', method: 'POST', status: 503, message: 'KV save failed', detail: String(e) }).catch(() => {})
     return NextResponse.json({ error: 'Failed to save' }, { status: 503 })
   }
 

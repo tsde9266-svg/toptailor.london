@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { saveReview } from '@/lib/kv'
+import { saveReview, logError } from '@/lib/kv'
 
 export async function POST(req: NextRequest) {
   let body: Record<string, unknown>
@@ -29,7 +29,8 @@ export async function POST(req: NextRequest) {
       createdAt:   new Date().toISOString(),
       deliveryRef,
     })
-  } catch {
+  } catch (e) {
+    logError({ route: '/api/review/submit', method: 'POST', status: 503, message: 'KV save failed', detail: String(e) }).catch(() => {})
     return NextResponse.json({ error: 'Storage unavailable' }, { status: 503 })
   }
 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { saveConsultation } from '@/lib/kv'
+import { saveConsultation, logError } from '@/lib/kv'
 import type { Consultation } from '@/lib/kv'
 import { adminGreetingLink, normaliseUkPhone } from '@/lib/greeting'
 import { sendMail } from '@/lib/mail'
@@ -63,6 +63,7 @@ export async function POST(req: NextRequest) {
     await saveConsultation(consultation)
   } catch (e) {
     console.error('[phone-consultation] KV save failed — proceeding with notifications only', e)
+    logError({ route: '/api/phone-consultation', method: 'POST', status: 500, message: 'KV save failed (notifications still sent)', detail: String(e) }).catch(() => {})
   }
 
   const telegramMsg =

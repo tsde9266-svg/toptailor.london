@@ -64,16 +64,29 @@ export default function SurveyPage() {
     if (!heardFrom)      { setError('Please tell us how you heard about us.'); return }
 
     setLoading(true)
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 15000)
     try {
       const res = await fetch('/api/survey', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({ bookingEase, serviceQuality, heardFrom, comments, customerName, ref, source }),
+        signal:  controller.signal,
       })
-      if (!res.ok) { setError('Something went wrong. Please try again.'); return }
+      clearTimeout(timeout)
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({})) as Record<string, unknown>
+        setError(typeof d.error === 'string' ? d.error : 'Something went wrong. Please try again.')
+        return
+      }
       setDone(true)
-    } catch {
-      setError('Network error. Please try again.')
+    } catch (err) {
+      clearTimeout(timeout)
+      if (err instanceof Error && err.name === 'AbortError') {
+        setError('Request timed out — please check your connection and try again.')
+      } else {
+        setError('Network error. Please try again.')
+      }
     } finally {
       setLoading(false)
     }

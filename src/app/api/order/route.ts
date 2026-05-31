@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { saveOrder } from '@/lib/kv'
+import { saveOrder, logError } from '@/lib/kv'
 import type { Order } from '@/lib/kv'
 import { notifyTelegram, escHtml } from '@/lib/telegram'
 
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
   if (items.length === 0) {
     return NextResponse.json({ error: 'No items in order' }, { status: 422 })
   }
-  if (!Number.isFinite(rawTotal) || rawTotal <= 0) {
+  if (!Number.isFinite(rawTotal) || rawTotal < 0) {
     return NextResponse.json({ error: 'Invalid order total' }, { status: 422 })
   }
   if (items.some(i => !Number.isFinite(i.price) || i.price < 0)) {
@@ -64,6 +64,7 @@ export async function POST(req: NextRequest) {
     await saveOrder(order)
   } catch (e) {
     console.error('[order] KV save failed', e)
+    logError({ route: '/api/order', method: 'POST', status: 503, message: 'KV save failed', detail: String(e) }).catch(() => {})
     return NextResponse.json({ error: 'Failed to save order — please try again' }, { status: 503 })
   }
 

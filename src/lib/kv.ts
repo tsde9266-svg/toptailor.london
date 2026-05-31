@@ -445,3 +445,38 @@ export async function getAllCalEntries(): Promise<CalEntry[]> {
     .filter((e): e is CalEntry => e !== null)
     .sort((a, b) => a.date.localeCompare(b.date))
 }
+
+// ─── Error Log ────────────────────────────────────────────────────────────────
+
+export type AppError = {
+  id:      string
+  ts:      string    // ISO timestamp
+  route:   string    // e.g. "/api/order"
+  method:  string    // POST/GET/etc
+  status:  number    // HTTP status that was returned
+  message: string    // human-readable error message
+  detail?: string    // stack trace or extra context
+}
+
+export async function logError(entry: Omit<AppError, 'id' | 'ts'>): Promise<void> {
+  const id = crypto.randomUUID()
+  const ts = new Date().toISOString()
+  await redis.pipeline()
+    .set(`error:${id}`, { id, ts, ...entry })
+    .lpush('errors', id)
+    .ltrim('errors', 0, 199)
+    .exec()
+}
+
+export async function getRecentErrors(limit = 50): Promise<AppError[]> {
+  const ids = await redis.lrange<string>('errors', 0, limit - 1)
+  if (!ids.length) return []
+  const items = await Promise.all(ids.map(id => redis.get<AppError>(`error:${id}`)))
+  return items.filter((e): e is AppError => e !== null)
+}
+
+export async function clearAllErrors(): Promise<void> {
+  const ids = await redis.lrange<string>('errors', 0, -1)
+  if (ids.length) await Promise.all(ids.map(id => redis.del(`error:${id}`)))
+  await redis.del('errors')
+}

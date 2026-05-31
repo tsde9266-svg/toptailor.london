@@ -4,6 +4,7 @@ import {
   saveCalBooking,
   getCalBookingByCalUid,
   updateCalBooking,
+  logError,
   type CalBooking,
 } from '@/lib/kv'
 import { bookingConfirmationWALink } from '@/lib/greeting'
@@ -173,6 +174,7 @@ export async function POST(req: NextRequest) {
     }
   } catch (e) {
     console.error('[cal-webhook] KV error', e)
+    logError({ route: '/api/cal-webhook', method: 'POST', status: 500, message: 'KV save failed for booking', detail: String(e) }).catch(() => {})
     // Still notify Telegram even if KV fails
     await notifyTelegram(`⚠️ <b>Booking received but KV save failed</b>\n👤 ${escHtml(name)}\n📧 ${escHtml(email)}`)
     return NextResponse.json({ ok: true })
