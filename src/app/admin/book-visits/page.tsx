@@ -62,6 +62,7 @@ export default async function BookVisitsPage() {
                     {v.status}
                   </span>
                 </div>
+                {v.phone && <a href={`tel:${v.phone}`} className="font-sans text-[0.875rem] text-hunter underline underline-offset-2 block mb-1">📞 {v.phone}</a>}
                 <p className="font-sans text-[0.8125rem] text-muted mb-1">📧 {v.email}</p>
                 <p className="font-sans text-[0.875rem] text-charcoal mb-1">📍 {v.address}</p>
                 {(v.preferredDate || v.preferredTime) && (

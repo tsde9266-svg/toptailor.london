@@ -9,6 +9,7 @@ const TIME_OPTIONS = ['Morning (9am – 12pm)', 'Afternoon (12pm – 5pm)', 'Eve
 
 export default function BookVisitPage() {
   const [name,          setName]          = useState('')
+  const [phone,         setPhone]         = useState('')
   const [email,         setEmail]         = useState('')
   const [address,       setAddress]       = useState('')
   const [preferredDate, setPreferredDate] = useState('')
@@ -28,7 +29,7 @@ export default function BookVisitPage() {
       const res = await fetch('/api/book-visit', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ name, email, address, preferredDate, preferredTime, notes }),
+        body:    JSON.stringify({ name, phone, email, address, preferredDate, preferredTime, notes }),
         signal:  controller.signal,
       })
       clearTimeout(timeout)
@@ -129,6 +130,18 @@ export default function BookVisitPage() {
                 onChange={e => setName(e.target.value)}
                 className="input-line w-full font-sans text-[1rem]"
                 placeholder="Your full name"
+              />
+            </div>
+
+            <div>
+              <label className={labelClass}>Phone Number *</label>
+              <input
+                required
+                type="tel"
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
+                className="input-line w-full font-sans text-[1rem]"
+                placeholder="+44 7000 000000"
               />
             </div>
 

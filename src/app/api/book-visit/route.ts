@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
   }
 
   const name          = String(body.name          ?? '').trim()
+  const phone         = String(body.phone         ?? '').trim()
   const email         = String(body.email         ?? '').trim()
   const address       = String(body.address       ?? '').trim()
   const preferredDate = String(body.preferredDate ?? '').trim()
@@ -26,6 +27,7 @@ export async function POST(req: NextRequest) {
     id:             crypto.randomUUID(),
     createdAt:      new Date().toISOString(),
     name,
+    phone:          phone || undefined,
     email,
     address,
     preferredDate:  preferredDate || undefined,
@@ -46,6 +48,7 @@ export async function POST(req: NextRequest) {
   await notifyTelegram(
     `📅 <b>Book Visit Request</b>\n\n` +
     `👤 <b>Name:</b> ${escHtml(name)}\n` +
+    `📞 <b>Phone:</b> ${phone ? escHtml(phone) : '—'}\n` +
     `📧 <b>Email:</b> ${escHtml(email)}\n` +
     `📍 <b>Address:</b> ${escHtml(address)}\n` +
     `🗓 <b>Slot:</b> ${escHtml(slotStr)}\n` +

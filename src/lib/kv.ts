@@ -484,6 +484,7 @@ export type BookVisit = {
   id:             string
   createdAt:      string
   name:           string
+  phone?:         string
   email:          string
   address:        string
   preferredDate?: string
