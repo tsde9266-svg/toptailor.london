@@ -54,7 +54,7 @@ export default function Services() {
             return (
               <Link
                 key={cat.id}
-                href="/prices"
+                href="/book-visit"
                 className="
                   group relative overflow-hidden
                   aspect-[3/4] lg:aspect-[4/5]
@@ -105,7 +105,7 @@ export default function Services() {
                     transition-all duration-300
                   ">
                     <span className="font-sans text-[0.625rem] text-[#97C459] uppercase tracking-[0.15em]">
-                      See prices →
+                      Book Now →
                     </span>
                   </div>
                 </div>

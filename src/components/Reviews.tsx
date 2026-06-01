@@ -36,7 +36,7 @@ function Initials({ name }: { name: string }) {
 export default function Reviews({ reviews }: { reviews: Review[] }) {
   const sectionRef = useScrollReveal<HTMLElement>()
   const approved  = reviews.filter(r => r.status === 'approved' || !r.status)
-  const displayed = (approved.length > 0 ? approved : STARTER_REVIEWS).slice(0, 3)
+  const displayed = approved.length > 0 ? approved : STARTER_REVIEWS
 
   return (
     <section id="reviews" ref={sectionRef} className="relative reveal-on-scroll overflow-hidden">
@@ -77,7 +77,7 @@ export default function Reviews({ reviews }: { reviews: Review[] }) {
         </div>
 
         {/* Reviews grid — desktop */}
-        <div className="hidden lg:grid grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="hidden lg:grid grid-cols-2 xl:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {displayed.map((r, i) => (
             <div
               key={r.id}

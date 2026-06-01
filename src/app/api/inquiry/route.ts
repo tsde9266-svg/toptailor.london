@@ -39,16 +39,16 @@ export async function POST(req: NextRequest) {
   const waPhone = normaliseUkPhone(phone)
   const waLink  = `https://wa.me/${waPhone}`
 
-  notifyTelegram(
+  await notifyTelegram(
     `⚡ <b>Quick Inquiry</b>\n\n` +
     `👤 <b>Name:</b> ${escHtml(name)}\n` +
-    `📞 <b>Phone:</b> <a href="tel:${escHtml(phone)}">${escHtml(phone)}</a>\n` +
+    `📞 <b>Phone:</b> ${escHtml(phone)}\n` +
     `💬 <b>Message:</b> ${message ? escHtml(message) : '—'}\n\n` +
-    `📲 <i>Reply within 5 minutes!</i>`,
+    `📲 Reply within 5 minutes!`,
     [[
       { text: '💬 Open WhatsApp', url: waLink },
     ]],
-  ).catch(() => {})
+  )
 
   return NextResponse.json({ ok: true })
 }

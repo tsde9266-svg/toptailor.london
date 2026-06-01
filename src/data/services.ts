@@ -137,7 +137,7 @@ export const services: ServiceCategory[] = [
     subtitle:    'Shortening, body & zip work',
     description: 'Jumpsuits and playsuits require specialist handling — body shortening, leg hemming and zip replacement across all fabrics.',
     items: [
-      { id: 'jp-1', name: 'Jumpsuit — leg shorten',           price: 35, note: 'from' },
+      { id: 'jp-1', name: 'Jumpsuit — leg shorten',           price: 25, note: 'from' },
       { id: 'jp-2', name: 'Jumpsuit — body take in sides',    price: 35, note: 'from' },
       { id: 'jp-3', name: 'Jumpsuit — zip replacement',       price: 28, note: 'from' },
       { id: 'jp-4', name: 'Playsuit alterations',             price: 0,  note: 'quote' },

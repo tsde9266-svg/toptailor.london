@@ -43,14 +43,14 @@ export async function POST(req: NextRequest) {
 
   const slotStr = [preferredDate, preferredTime].filter(Boolean).join(' · ') || 'Flexible'
 
-  notifyTelegram(
+  await notifyTelegram(
     `📅 <b>Book Visit Request</b>\n\n` +
     `👤 <b>Name:</b> ${escHtml(name)}\n` +
     `📧 <b>Email:</b> ${escHtml(email)}\n` +
     `📍 <b>Address:</b> ${escHtml(address)}\n` +
     `🗓 <b>Slot:</b> ${escHtml(slotStr)}\n` +
     `💬 <b>Notes:</b> ${notes ? escHtml(notes) : '—'}`,
-  ).catch(() => {})
+  )
 
   return NextResponse.json({ ok: true })
 }

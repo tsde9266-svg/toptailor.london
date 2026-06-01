@@ -74,28 +74,39 @@ const howToSchema = {
   ],
 }
 
+// 7 rotating background images for area cards (London & craft themed)
+const AREA_IMGS = [
+  'https://images.unsplash.com/photo-1491336477066-31156b5e4f35?w=600&q=70&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1578353022142-09264fd64295?w=600&q=70&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1600091166971-7f9faad6c1e2?w=600&q=70&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1593250816874-8edf4f732edb?w=600&q=70&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1560796952-f1c9b838544c?w=600&q=70&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1503792501406-2c40da09e1e2?w=600&q=70&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1626274890657-e28d5b65b04b?w=600&q=70&auto=format&fit=crop',
+]
+
 const areas = [
-  { name: 'Mayfair',        href: '/tailor-mayfair',        desc: 'Collections from Grosvenor Square, Berkeley Square & W1J.' },
-  { name: 'Chelsea',        href: '/tailor-chelsea',        desc: 'King\'s Road, Sloane Square & SW3/SW10.' },
-  { name: 'Knightsbridge',  href: '/tailor-knightsbridge',  desc: 'Steps from Harrods — SW1X & SW7.' },
-  { name: 'Kensington',     href: '/tailor-kensington',     desc: 'Holland Park, High Street Kensington & W8.' },
-  { name: 'Belgravia',      href: '/tailor-belgravia',      desc: 'Eaton Square, Chester Square & SW1W.' },
-  { name: 'Westminster',    href: '/tailor-westminster',    desc: 'Whitehall, Victoria, Pimlico & SW1.' },
-  { name: 'Marylebone',     href: '/tailor-marylebone',     desc: 'Harley Street, Chiltern Street & W1G.' },
-  { name: 'Soho',           href: '/tailor-soho',           desc: 'Dean Street, Wardour Street & W1D.' },
-  { name: 'City of London', href: '/tailor-city-of-london', desc: 'EC1, EC2, EC3 and EC4 covered.' },
-  { name: 'Islington',      href: '/tailor-islington',      desc: 'Upper Street, Angel, Canonbury & N1.' },
-  { name: 'Notting Hill',   href: '/tailor-notting-hill',   desc: 'Portobello Road, Westbourne Grove & W11.' },
-  { name: 'Canary Wharf',    href: '/tailor-canary-wharf',    desc: 'Canada Square, Bank Street & E14.' },
-  { name: 'Covent Garden',  href: '/tailor-covent-garden',   desc: 'Long Acre, Seven Dials & WC2E.' },
-  { name: 'Fitzrovia',      href: '/tailor-fitzrovia',       desc: 'Charlotte Street, Goodge Street & W1T.' },
-  { name: 'Bloomsbury',     href: '/tailor-bloomsbury',      desc: 'Russell Square, Gower Street & WC1B.' },
-  { name: 'Paddington',     href: '/tailor-paddington',      desc: 'Praed Street, Hyde Park & W2.' },
-  { name: 'Pimlico',        href: '/tailor-pimlico',         desc: 'Warwick Way, Tachbrook Street & SW1V.' },
-  { name: 'Clerkenwell',    href: '/tailor-clerkenwell',     desc: 'Exmouth Market, Farringdon Road & EC1.' },
-  { name: 'Shoreditch',     href: '/tailor-shoreditch',      desc: 'Brick Lane, Old Street & E1/EC2A.' },
-  { name: 'South Kensington', href: '/tailor-south-kensington', desc: 'Cromwell Road, Exhibition Road & SW7.' },
-  { name: 'Fulham',         href: '/tailor-fulham',          desc: "Fulham Road, Parson's Green & SW6." },
+  { name: 'Mayfair',          href: '/tailor-mayfair',          desc: 'W1J · Grosvenor Square, Berkeley Square' },
+  { name: 'Chelsea',          href: '/tailor-chelsea',          desc: 'SW3/SW10 · King\'s Road, Sloane Square' },
+  { name: 'Knightsbridge',    href: '/tailor-knightsbridge',    desc: 'SW1X · Steps from Harrods' },
+  { name: 'Kensington',       href: '/tailor-kensington',       desc: 'W8 · Holland Park, High Street Ken.' },
+  { name: 'Belgravia',        href: '/tailor-belgravia',        desc: 'SW1W · Eaton Square, Chester Square' },
+  { name: 'Westminster',      href: '/tailor-westminster',      desc: 'SW1 · Whitehall, Victoria, Pimlico' },
+  { name: 'Marylebone',       href: '/tailor-marylebone',       desc: 'W1G · Harley Street, Chiltern Street' },
+  { name: 'Soho',             href: '/tailor-soho',             desc: 'W1D · Dean Street, Wardour Street' },
+  { name: 'City of London',   href: '/tailor-city-of-london',   desc: 'EC1–EC4 · Financial district covered' },
+  { name: 'Islington',        href: '/tailor-islington',        desc: 'N1 · Upper Street, Angel, Canonbury' },
+  { name: 'Notting Hill',     href: '/tailor-notting-hill',     desc: 'W11 · Portobello Road, Westbourne Grove' },
+  { name: 'Canary Wharf',     href: '/tailor-canary-wharf',     desc: 'E14 · Canada Square, Bank Street' },
+  { name: 'Covent Garden',    href: '/tailor-covent-garden',    desc: 'WC2E · Long Acre, Seven Dials' },
+  { name: 'Fitzrovia',        href: '/tailor-fitzrovia',        desc: 'W1T · Charlotte Street, Goodge Street' },
+  { name: 'Bloomsbury',       href: '/tailor-bloomsbury',       desc: 'WC1B · Russell Square, Gower Street' },
+  { name: 'Paddington',       href: '/tailor-paddington',       desc: 'W2 · Praed Street, Hyde Park' },
+  { name: 'Pimlico',          href: '/tailor-pimlico',          desc: 'SW1V · Warwick Way, Tachbrook Street' },
+  { name: 'Clerkenwell',      href: '/tailor-clerkenwell',      desc: 'EC1 · Exmouth Market, Farringdon Road' },
+  { name: 'Shoreditch',       href: '/tailor-shoreditch',       desc: 'E1/EC2A · Brick Lane, Old Street' },
+  { name: 'South Kensington', href: '/tailor-south-kensington', desc: 'SW7 · Cromwell Road, Exhibition Road' },
+  { name: 'Fulham',           href: '/tailor-fulham',           desc: "SW6 · Fulham Road, Parson's Green" },
 ]
 
 export default async function Home() {
@@ -220,29 +231,47 @@ export default async function Home() {
           </div>
 
           <div className="px-8 lg:px-24 py-10">
-            <p className="font-sans font-light text-muted max-w-xl mb-10 leading-relaxed lg:hidden">
-              Your central London mobile tailor — we visit homes, apartments and offices across the capital&apos;s most prestigious postcodes. Searching for a <Link href="/tailor-near-me" className="text-hunter underline">tailor near me</Link> or <Link href="/alterations-near-me-london" className="text-hunter underline">alterations near me</Link>? See every area we cover.
+            <p className="font-sans font-light text-muted max-w-2xl mb-10 leading-relaxed">
+              As a dedicated <strong className="font-medium text-charcoal">mobile tailor</strong> serving Central London, we collect from homes, apartments and offices across the capital&apos;s most prestigious postcodes. Searching for a <Link href="/tailor-near-me" className="text-hunter underline underline-offset-2">tailor near me</Link> or <Link href="/alterations-near-me-london" className="text-hunter underline underline-offset-2">alterations near me</Link>? Every area below is covered.
             </p>
-            <p className="font-sans font-light text-muted max-w-xl mb-10 leading-relaxed hidden lg:block">
-              As a dedicated <strong>mobile tailor London</strong> residents trust, we come to you for expert <strong>suit alterations</strong>, bespoke tailoring and clothing repairs. Searching for a <Link href="/tailor-near-me" className="text-hunter underline">tailor near me</Link> or <Link href="/alterations-near-me-london" className="text-hunter underline">alterations near me</Link>? See every area we cover.
-            </p>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-              {areas.map((area) => (
+
+            {/* Photo card grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 lg:gap-3">
+              {areas.map((area, i) => (
                 <Link
                   key={area.href}
                   href={area.href}
-                  className="
-                    border border-divider bg-white p-5 lg:p-6
-                    hover:border-hunter hover:bg-hunter/5
-                    transition-colors duration-200 group
-                  "
+                  className="group relative overflow-hidden aspect-[4/3]"
                 >
-                  <h3 className="font-playfair text-[1rem] lg:text-lg font-medium text-charcoal group-hover:text-hunter mb-1 lg:mb-2">
-                    {area.name}
-                  </h3>
-                  <p className="font-sans text-[0.75rem] lg:text-sm font-light text-muted leading-relaxed hidden sm:block">
-                    {area.desc}
-                  </p>
+                  {/* Background image */}
+                  <Image
+                    src={AREA_IMGS[i % AREA_IMGS.length]!}
+                    alt={`Tailor in ${area.name} — Fine Tailors London`}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  {/* Overlay */}
+                  <div
+                    className="absolute inset-0 transition-opacity duration-300 group-hover:opacity-90"
+                    style={{ background: 'linear-gradient(to top, rgba(19,58,11,0.95) 0%, rgba(19,58,11,0.5) 60%, rgba(0,0,0,0.2) 100%)' }}
+                  />
+                  {/* Text */}
+                  <div className="absolute inset-0 flex flex-col justify-end p-3 lg:p-4">
+                    <h3 className="font-playfair text-[0.875rem] lg:text-[1rem] font-medium text-parchment leading-tight mb-0.5">
+                      {area.name}
+                    </h3>
+                    <p className="font-sans text-[0.6rem] lg:text-[0.6875rem] text-parchment/60 leading-tight">
+                      {area.desc}
+                    </p>
+                    <span className="
+                      mt-2 font-sans text-[0.5625rem] text-[#97C459] uppercase tracking-[0.12em]
+                      opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0
+                      transition-all duration-300
+                    ">
+                      View area →
+                    </span>
+                  </div>
                 </Link>
               ))}
             </div>
