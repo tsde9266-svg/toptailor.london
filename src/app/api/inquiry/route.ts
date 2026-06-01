@@ -42,12 +42,11 @@ export async function POST(req: NextRequest) {
   notifyTelegram(
     `⚡ <b>Quick Inquiry</b>\n\n` +
     `👤 <b>Name:</b> ${escHtml(name)}\n` +
-    `📞 <b>Phone:</b> ${escHtml(phone)}\n` +
+    `📞 <b>Phone:</b> <a href="tel:${escHtml(phone)}">${escHtml(phone)}</a>\n` +
     `💬 <b>Message:</b> ${message ? escHtml(message) : '—'}\n\n` +
     `📲 <i>Reply within 5 minutes!</i>`,
     [[
       { text: '💬 Open WhatsApp', url: waLink },
-      { text: '📞 Call now',      url: `tel:${phone}` },
     ]],
   ).catch(() => {})
 
