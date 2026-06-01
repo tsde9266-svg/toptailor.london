@@ -117,19 +117,32 @@ export default function PricesPage() {
                   )}
                 </div>
 
-                {/* Price rows */}
+                {/* Price rows — each links to book form */}
                 {fixedItems.length > 0 && (
                   <div>
                     {fixedItems.map((item, i) => (
-                      <div
+                      <Link
                         key={item.id}
-                        className={`flex items-center justify-between px-6 py-3 ${i < fixedItems.length - 1 ? 'border-b border-divider/50' : ''} ${i % 2 === 1 ? 'bg-parchment/30' : ''}`}
+                        href="/book-visit"
+                        className={`
+                          flex items-center justify-between px-6 py-3
+                          group hover:bg-hunter/5 transition-colors duration-150 cursor-pointer
+                          ${i < fixedItems.length - 1 ? 'border-b border-divider/50' : ''}
+                          ${i % 2 === 1 ? 'bg-parchment/30 hover:bg-hunter/5' : ''}
+                        `}
                       >
-                        <span className="font-sans text-[0.9rem] text-charcoal">{item.name}</span>
-                        <span className="font-sans text-[0.9rem] font-medium text-hunter whitespace-nowrap ml-4">
-                          {fmt(item.price, item.note)}
+                        <span className="font-sans text-[0.9rem] text-charcoal group-hover:text-hunter transition-colors">
+                          {item.name}
                         </span>
-                      </div>
+                        <div className="flex items-center gap-3 ml-4 flex-shrink-0">
+                          <span className="font-sans text-[0.9rem] font-medium text-hunter">
+                            {fmt(item.price, item.note)}
+                          </span>
+                          <span className="font-sans text-[0.65rem] uppercase tracking-widest text-muted group-hover:text-hunter transition-colors hidden sm:inline">
+                            Book →
+                          </span>
+                        </div>
+                      </Link>
                     ))}
                   </div>
                 )}
@@ -155,10 +168,10 @@ export default function PricesPage() {
                       </div>
                     ) : (
                       quoteItems.map((item, i) => (
-                        <div key={item.id} className={`flex items-center justify-between px-6 py-3 ${i < quoteItems.length - 1 ? 'border-b border-divider/50' : ''}`}>
-                          <span className="font-sans text-[0.9rem] text-charcoal">{item.name}</span>
+                        <Link key={item.id} href="/book-visit" className={`flex items-center justify-between px-6 py-3 group hover:bg-hunter/5 transition-colors ${i < quoteItems.length - 1 ? 'border-b border-divider/50' : ''}`}>
+                          <span className="font-sans text-[0.9rem] text-charcoal group-hover:text-hunter transition-colors">{item.name}</span>
                           <span className="font-sans text-[0.85rem] font-medium text-muted italic ml-4">Quote</span>
-                        </div>
+                        </Link>
                       ))
                     )}
                   </div>
