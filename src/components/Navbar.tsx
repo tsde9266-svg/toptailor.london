@@ -56,14 +56,14 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
           <span className={`block h-px w-6 transition-colors duration-300 ${light ? 'bg-charcoal' : 'bg-parchment'}`} />
         </button>
 
-        {/* Logo */}
+        {/* Logo — swap between light/dark versions based on navbar state */}
         <Link
           href="/"
           className="absolute left-1/2 -translate-x-1/2 lg:static lg:left-auto lg:translate-x-0"
           aria-label="Fine Tailors — Home"
         >
           <Image
-            src="/logo-green.png"
+            src={light ? '/logo-light.png' : '/logo-dark.png'}
             alt="Fine Tailors"
             width={130}
             height={92}
@@ -112,7 +112,7 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
       {menuOpen && (
         <div className="fixed inset-0 z-[60] bg-parchment flex flex-col px-8 pt-6 pb-12">
           <div className="flex justify-between items-center mb-8">
-            <Image src="/logo-green.png" alt="Fine Tailors" width={130} height={92} className="h-10 w-auto" />
+            <Image src="/logo-light.png" alt="Fine Tailors" width={130} height={92} className="h-10 w-auto" />
             <button
               aria-label="Close menu"
               onClick={() => setMenuOpen(false)}

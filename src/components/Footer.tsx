@@ -70,7 +70,7 @@ export default function Footer() {
         {/* Col 1 — logo + tagline + phone */}
         <div>
           <div className="mb-8">
-            <Image src="/logo-white.png" alt="Fine Tailors" width={150} height={107} className="h-14 w-auto" />
+            <Image src="/logo-dark.png" alt="Fine Tailors" width={150} height={107} className="h-14 w-auto" />
           </div>
           <p className="font-sans text-sm font-light max-w-xs leading-relaxed mb-4">
             Collection-Based Tailoring &amp; Alterations — Central London
@@ -173,7 +173,7 @@ export default function Footer() {
       {/* ══ MOBILE — logo + 2-col links (< lg) ══════════════ */}
       <div className="lg:hidden px-8 py-12 space-y-6">
         <div>
-          <Image src="/logo-white.png" alt="Fine Tailors" width={130} height={92} className="h-10 w-auto" />
+          <Image src="/logo-dark.png" alt="Fine Tailors" width={130} height={92} className="h-10 w-auto" />
         </div>
         <p className="font-sans text-xs font-light text-green-soft/70 mt-2">
           Mobile Tailoring &amp; Alterations — Central London
