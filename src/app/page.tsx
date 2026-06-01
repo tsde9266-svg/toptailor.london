@@ -4,8 +4,9 @@ import Link from 'next/link'
 import Navbar        from '@/components/Navbar'
 import Hero          from '@/components/Hero'
 import Services      from '@/components/Services'
-import NeedleDivider from '@/components/NeedleDivider'
-import HowItWorks    from '@/components/HowItWorks'
+import NeedleDivider  from '@/components/NeedleDivider'
+import CraftGallery   from '@/components/CraftGallery'
+import HowItWorks     from '@/components/HowItWorks'
 import TailorJourney from '@/components/TailorJourney'
 import About         from '@/components/About'
 import Reviews       from '@/components/Reviews'
@@ -155,6 +156,7 @@ export default async function Home() {
           </div>
         </section>
 
+        <CraftGallery />
         <HowItWorks />
         <TailorJourney />
 
