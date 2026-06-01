@@ -224,10 +224,6 @@ export default function BookVisitPage() {
               {loading ? 'Sending…' : 'Book My Visit →'}
             </button>
 
-            <div className="border border-divider bg-hunter/5 px-5 py-4">
-              <p className="font-sans text-[0.8125rem] text-charcoal font-medium mb-0.5">No payment needed now</p>
-              <p className="font-sans text-[0.75rem] text-muted">We confirm your quote after inspecting your garments. Payment only after you approve.</p>
-            </div>
           </form>
         </div>
       </main>
