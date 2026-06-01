@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
 import Link from 'next/link'
+import Image from 'next/image'
 import Navbar        from '@/components/Navbar'
 import Hero          from '@/components/Hero'
 import Services      from '@/components/Services'
 import NeedleDivider  from '@/components/NeedleDivider'
 import CraftGallery   from '@/components/CraftGallery'
+import OffersSection  from '@/components/OffersSection'
 import HowItWorks     from '@/components/HowItWorks'
 import TailorJourney from '@/components/TailorJourney'
 import About         from '@/components/About'
@@ -125,69 +127,125 @@ export default async function Home() {
         <Services />
         <NeedleDivider />
 
-        {/* ── Trust differentiators ─────────────────────────── */}
-        <section className="px-8 lg:px-24 py-16 border-t border-divider bg-parchment">
-          <h2 className="font-playfair text-[2rem] lg:text-[2.5rem] font-medium mb-4">
-            Why Fine Tailors Is Different
-          </h2>
-          <p className="font-sans font-light text-muted max-w-xl mb-12 leading-relaxed">
-            Every other London tailor asks you to come to them. Fine Tailors collects from your door — and that changes everything.
-          </p>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl">
-            {[
-              {
-                title: 'Your garments never sit in a public shop',
-                body: 'From your door to our workshop and straight back. Not in a shop window. Not handled by a dozen different staff members.',
-              },
-              {
-                title: 'Fully insured while in our care',
-                body: 'All garments are fully insured from the moment we collect to the moment we return. Hand over your £1,500 suit with confidence.',
-              },
-              {
-                title: 'One tailor — start to finish',
-                body: 'The Single Needle Guarantee. One person handles your clothes throughout. Consistent quality, no handoffs, no production line.',
-              },
-            ].map(({ title, body }) => (
-              <div key={title} className="border border-divider p-6">
-                <h3 className="font-playfair text-lg font-medium text-charcoal mb-3">{title}</h3>
-                <p className="font-sans font-light text-muted text-sm leading-relaxed">{body}</p>
+        {/* ── Trust differentiators — with visual ──────────────── */}
+        <section className="border-t border-divider bg-parchment overflow-hidden">
+          <div className="grid lg:grid-cols-2">
+            {/* Left: image */}
+            <div className="relative h-64 lg:h-auto lg:min-h-[520px]">
+              <Image
+                src="https://images.unsplash.com/photo-1626274890657-e28d5b65b04b?w=900&q=80&auto=format&fit=crop"
+                alt="Fine Tailors — why we are different from every other London tailor"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-hunter/30" />
+              <div className="absolute inset-0 flex items-end p-8 lg:p-12">
+                <span className="font-playfair text-[2rem] text-parchment italic leading-tight">
+                  &ldquo;From your door<br />to ours — and back.&rdquo;
+                </span>
               </div>
-            ))}
+            </div>
+            {/* Right: content */}
+            <div className="px-8 lg:px-16 py-14 lg:py-20 flex flex-col justify-center">
+              <span className="font-sans text-[0.6875rem] font-medium uppercase tracking-[0.2em] text-muted block mb-4">
+                WHY FINE TAILORS
+              </span>
+              <h2 className="font-playfair text-[2rem] lg:text-[2.5rem] font-medium mb-4 leading-tight">
+                The Difference You <em className="italic">Feel</em>
+              </h2>
+              <p className="font-sans font-light text-muted max-w-md mb-10 leading-relaxed">
+                Every other London tailor asks you to come to them. Fine Tailors collects from your door — and that changes everything.
+              </p>
+              <div className="space-y-6">
+                {[
+                  {
+                    icon:  '🔒',
+                    title: 'Your garments never sit in a public shop',
+                    body:  'From your door to our workshop and straight back. Not in a shop window. Not handled by a dozen different staff.',
+                  },
+                  {
+                    icon:  '🛡️',
+                    title: 'Fully insured while in our care',
+                    body:  'All garments are fully insured from collection to return. Hand over your £1,500 suit with complete confidence.',
+                  },
+                  {
+                    icon:  '🪡',
+                    title: 'One tailor — start to finish',
+                    body:  'The Single Needle Guarantee. One person handles your clothes throughout. Consistent quality, no handoffs.',
+                  },
+                ].map(({ icon, title, body }) => (
+                  <div key={title} className="flex gap-4">
+                    <span className="text-2xl flex-shrink-0 mt-0.5">{icon}</span>
+                    <div>
+                      <h3 className="font-playfair text-[1.0625rem] font-medium text-charcoal mb-1">{title}</h3>
+                      <p className="font-sans font-light text-muted text-[0.875rem] leading-relaxed">{body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
         <CraftGallery />
+        <OffersSection />
         <HowItWorks />
         <TailorJourney />
 
         {/* Areas We Visit */}
-        <section id="areas" className="px-8 lg:px-24 py-20 border-t border-divider bg-parchment">
-          <h2 className="font-playfair text-[2rem] lg:text-[2.5rem] font-medium mb-4">
-            Areas We Visit
-          </h2>
-          <p className="font-sans font-light text-muted max-w-xl mb-12 leading-relaxed">
-            Your central London mobile tailor — we visit homes, apartments and offices across the capital&apos;s most prestigious postcodes. As a dedicated <strong>mobile tailor London</strong> residents trust, we come to you for expert <strong>suit alterations</strong>, bespoke tailoring and clothing repairs. Searching for a <Link href="/tailor-near-me" className="text-hunter underline">tailor near me</Link> or <Link href="/alterations-near-me-london" className="text-hunter underline">alterations near me</Link>? See every area we cover.
-          </p>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-            {areas.map((area) => (
-              <Link
-                key={area.href}
-                href={area.href}
-                className="
-                  border border-divider p-6
-                  hover:border-hunter hover:bg-hunter/5
-                  transition-colors duration-200
-                  group
-                "
-              >
-                <h3 className="font-playfair text-lg font-medium text-charcoal group-hover:text-hunter mb-2">
-                  {area.name}
-                </h3>
-                <p className="font-sans text-sm font-light text-muted leading-relaxed">
-                  {area.desc}
-                </p>
-              </Link>
-            ))}
+        <section id="areas" className="border-t border-divider bg-parchment overflow-hidden">
+
+          {/* Photo banner header */}
+          <div className="relative h-56 lg:h-72">
+            <Image
+              src="https://images.unsplash.com/photo-1513026705753-bc3fffca8bf4?w=1600&q=75&auto=format&fit=crop"
+              alt="Central London — Fine Tailors covers Mayfair, Chelsea, Knightsbridge and all premium postcodes"
+              fill
+              sizes="100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(19,58,11,0.92) 0%, rgba(19,58,11,0.55) 60%, rgba(0,0,0,0.2) 100%)' }} />
+            <div className="absolute inset-0 flex flex-col justify-center px-8 lg:px-24">
+              <span className="font-sans text-[0.6875rem] font-medium uppercase tracking-[0.2em] text-parchment/50 block mb-3">
+                COVERAGE AREA
+              </span>
+              <h2 className="font-playfair text-[2rem] lg:text-[3rem] font-medium text-parchment mb-3 leading-tight">
+                Areas We <em className="italic">Visit</em>
+              </h2>
+              <p className="font-sans font-light text-parchment/70 max-w-lg leading-relaxed hidden lg:block">
+                Central London mobile tailor — homes, apartments and offices across the capital&apos;s most prestigious postcodes.
+              </p>
+            </div>
+          </div>
+
+          <div className="px-8 lg:px-24 py-10">
+            <p className="font-sans font-light text-muted max-w-xl mb-10 leading-relaxed lg:hidden">
+              Your central London mobile tailor — we visit homes, apartments and offices across the capital&apos;s most prestigious postcodes. Searching for a <Link href="/tailor-near-me" className="text-hunter underline">tailor near me</Link> or <Link href="/alterations-near-me-london" className="text-hunter underline">alterations near me</Link>? See every area we cover.
+            </p>
+            <p className="font-sans font-light text-muted max-w-xl mb-10 leading-relaxed hidden lg:block">
+              As a dedicated <strong>mobile tailor London</strong> residents trust, we come to you for expert <strong>suit alterations</strong>, bespoke tailoring and clothing repairs. Searching for a <Link href="/tailor-near-me" className="text-hunter underline">tailor near me</Link> or <Link href="/alterations-near-me-london" className="text-hunter underline">alterations near me</Link>? See every area we cover.
+            </p>
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+              {areas.map((area) => (
+                <Link
+                  key={area.href}
+                  href={area.href}
+                  className="
+                    border border-divider bg-white p-5 lg:p-6
+                    hover:border-hunter hover:bg-hunter/5
+                    transition-colors duration-200 group
+                  "
+                >
+                  <h3 className="font-playfair text-[1rem] lg:text-lg font-medium text-charcoal group-hover:text-hunter mb-1 lg:mb-2">
+                    {area.name}
+                  </h3>
+                  <p className="font-sans text-[0.75rem] lg:text-sm font-light text-muted leading-relaxed hidden sm:block">
+                    {area.desc}
+                  </p>
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
 
