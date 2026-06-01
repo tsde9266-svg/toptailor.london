@@ -167,7 +167,7 @@ export default async function Home() {
                   {
                     icon:  '🛡️',
                     title: 'Fully insured while in our care',
-                    body:  'All garments are fully insured from collection to return. Hand over your £1,500 suit with complete confidence.',
+                    body:  'All garments are fully insured from collection to return. Hand over to you with complete confidence.',
                   },
                   {
                     icon:  '🪡',
