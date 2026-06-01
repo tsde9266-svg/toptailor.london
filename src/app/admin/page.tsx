@@ -143,6 +143,12 @@ export default async function AdminPage({
           <Link href="/admin/pos" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-amber-400/60 bg-amber-500/10 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
             Quick Calc
           </Link>
+          <Link href="/admin/inquiries" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-amber-400/60 bg-amber-500/10 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
+            ⚡ Inquiries
+          </Link>
+          <Link href="/admin/book-visits" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-amber-400/60 bg-amber-500/10 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
+            📅 Book Visits
+          </Link>
           <Link href="/admin/consultations" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/40 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
             Consultations
           </Link>

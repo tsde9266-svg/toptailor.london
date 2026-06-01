@@ -446,6 +446,73 @@ export async function getAllCalEntries(): Promise<CalEntry[]> {
     .sort((a, b) => a.date.localeCompare(b.date))
 }
 
+// ─── Quick Inquiries ──────────────────────────────────────────────────────────
+
+export type QuickInquiry = {
+  id:        string
+  createdAt: string
+  name:      string
+  phone:     string
+  message?:  string
+  status:    'new' | 'contacted' | 'closed'
+}
+
+export async function saveInquiry(i: QuickInquiry): Promise<void> {
+  await redis.pipeline().set(`inquiry:${i.id}`, i).lpush('inquiries', i.id).exec()
+}
+
+export async function getInquiry(id: string): Promise<QuickInquiry | null> {
+  return redis.get<QuickInquiry>(`inquiry:${id}`)
+}
+
+export async function updateInquiry(i: QuickInquiry): Promise<void> {
+  await redis.set(`inquiry:${i.id}`, i)
+}
+
+export async function getAllInquiries(): Promise<QuickInquiry[]> {
+  const ids = await redis.lrange<string>('inquiries', 0, -1)
+  if (!ids.length) return []
+  const items = await Promise.all(ids.map(id => redis.get<QuickInquiry>(`inquiry:${id}`)))
+  return items
+    .filter((i): i is QuickInquiry => i !== null)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+}
+
+// ─── Book Visit Requests ───────────────────────────────────────────────────────
+
+export type BookVisit = {
+  id:             string
+  createdAt:      string
+  name:           string
+  email:          string
+  address:        string
+  preferredDate?: string
+  preferredTime?: string
+  notes?:         string
+  status:         'new' | 'scheduled' | 'closed'
+}
+
+export async function saveBookVisit(b: BookVisit): Promise<void> {
+  await redis.pipeline().set(`bookvisit:${b.id}`, b).lpush('bookvisits', b.id).exec()
+}
+
+export async function getBookVisit(id: string): Promise<BookVisit | null> {
+  return redis.get<BookVisit>(`bookvisit:${id}`)
+}
+
+export async function updateBookVisit(b: BookVisit): Promise<void> {
+  await redis.set(`bookvisit:${b.id}`, b)
+}
+
+export async function getAllBookVisits(): Promise<BookVisit[]> {
+  const ids = await redis.lrange<string>('bookvisits', 0, -1)
+  if (!ids.length) return []
+  const items = await Promise.all(ids.map(id => redis.get<BookVisit>(`bookvisit:${id}`)))
+  return items
+    .filter((b): b is BookVisit => b !== null)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+}
+
 // ─── Error Log ────────────────────────────────────────────────────────────────
 
 export type AppError = {

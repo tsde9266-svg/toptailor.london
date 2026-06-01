@@ -249,8 +249,9 @@ export default function RootLayout({
       <body>
         <CartProvider>
           {children}
-          <CartDrawer />
-          <CartFloat />
+          {/* CartDrawer and CartFloat hidden from customers — admin checkout still uses cart context */}
+          {/* <CartDrawer /> */}
+          {/* <CartFloat /> */}
           <WhatsAppButton />
           <CookieBanner />
         </CartProvider>

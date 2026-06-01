@@ -1,272 +1,106 @@
 'use client'
-import { useState } from 'react'
 import Link from 'next/link'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { useCart } from '@/context/CartContext'
 import { services } from '@/data/services'
 
-// ─── Category icons ────────────────────────────────────────────────────────────
 const icons: Record<string, React.ReactNode> = {
-  'trousers': (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
-      <path d="M12 2L2 22H22L12 2Z" />
+  trousers: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <path d="M5 2h14l-2 20H7L5 2z" /><line x1="12" y1="2" x2="12" y2="22" />
     </svg>
   ),
-  'jacket': (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
-      <rect width="16" height="16" x="4" y="4" />
-      <path d="M4 4L20 20M20 4L4 20" />
+  jacket: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <path d="M3 7l4-5h10l4 5v14H3V7z" /><path d="M9 2l-2 5M15 2l2 5" />
     </svg>
   ),
-  'dress': (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
-      <path d="M6 2L18 2L21 22H3L6 2Z" />
+  shirts: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <path d="M3 7l3-5h3l3 3 3-3h3l3 5-3 2v11H6V9L3 7z" />
     </svg>
   ),
-  'leather': (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
-      <ellipse cx="12" cy="12" rx="8" ry="10" />
-      <line x1="12" y1="2" x2="12" y2="22" />
+  dress: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <path d="M6 2h12l3 20H3L6 2z" /><path d="M9 2c0 3-1 5-3 7M15 2c0 3 1 5 3 7" />
     </svg>
   ),
-  'occasion': (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
-      <path d="M12 2L4 8V22H20V8L12 2Z" />
+  occasion: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <path d="M12 2L4 8v14h16V8L12 2z" /><path d="M9 22V12h6v10" />
+    </svg>
+  ),
+  leather: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <ellipse cx="12" cy="12" rx="8" ry="10" /><path d="M8 4c0 4-2 6-2 8s2 4 2 8M16 4c0 4 2 6 2 8s-2 4-2 8" />
+    </svg>
+  ),
+  repairs: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
+      <path d="M12 2a5 5 0 015 5c0 1-.2 2-.6 2.8L20 14l-6 6-3.2-3.4A5 5 0 1112 2z" />
     </svg>
   ),
 }
 
-function fmt(price: number, note?: string) {
-  if (note === 'quote') return 'Quote'
-  return note === 'from' ? `from £${price}` : `£${price}`
-}
-
-function AddButton({ itemId, categoryId, categoryName, name, price, isQuote }: {
-  itemId: string; categoryId: string; categoryName: string; name: string; price: number; isQuote?: boolean
-}) {
-  const { add, remove, has } = useCart()
-  const inCart = has(itemId)
-
-  if (isQuote) {
-    return (
-      <button
-        onClick={() => inCart ? remove(itemId) : add({ id: itemId, categoryId, categoryName, name, price: 0 })}
-        aria-label={inCart ? `Remove ${name}` : `Request quote for ${name}`}
-        className={`
-          flex-shrink-0 px-2 h-7 rounded-full border flex items-center justify-center
-          transition-all duration-200 text-[0.65rem] font-sans tracking-wide
-          ${inCart
-            ? 'bg-hunter border-hunter text-parchment'
-            : 'border-divider text-muted hover:border-hunter hover:text-hunter'
-          }
-        `}
-      >
-        {inCart ? '✓' : 'Ask'}
-      </button>
-    )
-  }
-
-  function toggle() {
-    if (inCart) {
-      remove(itemId)
-    } else {
-      add({ id: itemId, categoryId, categoryName, name, price })
-    }
-  }
-
-  return (
-    <button
-      onClick={toggle}
-      aria-label={inCart ? `Remove ${name}` : `Add ${name} to cart`}
-      className={`
-        flex-shrink-0 w-7 h-7 rounded-full border flex items-center justify-center
-        transition-all duration-200 text-[0.75rem]
-        ${inCart
-          ? 'bg-hunter border-hunter text-parchment'
-          : 'border-divider text-muted hover:border-hunter hover:text-hunter'
-        }
-      `}
-    >
-      {inCart ? '✓' : '+'}
-    </button>
-  )
+function minPrice(items: typeof services[0]['items']): number | null {
+  const prices = items.filter(i => i.price > 0).map(i => i.price)
+  return prices.length ? Math.min(...prices) : null
 }
 
 export default function Services() {
   const sectionRef = useScrollReveal<HTMLElement>()
-  const [openId, setOpenId] = useState<string | null>(null)
-
-  function toggle(id: string) {
-    setOpenId(prev => (prev === id ? null : id))
-  }
+  const visible = services.filter(c => c.id !== 'consultation')
 
   return (
-    <section id="services" ref={sectionRef} className="reveal-on-scroll">
+    <section id="services" ref={sectionRef} className="reveal-on-scroll bg-parchment border-t border-divider">
 
-      {/* ══ DESKTOP layout (≥ lg) ══════════════════════════════════════════ */}
-      <div className="hidden lg:flex gap-24 px-24 py-24">
-
-        {/* Left: intro */}
-        <div className="w-1/3 sticky top-32 self-start">
-          <h2 className="font-playfair text-[1.75rem] font-medium mb-6">
-            SERVICES &amp;<br />
-            <em className="font-playfair italic">Mastery</em>
-          </h2>
-          <div className="rule-h mb-8" />
-          <p className="font-sans font-light text-sm leading-loose text-muted mb-8">
-            Expert suit alterations, dress alterations and bespoke tailoring — all
-            collected from your London home and returned within days. Prices shown
-            are a guide; specialist items are quoted on inspection. Minimum order £20.
-          </p>
-          <Link
-            href="/get-started/call"
-            className="
-              inline-block font-sans text-[0.6875rem] font-medium tracking-widest uppercase
-              text-muted border-b border-divider pb-px
-              hover:text-hunter transition-colors duration-200
-            "
-          >
-            Not sure? Book a free call →
-          </Link>
-        </div>
-
-        {/* Right: expandable list */}
-        <div className="w-2/3">
-          {services.map((cat, i) => (
-            <div key={cat.id} className="reveal-on-scroll" style={{ transitionDelay: `${i * 50}ms` }}>
-              {/* Category row */}
-              <button
-                onClick={() => toggle(cat.id)}
-                className="
-                  w-full flex items-center gap-6 py-6
-                  border-b border-divider text-left
-                  group hover:text-hunter transition-colors duration-200
-                "
-              >
-                <span className="text-hunter opacity-60 group-hover:opacity-100 transition-opacity">
-                  {icons[cat.id]}
-                </span>
-                <span className="flex-1">
-                  <span className="font-playfair text-[1.0625rem] block">{cat.name}</span>
-                  <span className="font-sans text-[0.6875rem] text-muted uppercase tracking-wider">{cat.subtitle}</span>
-                </span>
-                <svg
-                  width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" strokeWidth="1.2"
-                  className={`flex-shrink-0 transition-transform duration-300 text-muted ${openId === cat.id ? 'rotate-90' : ''}`}
-                >
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
-              </button>
-
-              {/* Sub-items */}
-              <div
-                className="overflow-hidden transition-all duration-300"
-                style={{ maxHeight: openId === cat.id ? `${cat.items.length * 68}px` : '0px' }}
-              >
-                {cat.items.map(item => (
-                  <div
-                    key={item.id}
-                    className="flex items-center gap-4 px-12 py-3 border-b border-divider/50 last:border-0"
-                  >
-                    <span className="flex-1 font-sans text-[0.9375rem] text-charcoal">{item.name}</span>
-                    <span className={`font-sans text-[0.875rem] font-medium w-24 text-right ${item.note === 'quote' ? 'text-muted italic' : 'text-hunter'}`}>
-                      {fmt(item.price, item.note)}
-                    </span>
-                    <AddButton
-                      itemId={item.id}
-                      categoryId={cat.id}
-                      categoryName={cat.name}
-                      name={item.name}
-                      price={item.price}
-                      isQuote={item.note === 'quote'}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+      {/* Section header */}
+      <div className="px-8 lg:px-24 pt-20 pb-10">
+        <h2 className="font-playfair text-[2rem] lg:text-[2.5rem] font-medium mb-3">
+          What We <em className="italic">Alter</em>
+        </h2>
+        <p className="font-sans font-light text-muted max-w-xl leading-relaxed text-[0.9375rem]">
+          Expert alterations across every garment type — all collected from your Central London door and returned in 5–7 days.
+        </p>
       </div>
 
-      {/* ══ MOBILE layout (< lg) ══════════════════════════════════════════ */}
-      <div className="lg:hidden bg-parchment py-20 px-8">
-        <div className="mb-12">
-          <h2 className="font-playfair text-[2rem] text-hunter italic">Our Atelier</h2>
-          <div className="w-12 h-px bg-hunter mt-2" />
-          <p className="font-sans text-[0.8125rem] text-muted mt-4 leading-relaxed">
-            Tap a category to see services and add to your order.
-          </p>
-        </div>
-
-        <div>
-          {services.map((cat, i) => (
-            <div key={cat.id} className="reveal-on-scroll" style={{ transitionDelay: `${i * 50}ms` }}>
-              {/* Category row */}
-              <button
-                onClick={() => toggle(cat.id)}
+      {/* Grid */}
+      <div className="px-8 lg:px-24 pb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {visible.map((cat, i) => {
+            const min = minPrice(cat.items)
+            const isQuoteOnly = cat.items.every(it => it.note === 'quote')
+            return (
+              <Link
+                key={cat.id}
+                href="/prices"
                 className="
-                  w-full grid items-center py-5 hairline-t last:hairline-b text-left
+                  group border border-divider bg-white p-6
+                  hover:border-hunter hover:bg-hunter/5
+                  transition-colors duration-200
+                  reveal-on-scroll
                 "
-                style={{ gridTemplateColumns: '36px 1fr 24px' }}
+                style={{ transitionDelay: `${i * 40}ms` }}
               >
-                <span className="text-hunter">{icons[cat.id]}</span>
-                <span className="px-4">
-                  <span className="font-playfair text-[1rem] text-charcoal block">{cat.name}</span>
-                  <span className="font-sans text-[0.6875rem] text-muted uppercase tracking-wider">{cat.subtitle}</span>
+                <span className="text-hunter/60 group-hover:text-hunter transition-colors mb-4 block">
+                  {icons[cat.id]}
                 </span>
-                <svg
-                  width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="#C4B99A" strokeWidth="1"
-                  className={`transition-transform duration-300 ${openId === cat.id ? 'rotate-90' : ''}`}
-                >
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
-              </button>
-
-              {/* Sub-items */}
-              <div
-                className="overflow-hidden transition-all duration-300 bg-parchment"
-                style={{ maxHeight: openId === cat.id ? `${cat.items.length * 72}px` : '0px' }}
-              >
-                {cat.items.map(item => (
-                  <div
-                    key={item.id}
-                    className="flex items-center gap-3 pl-12 pr-2 py-3 border-b border-divider/30 last:border-0"
-                  >
-                    <span className="flex-1 font-sans text-[0.9rem] text-charcoal">{item.name}</span>
-                    <span className={`font-sans text-[0.875rem] font-medium whitespace-nowrap ${item.note === 'quote' ? 'text-muted italic' : 'text-hunter'}`}>
-                      {fmt(item.price, item.note)}
-                    </span>
-                    <AddButton
-                      itemId={item.id}
-                      categoryId={cat.id}
-                      categoryName={cat.name}
-                      name={item.name}
-                      price={item.price}
-                      isQuote={item.note === 'quote'}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Consultation link */}
-        <div className="mt-10 pt-8 border-t border-divider">
-          <p className="font-sans text-[0.8125rem] text-muted mb-3">
-            Not sure what you need?
-          </p>
-          <Link
-            href="/get-started/call"
-            className="
-              font-sans text-[0.8125rem] font-medium text-hunter
-              underline underline-offset-4
-            "
-          >
-            Book a free call →
-          </Link>
+                <h3 className="font-playfair text-[1.0625rem] font-medium text-charcoal group-hover:text-hunter mb-2 transition-colors">
+                  {cat.name}
+                </h3>
+                <p className="font-sans text-[0.8125rem] text-muted leading-relaxed mb-4">
+                  {cat.description}
+                </p>
+                <div className="flex items-center justify-between mt-auto">
+                  <span className="font-sans text-[0.75rem] font-medium text-hunter">
+                    {isQuoteOnly ? 'Quote on inspection' : min ? `From £${min}` : ''}
+                  </span>
+                  <span className="font-sans text-[0.6875rem] text-muted group-hover:text-hunter transition-colors uppercase tracking-widest">
+                    See prices →
+                  </span>
+                </div>
+              </Link>
+            )
+          })}
         </div>
       </div>
     </section>

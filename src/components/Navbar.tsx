@@ -2,60 +2,23 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useCart } from '@/context/CartContext'
 
 const navLinks = [
-  { label: 'SERVICES',      href: '/#services'     },
-  { label: 'HOW IT WORKS',  href: '/how-it-works'  },
-  { label: 'ABOUT',         href: '/about'          },
-  { label: 'REVIEWS',       href: '/review'        },
-  { label: 'GET STARTED',   href: '/get-started'   },
+  { label: 'SERVICES',     href: '/prices'      },
+  { label: 'HOW IT WORKS', href: '/how-it-works' },
+  { label: 'ABOUT',        href: '/about'        },
+  { label: 'REVIEWS',      href: '/review'       },
+  { label: 'PRICES',       href: '/prices'       },
 ]
 
-function CartIcon({ light }: { light: boolean }) {
-  const { count, openDrawer } = useCart()
-  return (
-    <button
-      onClick={openDrawer}
-      aria-label={`Open cart — ${count} item${count !== 1 ? 's' : ''}`}
-      className="relative flex items-center justify-center w-8 h-8"
-    >
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-        stroke={light ? '#1C1C1A' : '#F5F0E8'} strokeWidth="1.2">
-        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-        <line x1="3" y1="6" x2="21" y2="6" />
-        <path d="M16 10a4 4 0 01-8 0" />
-      </svg>
-      {count > 0 && (
-        <span className="
-          absolute -top-1 -right-1
-          bg-hunter text-parchment
-          text-[0.5rem] font-sans font-medium
-          w-4 h-4 rounded-full flex items-center justify-center
-        ">
-          {count > 9 ? '9+' : count}
-        </span>
-      )}
-    </button>
-  )
-}
-
 export default function Navbar({ solid = false }: { solid?: boolean }) {
-  const [menuOpen, setMenuOpen]   = useState(false)
-  // pastHero = true once the hero section has scrolled out of view
-  const [pastHero, setPastHero]   = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [pastHero, setPastHero] = useState(false)
 
   useEffect(() => {
-    // Pages with solid=true (e.g. /book) always show the light navbar — no observer needed
     if (solid) return
-
     const hero = document.getElementById('hero')
-    if (!hero) {
-      // No hero on this page — default to light style
-      setPastHero(true)
-      return
-    }
-
+    if (!hero) { setPastHero(true); return }
     const observer = new IntersectionObserver(
       ([entry]) => setPastHero(!entry.isIntersecting),
       { threshold: 0 }
@@ -64,7 +27,6 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
     return () => observer.disconnect()
   }, [solid])
 
-  // Light = parchment bg + dark text + border. Used when solid OR scrolled past hero.
   const light = solid || pastHero
 
   return (
@@ -82,7 +44,7 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
           }
         `}
       >
-        {/* ── Mobile: hamburger ── Desktop: hidden ── */}
+        {/* Mobile: hamburger */}
         <button
           aria-label="Open menu"
           onClick={() => setMenuOpen(true)}
@@ -93,7 +55,7 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
           <span className={`block h-px w-6 transition-colors duration-300 ${light ? 'bg-charcoal' : 'bg-parchment'}`} />
         </button>
 
-        {/* ── Logo ── */}
+        {/* Logo */}
         <Link
           href="/"
           className="absolute left-1/2 -translate-x-1/2 lg:static lg:left-auto lg:translate-x-0"
@@ -109,7 +71,7 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
           />
         </Link>
 
-        {/* ── Desktop nav links ── */}
+        {/* Desktop nav links */}
         <div className="hidden lg:flex gap-12 items-center">
           {navLinks.map((l) => (
             <a
@@ -125,30 +87,27 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
           ))}
         </div>
 
-        {/* ── Desktop CTA ── */}
+        {/* Desktop CTA */}
         <div className="hidden lg:flex items-center gap-4">
-          <CartIcon light={true} />
-        <Link
-          href="/get-started"
-          className="
-            hidden lg:inline-block
-            bg-hunter text-parchment
-            px-8 py-3
-            font-sans text-[0.6875rem] font-medium tracking-[0.2em] uppercase
-            hover:bg-[#1E3D17] transition-colors duration-200
-          "
-        >
-          GET STARTED
-        </Link>
+          <Link
+            href="/book-visit"
+            className="
+              hidden lg:inline-block
+              bg-hunter text-parchment
+              px-8 py-3
+              font-sans text-[0.6875rem] font-medium tracking-[0.2em] uppercase
+              hover:bg-[#1E3D17] transition-colors duration-200
+            "
+          >
+            BOOK A VISIT
+          </Link>
         </div>
 
-        {/* ── Mobile: cart icon (keeps logo centred + shows cart) ── */}
-        <div className="lg:hidden">
-          <CartIcon light={light} />
-        </div>
+        {/* Mobile right spacer (keeps logo centred now cart is gone) */}
+        <div className="w-8 lg:hidden" aria-hidden="true" />
       </nav>
 
-      {/* ── Mobile full-screen menu overlay ── */}
+      {/* Mobile full-screen menu overlay */}
       {menuOpen && (
         <div className="fixed inset-0 z-[60] bg-parchment flex flex-col px-8 pt-6 pb-12">
           <div className="flex justify-between items-center mb-8">
@@ -189,17 +148,32 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
             <span>+44 7438 145169</span>
           </a>
 
-          <Link
-            href="/get-started"
-            onClick={() => setMenuOpen(false)}
-            className="
-              mt-6 bg-hunter text-parchment
-              py-5 w-full text-center
-              font-sans text-[0.8125rem] font-medium tracking-[0.2em] uppercase
-            "
-          >
-            GET STARTED
-          </Link>
+          {/* Two-button stack */}
+          <div className="mt-6 flex flex-col gap-3">
+            <Link
+              href="/book-visit"
+              onClick={() => setMenuOpen(false)}
+              className="
+                bg-hunter text-parchment
+                py-5 w-full text-center
+                font-sans text-[0.8125rem] font-medium tracking-[0.2em] uppercase
+              "
+            >
+              📅 Book a Visit
+            </Link>
+            <Link
+              href="/inquiry"
+              onClick={() => setMenuOpen(false)}
+              className="
+                border border-charcoal text-charcoal
+                py-5 w-full text-center
+                font-sans text-[0.8125rem] font-medium tracking-[0.2em] uppercase
+                hover:bg-charcoal hover:text-parchment transition-colors
+              "
+            >
+              ⚡ Quick Inquiry
+            </Link>
+          </div>
         </div>
       )}
     </>

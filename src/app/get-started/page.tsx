@@ -57,7 +57,7 @@ export default function GetStartedPage() {
                 Not sure what you need? Tell us your name, phone, and a time — a specialist will call you to walk through your options. No commitment.
               </p>
               <Link
-                href="/get-started/call"
+                href="/inquiry"
                 className="
                   w-full text-center py-4
                   font-sans text-[0.75rem] font-medium tracking-[0.18em] uppercase
@@ -65,7 +65,7 @@ export default function GetStartedPage() {
                   border border-charcoal text-charcoal hover:bg-charcoal hover:text-parchment
                 "
               >
-                Schedule a Call →
+                Quick Inquiry →
               </Link>
             </div>
 
@@ -88,15 +88,15 @@ export default function GetStartedPage() {
                 Pick the services you need — alterations, dresses, leather, plus a Home Visit. Choose a slot, give us your address, done.
               </p>
               <Link
-                href="/#services"
+                href="/book-visit"
                 className="
                   w-full text-center py-4
-                  font-sans text-[0.75rem] font-medium tracking-[0.18em] uppercased
+                  font-sans text-[0.75rem] font-medium tracking-[0.18em] uppercase
                   transition-colors duration-200
                   bg-hunter text-parchment hover:bg-[#1E3D17]
                 "
               >
-                View Services →
+                Book a Visit →
               </Link>
             </div>
           </div>

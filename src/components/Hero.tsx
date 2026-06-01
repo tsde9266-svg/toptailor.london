@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 
+
 /**
  * Hero — ONE video element repositioned via CSS between two layouts:
  *
@@ -147,35 +148,50 @@ export default function Hero() {
           your London residence.
         </p>
 
-        {/* CTA */}
+        {/* CTA — 3 buttons */}
         <div
-          className="flex flex-col lg:flex-row items-start lg:items-center gap-6 lg:gap-8 animate-fade-in"
+          className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 animate-fade-in w-full lg:w-auto"
           style={{ animationDelay: '0.7s' }}
         >
-          <a
+          {/* Quick Inquiry */}
+          <Link
             id="hero-cta"
-            href="/get-started"
+            href="/inquiry"
             className="
-              w-full lg:w-auto text-center
+              text-center px-8 py-4
               bg-green-bright text-[#133a0b] lg:bg-hunter lg:text-parchment
-              px-10 py-5
               font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase
               hover:opacity-90 lg:hover:bg-[#1E3D17] transition-colors duration-200
             "
           >
-            GET STARTED
-          </a>
-          <a
-            href="#services"
+            ⚡ Quick Inquiry
+          </Link>
+
+          {/* Book a Visit */}
+          <Link
+            href="/book-visit"
             className="
-              hidden lg:inline-block
-              font-sans text-[0.75rem] font-medium tracking-[0.1em] uppercase
-              text-charcoal border-b border-divider pb-px
-              hover:text-hunter transition-colors duration-200
+              text-center px-8 py-4
+              bg-hunter text-parchment lg:bg-transparent lg:text-charcoal lg:border lg:border-charcoal
+              font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase
+              hover:opacity-90 lg:hover:bg-charcoal lg:hover:text-parchment transition-colors duration-200
             "
           >
-            VIEW SERVICES
-          </a>
+            📅 Book a Visit
+          </Link>
+
+          {/* View Prices */}
+          <Link
+            href="/prices"
+            className="
+              text-center px-8 py-4
+              border border-parchment/50 text-parchment lg:border-divider lg:text-charcoal
+              font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase
+              hover:opacity-80 lg:hover:border-hunter lg:hover:text-hunter transition-colors duration-200
+            "
+          >
+            💷 View Prices
+          </Link>
         </div>
 
         {/* Phone number — mobile only */}

@@ -72,12 +72,12 @@ export default function StickyBar() {
 
       {/* Right */}
       <a
-        href="/book"
+        href="/book-visit"
         className="flex items-center gap-1"
         style={{ fontSize: '11px' }}
       >
         <span className="font-sans font-medium text-parchment uppercase tracking-wider">
-          Book a Home Visit
+          Book a Visit
         </span>
         <span
           className="font-sans font-medium"
