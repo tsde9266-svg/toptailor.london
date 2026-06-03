@@ -31,6 +31,18 @@ const TICKER_AREAS = [
   'South Kensington','Fulham','Clerkenwell','Soho',
 ]
 
+// ─── Rotating attention phrases ───────────────────────────────────────────────
+const PHRASES = [
+  'Have clothes that don\'t quite fit?',
+  'Suit jacket sleeves too long?',
+  'Going shopping? Get it fitted right.',
+  'Jeans too long? Sorted in days.',
+  'That dress you never wear? We\'ll fix it.',
+  'Wardrobe full of things that don\'t fit?',
+  'Buying a suit? Book a tailor first.',
+  'Alterations, collected from your door.',
+]
+
 // ─── Trust badges shown below headline ────────────────────────────────────────
 const TRUST = [
   { icon: '🛡️', text: 'Fully insured' },
@@ -40,6 +52,21 @@ const TRUST = [
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
+
+  // Rotating phrase animation
+  const [phraseIdx,   setPhraseIdx]   = useState(0)
+  const [phraseVisible, setPhraseVisible] = useState(true)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPhraseVisible(false)
+      setTimeout(() => {
+        setPhraseIdx(i => (i + 1) % PHRASES.length)
+        setPhraseVisible(true)
+      }, 500)
+    }, 3200)
+    return () => clearInterval(interval)
+  }, [])
 
   // Postcode checker
   const [postcode,  setPostcode]  = useState('')
@@ -138,7 +165,20 @@ export default function Hero() {
         style={{ maxWidth: '460px', margin: '0 auto' }}
       >
 
-        {/* ① Star rating + social proof */}
+        {/* ① Rotating attention phrase */}
+        <div className="mb-6 text-center" style={{ minHeight: '28px' }}>
+          <p
+            className="font-playfair italic text-parchment/80 transition-opacity duration-500"
+            style={{
+              fontSize: 'clamp(1rem, 4vw, 1.25rem)',
+              opacity: phraseVisible ? 1 : 0,
+            }}
+          >
+            {PHRASES[phraseIdx]}
+          </p>
+        </div>
+
+        {/* Star rating + social proof */}
         <div className="mb-5 text-center">
           <div className="mb-1.5" style={{ color: '#c9a84c', fontSize: '20px', letterSpacing: '4px' }}>
             ★★★★★
