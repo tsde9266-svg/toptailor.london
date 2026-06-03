@@ -161,12 +161,12 @@ export default function Hero() {
       {/* ── Main content — centred single column ── */}
       <div
         id="hero-cta"
-        className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 pt-20 pb-12 w-full"
+        className="relative z-10 flex-1 flex flex-col items-center justify-start sm:justify-center px-5 pt-16 sm:pt-20 pb-8 sm:pb-12 w-full"
         style={{ maxWidth: '460px', margin: '0 auto' }}
       >
 
         {/* ① Rotating attention phrase */}
-        <div className="mb-6 text-center" style={{ minHeight: '28px' }}>
+        <div className="mb-3 sm:mb-6 text-center" style={{ minHeight: '24px' }}>
           <p
             className="font-playfair italic text-parchment/80 transition-opacity duration-500"
             style={{
@@ -179,7 +179,7 @@ export default function Hero() {
         </div>
 
         {/* Star rating + social proof */}
-        <div className="mb-5 text-center">
+        <div className="mb-3 sm:mb-5 text-center">
           <div className="mb-1.5" style={{ color: '#c9a84c', fontSize: '20px', letterSpacing: '4px' }}>
             ★★★★★
           </div>
@@ -189,7 +189,7 @@ export default function Hero() {
         </div>
 
         {/* ② Headline */}
-        <h1 className="text-center mb-4">
+        <h1 className="text-center mb-2 sm:mb-4">
           <span
             className="block font-playfair font-medium text-parchment leading-[1.05]"
             style={{ fontSize: 'clamp(2.75rem, 11vw, 4rem)', letterSpacing: '-0.02em' }}
@@ -205,12 +205,12 @@ export default function Hero() {
         </h1>
 
         {/* ③ Sub-headline */}
-        <p className="font-sans text-[0.875rem] text-parchment/60 leading-relaxed text-center mb-5" style={{ maxWidth: '340px' }}>
+        <p className="font-sans text-[0.8125rem] text-parchment/60 leading-relaxed text-center mb-3 sm:mb-5" style={{ maxWidth: '340px' }}>
           Expert alterations collected from Chelsea · Knightsbridge · Mayfair · Belgravia · and all Central London postcodes
         </p>
 
         {/* ④ Trust badges */}
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-4 sm:mb-8">
           {TRUST.map(({ icon, text }) => (
             <span
               key={text}
@@ -222,7 +222,7 @@ export default function Hero() {
         </div>
 
         {/* ⑤ Postcode checker */}
-        <div className="w-full mb-4">
+        <div className="w-full mb-3 sm:mb-4">
           <div className="flex gap-0">
             <input
               type="text"
@@ -342,34 +342,34 @@ export default function Hero() {
         {/* ── Divider + action buttons (shown when no coverage checked) ── */}
         {!coverage && (
           <>
-            <div className="flex items-center gap-3 w-full my-4">
+            <div className="flex items-center gap-3 w-full my-2 sm:my-4">
               <div className="flex-1 h-px" style={{ background: 'rgba(245,240,232,0.1)' }} />
               <span className="font-sans text-[0.5625rem] uppercase tracking-[0.2em]" style={{ color: 'rgba(245,240,232,0.25)' }}>or</span>
               <div className="flex-1 h-px" style={{ background: 'rgba(245,240,232,0.1)' }} />
             </div>
 
-            <div className="w-full flex flex-col gap-2.5 mb-5">
+            <div className="w-full flex flex-col gap-2 sm:gap-2.5 mb-3 sm:mb-5">
               {/* Quick Inquiry */}
               <Link
                 href="/inquiry"
-                className="flex items-center justify-center gap-2 h-[52px] font-sans text-[0.8125rem] font-medium uppercase tracking-[0.12em] transition-colors"
-                style={{ background: '#2A5220', color: '#F5F0E8' }}
+                className="flex items-center justify-center gap-2 font-sans text-[0.8125rem] font-medium uppercase tracking-[0.12em] transition-colors"
+                style={{ background: '#2A5220', color: '#F5F0E8', height: '48px' }}
               >
                 ⚡ Quick Inquiry
               </Link>
               {/* Book a Visit */}
               <Link
                 href="/book-visit"
-                className="flex items-center justify-center gap-2 h-[52px] font-sans text-[0.8125rem] font-medium uppercase tracking-[0.12em] transition-colors hover:border-parchment/50"
-                style={{ background: 'transparent', border: '1px solid rgba(245,240,232,0.22)', color: '#F5F0E8' }}
+                className="flex items-center justify-center gap-2 font-sans text-[0.8125rem] font-medium uppercase tracking-[0.12em] transition-colors"
+                style={{ background: 'transparent', border: '1px solid rgba(245,240,232,0.22)', color: '#F5F0E8', height: '48px' }}
               >
                 📅 Book a Visit
               </Link>
               {/* Prices */}
               <Link
                 href="/prices"
-                className="flex items-center justify-center gap-1.5 h-[44px] font-sans text-[0.6875rem] font-medium uppercase tracking-[0.15em] transition-colors"
-                style={{ background: 'transparent', border: '1px solid rgba(245,240,232,0.08)', color: 'rgba(229,226,222,0.5)' }}
+                className="flex items-center justify-center gap-1.5 font-sans text-[0.6875rem] font-medium uppercase tracking-[0.15em] transition-colors"
+                style={{ background: 'transparent', border: '1px solid rgba(245,240,232,0.08)', color: 'rgba(229,226,222,0.5)', height: '40px' }}
               >
                 View Alteration Prices from £8
                 <span style={{ color: '#97C459' }}>→</span>
