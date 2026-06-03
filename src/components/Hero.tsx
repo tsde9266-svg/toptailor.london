@@ -1,290 +1,383 @@
 'use client'
-import { useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 
+// ─── Covered postcode prefixes ────────────────────────────────────────────────
+const COVERED = [
+  'W1A','W1B','W1C','W1D','W1F','W1G','W1H','W1J','W1K','W1S','W1T','W1U','W1W','W1',
+  'SW1A','SW1E','SW1H','SW1P','SW1V','SW1W','SW1X','SW1Y','SW1',
+  'SW3','SW5','SW6','SW7','SW10',
+  'W2','W8','W11',
+  'N1',
+  'WC1A','WC1B','WC1E','WC1H','WC1N','WC1R','WC1V','WC1X','WC1',
+  'WC2A','WC2B','WC2E','WC2H','WC2N','WC2R','WC2',
+  'EC1A','EC1M','EC1N','EC1R','EC1V','EC1Y','EC1',
+  'EC2A','EC2M','EC2N','EC2R','EC2V','EC2Y','EC2',
+  'EC3A','EC3M','EC3N','EC3R','EC3V','EC3',
+  'EC4A','EC4M','EC4N','EC4R','EC4V','EC4Y','EC4',
+  'E1','E2','E14',
+]
 
-/**
- * Hero — ONE video element repositioned via CSS between two layouts:
- *
- * Mobile (< lg):   video panel is `absolute inset-0` → full-viewport bg
- *                  text content sits on top with `relative z-10`
- *
- * Desktop (≥ lg):  section becomes a 2-col grid.
- *                  video panel is `relative` → right grid cell.
- *                  text content is left grid cell.
- */
+function isCovered(raw: string): boolean {
+  const clean   = raw.trim().toUpperCase().replace(/\s+/g, '')
+  const outward = clean.match(/^([A-Z]{1,2}\d{1,2}[A-Z]?)/)?.[1] ?? clean.slice(0, 4)
+  return COVERED.some(c => outward === c || outward.startsWith(c))
+}
+
+const TICKER_AREAS = [
+  'Mayfair','Chelsea','Knightsbridge','Belgravia','Kensington','Westminster',
+  'Marylebone','Notting Hill','Canary Wharf','City of London','Islington',
+  'Shoreditch','Covent Garden','Fitzrovia','Bloomsbury','Paddington','Pimlico',
+  'South Kensington','Fulham','Clerkenwell','Soho',
+]
+
+// ─── Trust badges shown below headline ────────────────────────────────────────
+const TRUST = [
+  { icon: '🛡️', text: 'Fully insured' },
+  { icon: '🪡',  text: 'One tailor, start to finish' },
+  { icon: '📦', text: '5–7 day return' },
+]
+
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
 
+  // Postcode checker
+  const [postcode,  setPostcode]  = useState('')
+  const [checking,  setChecking]  = useState(false)
+  const [coverage,  setCoverage]  = useState<'covered' | 'uncovered' | null>(null)
+
+  // Mini lead form (shown after covered result)
+  const [leadName,  setLeadName]  = useState('')
+  const [leadPhone, setLeadPhone] = useState('')
+  const [sending,   setSending]   = useState(false)
+  const [sent,      setSent]      = useState(false)
+  const [formError, setFormError] = useState('')
+
   useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-
-    video.muted = true
-    const attempt = () => video.play().catch(() => {})
-    attempt()
-
-    // iOS often needs a user gesture — play on first touch
-    document.addEventListener('touchstart', attempt, { once: true })
-    return () => document.removeEventListener('touchstart', attempt)
+    const v = videoRef.current
+    if (!v) return
+    v.muted = true
+    const play = () => v.play().catch(() => {})
+    play()
+    document.addEventListener('touchstart', play, { once: true })
+    return () => document.removeEventListener('touchstart', play)
   }, [])
+
+  function handleCheck() {
+    if (!postcode.trim()) return
+    setChecking(true)
+    setCoverage(null)
+    setSent(false)
+    setTimeout(() => {
+      setCoverage(isCovered(postcode) ? 'covered' : 'uncovered')
+      setChecking(false)
+    }, 900)
+  }
+
+  async function handleLeadSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setSending(true)
+    setFormError('')
+    const controller = new AbortController()
+    const t = setTimeout(() => controller.abort(), 15000)
+    try {
+      const res = await fetch('/api/inquiry', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({
+          name:    leadName,
+          phone:   leadPhone,
+          message: `Postcode ${postcode.toUpperCase()} confirmed covered — ready to book.`,
+        }),
+        signal: controller.signal,
+      })
+      clearTimeout(t)
+      if (!res.ok) throw new Error('failed')
+      setSent(true)
+    } catch {
+      clearTimeout(t)
+      setFormError('Something went wrong — please try again.')
+    } finally {
+      setSending(false)
+    }
+  }
+
+  const tickerLoop = [...TICKER_AREAS, ...TICKER_AREAS]
 
   return (
     <section
       id="hero"
-      className="
-        relative min-h-screen overflow-hidden
-        lg:min-h-[870px] lg:grid lg:grid-cols-2
-        border-b border-divider
-      "
+      className="relative flex flex-col overflow-hidden"
+      style={{ minHeight: '100svh' }}
     >
-      {/* ── Text content — left col on desktop, over video on mobile ── */}
-      <div
-        className="
-          relative z-10
-          flex flex-col justify-end pb-24 pt-32 px-8
-          min-h-screen
-          lg:min-h-0 lg:justify-center lg:px-24 lg:py-24 lg:pb-24
-          lg:border-r lg:border-divider
-        "
-      >
-        {/* Eyebrow */}
-        <span
-          className="
-            font-sans text-[0.6875rem] font-medium uppercase tracking-[0.2em] mb-6 block
-            text-[#97C459] lg:text-hunter
-            animate-fade-in-up
-          "
-          style={{ animationDelay: '0.2s' }}
-        >
-          <span className="lg:hidden">Personal tailoring · Central London</span>
-          <span className="hidden lg:inline">THE BESPOKE MANUSCRIPT</span>
-        </span>
 
-        {/* H1 — desktop */}
-        <h1
-          className="
-            hidden lg:block
-            font-playfair text-[3.5rem] leading-[1.1] font-medium tracking-tight
-            text-charcoal mb-8
-          "
-        >
-          <span className="block overflow-hidden">
-            <span
-              className="block animate-clip-reveal"
-              style={{ animationDelay: '0.3s' }}
-            >
-              London&apos;s Finest
-            </span>
-          </span>
-          <span className="block overflow-hidden">
-            <span
-              className="block animate-clip-reveal"
-              style={{ animationDelay: '0.46s' }}
-            >
-              Tailors <em className="font-playfair italic">at Your Door</em>
-            </span>
-          </span>
-        </h1>
-
-        {/* H1 — mobile */}
-        <h1
-          className="
-            lg:hidden
-            font-playfair text-[2.75rem] leading-[1.1] font-medium
-            text-parchment mb-6
-          "
-        >
-          <span className="block overflow-hidden">
-            <span
-              className="block animate-clip-reveal"
-              style={{ animationDelay: '0.3s' }}
-            >
-              London&apos;s Finest
-            </span>
-          </span>
-          <span className="block overflow-hidden">
-            <span
-              className="block animate-clip-reveal"
-              style={{ animationDelay: '0.46s' }}
-            >
-              Tailors
-            </span>
-          </span>
-          <span className="block overflow-hidden">
-            <span
-              className="block animate-clip-reveal"
-              style={{ animationDelay: '0.62s' }}
-            >
-              at Your Door
-            </span>
-          </span>
-        </h1>
-
-        {/* Subtext — desktop */}
-        <p
-          className="
-            hero-intro
-            hidden lg:block
-            font-sans font-light text-lg max-w-md mb-10 leading-relaxed text-muted
-            animate-fade-in-up-16
-          "
-          style={{ animationDelay: '0.5s' }}
-        >
-          Expert suit alterations, bespoke tailoring and clothing alterations — all at your London door. Fine Tailors visit your home across Mayfair, Chelsea, Knightsbridge and central London.
-        </p>
-
-        {/* Subtext — mobile */}
-        <p
-          className="
-            lg:hidden
-            font-sans text-[0.9375rem] leading-relaxed
-            text-parchment/80 max-w-[280px] mb-8
-            animate-fade-in-up-16
-          "
-          style={{ animationDelay: '0.5s' }}
-        >
-          Bespoke alterations and garment care, collected and delivered to
-          your London residence.
-        </p>
-
-        {/* CTA — 3 buttons */}
-        <div
-          className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 animate-fade-in w-full lg:w-auto"
-          style={{ animationDelay: '0.7s' }}
-        >
-          {/* Quick Inquiry */}
-          <Link
-            id="hero-cta"
-            href="/inquiry"
-            className="
-              text-center px-8 py-4
-              bg-green-bright text-[#133a0b] lg:bg-hunter lg:text-parchment
-              font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase
-              hover:opacity-90 lg:hover:bg-[#1E3D17] transition-colors duration-200
-            "
-          >
-            ⚡ Quick Inquiry
-          </Link>
-
-          {/* Book a Visit */}
-          <Link
-            href="/book-visit"
-            className="
-              text-center px-8 py-4
-              bg-hunter text-parchment lg:bg-transparent lg:text-charcoal lg:border lg:border-charcoal
-              font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase
-              hover:opacity-90 lg:hover:bg-charcoal lg:hover:text-parchment transition-colors duration-200
-            "
-          >
-            📅 Book a Visit
-          </Link>
-
-          {/* View Prices */}
-          <Link
-            href="/prices"
-            className="
-              text-center px-8 py-4
-              border border-parchment/50 text-parchment lg:border-divider lg:text-charcoal
-              font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase
-              hover:opacity-80 lg:hover:border-hunter lg:hover:text-hunter transition-colors duration-200
-            "
-          >
-            💷 View Prices
-          </Link>
-        </div>
-
-        {/* Phone number — mobile only */}
-        <a
-          href="tel:+447438145169"
-          className="
-            lg:hidden flex items-center gap-2 mt-2
-            font-sans text-[1.0625rem] font-medium
-            text-parchment/80
-            animate-fade-in
-          "
-          style={{ animationDelay: '0.8s' }}
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.02 2.22 2 2 0 012 .04h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-          </svg>
-          +44 7438 145169
-        </a>
-
-        {/* Scroll hint — mobile only */}
-        <p className="
-          lg:hidden absolute bottom-10 left-0 right-0 text-center
-          font-sans text-[0.625rem] uppercase tracking-[0.3em] text-parchment/40
-        ">
-          Scroll to explore
-        </p>
-      </div>
-
-      {/* ── Video panel ─────────────────────────────────────────────────
-          Mobile: absolute inset-0 (sits behind text above)
-          Desktop: relative → occupies col 2 of the grid
-         ───────────────────────────────────────────────────────────────── */}
-      <div
-        className="
-          absolute inset-0
-          lg:relative lg:inset-auto
-          bg-[#133a0b] overflow-hidden
-        "
-      >
-        {/* Single video element — works for both layouts */}
+      {/* ── Video background ── */}
+      <div className="absolute inset-0 z-0">
         <video
           ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
+          autoPlay muted loop playsInline
           poster="/images/tailor.jpg"
-          className="absolute inset-0 w-full h-full object-cover opacity-60 lg:opacity-100"
+          className="absolute inset-0 w-full h-full object-cover"
           preload="metadata"
         >
           <source src="/video/craft.mp4" type="video/mp4" />
         </video>
-
-        {/* Mobile gradient overlay: green-tinted bottom scrim */}
+        {/* Heavy dark overlay for premium dark look */}
         <div
-          className="absolute inset-0 lg:hidden"
+          className="absolute inset-0"
           style={{
-            background:
-              'linear-gradient(to top, rgba(19,58,11,0.9) 0%, rgba(19,58,11,0.4) 40%, transparent 100%)',
+            background: 'linear-gradient(to bottom, rgba(10,10,8,0.60) 0%, rgba(10,10,8,0.82) 45%, rgba(10,10,8,0.97) 100%)',
           }}
-          aria-hidden="true"
         />
+      </div>
 
-        {/* Desktop flat overlay: rgba(0,0,0,0.18) */}
-        <div
-          className="absolute inset-0 hidden lg:block bg-black/[0.18]"
-          aria-hidden="true"
-        />
+      {/* ── Main content — centred single column ── */}
+      <div
+        id="hero-cta"
+        className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 pt-20 pb-12 w-full"
+        style={{ maxWidth: '460px', margin: '0 auto' }}
+      >
 
-        {/* Desktop ghost "craft" watermark */}
-        <div
-          className="absolute inset-0 hidden lg:flex items-center justify-center pointer-events-none"
-          aria-hidden="true"
-        >
-          <span
-            className="font-playfair italic text-white opacity-[0.025] select-none"
-            style={{ fontSize: '120px' }}
-          >
-            craft
-          </span>
+        {/* ① Star rating + social proof */}
+        <div className="mb-5 text-center">
+          <div className="mb-1.5" style={{ color: '#c9a84c', fontSize: '20px', letterSpacing: '4px' }}>
+            ★★★★★
+          </div>
+          <p className="font-sans text-[0.6875rem] font-medium uppercase tracking-[0.15em] text-parchment/65">
+            Rated 5.0 · 100+ Central London clients
+          </p>
         </div>
 
-        {/* Desktop caption strip */}
-        <div className="absolute bottom-12 left-12 right-12 z-10 hidden lg:block">
-          <div className="rule-h opacity-20 mb-4" />
-          <div className="flex justify-between items-center">
-            <span className="font-sans text-[0.65rem] text-divider uppercase tracking-widest">
-              Process 01: The Assessment
+        {/* ② Headline */}
+        <h1 className="text-center mb-4">
+          <span
+            className="block font-playfair font-medium text-parchment leading-[1.05]"
+            style={{ fontSize: 'clamp(2.75rem, 11vw, 4rem)', letterSpacing: '-0.02em' }}
+          >
+            Your Tailor.
+          </span>
+          <span
+            className="block font-playfair font-medium leading-[1.05]"
+            style={{ fontSize: 'clamp(2.75rem, 11vw, 4rem)', letterSpacing: '-0.02em', color: '#97C459' }}
+          >
+            Your Door.
+          </span>
+        </h1>
+
+        {/* ③ Sub-headline */}
+        <p className="font-sans text-[0.875rem] text-parchment/60 leading-relaxed text-center mb-5" style={{ maxWidth: '340px' }}>
+          Expert alterations collected from Chelsea · Knightsbridge · Mayfair · Belgravia · and all Central London postcodes
+        </p>
+
+        {/* ④ Trust badges */}
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+          {TRUST.map(({ icon, text }) => (
+            <span
+              key={text}
+              className="flex items-center gap-1.5 font-sans text-[0.625rem] uppercase tracking-[0.12em] text-parchment/50"
+            >
+              <span>{icon}</span>{text}
             </span>
-            <span className="font-sans text-[0.65rem] text-divider">00:42</span>
+          ))}
+        </div>
+
+        {/* ⑤ Postcode checker */}
+        <div className="w-full mb-4">
+          <div className="flex gap-0">
+            <input
+              type="text"
+              value={postcode}
+              onChange={e => { setPostcode(e.target.value); setCoverage(null); setSent(false) }}
+              onKeyDown={e => e.key === 'Enter' && handleCheck()}
+              placeholder="YOUR POSTCODE — E.G. SW3"
+              maxLength={8}
+              className="hero-input flex-1 h-[52px] px-4 font-sans text-[0.75rem] font-medium uppercase tracking-[0.12em] focus:outline-none transition-colors"
+              style={{
+                background:  'rgba(10,10,8,0.55)',
+                border:      '1px solid rgba(245,240,232,0.18)',
+                borderRight: 'none',
+                color:       '#F5F0E8',
+              }}
+            />
+            <button
+              onClick={handleCheck}
+              disabled={checking || !postcode.trim()}
+              className="h-[52px] px-5 font-sans text-[0.75rem] font-medium uppercase tracking-[0.12em] transition-colors disabled:opacity-50 flex items-center gap-1.5 whitespace-nowrap"
+              style={{ background: '#2A5220', color: '#F5F0E8', minWidth: '130px', border: '1px solid #2A5220' }}
+            >
+              {checking
+                ? <><span className="hero-spin">⟳</span> Checking</>
+                : <>Check Coverage →</>
+              }
+            </button>
           </div>
+
+          {/* Feedback line */}
+          {!coverage && (
+            <p className="mt-2 font-sans text-[0.625rem] uppercase tracking-[0.12em] text-parchment/35 text-center">
+              We also collect from offices &amp; hotels
+            </p>
+          )}
+
+          {/* ── COVERED result ── */}
+          {coverage === 'covered' && !sent && (
+            <div className="mt-3">
+              <p className="font-sans text-[0.6875rem] font-medium uppercase tracking-[0.12em] mb-4 text-center" style={{ color: '#97C459' }}>
+                ✓ We collect from {postcode.toUpperCase()} — book your visit below
+              </p>
+              <form onSubmit={handleLeadSubmit} className="space-y-2">
+                <input
+                  required
+                  type="text"
+                  value={leadName}
+                  onChange={e => setLeadName(e.target.value)}
+                  placeholder="Your name"
+                  className="hero-input w-full h-[48px] px-4 font-sans text-[0.875rem] focus:outline-none transition-colors"
+                  style={{
+                    background: 'rgba(10,10,8,0.55)',
+                    border:     '1px solid rgba(245,240,232,0.18)',
+                    color:      '#F5F0E8',
+                  }}
+                />
+                <input
+                  required
+                  type="tel"
+                  value={leadPhone}
+                  onChange={e => setLeadPhone(e.target.value)}
+                  placeholder="Your phone number"
+                  className="hero-input w-full h-[48px] px-4 font-sans text-[0.875rem] focus:outline-none transition-colors"
+                  style={{
+                    background: 'rgba(10,10,8,0.55)',
+                    border:     '1px solid rgba(245,240,232,0.18)',
+                    color:      '#F5F0E8',
+                  }}
+                />
+                {formError && (
+                  <p className="font-sans text-[0.75rem] text-red-400">{formError}</p>
+                )}
+                <button
+                  type="submit"
+                  disabled={sending}
+                  className="w-full h-[52px] font-sans text-[0.8125rem] font-medium uppercase tracking-[0.15em] transition-opacity disabled:opacity-60 flex items-center justify-center gap-2"
+                  style={{ background: '#97C459', color: '#0F1F09' }}
+                >
+                  {sending ? 'Sending…' : '⚡ Book My Visit — We Reply in 5 Minutes'}
+                </button>
+              </form>
+            </div>
+          )}
+
+          {/* ── COVERED + sent ── */}
+          {coverage === 'covered' && sent && (
+            <div
+              className="mt-3 p-4 text-center"
+              style={{ border: '1px solid rgba(151,196,89,0.3)', background: 'rgba(151,196,89,0.08)' }}
+            >
+              <p className="font-playfair text-[1.125rem] text-parchment mb-1">We&apos;ll WhatsApp you shortly.</p>
+              <p className="font-sans text-[0.75rem] text-parchment/55">
+                Our team replies within 5 minutes during business hours.
+              </p>
+            </div>
+          )}
+
+          {/* ── NOT COVERED result ── */}
+          {coverage === 'uncovered' && (
+            <div className="mt-3 text-center">
+              <p className="font-sans text-[0.6875rem] uppercase tracking-[0.1em] text-parchment/45 mb-3">
+                We may not cover {postcode.toUpperCase()} yet — WhatsApp us to confirm
+              </p>
+              <a
+                href={`https://wa.me/447438145169?text=Hi%2C%20do%20you%20cover%20${encodeURIComponent(postcode.toUpperCase())}%3F`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 w-full h-[48px] font-sans text-[0.8125rem] font-medium uppercase tracking-[0.12em] transition-colors"
+                style={{ background: '#25D366', color: '#fff' }}
+              >
+                💬 Ask on WhatsApp
+              </a>
+            </div>
+          )}
+        </div>
+
+        {/* ── Divider + action buttons (shown when no coverage checked) ── */}
+        {!coverage && (
+          <>
+            <div className="flex items-center gap-3 w-full my-4">
+              <div className="flex-1 h-px" style={{ background: 'rgba(245,240,232,0.1)' }} />
+              <span className="font-sans text-[0.5625rem] uppercase tracking-[0.2em]" style={{ color: 'rgba(245,240,232,0.25)' }}>or</span>
+              <div className="flex-1 h-px" style={{ background: 'rgba(245,240,232,0.1)' }} />
+            </div>
+
+            <div className="w-full flex flex-col gap-2.5 mb-5">
+              {/* Quick Inquiry */}
+              <Link
+                href="/inquiry"
+                className="flex items-center justify-center gap-2 h-[52px] font-sans text-[0.8125rem] font-medium uppercase tracking-[0.12em] transition-colors"
+                style={{ background: '#2A5220', color: '#F5F0E8' }}
+              >
+                ⚡ Quick Inquiry
+              </Link>
+              {/* Book a Visit */}
+              <Link
+                href="/book-visit"
+                className="flex items-center justify-center gap-2 h-[52px] font-sans text-[0.8125rem] font-medium uppercase tracking-[0.12em] transition-colors hover:border-parchment/50"
+                style={{ background: 'transparent', border: '1px solid rgba(245,240,232,0.22)', color: '#F5F0E8' }}
+              >
+                📅 Book a Visit
+              </Link>
+              {/* Prices */}
+              <Link
+                href="/prices"
+                className="flex items-center justify-center gap-1.5 h-[44px] font-sans text-[0.6875rem] font-medium uppercase tracking-[0.15em] transition-colors"
+                style={{ background: 'transparent', border: '1px solid rgba(245,240,232,0.08)', color: 'rgba(229,226,222,0.5)' }}
+              >
+                View Alteration Prices from £8
+                <span style={{ color: '#97C459' }}>→</span>
+              </Link>
+            </div>
+          </>
+        )}
+
+        {/* ⑥ Phone fallback */}
+        <div className="flex items-center gap-2 mt-1">
+          <span className="font-sans text-[0.5625rem] uppercase tracking-[0.15em]" style={{ color: 'rgba(245,240,232,0.35)' }}>
+            Or call directly
+          </span>
+          <a
+            href="tel:+447438145169"
+            className="font-sans text-[0.6875rem] font-medium tracking-[0.12em] transition-colors"
+            style={{ color: '#97C459', textDecoration: 'none' }}
+          >
+            +44 7438 145169
+          </a>
+        </div>
+
+      </div>
+
+      {/* ── Ticker strip at bottom ── */}
+      <div
+        className="relative z-20 h-10 overflow-hidden flex items-center flex-shrink-0"
+        style={{
+          background:     'rgba(10,10,8,0.75)',
+          backdropFilter: 'blur(8px)',
+          borderTop:      '1px solid rgba(245,240,232,0.08)',
+        }}
+      >
+        <div className="hero-ticker-track">
+          {tickerLoop.map((area, i) => (
+            <span key={i} className="flex items-center">
+              <span
+                className="px-5 font-sans font-medium uppercase"
+                style={{ fontSize: '10px', letterSpacing: '0.25em', color: '#97C459' }}
+              >
+                {area}
+              </span>
+              <span style={{ color: 'rgba(245,240,232,0.2)', fontSize: '10px' }}>·</span>
+            </span>
+          ))}
         </div>
       </div>
+
     </section>
   )
 }

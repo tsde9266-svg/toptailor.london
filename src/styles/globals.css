@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Hero ticker animation ──────────────────────────────────── */
+@keyframes hero-ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.hero-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: hero-ticker 55s linear infinite;
+}
+.hero-ticker-track:hover { animation-play-state: paused; }
+
+/* ─── Hero dark input autofill override ─────────────────────── */
+.hero-input:-webkit-autofill,
+.hero-input:-webkit-autofill:hover,
+.hero-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px rgba(10,10,8,0.85) inset;
+  -webkit-text-fill-color: #F5F0E8;
+}
+
+/* ─── Spin for postcode checker ─────────────────────────────── */
+@keyframes hero-spin { to { transform: rotate(360deg); } }
+.hero-spin { animation: hero-spin 0.8s linear infinite; display: inline-block; }
+
 /* ─── Base resets ───────────────────────────────────────────── */
 @layer base {
   *,
