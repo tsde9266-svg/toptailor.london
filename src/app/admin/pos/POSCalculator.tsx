@@ -110,7 +110,7 @@ let _uid = 0
 function uid() { return String(++_uid) }
 
 type Item = { id: string; name: string; price: number; catId: string }
-type Customer = { name: string; email: string; phone: string; address: string }
+type Customer = { name: string; email: string; phone: string; address: string; source?: string }
 
 // ── Icon Box ─────────────────────────────────────────────────────────────────
 function IconBox({ Icon, bg, color, size = 'sm' }: { Icon: React.ElementType; bg: string; color: string; size?: 'sm' | 'md' }) {
@@ -235,7 +235,7 @@ function CustomerPicker({ selected, onSelect, onClear }: {
         c.email.toLowerCase().includes(query.toLowerCase()) ||
         c.phone.includes(query)
       )
-    : customers.slice(0, 8)
+    : customers
 
   if (selected) {
     return (
@@ -281,7 +281,14 @@ function CustomerPicker({ selected, onSelect, onClear }: {
                 onMouseEnter={e => (e.currentTarget.style.background = C.surfaceLow)}
                 onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
               >
-                <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: C.onSurface }}>{c.name}</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 1 }}>
+                  <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: C.onSurface }}>{c.name}</p>
+                  {c.source && (
+                    <span style={{ fontSize: 10, fontWeight: 600, padding: '1px 6px', borderRadius: 999, background: c.source === 'order' ? '#eff6ff' : c.source === 'booking' ? '#f0fdf4' : c.source === 'invoice' ? '#fafaf5' : '#fdf4ff', color: c.source === 'order' ? '#1d4ed8' : c.source === 'booking' ? '#15803d' : c.source === 'invoice' ? '#374151' : '#7e22ce' }}>
+                      {c.source === 'consultation' ? 'call' : c.source}
+                    </span>
+                  )}
+                </div>
                 <p style={{ margin: 0, fontSize: 11, color: C.onVariant }}>{[c.phone, c.email].filter(Boolean).join(' · ')}</p>
               </button>
             ))
