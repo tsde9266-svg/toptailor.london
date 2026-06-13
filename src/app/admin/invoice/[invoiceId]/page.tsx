@@ -77,7 +77,7 @@ export default async function AdminInvoicePage({ params }: { params: { invoiceId
             {invoice.items.map((item, i) => (
               <li key={i} className="flex justify-between font-sans text-[0.9rem]">
                 <span className="text-charcoal">{item.name}</span>
-                <span className="text-hunter font-medium">£{item.price}</span>
+                <span className="text-hunter font-medium">£{Number(item.price).toFixed(2)}</span>
               </li>
             ))}
           </ul>

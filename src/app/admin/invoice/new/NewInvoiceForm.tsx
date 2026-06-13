@@ -5,7 +5,12 @@ import type { Voucher, Invoice } from '@/lib/kv'
 import { VOUCHER_TYPE_LABEL as TYPE_LABEL, VOUCHER_TYPE_COLOR as TYPE_COLOR, VOUCHER_TYPE_BORDER as TYPE_BORDER } from '@/lib/constants'
 import { services as SERVICE_CATALOGUE } from '@/data/services'
 
-const GARMENTS = ['Trouser', 'Jeans', 'Jacket', 'Coat', 'Shirt', 'Dress', 'Wedding Dress', 'Leather Jacket', 'Skirt', 'Waistcoat', 'Other']
+const GARMENTS = ['Trouser', 'Jeans', 'Jacket', 'Coat', 'Shirt', 'Dress', 'Wedding Dress', 'Leather Jacket', 'Skirt', 'Ladies Suit', 'Jumpsuit', 'Waistcoat', 'Other']
+
+// Flat lookup: service name → price for auto-fill
+const SERVICE_PRICE_MAP: Record<string, number> = Object.fromEntries(
+  SERVICE_CATALOGUE.flatMap(cat => cat.items.filter(i => i.price > 0).map(i => [i.name, i.price]))
+)
 
 let _uid = 0
 function uid() { return String(++_uid) }
@@ -207,12 +212,24 @@ export default function NewInvoiceForm({ invoice }: Props) {
 
         <div className="mb-3">
           <label className={labelClass}>Service</label>
-          <select ref={serviceRef} value={addService} onChange={e => setAddService(e.target.value)}
+          <select ref={serviceRef} value={addService}
+            onChange={e => {
+              const svc = e.target.value
+              setAddService(svc)
+              if (svc && svc !== '__custom') {
+                const known = SERVICE_PRICE_MAP[svc]
+                if (known) setAddPrice(known)
+              }
+            }}
             className="w-full border border-divider px-3 py-2.5 font-sans text-[0.9375rem] focus:outline-none focus:border-hunter bg-white text-charcoal">
             <option value="">Select service…</option>
             {SERVICE_CATALOGUE.map(cat => (
               <optgroup key={cat.id} label={cat.name}>
-                {cat.items.map(s => <option key={s.id} value={s.name}>{s.name}</option>)}
+                {cat.items.map(s => (
+                  <option key={s.id} value={s.name}>
+                    {s.name}{s.price > 0 ? ` — £${s.price}${s.note === 'from' ? '+' : ''}` : ' — Quote'}
+                  </option>
+                ))}
               </optgroup>
             ))}
             <option value="__custom">Custom…</option>
