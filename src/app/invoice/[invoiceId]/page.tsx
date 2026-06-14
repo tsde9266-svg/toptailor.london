@@ -32,6 +32,7 @@ const KNOWN_GARMENTS = [
   'Wedding Dress', 'Leather Jacket',
   'Trouser', 'Jeans', 'Jacket', 'Coat', 'Shirt',
   'Dress', 'Skirt', 'Waistcoat', 'Suit',
+  'Ladies Suit', 'Jumpsuit',
 ]
 
 function parseOldName(name: string): { garment: string | null; service: string } {

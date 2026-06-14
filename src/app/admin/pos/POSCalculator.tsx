@@ -106,6 +106,17 @@ const SERVICE_ID_MAP: Record<string, string> = {
 
 const DISCOUNT_PRESETS = [5, 10, 15, 20, 25, 30]
 
+// Maps POS category → garment label used in the invoice form
+const CAT_TO_GARMENT: Record<string, string> = {
+  trousers:       'Trouser',
+  jacket:         'Jacket',
+  shirts:         'Shirt',
+  dress:          'Dress',
+  skirts:         'Skirt',
+  'ladies-suits': 'Ladies Suit',
+  jumpsuits:      'Jumpsuit',
+}
+
 let _uid = 0
 function uid() { return String(++_uid) }
 
@@ -314,7 +325,7 @@ export default function POSCalculator() {
 
   function goToInvoice() {
     sessionStorage.setItem('pos_draft', JSON.stringify({
-      items:           cart.map(i => ({ name: i.name, price: i.price })),
+      items:           cart.map(i => ({ name: i.name, price: i.price, garment: CAT_TO_GARMENT[i.catId] })),
       discountPercent: discountPct,
       customer:        selectedCustomer ?? undefined,
     }))

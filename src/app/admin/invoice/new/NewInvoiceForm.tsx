@@ -98,12 +98,12 @@ export default function NewInvoiceForm({ invoice }: Props) {
         const raw = sessionStorage.getItem('pos_draft')
         if (raw) {
           const draft = JSON.parse(raw) as {
-            items: Array<{ name: string; price: number }>
+            items: Array<{ name: string; price: number; garment?: string }>
             discountPercent: number
             customer?: { name: string; email: string; phone: string; address: string }
           }
           if (Array.isArray(draft.items) && draft.items.length > 0) {
-            setRows(draft.items.map(i => ({ id: uid(), garment: '', qty: 1, service: i.name, price: i.price, priceEach: i.price })))
+            setRows(draft.items.map(i => ({ id: uid(), garment: i.garment ?? '', qty: 1, service: i.name, price: i.price, priceEach: i.price })))
           }
           if (draft.discountPercent > 0) { setDiscountMode('manual'); setDiscountPercent(draft.discountPercent) }
           if (draft.customer?.name)    setName(draft.customer.name)
