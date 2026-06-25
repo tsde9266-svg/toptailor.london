@@ -12,6 +12,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid body' }, { status: 400 })
   }
 
+  // Honeypot — bots fill this, humans don't see it
+  if (body.website || body.url || body.company) {
+    return NextResponse.json({ ok: true }) // silently discard
+  }
+
   const name    = String(body.name    ?? '').trim()
   const phone   = String(body.phone   ?? '').trim()
   const message = String(body.message ?? '').trim()

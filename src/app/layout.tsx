@@ -7,6 +7,7 @@ import CartDrawer      from '@/components/CartDrawer'
 import CartFloat       from '@/components/CartFloat'
 import { CartProvider } from '@/context/CartContext'
 import CookieBanner    from '@/components/CookieBanner'
+import ClarityLoader   from '@/components/ClarityLoader'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -279,13 +280,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }} />
-        <Script
-          id="microsoft-clarity"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","wqp1fj5h4b");`,
-          }}
-        />
+        <ClarityLoader />
 
       </body>
     </html>

@@ -93,6 +93,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 })
   }
 
+  // Honeypot — bots fill this, humans don't see it
+  if (body.website || body.url || body.company) {
+    return NextResponse.json({ ok: true })
+  }
+
   const errors = validate(body)
   if (errors.length) {
     return NextResponse.json({ errors }, { status: 422 })
