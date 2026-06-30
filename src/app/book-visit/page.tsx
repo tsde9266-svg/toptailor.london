@@ -37,8 +37,7 @@ export default function BookVisitPage() {
         const d = await res.json().catch(() => ({})) as Record<string, unknown>
         throw new Error(typeof d.error === 'string' ? d.error : 'Something went wrong. Please try again.')
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ;(window as any).ttq?.track('Contact')
+      ;(window as Window & { ttq?: { track: (e: string) => void } }).ttq?.track('Contact')
       setDone(true)
     } catch (err) {
       clearTimeout(timeout)
