@@ -51,7 +51,11 @@ export default function QuickBookForm() {
   const [success, setSuccess] = useState(false)
 
   const lookupTimer  = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const lookupSeqRef = useRef(0) // prevents stale responses from overwriting newer results
+  const lookupSeqRef = useRef(0)
+
+  useEffect(() => {
+    return () => { if (lookupTimer.current) clearTimeout(lookupTimer.current) }
+  }, [])
 
   // ── Phone lookup ──────────────────────────────────────────────────────────
   const lookupPhone = useCallback(async (val: string) => {
@@ -66,7 +70,7 @@ export default function QuickBookForm() {
         setHint(data.customer)
         setName(data.customer.name)
         setAddress(data.customer.address)
-        setPostcode(data.customer.postcode)
+        setPostcode(data.customer.postcode.toUpperCase())
       } else {
         setHint(null)
       }

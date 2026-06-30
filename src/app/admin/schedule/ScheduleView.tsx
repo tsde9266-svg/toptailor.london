@@ -60,6 +60,7 @@ export default function ScheduleView() {
     if (!quiet) setLoading(true)
     try {
       const res  = await fetch('/api/admin/whatsapp-bookings')
+      if (!res.ok) return // keep existing data on auth/server error
       const data = await res.json() as { bookings: Booking[] }
       setBookings(data.bookings ?? [])
     } catch { /**/ }
@@ -98,13 +99,16 @@ export default function ScheduleView() {
     const next = b.status === 'done' ? 'upcoming' : 'done'
     setUpdating(b.id)
     try {
-      await fetch(`/api/admin/whatsapp-bookings/${b.id}`, {
+      const res = await fetch(`/api/admin/whatsapp-bookings/${b.id}`, {
         method:  'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: next }),
       })
+      if (!res.ok) throw new Error()
       setBookings(prev => prev.map(x => x.id === b.id ? { ...x, status: next } : x))
-    } catch { /**/ }
+    } catch {
+      alert('Could not update booking — please refresh and try again.')
+    }
     finally { setUpdating(null) }
   }
 
@@ -112,13 +116,16 @@ export default function ScheduleView() {
     if (!confirm(`Cancel booking for ${b.customer.name}?`)) return
     setUpdating(b.id)
     try {
-      await fetch(`/api/admin/whatsapp-bookings/${b.id}`, {
+      const res = await fetch(`/api/admin/whatsapp-bookings/${b.id}`, {
         method:  'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: 'cancelled' }),
       })
+      if (!res.ok) throw new Error()
       setBookings(prev => prev.map(x => x.id === b.id ? { ...x, status: 'cancelled' } : x))
-    } catch { /**/ }
+    } catch {
+      alert('Could not cancel booking — please refresh and try again.')
+    }
     finally { setUpdating(null) }
   }
 
