@@ -1,11 +1,21 @@
 'use client'
 
-// ─── Set your WhatsApp number here (digits only, with country code, no +) ───────
-// e.g. UK 07911 123456 → "447911123456"
+import { usePathname } from 'next/navigation'
+
 const WHATSAPP_NUMBER = '447438145169'
 const WHATSAPP_MESSAGE = 'Hi, I\'d like to book a tailoring collection.'
 
 export default function WhatsAppButton() {
+  const pathname = usePathname()
+
+  // Hide on any page a customer receives — invoices, quotes, and admin
+  if (
+    pathname.startsWith('/invoice') ||
+    pathname.startsWith('/quote') ||
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/review')
+  ) return null
+
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`
 
   return (
