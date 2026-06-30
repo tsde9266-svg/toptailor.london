@@ -133,9 +133,9 @@ When assistant types a phone number in Quick-Log:
 
 ## Status
 
-- [ ] Step 1: WhatsAppBooking type in kv.ts
-- [ ] Step 2: API route
-- [ ] Step 3: Quick-book form page
-- [ ] Step 4: Telegram notification
-- [ ] Step 5: Schedule view
-- [ ] Step 6: Returning customer auto-fill
+- [x] Step 1: WhatsAppBooking type in kv.ts
+- [x] Step 2: API route (POST/PATCH/DELETE + customer search)
+- [x] Step 3: Quick-book form page `/admin/quick-book`
+- [x] Step 4: Telegram notification (fires on POST)
+- [x] Step 5: Schedule view `/admin/schedule`
+- [x] Step 6: Returning customer auto-fill (phone lookup API)

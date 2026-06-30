@@ -122,6 +122,12 @@ export default async function AdminPage({
           </form>
         </div>
         <div className="border-t border-parchment/10 px-4 py-2 flex items-center gap-2 overflow-x-auto">
+          <Link href="/admin/quick-book" className="font-sans text-[0.6875rem] uppercase tracking-widest text-hunter bg-parchment hover:bg-parchment/90 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0 font-semibold">
+            + Quick Book
+          </Link>
+          <Link href="/admin/schedule" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-parchment/60 bg-parchment/10 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
+            📋 Schedule
+          </Link>
           <Link href="/admin/dashboard" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/90 hover:text-parchment border border-green-400/60 bg-green-500/10 px-3 py-1 transition-colors whitespace-nowrap flex-shrink-0">
             Dashboard
           </Link>

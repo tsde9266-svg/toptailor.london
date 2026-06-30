@@ -514,6 +514,63 @@ export async function getAllBookVisits(): Promise<BookVisit[]> {
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 }
 
+// ─── WhatsApp Bookings ────────────────────────────────────────────────────────
+
+export type WhatsAppBookingService =
+  | 'Suit & Jacket'
+  | 'Trousers'
+  | 'Dress/Skirt'
+  | 'Wedding'
+  | 'Leather'
+  | 'Mending'
+  | 'Other'
+
+export type WhatsAppBookingStatus = 'upcoming' | 'done' | 'cancelled'
+
+export type WhatsAppBooking = {
+  id:        string
+  createdAt: string
+  status:    WhatsAppBookingStatus
+  customer: {
+    name:     string
+    phone:    string
+    address:  string
+    postcode: string
+  }
+  services:  WhatsAppBookingService[]
+  date:      string   // YYYY-MM-DD
+  startTime: string   // HH:MM 24h
+  endTime:   string   // HH:MM 24h
+  notes?:    string
+  calEntryId?: string // linked CalEntry id
+}
+
+export async function saveWhatsAppBooking(b: WhatsAppBooking): Promise<void> {
+  await redis.pipeline().set(`wabooking:${b.id}`, b).lpush('wabookings', b.id).exec()
+}
+
+export async function getWhatsAppBooking(id: string): Promise<WhatsAppBooking | null> {
+  return redis.get<WhatsAppBooking>(`wabooking:${id}`)
+}
+
+export async function updateWhatsAppBooking(b: WhatsAppBooking): Promise<void> {
+  await redis.set(`wabooking:${b.id}`, b)
+}
+
+export async function deleteWhatsAppBooking(id: string): Promise<void> {
+  await redis.del(`wabooking:${id}`)
+  await redis.lrem('wabookings', 0, id)
+}
+
+export async function getAllWhatsAppBookings(): Promise<WhatsAppBooking[]> {
+  const ids = await redis.lrange<string>('wabookings', 0, -1)
+  if (!ids.length) return []
+  const bookings = await Promise.all(ids.map(id => redis.get<WhatsAppBooking>(`wabooking:${id}`)))
+  return bookings
+    .filter((b): b is WhatsAppBooking => b !== null)
+    .sort((a, b) => a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime))
+}
+
 // ─── Error Log ────────────────────────────────────────────────────────────────
 
 export type AppError = {
