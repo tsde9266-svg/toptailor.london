@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import type { ReportType } from '@/app/api/admin/reports/route'
 
-const REPORT_EMAIL = 'taqi0413@gmail.com'
+const REPORT_EMAILS = ['taqi0413@gmail.com', 'tsde9266@gmail.com']
 
 const REPORTS: { type: ReportType; label: string; sub: string }[] = [
   { type: 'summary',     label: 'Monthly Business Summary', sub: 'Revenue, customers, top services — one email' },
@@ -26,7 +26,7 @@ export default function ReportsPanel() {
     try {
       const res  = await fetch('/api/admin/reports', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type, email: REPORT_EMAIL }),
+        body: JSON.stringify({ type, email: REPORT_EMAILS }),
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok) throw new Error(data.error ?? 'Failed to send')
@@ -43,7 +43,7 @@ export default function ReportsPanel() {
     <div className="border border-divider bg-white p-5">
       <div className="flex items-center justify-between mb-1">
         <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted">Reports — Emailed to Inbox</p>
-        <p className="font-sans text-[0.6875rem] text-muted">→ {REPORT_EMAIL}</p>
+        <p className="font-sans text-[0.6875rem] text-muted">→ {REPORT_EMAILS.join(' & ')}</p>
       </div>
       <p className="font-sans text-[0.75rem] text-muted mb-4">
         Nothing downloads to this device — every report is sent straight to your email.

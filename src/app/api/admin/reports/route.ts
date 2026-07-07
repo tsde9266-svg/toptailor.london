@@ -364,16 +364,20 @@ const BUILDERS: Record<ReportType, () => Promise<{ subject: string; html: string
 export async function POST(req: NextRequest) {
   if (!isAdmin(req)) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  let body: { type?: string; email?: string }
+  let body: { type?: string; email?: string | string[] }
   try { body = await req.json() } catch { return NextResponse.json({ error: 'Invalid body' }, { status: 400 }) }
 
   const { type, email } = body
   if (!type || !(type in BUILDERS)) return NextResponse.json({ error: 'Unknown report type' }, { status: 400 })
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return NextResponse.json({ error: 'Valid email required' }, { status: 400 })
+  const emails = (Array.isArray(email) ? email : email ? [email] : []).filter(Boolean)
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emails.length || !emails.every(e => EMAIL_RE.test(e))) {
+    return NextResponse.json({ error: 'Valid email required' }, { status: 400 })
+  }
 
   try {
     const { subject, html, attachments } = await BUILDERS[type as ReportType]()
-    await sendMail({ to: email, subject: `[Fine Tailors] ${subject}`, html, attachments })
+    await sendMail({ to: emails, subject: `[Fine Tailors] ${subject}`, html, attachments })
     return NextResponse.json({ ok: true, label: REPORT_LABEL[type as ReportType] })
   } catch (e) {
     console.error('[reports] failed', e)
