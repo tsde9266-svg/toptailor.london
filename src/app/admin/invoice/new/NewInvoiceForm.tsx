@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import type { Voucher, Invoice } from '@/lib/kv'
 import { VOUCHER_TYPE_LABEL as TYPE_LABEL, VOUCHER_TYPE_COLOR as TYPE_COLOR, VOUCHER_TYPE_BORDER as TYPE_BORDER } from '@/lib/constants'
 import { services as SERVICE_CATALOGUE } from '@/data/services'
+import CustomerSearch from './CustomerSearch'
 
 const GARMENTS = ['Trouser', 'Jeans', 'Jacket', 'Coat', 'Shirt', 'Dress', 'Wedding Dress', 'Leather Jacket', 'Skirt', 'Ladies Suit', 'Jumpsuit', 'Waistcoat', 'Other']
 
@@ -426,6 +427,14 @@ export default function NewInvoiceForm({ invoice }: Props) {
       {/* ── Customer ────────────────────────────────────────────────── */}
       <div className="border border-divider bg-white p-6 space-y-5">
         <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted">Customer</p>
+        {!isEdit && (
+          <CustomerSearch onSelect={c => {
+            setName(c.name)
+            setEmail(c.email)
+            setPhone(c.phone)
+            setAddress(c.address)
+          }} />
+        )}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <div>
             <label className={labelClass}>Name *</label>
