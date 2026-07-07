@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import type { Voucher, Invoice } from '@/lib/kv'
 import { VOUCHER_TYPE_LABEL as TYPE_LABEL, VOUCHER_TYPE_COLOR as TYPE_COLOR, VOUCHER_TYPE_BORDER as TYPE_BORDER } from '@/lib/constants'
 import { services as SERVICE_CATALOGUE } from '@/data/services'
@@ -61,13 +61,14 @@ function today() {
 type Props = { invoice?: Invoice }
 
 export default function NewInvoiceForm({ invoice }: Props) {
-  const router = useRouter()
-  const isEdit = !!invoice
+  const router       = useRouter()
+  const searchParams = useSearchParams()
+  const isEdit        = !!invoice
 
-  const [name,    setName]    = useState(invoice?.customer.name    ?? '')
-  const [email,   setEmail]   = useState(invoice?.customer.email   ?? '')
-  const [phone,   setPhone]   = useState(invoice?.customer.phone   ?? '')
-  const [address, setAddress] = useState(invoice?.customer.address ?? '')
+  const [name,    setName]    = useState(invoice?.customer.name    ?? searchParams.get('name')    ?? '')
+  const [email,   setEmail]   = useState(invoice?.customer.email   ?? searchParams.get('email')   ?? '')
+  const [phone,   setPhone]   = useState(invoice?.customer.phone   ?? searchParams.get('phone')   ?? '')
+  const [address, setAddress] = useState(invoice?.customer.address ?? searchParams.get('address') ?? '')
   const [rows,    setRows]    = useState<GarmentRow[]>(() => invoice ? fromInvoiceItems(invoice.items) : [])
   const [notes,     setNotes]     = useState(invoice?.notes             ?? '')
   const [itemCount, setItemCount] = useState<number | ''>(invoice?.itemCount ?? '')

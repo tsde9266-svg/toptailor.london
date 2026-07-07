@@ -115,7 +115,12 @@ export default async function CustomerProfilePage({ params }: { params: { id: st
 
         {/* Quick actions */}
         <div className="flex gap-2 flex-wrap">
-          <Link href={`/admin/invoice/new`}
+          <Link href={`/admin/invoice/new?${new URLSearchParams({
+            name: customerName,
+            email,
+            ...(phone   ? { phone }   : {}),
+            ...(address ? { address } : {}),
+          }).toString()}`}
             className="font-sans text-[0.6875rem] uppercase tracking-widest px-4 py-2 bg-hunter text-parchment hover:bg-[#1E3D17] transition-colors">
             + New Invoice
           </Link>

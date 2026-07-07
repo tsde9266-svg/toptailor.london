@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import {
   getAllInvoices, getAllOrders, getAllCalBookings,
-  getAllDeliveries, getAllConsultations,
+  getAllDeliveries, getAllConsultations, getAllWhatsAppBookings,
 } from '@/lib/kv'
+import ReportsPanel from './ReportsPanel'
 
 function fmt(n: number) {
   return n.toFixed(2).replace(/\.00$/, '')
@@ -22,17 +23,18 @@ function isoToMonthKey(iso: string) {
 }
 
 export default async function DashboardPage() {
-  let invoices:      Awaited<ReturnType<typeof getAllInvoices>>      = []
-  let orders:        Awaited<ReturnType<typeof getAllOrders>>        = []
-  let bookings:      Awaited<ReturnType<typeof getAllCalBookings>>   = []
-  let deliveries:    Awaited<ReturnType<typeof getAllDeliveries>>    = []
-  let consultations: Awaited<ReturnType<typeof getAllConsultations>> = []
+  let invoices:      Awaited<ReturnType<typeof getAllInvoices>>          = []
+  let orders:        Awaited<ReturnType<typeof getAllOrders>>            = []
+  let bookings:      Awaited<ReturnType<typeof getAllCalBookings>>       = []
+  let deliveries:    Awaited<ReturnType<typeof getAllDeliveries>>        = []
+  let consultations: Awaited<ReturnType<typeof getAllConsultations>>     = []
+  let waBookings:    Awaited<ReturnType<typeof getAllWhatsAppBookings>>  = []
   let kvError = false
 
   try {
-    ;[invoices, orders, bookings, deliveries, consultations] = await Promise.all([
+    ;[invoices, orders, bookings, deliveries, consultations, waBookings] = await Promise.all([
       getAllInvoices(), getAllOrders(), getAllCalBookings(),
-      getAllDeliveries(), getAllConsultations(),
+      getAllDeliveries(), getAllConsultations(), getAllWhatsAppBookings(),
     ])
   } catch { kvError = true }
 
@@ -73,6 +75,38 @@ export default async function DashboardPage() {
   })
   const monthData = Array.from(monthMap.entries()).map(([key, value]) => ({ key, value }))
   const maxMonthValue = Math.max(...monthData.map(m => m.value), 1)
+
+  // ── Month-over-month growth ────────────────────────────────────────────────
+  const lastMonthKey = monthData[monthData.length - 2]?.key
+  const lastMonthRevenue = lastMonthKey ? (monthMap.get(lastMonthKey) ?? 0) : 0
+  const momGrowthPct = lastMonthRevenue > 0
+    ? ((monthRevenue - lastMonthRevenue) / lastMonthRevenue) * 100
+    : (monthRevenue > 0 ? 100 : 0)
+
+  // ── Customer analytics: new vs returning, repeat rate ──────────────────────
+  const invoiceCountByEmail = new Map<string, number>()
+  invoices.forEach(inv => {
+    const key = (inv.customer.email || inv.customer.name).toLowerCase().trim()
+    if (!key) return
+    invoiceCountByEmail.set(key, (invoiceCountByEmail.get(key) ?? 0) + 1)
+  })
+  const repeatCustomers  = Array.from(invoiceCountByEmail.values()).filter(c => c > 1).length
+  const repeatRatePct    = invoiceCountByEmail.size ? (repeatCustomers / invoiceCountByEmail.size) * 100 : 0
+  const newThisMonth     = new Set<string>()
+  invoices.filter(i => isoToMonthKey(i.createdAt) === thisMonth).forEach(i => i.customer.email && newThisMonth.add(i.customer.email.toLowerCase()))
+  orders.filter(o => isoToMonthKey(o.createdAt) === thisMonth).forEach(o => o.customer.email && newThisMonth.add(o.customer.email.toLowerCase()))
+
+  // ── Payment method split ────────────────────────────────────────────────────
+  const paymentSplit = {
+    cash:   paidInvoices.filter(i => i.paymentMethod === 'cash').length,
+    mobile: paidInvoices.filter(i => i.paymentMethod === 'mobile').length,
+  }
+
+  // ── Bookings & consultations funnel ─────────────────────────────────────────
+  const upcomingBookings     = waBookings.filter(b => b.status === 'upcoming').length
+  const completedBookings    = waBookings.filter(b => b.status === 'done').length
+  const cancelledBookings    = waBookings.filter(b => b.status === 'cancelled').length
+  const pendingConsultations = consultations.filter(c => c.status === 'pending_call').length
 
   // ── Top services ──────────────────────────────────────────────────────────
   const serviceCounts = new Map<string, { count: number; revenue: number }>()
@@ -137,9 +171,9 @@ export default async function DashboardPage() {
         {/* Stat cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {statCard('Total Revenue', `£${fmt(totalRevenue)}`, `${paidInvoices.length} paid invoices`)}
-          {statCard('This Month', `£${fmt(monthRevenue)}`, monthLabel(new Date().toISOString()))}
+          {statCard('This Month', `£${fmt(monthRevenue)}`, `${momGrowthPct >= 0 ? '↑' : '↓'} ${Math.abs(momGrowthPct).toFixed(0)}% vs last month`)}
           {statCard('Outstanding', `£${fmt(outstanding)}`, `${invoices.filter(i => i.status !== 'paid').length} unpaid`)}
-          {statCard('Customers', String(customerCount), `avg £${fmt(avgOrderValue)} per invoice`)}
+          {statCard('Customers', String(customerCount), `${repeatRatePct.toFixed(0)}% repeat rate`)}
         </div>
 
         {/* System counts */}
@@ -213,6 +247,52 @@ export default async function DashboardPage() {
           </div>
         </div>
 
+        {/* Customer analytics + payment split + bookings funnel */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="border border-divider bg-white p-5">
+            <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-4">Customer Analytics</p>
+            <div className="space-y-2.5">
+              <div className="flex justify-between"><span className="font-sans text-[0.8125rem] text-charcoal">New this month</span><span className="font-sans text-[0.8125rem] font-medium text-hunter">{newThisMonth.size}</span></div>
+              <div className="flex justify-between"><span className="font-sans text-[0.8125rem] text-charcoal">Repeat customers</span><span className="font-sans text-[0.8125rem] font-medium text-charcoal">{repeatCustomers}</span></div>
+              <div className="flex justify-between"><span className="font-sans text-[0.8125rem] text-charcoal">Repeat rate</span><span className="font-sans text-[0.8125rem] font-medium text-charcoal">{repeatRatePct.toFixed(0)}%</span></div>
+              <div className="flex justify-between"><span className="font-sans text-[0.8125rem] text-charcoal">Avg invoice value</span><span className="font-sans text-[0.8125rem] font-medium text-charcoal">£{fmt(avgOrderValue)}</span></div>
+            </div>
+          </div>
+
+          <div className="border border-divider bg-white p-5">
+            <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-4">Payment Method Split</p>
+            <div className="space-y-3">
+              {[
+                { label: 'Cash / Pay on Day', count: paymentSplit.cash,   color: 'bg-amber-400' },
+                { label: 'Mobile / NFC',      count: paymentSplit.mobile, color: 'bg-hunter' },
+              ].map(({ label, count, color }) => {
+                const pct = paidInvoices.length ? (count / paidInvoices.length) * 100 : 0
+                return (
+                  <div key={label}>
+                    <div className="flex justify-between mb-1">
+                      <span className="font-sans text-[0.75rem] text-charcoal">{label}</span>
+                      <span className="font-sans text-[0.75rem] text-muted">{count}</span>
+                    </div>
+                    <div className="h-1.5 bg-parchment rounded-full overflow-hidden">
+                      <div className={`h-full ${color} rounded-full`} style={{ width: `${pct}%` }} />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="border border-divider bg-white p-5">
+            <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-4">Bookings Funnel</p>
+            <div className="space-y-2.5">
+              <div className="flex justify-between"><span className="font-sans text-[0.8125rem] text-charcoal">Upcoming</span><span className="font-sans text-[0.8125rem] font-medium text-hunter">{upcomingBookings}</span></div>
+              <div className="flex justify-between"><span className="font-sans text-[0.8125rem] text-charcoal">Completed</span><span className="font-sans text-[0.8125rem] font-medium text-charcoal">{completedBookings}</span></div>
+              <div className="flex justify-between"><span className="font-sans text-[0.8125rem] text-charcoal">Cancelled</span><span className="font-sans text-[0.8125rem] font-medium text-charcoal">{cancelledBookings}</span></div>
+              <div className="flex justify-between"><span className="font-sans text-[0.8125rem] text-charcoal">Callbacks pending</span><span className="font-sans text-[0.8125rem] font-medium text-amber-700">{pendingConsultations}</span></div>
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           {/* Top services */}
@@ -261,6 +341,8 @@ export default async function DashboardPage() {
             )}
           </div>
         </div>
+
+        <ReportsPanel />
 
         {/* Quick links */}
         <div className="border border-divider bg-white p-5">

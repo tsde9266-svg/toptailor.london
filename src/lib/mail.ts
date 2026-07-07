@@ -16,12 +16,18 @@
 const RESEND_URL = 'https://api.resend.com/emails'
 const DEFAULT_FROM = 'Fine Tailors <onboarding@resend.dev>'
 
+export type MailAttachment = {
+  filename: string
+  content:  string  // base64-encoded
+}
+
 export type SendMailInput = {
-  to:       string | string[]
-  subject:  string
-  html?:    string
-  text?:    string
-  replyTo?: string
+  to:          string | string[]
+  subject:     string
+  html?:       string
+  text?:       string
+  replyTo?:    string
+  attachments?: MailAttachment[]
 }
 
 export class MailNotConfiguredError extends Error {
@@ -34,7 +40,7 @@ export class MailNotConfiguredError extends Error {
  * Returns silently if RESEND_API_KEY is missing (so dev/local doesn't crash).
  * Throws on Resend HTTP error so the caller can decide how to handle it.
  */
-export async function sendMail({ to, subject, html, text, replyTo }: SendMailInput): Promise<void> {
+export async function sendMail({ to, subject, html, text, replyTo, attachments }: SendMailInput): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) {
     console.warn('[mail] RESEND_API_KEY missing — skipping send to', to)
@@ -51,9 +57,10 @@ export async function sendMail({ to, subject, html, text, replyTo }: SendMailInp
       from,
       to: recipients,
       subject,
-      ...(html    ? { html }            : {}),
-      ...(text    ? { text }            : {}),
-      ...(replyTo ? { reply_to: replyTo }: {}),
+      ...(html        ? { html }               : {}),
+      ...(text        ? { text }               : {}),
+      ...(replyTo     ? { reply_to: replyTo }  : {}),
+      ...(attachments?.length ? { attachments } : {}),
     }),
   })
 

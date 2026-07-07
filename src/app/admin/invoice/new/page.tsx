@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Suspense } from 'react'
 import NewInvoiceForm from './NewInvoiceForm'
 
 export default function NewInvoicePage() {
@@ -19,7 +20,9 @@ export default function NewInvoicePage() {
             Enter customer details and services. A professional invoice will be generated instantly.
           </p>
         </div>
-        <NewInvoiceForm />
+        <Suspense fallback={null}>
+          <NewInvoiceForm />
+        </Suspense>
       </div>
     </div>
   )

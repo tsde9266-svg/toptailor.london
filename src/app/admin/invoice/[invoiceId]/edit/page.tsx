@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Suspense } from 'react'
 import { notFound, redirect } from 'next/navigation'
 import { getInvoice } from '@/lib/kv'
 import NewInvoiceForm from '../../new/NewInvoiceForm'
@@ -27,7 +28,9 @@ export default async function EditInvoicePage({ params }: { params: { invoiceId:
             Changes update the invoice immediately. The invoice number and creation date are locked.
           </p>
         </div>
-        <NewInvoiceForm invoice={invoice} />
+        <Suspense fallback={null}>
+          <NewInvoiceForm invoice={invoice} />
+        </Suspense>
       </div>
     </div>
   )
