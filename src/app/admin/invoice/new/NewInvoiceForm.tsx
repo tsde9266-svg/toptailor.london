@@ -4,9 +4,14 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import type { Voucher, Invoice } from '@/lib/kv'
 import { VOUCHER_TYPE_LABEL as TYPE_LABEL, VOUCHER_TYPE_COLOR as TYPE_COLOR, VOUCHER_TYPE_BORDER as TYPE_BORDER } from '@/lib/constants'
 import { services as SERVICE_CATALOGUE } from '@/data/services'
+import { legacyToItemGroups } from '@/lib/invoice-groups'
 import CustomerSearch from './CustomerSearch'
 
-const GARMENTS = ['Trouser', 'Jeans', 'Jacket', 'Coat', 'Shirt', 'Dress', 'Wedding Dress', 'Leather Jacket', 'Skirt', 'Ladies Suit', 'Jumpsuit', 'Waistcoat', 'Other']
+const GARMENTS = [
+  'Trouser', 'Jeans', 'Jacket', 'Coat', 'Shirt', 'Dress', 'Wedding Dress',
+  'Leather Jacket', 'Skirt', 'Ladies Suit', 'Jumpsuit', 'Playsuit',
+  'Fur / Sheepskin Coat', 'Suede', 'Occasion Wear', 'Waistcoat', 'Other',
+]
 
 // Flat lookup: service name → price for auto-fill
 const SERVICE_PRICE_MAP: Record<string, number> = Object.fromEntries(
@@ -16,40 +21,18 @@ const SERVICE_PRICE_MAP: Record<string, number> = Object.fromEntries(
 let _uid = 0
 function uid() { return String(++_uid) }
 
-type GarmentRow = {
-  id:        string
-  garment:   string
-  qty:       number
-  service:   string
-  price:     number
-  priceEach: number
-}
+// ── Working state: one entry per physical item, holding every service done to it ──
+type UIService = { id: string; name: string; priceEach: number; appliesTo: number }
+type UIGroup    = { id: string; garment: string; qty: number; services: UIService[] }
 
-function fromInvoiceItems(items: Invoice['items']): GarmentRow[] {
-  return items.map((item, i) => {
-    if (item.garment) {
-      return { id: String(i), garment: item.garment, qty: item.qty ?? 1, service: item.name, price: item.price, priceEach: item.priceEach ?? item.price }
-    }
-    const match = item.name.match(/^(\d+)[×x]\s*(.+?)(?:\s+[—\-]\s+(.+))?$/)
-    if (match && item.qty) {
-      return { id: String(i), garment: match[2].trim(), qty: item.qty, service: (match[3] ?? match[2]).trim(), price: item.price, priceEach: item.priceEach ?? item.price }
-    }
-    return { id: String(i), garment: '', qty: 1, service: item.name, price: item.price, priceEach: item.price }
-  })
-}
-
-type Group = { key: string; garment: string; qty: number; rows: GarmentRow[] }
-
-function groupRows(rows: GarmentRow[]): Group[] {
-  const seen = new Set<string>()
-  const order: string[] = []
-  const groups: Record<string, Group> = {}
-  for (const row of rows) {
-    const key = row.garment ? `${row.garment}::${row.qty}` : `__free::${row.id}`
-    if (!seen.has(key)) { seen.add(key); order.push(key); groups[key] = { key, garment: row.garment, qty: row.qty, rows: [] } }
-    groups[key].rows.push(row)
-  }
-  return order.map(k => groups[k])
+function fromInvoice(invoice: Invoice): UIGroup[] {
+  const source = invoice.itemGroups?.length ? invoice.itemGroups : legacyToItemGroups(invoice.items)
+  return source.map(g => ({
+    id:      g.id,
+    garment: g.garment,
+    qty:     g.qty,
+    services: g.services.map(s => ({ id: uid(), name: s.name, priceEach: s.priceEach, appliesTo: s.appliesTo })),
+  }))
 }
 
 const labelClass = 'block font-sans text-[0.75rem] uppercase tracking-widest mb-2 text-charcoal'
@@ -57,6 +40,102 @@ const inputClass = 'w-full border border-divider px-3 py-2.5 font-sans text-[0.9
 
 function today() {
   const d = new Date(); d.setDate(d.getDate() + 7); return d.toISOString().split('T')[0]
+}
+
+// ── Service picker used both for the quick-add panel and "add another service" ──
+function ServiceSelect({ value, custom, onChange, onCustomChange, selectRef }: {
+  value: string; custom: string
+  onChange: (v: string) => void; onCustomChange: (v: string) => void
+  selectRef?: React.RefObject<HTMLSelectElement>
+}) {
+  return (
+    <div>
+      <select ref={selectRef} value={value}
+        onChange={e => onChange(e.target.value)}
+        className="w-full border border-divider px-3 py-2.5 font-sans text-[0.9375rem] focus:outline-none focus:border-hunter bg-white text-charcoal">
+        <option value="">Select service…</option>
+        {SERVICE_CATALOGUE.map(cat => (
+          <optgroup key={cat.id} label={cat.name}>
+            {cat.items.map(s => (
+              <option key={s.id} value={s.name}>
+                {s.name}{s.price > 0 ? ` — £${s.price}${s.note === 'from' ? '+' : ''}` : ' — Quote'}
+              </option>
+            ))}
+          </optgroup>
+        ))}
+        <option value="__custom">Custom…</option>
+      </select>
+      {value === '__custom' && (
+        <input value={custom} onChange={e => onCustomChange(e.target.value)}
+          placeholder="Describe the service"
+          className="mt-2 w-full border border-divider px-3 py-2.5 font-sans text-[0.9375rem] focus:outline-none focus:border-hunter bg-white" />
+      )}
+    </div>
+  )
+}
+
+// ── Inline "add another service to this item" form ──────────────────────────
+function AddServiceForm({ groupQty, onAdd, onCancel }: {
+  groupQty: number
+  onAdd: (s: { name: string; priceEach: number; appliesTo: number }) => void
+  onCancel: () => void
+}) {
+  const [svc, setSvc]         = useState('')
+  const [custom, setCustom]   = useState('')
+  const [price, setPrice]     = useState<number | ''>('')
+  const [appliesTo, setAppliesTo] = useState(groupQty)
+  const selectRef = useRef<HTMLSelectElement>(null)
+
+  function confirm() {
+    const name = svc === '__custom' ? custom.trim() : svc.trim()
+    if (!name) { selectRef.current?.focus(); return }
+    onAdd({
+      name,
+      priceEach: price === '' ? 0 : Number(price),
+      appliesTo: Math.min(Math.max(1, appliesTo || 1), groupQty),
+    })
+  }
+
+  return (
+    <div className="mt-3 pl-3 border-l-2 border-hunter/30 space-y-2.5">
+      <ServiceSelect
+        value={svc} custom={custom}
+        onChange={v => { setSvc(v); const p = SERVICE_PRICE_MAP[v]; if (p) setPrice(p) }}
+        onCustomChange={setCustom}
+        selectRef={selectRef}
+      />
+      <div className="flex items-end gap-3 flex-wrap">
+        <div className="w-32">
+          <label className={labelClass}>Price each (£)</label>
+          <input type="number" min="0" step="0.01" value={price}
+            onChange={e => setPrice(e.target.value === '' ? '' : Number(e.target.value))}
+            onKeyDown={e => e.key === 'Enter' && confirm()}
+            className="w-full border border-divider px-3 py-2 font-sans text-[0.875rem] focus:outline-none focus:border-hunter bg-white" />
+        </div>
+        {groupQty > 1 && (
+          <div className="w-40">
+            <label className={labelClass}>Applies to</label>
+            <div className="flex items-center gap-1.5">
+              <input type="number" min="1" max={groupQty} value={appliesTo}
+                onChange={e => setAppliesTo(Number(e.target.value))}
+                className="w-16 border border-divider px-2 py-2 font-sans text-[0.875rem] text-center focus:outline-none focus:border-hunter bg-white" />
+              <span className="font-sans text-[0.8125rem] text-muted whitespace-nowrap">of {groupQty}</span>
+            </div>
+          </div>
+        )}
+        <div className="flex gap-2 ml-auto">
+          <button type="button" onClick={confirm}
+            className="bg-hunter text-parchment px-4 py-2 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:bg-[#1E3D17] transition-colors">
+            Add
+          </button>
+          <button type="button" onClick={onCancel}
+            className="border border-divider text-muted px-4 py-2 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:border-red-300 hover:text-red-500 transition-colors">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 type Props = { invoice?: Invoice }
@@ -70,15 +149,17 @@ export default function NewInvoiceForm({ invoice }: Props) {
   const [email,   setEmail]   = useState(invoice?.customer.email   ?? searchParams.get('email')   ?? '')
   const [phone,   setPhone]   = useState(invoice?.customer.phone   ?? searchParams.get('phone')   ?? '')
   const [address, setAddress] = useState(invoice?.customer.address ?? searchParams.get('address') ?? '')
-  const [rows,    setRows]    = useState<GarmentRow[]>(() => invoice ? fromInvoiceItems(invoice.items) : [])
+  const [groups,  setGroups]  = useState<UIGroup[]>(() => invoice ? fromInvoice(invoice) : [])
   const [notes,     setNotes]     = useState(invoice?.notes             ?? '')
   const [itemCount, setItemCount] = useState<number | ''>(invoice?.itemCount ?? '')
   const [payment,   setPayment]   = useState<'cash' | 'mobile'>(invoice?.paymentMethod ?? 'cash')
   const [dueDate, setDueDate] = useState(invoice?.dueDate          ?? today())
   const [loading, setLoading] = useState(false)
   const [error,   setError]   = useState('')
+  const [addingServiceTo, setAddingServiceTo] = useState<string | null>(null)
 
-  const [addGarment,   setAddGarment]   = useState('Trouser')
+  const [addGarment,       setAddGarment]       = useState('Trouser')
+  const [addGarmentCustom, setAddGarmentCustom] = useState('')
   const [addQty,       setAddQty]       = useState<number | ''>(1)
   const [addService,   setAddService]   = useState('')
   const [addCustomSvc, setAddCustomSvc] = useState('')
@@ -105,7 +186,21 @@ export default function NewInvoiceForm({ invoice }: Props) {
             customer?: { name: string; email: string; phone: string; address: string }
           }
           if (Array.isArray(draft.items) && draft.items.length > 0) {
-            setRows(draft.items.map(i => ({ id: uid(), garment: i.garment ?? '', qty: 1, service: i.name, price: i.price, priceEach: i.price })))
+            // Merge repeat taps of the same service/garment/price into one item with qty > 1,
+            // instead of leaving them as separate qty-1 rows that would undercount on display.
+            const byKey = new Map<string, UIGroup>()
+            for (const it of draft.items) {
+              const garment = it.garment ?? ''
+              const key = `${garment}::${it.name}::${it.price}`
+              const existing = byKey.get(key)
+              if (existing) {
+                existing.qty += 1
+                existing.services[0].appliesTo += 1
+              } else {
+                byKey.set(key, { id: uid(), garment, qty: 1, services: [{ id: uid(), name: it.name, priceEach: it.price, appliesTo: 1 }] })
+              }
+            }
+            setGroups(Array.from(byKey.values()))
           }
           if (draft.discountPercent > 0) { setDiscountMode('manual'); setDiscountPercent(draft.discountPercent) }
           if (draft.customer?.name)    setName(draft.customer.name)
@@ -122,22 +217,38 @@ export default function NewInvoiceForm({ invoice }: Props) {
       .catch(() => setVouchersLoaded(true))
   }, [isEdit])
 
-  function handleAdd() {
+  function handleAddItem() {
     const svc = addService === '__custom' ? addCustomSvc.trim() : addService.trim()
     if (!svc) { serviceRef.current?.focus(); return }
-    const qty  = addQty === '' ? 1 : Number(addQty)
+    const qty = addQty === '' ? 1 : Number(addQty)
     if (qty < 1) return
-    const each = addPrice === '' ? 0 : Number(addPrice)
-    setRows(p => [...p, { id: uid(), garment: addGarment, qty, service: svc, price: qty * each, priceEach: each }])
+    const garment = addGarment === 'Other' ? addGarmentCustom.trim() : addGarment
+    const priceEach = addPrice === '' ? 0 : Number(addPrice)
+    setGroups(p => [...p, {
+      id: uid(), garment, qty,
+      services: [{ id: uid(), name: svc, priceEach, appliesTo: qty }],
+    }])
     setAddService(''); setAddCustomSvc(''); setAddPrice('')
     serviceRef.current?.focus()
   }
 
-  function removeRow(id: string) { setRows(p => p.filter(r => r.id !== id)) }
-  function selectVoucher(v: Voucher) { setSelectedVoucher(v); setDiscountMode('voucher'); setDiscountPercent('') }
-  function clearDiscount()           { setDiscountMode('none'); setSelectedVoucher(null); setDiscountPercent('') }
+  function removeGroup(id: string) { setGroups(p => p.filter(g => g.id !== id)) }
+  function setGroupGarment(id: string, garment: string) { setGroups(p => p.map(g => g.id === id ? { ...g, garment } : g)) }
+  function setGroupQty(id: string, qty: number) {
+    setGroups(p => p.map(g => g.id === id
+      ? { ...g, qty, services: g.services.map(s => ({ ...s, appliesTo: Math.min(s.appliesTo, qty) })) }
+      : g))
+  }
+  function removeService(groupId: string, serviceId: string) {
+    setGroups(p => p.map(g => g.id === groupId ? { ...g, services: g.services.filter(s => s.id !== serviceId) } : g).filter(g => g.services.length > 0))
+  }
+  function addServiceToGroup(groupId: string, s: { name: string; priceEach: number; appliesTo: number }) {
+    setGroups(p => p.map(g => g.id === groupId ? { ...g, services: [...g.services, { id: uid(), ...s }] } : g))
+    setAddingServiceTo(null)
+  }
 
-  const subtotal     = rows.reduce((s, r) => s + r.price, 0)
+  const subtotal = groups.reduce((sum, g) => sum + g.services.reduce((s, sv) => s + sv.priceEach * sv.appliesTo, 0), 0)
+  const totalQty = groups.reduce((sum, g) => sum + g.qty, 0)
   const effectivePct = discountMode === 'voucher'
     ? (selectedVoucher?.discountPercent ?? (isEdit && invoice?.discountPercent ? invoice.discountPercent : 0))
     : (discountMode === 'manual' ? (Number(discountPercent) || 0) : 0)
@@ -147,22 +258,26 @@ export default function NewInvoiceForm({ invoice }: Props) {
   async function submit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
-    if (!name.trim())     { setError('Customer name is required.'); return }
-    if (rows.length === 0) { setError('Add at least one service.'); return }
-    for (const r of rows) {
-      if (!r.service.trim()) { setError('Each item needs a service name.'); return }
-      if (r.price < 0)       { setError('Prices cannot be negative.'); return }
+    if (!name.trim())      { setError('Customer name is required.'); return }
+    if (groups.length === 0) { setError('Add at least one item.'); return }
+    for (const g of groups) {
+      if (!g.garment.trim()) { setError('Every item needs a name, e.g. "Trouser".'); return }
+      for (const s of g.services) {
+        if (!s.name.trim()) { setError('Each service needs a name.'); return }
+        if (s.priceEach < 0) { setError('Prices cannot be negative.'); return }
+      }
     }
+
+    const itemGroups = groups.map(g => ({
+      id:      g.id,
+      garment: g.garment.trim(),
+      qty:     g.qty,
+      services: g.services.map(s => ({ name: s.name.trim(), priceEach: s.priceEach, appliesTo: s.appliesTo })),
+    }))
 
     const payload = {
       customer: { name, email: email || undefined, phone: phone || undefined, address: address || undefined },
-      items:    rows.map(r => ({
-        name:      r.service,
-        price:     r.price,
-        qty:       r.qty,
-        priceEach: r.priceEach,
-        garment:   r.garment || undefined,
-      })),
+      itemGroups,
       discountPercent: effectivePct > 0 ? effectivePct : undefined,
       voucherId:       discountMode === 'voucher' ? selectedVoucher?.id : undefined,
       notes:           notes || undefined,
@@ -186,9 +301,6 @@ export default function NewInvoiceForm({ invoice }: Props) {
     }
   }
 
-  const groups       = groupRows(rows)
-  const serviceCount = rows.length
-
   return (
     <form onSubmit={submit} className="space-y-6 max-w-2xl mx-auto">
 
@@ -203,6 +315,11 @@ export default function NewInvoiceForm({ invoice }: Props) {
               className="w-full border border-divider px-3 py-2.5 font-sans text-[0.9375rem] focus:outline-none focus:border-hunter bg-white">
               {GARMENTS.map(g => <option key={g} value={g}>{g}</option>)}
             </select>
+            {addGarment === 'Other' && (
+              <input value={addGarmentCustom} onChange={e => setAddGarmentCustom(e.target.value)}
+                placeholder="Describe the item, e.g. Black Trouser"
+                className="mt-2 w-full border border-divider px-3 py-2.5 font-sans text-[0.9375rem] focus:outline-none focus:border-hunter bg-white" />
+            )}
           </div>
           <div>
             <label className={labelClass}>Qty</label>
@@ -214,33 +331,12 @@ export default function NewInvoiceForm({ invoice }: Props) {
 
         <div className="mb-3">
           <label className={labelClass}>Service</label>
-          <select ref={serviceRef} value={addService}
-            onChange={e => {
-              const svc = e.target.value
-              setAddService(svc)
-              if (svc && svc !== '__custom') {
-                const known = SERVICE_PRICE_MAP[svc]
-                if (known) setAddPrice(known)
-              }
-            }}
-            className="w-full border border-divider px-3 py-2.5 font-sans text-[0.9375rem] focus:outline-none focus:border-hunter bg-white text-charcoal">
-            <option value="">Select service…</option>
-            {SERVICE_CATALOGUE.map(cat => (
-              <optgroup key={cat.id} label={cat.name}>
-                {cat.items.map(s => (
-                  <option key={s.id} value={s.name}>
-                    {s.name}{s.price > 0 ? ` — £${s.price}${s.note === 'from' ? '+' : ''}` : ' — Quote'}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-            <option value="__custom">Custom…</option>
-          </select>
-          {addService === '__custom' && (
-            <input value={addCustomSvc} onChange={e => setAddCustomSvc(e.target.value)}
-              placeholder="Describe the service"
-              className="mt-2 w-full border border-divider px-3 py-2.5 font-sans text-[0.9375rem] focus:outline-none focus:border-hunter bg-white" />
-          )}
+          <ServiceSelect
+            value={addService} custom={addCustomSvc}
+            onChange={v => { setAddService(v); const p = SERVICE_PRICE_MAP[v]; if (p) setAddPrice(p) }}
+            onCustomChange={setAddCustomSvc}
+            selectRef={serviceRef}
+          />
         </div>
 
         <div className="grid grid-cols-[1fr_auto] gap-3 items-end">
@@ -250,7 +346,7 @@ export default function NewInvoiceForm({ invoice }: Props) {
               <span className="absolute left-3 top-1/2 -translate-y-1/2 font-sans text-muted pointer-events-none">£</span>
               <input ref={priceRef} type="number" min="0" step="0.01" value={addPrice}
                 onChange={e => setAddPrice(e.target.value === '' ? '' : Number(e.target.value))}
-                onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleAdd() } }}
+                onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleAddItem() } }}
                 placeholder="0"
                 className="w-full border border-divider pl-7 pr-3 py-2.5 font-sans text-[0.9375rem] focus:outline-none focus:border-hunter bg-white" />
             </div>
@@ -260,64 +356,81 @@ export default function NewInvoiceForm({ invoice }: Props) {
               </p>
             )}
           </div>
-          <button type="button" onClick={handleAdd}
+          <button type="button" onClick={handleAddItem}
             className="bg-hunter text-parchment px-6 py-2.5 font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase hover:bg-[#1E3D17] transition-colors whitespace-nowrap">
-            + Add
+            + Add Item
           </button>
         </div>
+        <p className="font-sans text-[0.75rem] text-muted mt-3">
+          Need another service on an item you already added? Use &ldquo;+ Add service&rdquo; on that item below instead of adding it here again.
+        </p>
       </div>
 
       {/* ── Items List ──────────────────────────────────────────────── */}
-      {rows.length > 0 ? (
+      {groups.length > 0 ? (
         <div className="border border-divider bg-white">
           <div className="px-6 py-4 border-b border-divider flex items-center justify-between">
             <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted">Invoice Items</p>
             <p className="font-sans text-[0.75rem] text-muted">
-              {serviceCount} service{serviceCount !== 1 ? 's' : ''}&nbsp;·&nbsp;
+              {totalQty} item{totalQty !== 1 ? 's' : ''}&nbsp;·&nbsp;
               <span className="font-medium text-charcoal">£{subtotal.toFixed(2)}</span>
             </p>
           </div>
 
           <div className="divide-y divide-divider">
-            {groups.map(group => (
-              <div key={group.key} className="px-6 py-4">
-                {group.garment ? (
-                  <>
-                    <div className="flex items-baseline gap-2 mb-2.5">
-                      <span className="font-playfair text-[0.9375rem] font-medium text-charcoal">{group.garment}</span>
-                      {group.qty > 1 && <span className="font-sans text-[0.75rem] text-muted">× {group.qty}</span>}
-                    </div>
-                    <div className="space-y-2">
-                      {group.rows.map(row => (
-                        <div key={row.id} className="flex items-center gap-3 pl-3">
-                          <span className="font-sans text-[0.875rem] text-muted flex-1">{row.service}</span>
-                          <span className="font-sans text-[0.875rem] text-charcoal whitespace-nowrap">
-                            {row.qty > 1
-                              ? `£${row.priceEach.toFixed(2)} × ${row.qty} = £${row.price.toFixed(2)}`
-                              : `£${row.price.toFixed(2)}`}
-                          </span>
-                          <button type="button" onClick={() => removeRow(row.id)}
-                            className="w-6 h-6 flex items-center justify-center text-muted hover:text-red-500 transition-colors shrink-0" aria-label="Remove">
-                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                ) : (
-                  <div className="space-y-2">
-                    {group.rows.map(row => (
-                      <div key={row.id} className="flex items-center gap-3">
-                        <span className="font-sans text-[0.875rem] text-charcoal flex-1">{row.service}</span>
-                        <span className="font-sans text-[0.875rem] text-charcoal whitespace-nowrap">£{row.price.toFixed(2)}</span>
-                        <button type="button" onClick={() => removeRow(row.id)}
-                          className="w-6 h-6 flex items-center justify-center text-muted hover:text-red-500 transition-colors shrink-0" aria-label="Remove">
-                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
-                        </button>
-                      </div>
-                    ))}
+            {groups.map((group, gi) => (
+              <div key={group.id} className="px-6 py-4">
+                <div className="flex items-start gap-2 mb-2.5">
+                  <span className="font-sans text-[0.75rem] text-muted mt-1.5 flex-shrink-0">{gi + 1} ·</span>
+                  <input value={group.garment} onChange={e => setGroupGarment(group.id, e.target.value)}
+                    placeholder="Item name, e.g. Trouser"
+                    className="font-playfair text-[0.9375rem] font-medium text-charcoal border-b border-transparent hover:border-divider focus:border-hunter focus:outline-none bg-transparent flex-1 min-w-0 py-0.5" />
+                  <div className="flex items-center gap-1.5 flex-shrink-0">
+                    <span className="font-sans text-[0.75rem] text-muted">qty</span>
+                    <input type="number" min="1" value={group.qty}
+                      onChange={e => setGroupQty(group.id, Math.max(1, Number(e.target.value) || 1))}
+                      className="w-14 border border-divider px-1.5 py-1 font-sans text-[0.8125rem] text-center focus:outline-none focus:border-hunter bg-white" />
                   </div>
-                )}
+                  <button type="button" onClick={() => removeGroup(group.id)}
+                    className="w-6 h-6 flex items-center justify-center text-muted hover:text-red-500 transition-colors shrink-0" aria-label="Remove item">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                  </button>
+                </div>
+
+                <div className="space-y-2 pl-5">
+                  {group.services.map(s => (
+                    <div key={s.id} className="flex items-center gap-3">
+                      <span className="font-sans text-[0.875rem] text-muted flex-1">
+                        {s.name}
+                        {group.qty > 1 && s.appliesTo < group.qty && (
+                          <span className="text-hunter"> — {s.appliesTo} of {group.qty}</span>
+                        )}
+                      </span>
+                      <span className="font-sans text-[0.875rem] text-charcoal whitespace-nowrap">
+                        {s.appliesTo > 1
+                          ? `£${s.priceEach.toFixed(2)} × ${s.appliesTo} = £${(s.priceEach * s.appliesTo).toFixed(2)}`
+                          : `£${s.priceEach.toFixed(2)}`}
+                      </span>
+                      <button type="button" onClick={() => removeService(group.id, s.id)}
+                        className="w-6 h-6 flex items-center justify-center text-muted hover:text-red-500 transition-colors shrink-0" aria-label="Remove service">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                      </button>
+                    </div>
+                  ))}
+
+                  {addingServiceTo === group.id ? (
+                    <AddServiceForm
+                      groupQty={group.qty}
+                      onAdd={s => addServiceToGroup(group.id, s)}
+                      onCancel={() => setAddingServiceTo(null)}
+                    />
+                  ) : (
+                    <button type="button" onClick={() => setAddingServiceTo(group.id)}
+                      className="font-sans text-[0.75rem] text-hunter hover:underline mt-1">
+                      + Add service to this item
+                    </button>
+                  )}
+                </div>
               </div>
             ))}
           </div>
@@ -336,7 +449,7 @@ export default function NewInvoiceForm({ invoice }: Props) {
                   Voucher
                 </button>
                 {discountMode !== 'none' && (
-                  <button type="button" onClick={clearDiscount}
+                  <button type="button" onClick={() => { setDiscountMode('none'); setSelectedVoucher(null); setDiscountPercent('') }}
                     className="font-sans text-[0.6875rem] uppercase tracking-widest px-3 py-1.5 border border-divider text-red-500 hover:border-red-300 transition-colors">
                     Clear
                   </button>
@@ -372,7 +485,7 @@ export default function NewInvoiceForm({ invoice }: Props) {
                 {vouchersLoaded && vouchers.length > 0 && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {vouchers.map(v => (
-                      <button key={v.id} type="button" onClick={() => selectVoucher(v)}
+                      <button key={v.id} type="button" onClick={() => { setSelectedVoucher(v); setDiscountMode('voucher'); setDiscountPercent('') }}
                         className={`text-left p-3 border-2 transition-all ${selectedVoucher?.id === v.id ? 'border-hunter bg-hunter/5' : `${TYPE_BORDER[v.type]} hover:border-hunter`}`}>
                         <div className="flex items-center justify-between mb-0.5">
                           <span className="font-sans text-[0.75rem] font-semibold text-charcoal">{v.name}</span>
@@ -420,7 +533,7 @@ export default function NewInvoiceForm({ invoice }: Props) {
         </div>
       ) : (
         <div className="border border-dashed border-divider py-10 text-center">
-          <p className="font-sans text-[0.875rem] text-muted">No items yet — use the panel above to add services.</p>
+          <p className="font-sans text-[0.875rem] text-muted">No items yet — use the panel above to add items.</p>
         </div>
       )}
 
@@ -497,7 +610,7 @@ export default function NewInvoiceForm({ invoice }: Props) {
           type="number" min="1" step="1"
           value={itemCount}
           onChange={e => setItemCount(e.target.value === '' ? '' : Number(e.target.value))}
-          placeholder="e.g. 4"
+          placeholder={totalQty > 0 ? String(totalQty) : 'e.g. 4'}
           className="w-32 border border-hunter/30 px-3 py-2.5 font-sans text-[1.125rem] font-medium text-center text-hunter focus:outline-none focus:border-hunter bg-white"
         />
       </div>

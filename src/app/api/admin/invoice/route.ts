@@ -1,9 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getOrder, updateOrder, saveInvoice, nextInvoiceNumber, getVoucher, updateVoucher } from '@/lib/kv'
-import type { Invoice } from '@/lib/kv'
+import type { Invoice, InvoiceItemGroup } from '@/lib/kv'
 import { isAdmin } from '@/lib/auth'
 import { notifyTelegram } from '@/lib/telegram'
 import { randomUUID } from 'crypto'
+import { flattenItemGroups, buildItemGroupsFromQuote } from '@/lib/invoice-groups'
+
+function validateItemGroups(groups: unknown): groups is InvoiceItemGroup[] {
+  if (!Array.isArray(groups) || groups.length === 0) return false
+  return (groups as Array<Record<string, unknown>>).every(g => {
+    if (typeof g.garment !== 'string' || !g.garment.trim()) return false
+    if (typeof g.qty !== 'number' || !Number.isInteger(g.qty) || g.qty <= 0) return false
+    if (!Array.isArray(g.services) || g.services.length === 0) return false
+    return (g.services as Array<Record<string, unknown>>).every(s =>
+      typeof s.name === 'string' && s.name.trim() &&
+      typeof s.priceEach === 'number' && Number.isFinite(s.priceEach) && s.priceEach >= 0 &&
+      typeof s.appliesTo === 'number' && Number.isInteger(s.appliesTo) && s.appliesTo >= 1 && s.appliesTo <= (g.qty as number)
+    )
+  })
+}
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.finetailors.co.uk'
 
@@ -37,7 +52,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invoice already exists for this order', invoiceId: order.invoiceId }, { status: 409 })
     }
 
-    const subtotal = order.quote.total
+    const itemGroups = buildItemGroupsFromQuote(order.quote.items)
+    const items      = flattenItemGroups(itemGroups)
+    const subtotal    = order.quote.total
     const due = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
     invoice = {
@@ -49,7 +66,8 @@ export async function POST(req: NextRequest) {
         phone:   order.customer.phone,
         address: `${order.customer.address}, ${order.customer.postcode}`.trim(),
       },
-      items:         order.quote.items,
+      items,
+      itemGroups,
       subtotal,
       total:         subtotal,
       notes:         order.quote.notes,
@@ -66,25 +84,23 @@ export async function POST(req: NextRequest) {
   // ── Manual creation ───────────────────────────────────────────────────────
   } else {
     const customer        = body.customer as Invoice['customer']
-    const items           = body.items as Invoice['items']
     const dueDate         = String(body.dueDate ?? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0])
     const discountPercent = body.discountPercent != null ? Number(body.discountPercent) : undefined
     const voucherId       = body.voucherId ? String(body.voucherId) : undefined
 
-    if (!customer?.name || !items?.length) {
+    if (!customer?.name || !validateItemGroups(body.itemGroups)) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 422 })
     }
     if (customer.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) {
       return NextResponse.json({ error: 'Invalid customer email' }, { status: 422 })
     }
-    if (items.some((i: { price: number }) => !Number.isFinite(i.price) || i.price < 0)) {
-      return NextResponse.json({ error: 'Invalid item price' }, { status: 422 })
-    }
     if (discountPercent !== undefined && (isNaN(discountPercent) || discountPercent < 0 || discountPercent > 100)) {
       return NextResponse.json({ error: 'Invalid discount percent' }, { status: 422 })
     }
 
-    const subtotal = items.reduce((s: number, i: { price: number }) => s + i.price, 0)
+    const itemGroups = body.itemGroups as InvoiceItemGroup[]
+    const items      = flattenItemGroups(itemGroups)
+    const subtotal    = items.reduce((s, i) => s + i.price, 0)
 
     let finalDiscountPercent = discountPercent
     let voucherCode: string | undefined
@@ -122,6 +138,7 @@ export async function POST(req: NextRequest) {
       id, number, status: 'draft', createdAt: now, dueDate,
       customer,
       items,
+      itemGroups,
       discountPercent:  finalDiscountPercent,
       discountAmount,
       discountType,

@@ -4,6 +4,7 @@ import {
 } from '@react-pdf/renderer'
 import type { Invoice } from './kv'
 import { BUSINESS } from './constants'
+import { resolveInvoiceGroups, computeTotalItems } from './invoice-groups'
 
 const GREEN  = '#1A3A12'
 const GREEN2 = '#2A5220'
@@ -17,58 +18,6 @@ const ROW2   = '#FDFAF6'
 
 function fmtDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-}
-
-type ParsedItem = {
-  original: Invoice['items'][number]
-  garment:  string | null
-  qty:      number | null
-  service:  string
-}
-
-type Group = { key: string; garment: string | null; qty: number | null; items: ParsedItem[] }
-
-const KNOWN_GARMENTS = [
-  'Wedding Dress', 'Leather Jacket',
-  'Trouser', 'Jeans', 'Jacket', 'Coat', 'Shirt',
-  'Dress', 'Skirt', 'Waistcoat', 'Suit',
-  'Ladies Suit', 'Jumpsuit',
-]
-
-function parseOldName(name: string): { garment: string | null; service: string } {
-  for (const g of KNOWN_GARMENTS) {
-    if (name.toLowerCase().startsWith(g.toLowerCase())) {
-      const rest = name.slice(g.length).replace(/^\s*[—\-\s]+/, '').trim()
-      return { garment: g, service: rest || name }
-    }
-  }
-  return { garment: null, service: name }
-}
-
-function groupInvoiceItems(items: Invoice['items']): Group[] {
-  const parsed: ParsedItem[] = items.map(item => {
-    if (item.garment) {
-      return { original: item, garment: item.garment, qty: item.qty ?? null, service: item.name }
-    }
-    const match = item.name.match(/^(\d+)[×x]\s*(.+?)(?:\s+[—\-]\s+(.+))?$/)
-    if (match && item.qty) {
-      return { original: item, garment: match[2].trim(), qty: parseInt(match[1]), service: (match[3] ?? match[2]).trim() }
-    }
-    const { garment, service } = parseOldName(item.name)
-    return { original: item, garment, qty: null, service }
-  })
-
-  const seen = new Set<string>()
-  const order: string[] = []
-  const groups: Record<string, Group> = {}
-
-  for (const p of parsed) {
-    const key = p.garment ? `${p.garment}::${p.qty ?? 'any'}` : `__free::${p.service}`
-    if (!seen.has(key)) { seen.add(key); order.push(key); groups[key] = { key, garment: p.garment, qty: p.qty, items: [] } }
-    groups[key].items.push(p)
-  }
-
-  return order.map(k => groups[k])
 }
 
 const s = StyleSheet.create({
@@ -151,11 +100,8 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
   const isReturnCustomer = invoice.discountType === 'voucher' && invoice.voucherType === 'return_customer'
   const isPaid           = invoice.status === 'paid'
 
-  const groups       = groupInvoiceItems(invoice.items)
-  const garmentCount = groups.filter(g => g.garment).length
-  const serviceCount = invoice.items.length
-  const computedTotal = groups.reduce((sum, g) => sum + (g.qty ?? g.items.length), 0)
-  const totalItems    = invoice.itemCount ?? computedTotal
+  const groups      = resolveInvoiceGroups(invoice)
+  const totalItems  = invoice.itemCount ?? computeTotalItems(invoice)
 
   const contactLine = [invoice.customer.email, invoice.customer.phone].filter(Boolean).join('  ·  ')
 
@@ -214,18 +160,21 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
             <Text style={s.thTotalItems}>Total Items ({totalItems})</Text>
           </View>
 
-          {/* Table rows — grouped by garment */}
+          {/* Table rows — grouped by item */}
           {groups.map((group, gi) =>
-            group.items.map((p, si) => {
+            group.rows.map((row, si) => {
               const isFirst    = si === 0
-              const isLast     = si === group.items.length - 1
+              const isLast     = si === group.rows.length - 1
               const hasGarment = !!group.garment
               const altBg      = gi % 2 === 1 ? s.tableRowAlt : {}
               const sepStyle   = isLast ? s.tableRowSep : {}
-              const displayQty  = group.qty ?? group.items.length
-              const itemCell    = hasGarment ? (isFirst ? group.garment! : '') : p.service
+              const displayQty  = group.qty ?? group.rows.length
+              const itemLabel   = group.number != null ? `${group.number} · ${group.garment}` : (group.garment ?? '')
+              const itemCell    = hasGarment ? (isFirst ? itemLabel : '') : row.service
               const qtyCell     = hasGarment && isFirst ? String(displayQty) : ''
-              const serviceCell = hasGarment ? p.service : ''
+              const serviceCell = hasGarment
+                ? row.service + (row.appliesToNote ? `  (${row.appliesToNote})` : '')
+                : ''
               return (
                 <View key={`${gi}-${si}`} style={[s.tableRow, altBg, sepStyle]}>
                   <Text style={[s.tdItem, (hasGarment ? isFirst : true) ? s.tdItemFirst : {}]}>
@@ -233,7 +182,7 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
                   </Text>
                   <Text style={s.tdQty}>{qtyCell}</Text>
                   <Text style={s.tdService}>{serviceCell}</Text>
-                  <Text style={s.tdAmount}>£{p.original.price.toFixed(2)}</Text>
+                  <Text style={s.tdAmount}>£{row.amount.toFixed(2)}</Text>
                 </View>
               )
             })

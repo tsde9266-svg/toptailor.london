@@ -3,17 +3,19 @@ import { useState } from 'react'
 import type { Order } from '@/lib/kv'
 
 type LineItem = {
-  name:       string
-  price:      number | ''
-  needsPrice: boolean
+  name:         string
+  price:        number | ''
+  needsPrice:   boolean
+  categoryName: string
 }
 
 export default function QuoteForm({ order }: { order: Order }) {
   const [items, setItems] = useState<LineItem[]>(
     order.estimate.map(e => ({
-      name:       e.name,
-      price:      e.price === 0 ? '' : e.price,
-      needsPrice: e.price === 0,
+      name:         e.name,
+      price:        e.price === 0 ? '' : e.price,
+      needsPrice:   e.price === 0,
+      categoryName: e.categoryName,
     }))
   )
   const [notes,        setNotes]        = useState('')
@@ -41,7 +43,7 @@ export default function QuoteForm({ order }: { order: Order }) {
   }
 
   function addItem() {
-    setItems(prev => [...prev, { name: '', price: '', needsPrice: false }])
+    setItems(prev => [...prev, { name: '', price: '', needsPrice: false, categoryName: '' }])
   }
 
   async function sendQuote() {
@@ -62,7 +64,7 @@ export default function QuoteForm({ order }: { order: Order }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           orderId: order.id,
-          items: items.map(i => ({ name: i.name, price: Number(i.price) })),
+          items: items.map(i => ({ name: i.name, price: Number(i.price), categoryName: i.categoryName || undefined })),
           notes,
         }),
       })

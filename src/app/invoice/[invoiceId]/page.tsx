@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation'
 import { getInvoice } from '@/lib/kv'
 import type { Metadata } from 'next'
-import type { Invoice } from '@/lib/kv'
 import PrintButton from './PrintButton'
 import { BUSINESS } from '@/lib/constants'
+import { resolveInvoiceGroups, computeTotalItems } from '@/lib/invoice-groups'
 
 export const metadata: Metadata = {
   title: 'Invoice | Fine Tailors',
@@ -12,63 +12,6 @@ export const metadata: Metadata = {
 
 function fmtDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-}
-
-type ParsedItem = {
-  original: Invoice['items'][number]
-  garment:  string | null
-  qty:      number | null
-  service:  string
-}
-
-type Group = {
-  key:     string
-  garment: string | null
-  qty:     number | null
-  items:   ParsedItem[]
-}
-
-const KNOWN_GARMENTS = [
-  'Wedding Dress', 'Leather Jacket',
-  'Trouser', 'Jeans', 'Jacket', 'Coat', 'Shirt',
-  'Dress', 'Skirt', 'Waistcoat', 'Suit',
-  'Ladies Suit', 'Jumpsuit',
-]
-
-function parseOldName(name: string): { garment: string | null; service: string } {
-  for (const g of KNOWN_GARMENTS) {
-    if (name.toLowerCase().startsWith(g.toLowerCase())) {
-      const rest = name.slice(g.length).replace(/^\s*[—\-\s]+/, '').trim()
-      return { garment: g, service: rest || name }
-    }
-  }
-  return { garment: null, service: name }
-}
-
-function groupInvoiceItems(items: Invoice['items']): Group[] {
-  const parsed: ParsedItem[] = items.map(item => {
-    if (item.garment) {
-      return { original: item, garment: item.garment, qty: item.qty ?? null, service: item.name }
-    }
-    const match = item.name.match(/^(\d+)[×x]\s*(.+?)(?:\s+[—\-]\s+(.+))?$/)
-    if (match && item.qty) {
-      return { original: item, garment: match[2].trim(), qty: parseInt(match[1]), service: (match[3] ?? match[2]).trim() }
-    }
-    const { garment, service } = parseOldName(item.name)
-    return { original: item, garment, qty: null, service }
-  })
-
-  const seen = new Set<string>()
-  const order: string[] = []
-  const groups: Record<string, Group> = {}
-
-  for (const p of parsed) {
-    const key = p.garment ? `${p.garment}::${p.qty ?? 'any'}` : `__free::${p.service}`
-    if (!seen.has(key)) { seen.add(key); order.push(key); groups[key] = { key, garment: p.garment, qty: p.qty, items: [] } }
-    groups[key].items.push(p)
-  }
-
-  return order.map(k => groups[k])
 }
 
 export default async function InvoicePage({ params }: { params: { invoiceId: string } }) {
@@ -82,9 +25,8 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
   const isReturnCustomer = invoice.discountType === 'voucher' && invoice.voucherType === 'return_customer'
   const isPaid           = invoice.status === 'paid'
 
-  const groups        = groupInvoiceItems(invoice.items)
-  const computedTotal = groups.reduce((sum, g) => sum + (g.qty ?? g.items.length), 0)
-  const totalItems    = invoice.itemCount ?? computedTotal
+  const groups     = resolveInvoiceGroups(invoice)
+  const totalItems = invoice.itemCount ?? computeTotalItems(invoice)
 
   const contactLine = [invoice.customer.email, invoice.customer.phone].filter(Boolean).join(' · ')
 
@@ -248,15 +190,18 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
               </thead>
               <tbody>
                 {groups.map((group, gi) =>
-                  group.items.map((p, si) => {
+                  group.rows.map((row, si) => {
                     const isFirst    = si === 0
-                    const isLast     = si === group.items.length - 1
+                    const isLast     = si === group.rows.length - 1
                     const hasGarment = !!group.garment
                     const rowBg      = gi % 2 === 1 ? '#FDFAF6' : '#ffffff'
-                    const displayQty = group.qty ?? group.items.length
-                    const itemCell   = hasGarment ? (isFirst ? group.garment! : '') : p.service
+                    const displayQty = group.qty ?? group.rows.length
+                    const itemLabel  = group.number != null ? `${group.number} · ${group.garment}` : (group.garment ?? '')
+                    const itemCell   = hasGarment ? (isFirst ? itemLabel : '') : row.service
                     const qtyCell    = hasGarment && isFirst ? String(displayQty) : ''
-                    const serviceCell = hasGarment ? p.service : ''
+                    const serviceCell = hasGarment
+                      ? row.service + (row.appliesToNote ? `  (${row.appliesToNote})` : '')
+                      : ''
                     const itemBold   = hasGarment ? isFirst : true
                     return (
                       <tr key={`${gi}-${si}`} style={{
@@ -273,7 +218,7 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
                           {serviceCell}
                         </td>
                         <td style={{ padding: isFirst ? '12px 12px 4px' : '4px 12px', fontFamily: 'sans-serif', fontSize: '13px', color: '#1C1C1A', textAlign: 'right', verticalAlign: 'top' }}>
-                          £{p.original.price.toFixed(2)}
+                          £{row.amount.toFixed(2)}
                         </td>
                         <td className="inv-td-ti" />
                       </tr>

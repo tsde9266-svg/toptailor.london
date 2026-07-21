@@ -20,8 +20,9 @@ export type OrderStatus =
   | 'complete'
 
 export type QuoteItem = {
-  name:  string
-  price: number
+  name:          string
+  price:         number
+  categoryName?: string   // e.g. "Jackets & Coats" — carried through so invoices know the garment
 }
 
 export type Order = {
@@ -245,6 +246,23 @@ export async function getAllVouchers(): Promise<Voucher[]> {
 
 export type InvoiceStatus = 'draft' | 'sent' | 'paid'
 
+// One physical item (e.g. "2 trousers"), holding every service performed on it.
+// This is the explicit structure — grouping is a choice staff make, never guessed
+// from matching text at display time. Invoices created before this existed have
+// no itemGroups and fall back to the legacy best-effort text grouping.
+export type InvoiceServiceLine = {
+  name:      string
+  priceEach: number
+  appliesTo: number   // how many of the group's `qty` units this service applies to (1..qty)
+}
+
+export type InvoiceItemGroup = {
+  id:       string
+  garment:  string     // always shown as-is — never inferred
+  qty:      number      // physical units in this item, e.g. 2 identical trousers
+  services: InvoiceServiceLine[]
+}
+
 export type Invoice = {
   id:              string
   number:          string
@@ -259,6 +277,7 @@ export type Invoice = {
     address?: string
   }
   items:           Array<{ name: string; price: number; qty?: number; priceEach?: number; garment?: string }>
+  itemGroups?:     InvoiceItemGroup[]  // explicit structure — present on invoices created/edited after this was added
   discountPercent?: number
   discountAmount?:  number
   discountType?:   'voucher' | 'manual'

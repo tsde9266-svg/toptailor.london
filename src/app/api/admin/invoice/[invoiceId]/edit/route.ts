@@ -1,7 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isAdmin } from '@/lib/auth'
 import { getInvoice, updateInvoice } from '@/lib/kv'
-import type { Invoice } from '@/lib/kv'
+import type { Invoice, InvoiceItemGroup } from '@/lib/kv'
+import { flattenItemGroups } from '@/lib/invoice-groups'
+
+function validateItemGroups(groups: unknown): groups is InvoiceItemGroup[] {
+  if (!Array.isArray(groups) || groups.length === 0) return false
+  return (groups as Array<Record<string, unknown>>).every(g => {
+    if (typeof g.garment !== 'string' || !g.garment.trim()) return false
+    if (typeof g.qty !== 'number' || !Number.isInteger(g.qty) || g.qty <= 0) return false
+    if (!Array.isArray(g.services) || g.services.length === 0) return false
+    return (g.services as Array<Record<string, unknown>>).every(s =>
+      typeof s.name === 'string' && s.name.trim() &&
+      typeof s.priceEach === 'number' && Number.isFinite(s.priceEach) && s.priceEach >= 0 &&
+      typeof s.appliesTo === 'number' && Number.isInteger(s.appliesTo) && s.appliesTo >= 1 && s.appliesTo <= (g.qty as number)
+    )
+  })
+}
 
 export async function PATCH(
   req: NextRequest,
@@ -22,17 +37,16 @@ export async function PATCH(
   if (invoice.status === 'paid') return NextResponse.json({ error: 'Paid invoices cannot be edited' }, { status: 422 })
 
   const customer = body.customer as Invoice['customer']
-  const items    = body.items    as Invoice['items']
 
-  if (!customer?.name || !items?.length) {
+  if (!customer?.name || !validateItemGroups(body.itemGroups)) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 422 })
   }
   if (customer.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) {
     return NextResponse.json({ error: 'Invalid customer email' }, { status: 422 })
   }
-  if (items.some((i) => !Number.isFinite(i.price) || i.price < 0)) {
-    return NextResponse.json({ error: 'Invalid item price' }, { status: 422 })
-  }
+
+  const itemGroups = body.itemGroups as InvoiceItemGroup[]
+  const items      = flattenItemGroups(itemGroups)
 
   const discountPercent = body.discountPercent != null ? Number(body.discountPercent) : undefined
   const subtotal        = items.reduce((s, i) => s + i.price, 0)
@@ -41,6 +55,7 @@ export async function PATCH(
 
   invoice.customer       = customer
   invoice.items          = items
+  invoice.itemGroups     = itemGroups
   invoice.subtotal       = subtotal
   invoice.total          = total
   invoice.discountPercent = discountPercent
