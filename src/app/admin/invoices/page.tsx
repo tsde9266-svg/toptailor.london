@@ -58,7 +58,36 @@ function InvoiceCard({ inv }: { inv: Invoice }) {
   )
 }
 
-export default async function InvoicesPage() {
+type SearchParams = {
+  status?:  string
+  payment?: string
+  q?:       string
+  from?:    string
+  to?:      string
+}
+
+function hrefWith(current: SearchParams, overrides: SearchParams): string {
+  const merged = { ...current, ...overrides }
+  const params = new URLSearchParams()
+  for (const [k, v] of Object.entries(merged)) if (v) params.set(k, v)
+  const qs = params.toString()
+  return `/admin/invoices${qs ? `?${qs}` : ''}`
+}
+
+function matchesSearch(inv: Invoice, q: string): boolean {
+  return (
+    inv.customer.name.toLowerCase().includes(q) ||
+    inv.number.toLowerCase().includes(q) ||
+    (inv.customer.phone ?? '').toLowerCase().includes(q) ||
+    (inv.customer.email ?? '').toLowerCase().includes(q)
+  )
+}
+
+export default async function InvoicesPage({
+  searchParams,
+}: {
+  searchParams: SearchParams
+}) {
   let invoices: Invoice[] = []
   let kvError = false
 
@@ -66,6 +95,43 @@ export default async function InvoicesPage() {
 
   const outstanding = invoices.filter(i => i.status !== 'paid').reduce((s, i) => s + i.total, 0)
   const unpaidCount = invoices.filter(i => i.status !== 'paid').length
+
+  const status  = (searchParams.status ?? 'all') as InvoiceStatus | 'all'
+  const payment = (searchParams.payment ?? 'all') as 'cash' | 'mobile' | 'all'
+  const q       = (searchParams.q ?? '').trim().toLowerCase()
+  const from    = searchParams.from ?? ''
+  const to      = searchParams.to ?? ''
+  const hasFilters = status !== 'all' || payment !== 'all' || !!q || !!from || !!to
+
+  // Every dimension except status — used both to filter and to compute status-tab counts.
+  const preStatus = invoices.filter(i => {
+    if (payment !== 'all' && i.paymentMethod !== payment) return false
+    if (q && !matchesSearch(i, q)) return false
+    if (from && i.createdAt < from) return false
+    if (to && i.createdAt > `${to}T23:59:59.999Z`) return false
+    return true
+  })
+
+  const counts = {
+    all:   preStatus.length,
+    draft: preStatus.filter(i => i.status === 'draft').length,
+    sent:  preStatus.filter(i => i.status === 'sent').length,
+    paid:  preStatus.filter(i => i.status === 'paid').length,
+  }
+
+  const visible = status === 'all' ? preStatus : preStatus.filter(i => i.status === status)
+
+  const statusTabs = [
+    { key: 'all',   label: `All (${counts.all})` },
+    { key: 'draft', label: `Draft (${counts.draft})` },
+    { key: 'sent',  label: `Sent (${counts.sent})` },
+    { key: 'paid',  label: `Paid (${counts.paid})` },
+  ]
+  const paymentTabs = [
+    { key: 'all',    label: 'All' },
+    { key: 'cash',   label: 'Cash' },
+    { key: 'mobile', label: 'Mobile' },
+  ]
 
   return (
     <div className="min-h-screen bg-parchment">
@@ -112,7 +178,14 @@ export default async function InvoicesPage() {
           </div>
         )}
 
-        <h1 className="font-playfair text-[1.75rem] mb-5">All Invoices</h1>
+        <div className="flex items-center justify-between mb-5 gap-4">
+          <h1 className="font-playfair text-[1.75rem]">All Invoices</h1>
+          {hasFilters && (
+            <Link href="/admin/invoices" className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted hover:text-hunter underline underline-offset-2 whitespace-nowrap">
+              Clear filters
+            </Link>
+          )}
+        </div>
 
         {kvError && (
           <p className="font-sans text-[0.875rem] text-muted text-center py-16">
@@ -133,9 +206,98 @@ export default async function InvoicesPage() {
         )}
 
         {!kvError && invoices.length > 0 && (
-          <div className="space-y-3">
-            {invoices.map(inv => <InvoiceCard key={inv.id} inv={inv} />)}
-          </div>
+          <>
+            {/* Filters */}
+            <div className="border border-divider bg-white p-4 mb-6 space-y-4">
+              {/* Search + date range */}
+              <form method="get" className="flex flex-wrap gap-2 items-end">
+                <input type="hidden" name="status"  value={status  !== 'all' ? status  : ''} />
+                <input type="hidden" name="payment" value={payment !== 'all' ? payment : ''} />
+                <div className="flex-1 min-w-[160px]">
+                  <label className="block font-sans text-[0.625rem] uppercase tracking-widest text-muted mb-1">Search</label>
+                  <input
+                    type="text"
+                    name="q"
+                    defaultValue={q}
+                    placeholder="Name, phone, email, invoice #"
+                    className="w-full border border-divider px-3 py-2 font-sans text-[0.8125rem] text-charcoal focus:outline-none focus:border-hunter bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="block font-sans text-[0.625rem] uppercase tracking-widest text-muted mb-1">From</label>
+                  <input
+                    type="date"
+                    name="from"
+                    defaultValue={from}
+                    className="border border-divider px-3 py-2 font-sans text-[0.8125rem] text-charcoal focus:outline-none focus:border-hunter bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="block font-sans text-[0.625rem] uppercase tracking-widest text-muted mb-1">To</label>
+                  <input
+                    type="date"
+                    name="to"
+                    defaultValue={to}
+                    className="border border-divider px-3 py-2 font-sans text-[0.8125rem] text-charcoal focus:outline-none focus:border-hunter bg-white"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="bg-hunter text-parchment px-5 py-2 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:bg-[#1E3D17] transition-colors"
+                >
+                  Filter
+                </button>
+              </form>
+
+              {/* Status tabs */}
+              <div className="flex flex-wrap gap-2">
+                {statusTabs.map(tab => (
+                  <Link
+                    key={tab.key}
+                    href={hrefWith(searchParams, { status: tab.key === 'all' ? undefined : tab.key })}
+                    className={`
+                      font-sans text-[0.75rem] uppercase tracking-widest px-3 py-1.5 border transition-colors
+                      ${status === tab.key
+                        ? 'bg-hunter text-parchment border-hunter'
+                        : 'border-divider text-muted hover:border-hunter hover:text-charcoal'
+                      }
+                    `}
+                  >
+                    {tab.label}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Payment method tabs */}
+              <div className="flex flex-wrap gap-2">
+                {paymentTabs.map(tab => (
+                  <Link
+                    key={tab.key}
+                    href={hrefWith(searchParams, { payment: tab.key === 'all' ? undefined : tab.key })}
+                    className={`
+                      font-sans text-[0.6875rem] uppercase tracking-widest px-2.5 py-1 border transition-colors
+                      ${payment === tab.key
+                        ? 'bg-charcoal text-parchment border-charcoal'
+                        : 'border-divider text-muted hover:border-charcoal hover:text-charcoal'
+                      }
+                    `}
+                  >
+                    {tab.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {visible.length === 0 ? (
+              <p className="font-sans text-[0.875rem] text-muted text-center py-16">
+                No invoices match these filters.
+              </p>
+            ) : (
+              <div className="space-y-3">
+                {visible.map(inv => <InvoiceCard key={inv.id} inv={inv} />)}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
