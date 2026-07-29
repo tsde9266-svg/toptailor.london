@@ -624,3 +624,20 @@ export async function clearAllErrors(): Promise<void> {
   if (ids.length) await Promise.all(ids.map(id => redis.del(`error:${id}`)))
   await redis.del('errors')
 }
+
+// ─── Telegram relay (temporary WhatsApp stopgap) ──────────────────────────────
+// Maps a message forwarded into the ops group back to the customer chat it
+// came from, so a reply (typed as a reply-to in the group) can be routed back
+// to the right person. Expires after 30 days — no need to keep these forever.
+export type TelegramRelay = {
+  customerChatId: number
+  customerLabel:  string
+}
+
+export async function saveTelegramRelay(groupMessageId: number, relay: TelegramRelay): Promise<void> {
+  await redis.set(`tg-relay:${groupMessageId}`, relay, { ex: 60 * 60 * 24 * 30 })
+}
+
+export async function getTelegramRelay(groupMessageId: number): Promise<TelegramRelay | null> {
+  return redis.get<TelegramRelay>(`tg-relay:${groupMessageId}`)
+}
