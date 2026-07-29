@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Playfair_Display, DM_Sans } from 'next/font/google'
 import Script from 'next/script'
 import '@/styles/globals.css'
-import TelegramButton  from '@/components/TelegramButton'
+import WhatsAppButton  from '@/components/WhatsAppButton'
 import CartDrawer      from '@/components/CartDrawer'
 import CartFloat       from '@/components/CartFloat'
 import { CartProvider } from '@/context/CartContext'
@@ -286,7 +286,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           {/* CartDrawer and CartFloat hidden from customers — admin checkout still uses cart context */}
           {/* <CartDrawer /> */}
           {/* <CartFloat /> */}
-          <TelegramButton />
+          <WhatsAppButton />
           <CookieBanner />
         </CartProvider>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }} />
