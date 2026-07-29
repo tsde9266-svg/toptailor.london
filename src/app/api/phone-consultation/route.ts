@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { saveConsultation, logError } from '@/lib/kv'
 import type { Consultation } from '@/lib/kv'
-import { adminGreetingLink, normaliseUkPhone } from '@/lib/greeting'
+import { customerFollowUpLink, normaliseUkPhone } from '@/lib/greeting'
 import { sendMail } from '@/lib/mail'
 
 function uuid() {
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
   }
 
   const waPhone      = normaliseUkPhone(phone)
-  const greetingLink = adminGreetingLink(phone)
+  const followUpLink = customerFollowUpLink('phone consultation request', name)
   const timestamp    = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })
   const slotStr      = [day, time].filter(Boolean).join(', ')
 
@@ -74,8 +74,12 @@ export async function POST(req: NextRequest) {
     (slotStr   ? `🕐 <b>Best time to call:</b> ${slotStr}\n`                                          : '') +
     (commsPref ? `💬 <b>Preferred contact:</b> ${commsPref === 'whatsapp' ? 'WhatsApp' : 'Email'}\n` : '') +
     `⏱ <b>Received:</b> ${timestamp}\n\n` +
-    `👋 <a href="${greetingLink}">Send greeting on WhatsApp</a>\n` +
+    `⚠️ <i>Do not message them on WhatsApp first.</i> ` +
+    (email
+      ? `They have a self-serve WhatsApp link in their confirmation email — only open a chat below once they've messaged you.\n`
+      : `No email on file — text them the link below so they can message us first, or wait for them to reach out on the call.\n`) +
     `💬 <a href="https://wa.me/${waPhone}">Open chat</a>\n` +
+    (email ? '' : `✉️ <a href="sms:+${waPhone}?body=${encodeURIComponent(`Hi ${name}, thanks for your consultation request with Fine Tailors! Message us anytime on WhatsApp: ${followUpLink}`)}">Text them the WhatsApp link</a>\n`) +
     `📞 <a href="tel:${phone}">Call now</a>`
 
   const adminEmail = process.env.NOTIFICATION_EMAIL
@@ -112,7 +116,7 @@ export async function POST(req: NextRequest) {
             `• Recommend the right service for you\n` +
             `• Answer any questions you have — no obligation\n\n` +
             `Need us sooner?\n` +
-            `• WhatsApp: wa.me/447438145169\n` +
+            `• WhatsApp: ${followUpLink}\n` +
             `• Phone: +44 7438 145169\n\n` +
             `Fine Tailors`,
         }).catch((e) => console.error('[phone-consultation] customer email failed', e))

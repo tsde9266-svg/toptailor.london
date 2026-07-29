@@ -107,13 +107,23 @@ export default function QuoteForm({ order }: { order: Order }) {
           )}
         </div>
 
-        {/* WhatsApp CTA — primary action */}
-        <div className="bg-white border border-divider p-5">
-          <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-3">
-            Send quote on WhatsApp
+        {/* Quote link — share manually if needed */}
+        {quoteLink && (
+          <div className="bg-white border border-divider p-5">
+            <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-3">
+              Quote link
+            </p>
+            <p className="font-sans text-[0.8125rem] text-charcoal break-all">{quoteLink}</p>
+          </div>
+        )}
+
+        {/* WhatsApp — reply only, not for cold outreach */}
+        <div className="bg-white border border-amber-200 p-5">
+          <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-amber-700 mb-3">
+            WhatsApp — reply only
           </p>
           <p className="font-sans text-[0.8125rem] text-charcoal mb-4">
-            Opens WhatsApp with the full quote breakdown pre-filled — customer replies <strong>YES</strong> to approve or tells you what to change.
+            Only use this if the customer has <strong>already messaged you on WhatsApp</strong>. Sending it as the first message risks another ban — the quote has already been emailed.
           </p>
           {waLink ? (
             <a
@@ -122,16 +132,16 @@ export default function QuoteForm({ order }: { order: Order }) {
               rel="noopener noreferrer"
               className="
                 flex items-center justify-center gap-2 w-full
-                bg-[#25D366] text-white py-4
-                font-sans text-[0.8125rem] font-medium tracking-widest uppercase
-                hover:bg-[#1fad53] transition-colors
+                border border-[#25D366] text-[#1a8c46] py-3
+                font-sans text-[0.75rem] font-medium tracking-widest uppercase
+                hover:bg-[#25D366]/10 transition-colors
               "
             >
-              💬 Send Quote on WhatsApp — £{total}
+              💬 Reply with quote — £{total}
             </a>
           ) : (
             <p className="font-sans text-[0.8125rem] text-muted italic">
-              No phone number on file for this customer — use email or call them.
+              No phone number on file for this customer — use email instead.
             </p>
           )}
         </div>

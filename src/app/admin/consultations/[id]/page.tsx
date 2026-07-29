@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { getConsultation } from '@/lib/kv'
-import { adminGreetingLink, normaliseUkPhone } from '@/lib/greeting'
+import { customerFollowUpLink, normaliseUkPhone } from '@/lib/greeting'
 import ConsultationActions from './ConsultationActions'
 
 function fmtDate(d: string) {
@@ -42,8 +42,14 @@ export default async function ConsultationDetailPage({
     )
   }
 
-  const greeting = adminGreetingLink(c.phone)
-  const waChat   = `https://wa.me/${normaliseUkPhone(c.phone)}`
+  const waChat = `https://wa.me/${normaliseUkPhone(c.phone)}`
+  // Nudges the CUSTOMER to message first — texting them a link is fine (SMS,
+  // not WhatsApp); it's the only compliant way to "start" the WhatsApp thread
+  // when we're the ones following up. Never message the customer's WhatsApp
+  // number directly first — see greeting.ts for why.
+  const waLink   = customerFollowUpLink('phone consultation request', c.name)
+  const smsBody  = `Hi ${c.name}, thanks for your consultation request with Fine Tailors! You can message us anytime on WhatsApp: ${waLink}`
+  const smsNudge = `sms:+${normaliseUkPhone(c.phone)}?body=${encodeURIComponent(smsBody)}`
 
   return (
     <div className="min-h-screen bg-parchment">
@@ -93,15 +99,15 @@ export default async function ConsultationDetailPage({
           {/* Quick actions */}
           <div className="grid grid-cols-2 gap-2 pt-4 border-t border-divider">
             <a
-              href={greeting}
-              target="_blank" rel="noopener noreferrer"
+              href={smsNudge}
               className="text-center bg-[#25D366] text-white py-3 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:bg-[#1fad53] transition-colors"
             >
-              Send Greeting
+              Text WhatsApp Link
             </a>
             <a
               href={waChat}
               target="_blank" rel="noopener noreferrer"
+              title="Only reply here if they've already messaged you — don't send the first message"
               className="text-center border border-charcoal text-charcoal py-3 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:bg-charcoal hover:text-parchment transition-colors"
             >
               Open Chat

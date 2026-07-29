@@ -1,8 +1,15 @@
 // Shared greeting message + WhatsApp link generation.
 // Used by Telegram notifications, customer emails, and admin "Send greeting" buttons.
-
-const GREETING_MESSAGE =
-  `Thank you for contacting Fine Tailors! Someone will be in touch shortly to confirm the details of your appointment. In the meantime if you have any questions or changes to make feel free to message us.\n\n*Fine Tailors*\n_London's finest tailors, at your door_`
+//
+// IMPORTANT — WhatsApp policy: a business may only *initiate* a WhatsApp
+// conversation via an approved Message Template on the paid Business Platform.
+// The plain WhatsApp Business App (what we use) has no template mechanism at
+// all, so a business sending the first message to someone who hasn't messaged
+// first is a policy violation regardless of wording — this got our number
+// blocked once already. Every link below that is meant to open a *new*
+// conversation must be built to be sent BY THE CUSTOMER, addressed to
+// BUSINESS_WHATSAPP. Only reply-style links (used once a customer has already
+// messaged in) may be addressed to the customer's own number.
 
 export const BUSINESS_WHATSAPP = '447438145169'
 
@@ -11,16 +18,18 @@ export function normaliseUkPhone(phone: string): string {
   return phone.replace(/\D/g, '').replace(/^0/, '44')
 }
 
-// Build a wa.me link the ADMIN clicks to send the customer the greeting.
-// Opens the customer's WhatsApp with the greeting pre-filled.
-export function adminGreetingLink(customerPhone: string): string {
-  const num = normaliseUkPhone(customerPhone)
-  return `https://wa.me/${num}?text=${encodeURIComponent(GREETING_MESSAGE)}`
-}
-
 // Build a wa.me link the CUSTOMER clicks to message the business.
 export function customerToBusinessLink(prefilledText = ''): string {
   const text = prefilledText || 'Hi, I have a question about my booking.'
+  return `https://wa.me/${BUSINESS_WHATSAPP}?text=${encodeURIComponent(text)}`
+}
+
+// Build a wa.me link the CUSTOMER clicks to follow up after submitting a web
+// form (contact/consultation/etc). Puts the customer in the initiating seat
+// so the conversation is compliant from message one, rather than a member of
+// staff messaging them first.
+export function customerFollowUpLink(context: string, name?: string): string {
+  const text = `Hi${name ? ` ${name}` : ''}, I just submitted a ${context} on your website — following up here.`
   return `https://wa.me/${BUSINESS_WHATSAPP}?text=${encodeURIComponent(text)}`
 }
 
@@ -76,7 +85,13 @@ export function fmtSlotTime(localDt: string): string {
     : `${hour12}:${String(m ?? 0).padStart(2, '0')}${period}`
 }
 
-// ─── WhatsApp template builders ───────────────────────────────────────────────
+// ─── WhatsApp reply builders ───────────────────────────────────────────────────
+// These build BUSINESS -> CUSTOMER links (admin sends first). Only safe to use
+// as a REPLY inside an already-open 24h customer service window — i.e. the
+// customer messaged this number first (e.g. the WhatsAppBooking flow, where
+// step one is always "customer messages on WhatsApp"). Never wire these into
+// a flow whose only prior contact was a website form — see customerFollowUpLink
+// above for that case instead.
 
 // Confirmation template (user's exact wording, auto-filled with booking data).
 // Used when admin approves — opens WhatsApp pre-filled, ready to send.
@@ -117,66 +132,6 @@ export function slotConfirmationWALink(phone: string, params: {
     `If you would like to make any changes please contact us.`,
   ].join('\n')
   return `https://wa.me/${num}?text=${encodeURIComponent(msg)}`
-}
-
-// Full invoice breakdown — sent to customer via WhatsApp instead of emailing a link.
-// Includes items, discount, total, and bank details when payment method is bank transfer.
-export function invoiceWALink(phone: string | undefined | null, params: {
-  name:            string
-  invoiceNumber:   string
-  createdAt:       string
-  items:           Array<{ name: string; price: number }>
-  subtotal:        number
-  discountAmount?: number
-  discountPercent?: number
-  voucherCode?:    string
-  voucherName?:    string
-  total:           number
-  paymentMethod:   'bank' | 'cash' | 'mobile'
-  dueDate:         string
-}): string {
-  const {
-    name, invoiceNumber, createdAt, items,
-    subtotal, discountAmount, discountPercent, voucherCode, voucherName,
-    total, paymentMethod, dueDate,
-  } = params
-
-  const fmtDate = (iso: string) =>
-    new Date(iso).toLocaleDateString('en-GB', {
-      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
-    })
-
-  const lines: string[] = [
-    `Hi ${name},`,
-    ``,
-    `Please find your invoice from Fine Tailors below.`,
-    ``,
-    `${invoiceNumber} · ${fmtDate(createdAt)}`,
-    ``,
-    ...items.map(i => `• ${i.name} — £${i.price.toFixed(2)}`),
-    ``,
-  ]
-
-  if (discountAmount && discountAmount > 0) {
-    lines.push(`Subtotal: £${subtotal.toFixed(2)}`)
-    const discountLabel = voucherName
-      ? `${voucherName}${discountPercent ? ` (${discountPercent}%)` : ''}${voucherCode ? ` [${voucherCode}]` : ''}`
-      : `Discount${discountPercent ? ` (${discountPercent}%)` : ''}`
-    lines.push(`${discountLabel}: −£${discountAmount.toFixed(2)}`)
-    lines.push(``)
-  }
-
-  lines.push(`*Total due: £${total.toFixed(2)}*`)
-
-  lines.push(``, `Due by: ${fmtDate(dueDate)}`)
-  lines.push(``, `Thank you for choosing Fine Tailors. If you have any questions please message us here.`)
-  lines.push(``, `*Fine Tailors*`, `_London's finest tailors, at your door_`)
-
-  const msg = lines.join('\n')
-  const num = phone ? normaliseUkPhone(phone) : ''
-  return num
-    ? `https://wa.me/${num}?text=${encodeURIComponent(msg)}`
-    : `https://wa.me/?text=${encodeURIComponent(msg)}`
 }
 
 // Quote breakdown — sent to customer via WhatsApp instead of a link.

@@ -31,6 +31,8 @@ export async function POST(
   booking.approvedAt    = new Date().toISOString()
   booking.confirmedTime = chosen
 
+  // "reply only" — safe if the customer replied to the proposed times on
+  // WhatsApp. If they replied by email instead, use email to confirm, not this.
   const waLink = booking.attendee.phone
     ? slotConfirmationWALink(booking.attendee.phone, {
         start:    chosen.start,
@@ -42,9 +44,10 @@ export async function POST(
   await Promise.allSettled([
     updateCalBooking(booking),
     notifyTelegram(
-      `✅ <b>Slot Confirmed (via WhatsApp)</b> — ${escHtml(booking.attendee.name)}\n` +
+      `✅ <b>Slot Confirmed</b> — ${escHtml(booking.attendee.name)}\n` +
       `📅 ${fmtSlotDate(chosen.start)}, ${fmtSlotTime(chosen.start)} – ${fmtSlotTime(chosen.end)}\n\n` +
-      `⚠️ <b>ACTION NEEDED:</b> Update this booking in Cal.com to the new time slot above.`,
+      `⚠️ <b>ACTION NEEDED:</b> Update this booking in Cal.com to the new time slot above.\n` +
+      `⚠️ <i>Only confirm on WhatsApp if that's where they replied — otherwise confirm by email.</i>`,
     ),
   ])
 

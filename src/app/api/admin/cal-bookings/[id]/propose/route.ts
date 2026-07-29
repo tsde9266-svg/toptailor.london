@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isAdmin } from '@/lib/auth'
 import { getCalBooking, updateCalBooking, type CalBookingSlot } from '@/lib/kv'
-import { proposeTimesWALink, fmtSlotDate, fmtSlotTime } from '@/lib/greeting'
+import { proposeTimesWALink, customerFollowUpLink, fmtSlotDate, fmtSlotTime } from '@/lib/greeting'
 import { notifyTelegram, escHtml } from '@/lib/telegram'
+import { sendMail } from '@/lib/mail'
 
 export async function POST(
   req: NextRequest,
@@ -43,6 +44,9 @@ export async function POST(
   booking.proposedTimes = slots
   booking.adminNote     = adminNote || undefined
 
+  // "reply only" — safe to send here IF the customer already messaged us on
+  // WhatsApp. It must never be the only channel, since this booking may have
+  // come from Cal.com's calendar UI with no prior WhatsApp contact at all.
   const waLink = booking.attendee.phone
     ? proposeTimesWALink(booking.attendee.phone, {
         name:      booking.attendee.name,
@@ -55,15 +59,45 @@ export async function POST(
     `${i + 1}. ${fmtSlotDate(s.start)}, ${fmtSlotTime(s.start)} – ${fmtSlotTime(s.end)}`
   ).join('\n')
 
+  // Email is the compliant default — it's the only channel guaranteed to
+  // reach a customer who has never messaged us on WhatsApp.
+  let emailSent = true
+  let emailError: string | undefined
+  if (booking.attendee.email) {
+    const followUp = customerFollowUpLink('booking time change', booking.attendee.name)
+    try {
+      await sendMail({
+        to:      booking.attendee.email,
+        subject: 'Alternative times for your booking — Fine Tailors',
+        text:
+          `Hi ${booking.attendee.name},\n\n` +
+          `Unfortunately we're unable to confirm your original appointment time. Here are some alternatives:\n\n` +
+          `${slotSummary}\n\n` +
+          (adminNote ? `${adminNote}\n\n` : '') +
+          `Please reply to this email with your preferred option, or message us on WhatsApp here: ${followUp}\n\n` +
+          `Fine Tailors`,
+      })
+    } catch (e) {
+      emailSent = false
+      emailError = e instanceof Error ? e.message : String(e)
+    }
+  } else {
+    emailSent = false
+    emailError = 'No email on file for this customer'
+  }
+
   await Promise.allSettled([
     updateCalBooking(booking),
     notifyTelegram(
       `📋 <b>Alternative slots proposed</b> — ${escHtml(booking.attendee.name)}\n\n` +
       `${slotSummary}\n\n` +
-      `Waiting for customer to reply with their choice.`,
-      waLink ? [[{ text: '💬 Send propose message', url: waLink }]] : undefined,
+      (emailSent
+        ? `Emailed to the customer. Waiting for their reply.\n`
+        : `⚠️ <b>Email failed</b> (${escHtml(emailError ?? '')}) — no automatic notification reached the customer.\n`) +
+      `⚠️ <i>Only use WhatsApp below if they've already messaged you — this booking may have no prior WhatsApp contact.</i>`,
+      waLink ? [[{ text: '💬 WhatsApp (reply only)', url: waLink }]] : undefined,
     ),
   ])
 
-  return NextResponse.json({ ok: true, waLink })
+  return NextResponse.json({ ok: true, waLink, emailSent, emailError })
 }

@@ -107,7 +107,7 @@ export default function BookingActions({ booking }: Props) {
 
   // ── Cancel ─────────────────────────────────────────────────────────────────
   async function handleCancel() {
-    if (!window.confirm('Cancel this booking? The customer will NOT be notified automatically — contact them via WhatsApp.')) return
+    if (!window.confirm('Cancel this booking? The customer will NOT be notified automatically — contact them by email or phone (only use WhatsApp if they\'ve already messaged you there).')) return
     setLoading('cancel')
     setError(null)
     try {
@@ -305,9 +305,12 @@ export default function BookingActions({ booking }: Props) {
 
       {/* Result panel after approve/confirm */}
       {status === 'approved' && waLink !== null && (
-        <div className="bg-green-50 border border-green-200 p-6 space-y-4">
-          <p className="font-sans text-[0.875rem] text-green-800 font-medium">✓ Booking confirmed</p>
-          <WAButton href={waLink} label="Send WhatsApp Confirmation" />
+        <div className="bg-green-50 border border-green-200 p-6 space-y-3">
+          <p className="font-sans text-[0.875rem] text-green-800 font-medium">✓ Booking confirmed — confirmation email sent</p>
+          <p className="font-sans text-[0.75rem] text-amber-700">
+            Only use WhatsApp below if this customer has already messaged you there — sending it cold risks another ban.
+          </p>
+          <WAButton href={waLink} label="WhatsApp (reply only)" />
         </div>
       )}
 
@@ -373,6 +376,9 @@ export default function BookingActions({ booking }: Props) {
       {status === 'awaiting_customer' && (
         <div className="bg-blue-50 border border-blue-200 p-6 space-y-5">
           <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-blue-700">Proposed Times Sent</p>
+          <p className="font-sans text-[0.75rem] text-charcoal">
+            Confirm on whichever channel the customer actually replied on (email or WhatsApp) — don&apos;t WhatsApp them cold if they replied by email.
+          </p>
           <div className="space-y-2">
             <p className="font-sans text-[0.8125rem] text-charcoal font-medium">Which time did the customer choose?</p>
             {proposedTimes.map((slot, i) => (
@@ -393,7 +399,7 @@ export default function BookingActions({ booking }: Props) {
               Re-send propose message
             </ActionBtn>
           </div>
-          {waLink && <WAButton href={waLink} label="Send via WhatsApp" />}
+          {waLink && <WAButton href={waLink} label="WhatsApp (reply only)" />}
         </div>
       )}
 

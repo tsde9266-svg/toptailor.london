@@ -183,6 +183,10 @@ export async function POST(req: NextRequest) {
   const icon  = isReschedule ? '🔄' : '🆕'
   const label = isReschedule ? 'Booking Rescheduled — Needs Approval' : 'New Booking — Awaiting Your Approval'
 
+  // "Reply only" — this booking came from Cal.com's calendar UI, so the
+  // customer has very likely never messaged us on WhatsApp. Approving in
+  // /admin/bookings sends a proper confirmation email; only use this link if
+  // they've already texted us.
   const waLink = phone
     ? bookingConfirmationWALink(phone, { startTime, endTime, location })
     : ''
@@ -196,11 +200,12 @@ export async function POST(req: NextRequest) {
     (location ? `📍 <b>Location:</b> ${escHtml(location)}\n`                   : '') +
     (notes    ? `\n💬 <b>Notes:</b>\n${escHtml(notes)}\n`                      : '') +
     `\n⏳ <i>Slot booked — awaiting your approval.</i>\n` +
-    `⚠️ <i>Customer has NOT yet submitted their order or chosen a payment method.</i>`
+    `⚠️ <i>Customer has NOT yet submitted their order or chosen a payment method.</i>\n` +
+    `⚠️ <i>Approving sends them a confirmation email. Only WhatsApp them if they've already messaged you — sending cold risks another ban.</i>`
 
   const buttons = [[
     { text: '✅ Open Admin',        url: `${BASE_URL}/admin/bookings/${booking.id}` },
-    ...(waLink ? [{ text: '💬 WhatsApp Customer', url: waLink }] : []),
+    ...(waLink ? [{ text: '💬 WhatsApp (reply only)', url: waLink }] : []),
   ]]
 
   await notifyTelegram(message, buttons)

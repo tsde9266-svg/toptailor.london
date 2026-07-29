@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { adminGreetingLink, normaliseUkPhone } from '@/lib/greeting'
+import { customerFollowUpLink, normaliseUkPhone } from '@/lib/greeting'
 import { sendMail } from '@/lib/mail'
 
 // ─── Telegram notification ────────────────────────────────────────────────────
@@ -60,8 +60,13 @@ async function sendCustomerConfirmation(
   to: string,
   name: string,
   address: string,
+  service: string,
 ) {
   const needsAddress = !address.trim()
+  // Customer-initiated link — keeps us compliant with WhatsApp's rule that
+  // only the customer may send the first message. Do not replace this with a
+  // link that messages the customer directly; see greeting.ts for why.
+  const waLink = customerFollowUpLink(service ? `${service} inquiry` : 'tailoring inquiry', name)
 
   try {
     await sendMail({
@@ -75,7 +80,7 @@ async function sendCustomerConfirmation(
         (needsAddress
           ? `To help us plan your visit, please reply to this email with your full home or workplace address (including postcode) so we can confirm availability for your area.\n\n`
           : '') +
-        `Questions in the meantime? Reply to this email or WhatsApp us directly.\n\n` +
+        `Questions in the meantime? Reply to this email, or message us on WhatsApp here: ${waLink}\n\n` +
         `Fine Tailors`,
     })
   } catch (e) {
@@ -113,7 +118,6 @@ export async function POST(req: NextRequest) {
   const notes    = String(body.notes    ?? '').trim()
 
   const waPhone      = phone ? normaliseUkPhone(phone)   : ''
-  const greetingLink = phone ? adminGreetingLink(phone)  : ''
 
   const emailSubject = `📋 New Inquiry — ${name}`
   const emailBody =
@@ -138,10 +142,9 @@ export async function POST(req: NextRequest) {
       (address  ? `🏠 <b>Address:</b> ${address}\n`                                               : '') +
       (postcode ? `📍 <b>Postcode:</b> ${postcode}\n`                                             : '') +
       (notes    ? `\n💬 <b>Notes:</b>\n${notes}\n`                                                : '') +
-      (greetingLink ? `\n👋 <a href="${greetingLink}">Send greeting on WhatsApp</a>\n`            : '') +
-      (waPhone      ? `💬 <a href="https://wa.me/${waPhone}">Open chat</a>`                       : '')
+      (waPhone      ? `\n⚠️ <i>Do not message them on WhatsApp first — they have a self-serve WhatsApp link in their confirmation email. Only open a chat below once they've messaged you.</i>\n💬 <a href="https://wa.me/${waPhone}">Open chat</a>` : '')
     ),
-    sendCustomerConfirmation(email, name, address),
+    sendCustomerConfirmation(email, name, address, service),
   ])
 
   // Also log to Vercel logs as a backup record

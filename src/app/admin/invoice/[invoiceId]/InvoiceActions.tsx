@@ -151,15 +151,28 @@ export default function InvoiceActions({
       <div className="border border-divider bg-white p-5 space-y-3">
         <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-1">Actions</p>
 
-        <button onClick={handleSendPdf} disabled={pdfLoading}
-          className="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white py-3.5 font-sans text-[0.8125rem] font-medium tracking-widest uppercase hover:bg-[#1fad53] transition-colors disabled:opacity-60">
-          {pdfLoading ? (
-            <><span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full" />Generating PDF…</>
+        {customerEmail ? (
+          emailDone ? (
+            <p className="font-sans text-[0.8125rem] text-green-700 bg-green-50 border border-green-200 px-4 py-2.5">
+              Email sent to {customerEmail} ✓
+            </p>
           ) : (
-            <>💬 Send Invoice PDF on WhatsApp{customerPhone ? <span className="font-normal opacity-70 text-[0.6875rem] normal-case tracking-normal">→ {customerPhone}</span> : null}</>
-          )}
-        </button>
-        {pdfErr && <p className="font-sans text-[0.75rem] text-red-600">{pdfErr}</p>}
+            <button onClick={sendEmail} disabled={sending}
+              className="w-full text-center bg-hunter text-parchment py-3.5 font-sans text-[0.8125rem] font-medium tracking-widest uppercase hover:bg-[#1E3D17] transition-colors disabled:opacity-50">
+              {sending ? 'Sending…' : `Email Invoice → ${customerEmail}`}
+            </button>
+          )
+        ) : (
+          <p className="font-sans text-[0.75rem] text-muted border border-divider px-4 py-2.5 text-center">
+            No email on file — share the link instead
+          </p>
+        )}
+        {emailErr && (
+          <details className="mt-1">
+            <summary className="font-sans text-[0.75rem] text-red-600 cursor-pointer">Email failed — see why</summary>
+            <p className="font-sans text-[0.75rem] text-red-700 mt-1 leading-relaxed">{emailErr}</p>
+          </details>
+        )}
 
         <div className="flex gap-2">
           <a href={invoiceUrl} target="_blank" rel="noopener noreferrer"
@@ -176,28 +189,20 @@ export default function InvoiceActions({
           </button>
         </div>
 
-        {customerEmail ? (
-          emailDone ? (
-            <p className="font-sans text-[0.8125rem] text-green-700 bg-green-50 border border-green-200 px-4 py-2.5">
-              Email sent to {customerEmail} ✓
-            </p>
-          ) : (
-            <button onClick={sendEmail} disabled={sending}
-              className="w-full text-center border border-hunter text-hunter py-2.5 font-sans text-[0.6875rem] font-medium tracking-widest uppercase hover:bg-hunter hover:text-parchment transition-colors disabled:opacity-50">
-              {sending ? 'Sending…' : `Email Invoice → ${customerEmail}`}
-            </button>
-          )
-        ) : (
-          <p className="font-sans text-[0.75rem] text-muted border border-divider px-4 py-2.5 text-center">
-            No email on file — share the link instead
+        <div className="border-t border-divider pt-3">
+          <p className="font-sans text-[0.6875rem] text-amber-700 mb-2">
+            Only share on WhatsApp if this customer has already messaged you there — sending it cold risks another ban.
           </p>
-        )}
-        {emailErr && (
-          <details className="mt-1">
-            <summary className="font-sans text-[0.75rem] text-red-600 cursor-pointer">Email failed — see why</summary>
-            <p className="font-sans text-[0.75rem] text-red-700 mt-1 leading-relaxed">{emailErr}</p>
-          </details>
-        )}
+          <button onClick={handleSendPdf} disabled={pdfLoading}
+            className="flex items-center justify-center gap-2 w-full border border-[#25D366] text-[#1a8c46] py-3 font-sans text-[0.75rem] font-medium tracking-widest uppercase hover:bg-[#25D366]/10 transition-colors disabled:opacity-60">
+            {pdfLoading ? (
+              <><span className="animate-spin inline-block w-4 h-4 border-2 border-[#1a8c46] border-t-transparent rounded-full" />Generating PDF…</>
+            ) : (
+              <>💬 Share Invoice PDF on WhatsApp{customerPhone ? <span className="font-normal opacity-70 text-[0.6875rem] normal-case tracking-normal">→ {customerPhone}</span> : null}</>
+            )}
+          </button>
+          {pdfErr && <p className="font-sans text-[0.75rem] text-red-600 mt-1">{pdfErr}</p>}
+        </div>
 
         {paid ? (
           <p className="font-sans text-[0.875rem] text-green-800 bg-green-50 border border-green-200 px-4 py-3 text-center font-medium">
