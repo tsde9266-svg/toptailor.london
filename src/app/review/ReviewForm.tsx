@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { BUSINESS } from '@/lib/constants'
 
 export default function ReviewForm({
   prefillName,
@@ -53,9 +54,22 @@ export default function ReviewForm({
       <div className="text-center py-10">
         <div className="text-4xl mb-4">🌟</div>
         <p className="font-playfair text-[1.5rem] text-charcoal mb-2">Thank you{name ? `, ${name.split(' ')[0]}` : ''}!</p>
-        <p className="font-sans text-muted text-[0.9375rem]">
+        <p className="font-sans text-muted text-[0.9375rem] mb-8">
           Your review has been submitted and will appear on our website shortly.
         </p>
+        <div className="border border-divider bg-white p-6">
+          <p className="font-sans text-[0.875rem] text-charcoal mb-4">
+            Mind sharing it on Google too? It helps other Londoners find us — takes 30 seconds.
+          </p>
+          <a
+            href={BUSINESS.googleReviewUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-hunter text-parchment px-8 py-3 font-sans text-[0.75rem] font-medium tracking-[0.2em] uppercase hover:bg-[#1E3D17] transition-colors"
+          >
+            Leave a Google Review →
+          </a>
+        </div>
       </div>
     )
   }

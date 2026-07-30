@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import type { Review } from '@/lib/kv'
+import { BUSINESS } from '@/lib/constants'
 
 const STARTER_REVIEWS: Review[] = [
   { id: 'starter-1', author: 'Taqi',  stars: 5, status: 'approved', quote: 'Brilliant service. My suit came back fitting perfectly — the tailor collected from my flat and returned it within days. Highly recommend.', createdAt: '2026-01-01T00:00:00Z' },
@@ -119,7 +120,7 @@ export default function Reviews({ reviews }: { reviews: Review[] }) {
         {/* Bottom row */}
         <div className="mt-16 pt-10 border-t border-parchment/20 flex flex-col sm:flex-row items-center justify-between gap-6">
           <a
-            href="https://g.page/r/review"
+            href={BUSINESS.googleReviewUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase text-parchment/60 hover:text-parchment transition-colors"

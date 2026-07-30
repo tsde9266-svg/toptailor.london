@@ -21,9 +21,10 @@ export const VOUCHER_TYPE_BORDER: Record<VoucherType, string> = {
 }
 
 export const BUSINESS = {
-  name:    'Fine Tailors',
-  email:   'tsde9266@gmail.com',
-  phone:   '+44 7438 145169',
-  city:    'London, United Kingdom',
+  name:            'Fine Tailors',
+  email:           'tsde9266@gmail.com',
+  phone:           '+44 7438 145169',
+  city:            'London, United Kingdom',
+  googleReviewUrl: 'https://g.page/r/CXKPw3jGYLPQEBM/review',
 }
 
