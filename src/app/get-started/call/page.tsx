@@ -3,11 +3,10 @@ import { useState } from 'react'
 import Link   from 'next/link'
 import Navbar  from '@/components/Navbar'
 import Footer  from '@/components/Footer'
+import WhatsAppConfirmCTA from '@/components/WhatsAppConfirmCTA'
 
 const DAYS  = ['Any weekday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 const TIMES = ['Morning (9am – 12pm)', 'Afternoon (12pm – 5pm)', 'Evening (5pm – 8pm)', 'Anytime']
-
-const WA_NUMBER = '447438145169'
 
 const labelClass = 'block font-sans text-[0.75rem] uppercase tracking-widest mb-2 text-charcoal'
 
@@ -56,8 +55,11 @@ export default function PhoneConsultationPage() {
     }
   }
 
-  const waPhone = phone.replace(/\D/g, '').replace(/^0/, '44') || WA_NUMBER
-  const waLink  = `https://wa.me/${waPhone}?text=Hi%2C%20I%27d%20like%20to%20discuss%20my%20tailoring%20needs.`
+  const waMessage = [
+    name.trim() ? `Hi, I'm ${name}. I'd like to discuss my tailoring needs.` : `Hi, I'd like to discuss my tailoring needs.`,
+    (day || time) ? `Best time to call: ${[day, time].filter(Boolean).join(', ')}.` : '',
+  ].filter(Boolean).join(' ')
+  const waRef = `${name} · ${phone} · Phone consultation`
 
   if (done) {
     return (
@@ -72,45 +74,23 @@ export default function PhoneConsultationPage() {
                 </svg>
               </div>
 
-              <h1 className="font-playfair text-[2rem] font-medium mb-3">We&apos;ll call you, {name}.</h1>
-              <p className="font-sans font-light text-muted text-[0.9375rem] leading-relaxed mb-8">
-                We&apos;ve received your request and will call {phone}
+              <h1 className="font-playfair text-[2rem] font-medium mb-3">One more step, {name}.</h1>
+              <p className="font-sans font-light text-muted text-[0.9375rem] leading-relaxed mb-6">
+                We&apos;ve logged your callback request for {phone}
                 {day || time ? ` — ${[day, time].filter(Boolean).join(', ')}` : ' as soon as possible'}.
+                Want to skip the wait? Tap below to message us on WhatsApp now — it&apos;s already written, just hit send.
               </p>
 
-              {/* Communication preference result */}
-              {commsPref === 'whatsapp' ? (
-                <div className="border border-divider p-6 mb-8 text-left">
-                  <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-3">
-                    You chose WhatsApp updates
-                  </p>
-                  <p className="font-sans text-[0.875rem] text-charcoal mb-5">
-                    We&apos;ll follow up on WhatsApp after our call. You can also message us now:
-                  </p>
-                  <a
-                    href={waLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white py-4 font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase hover:bg-[#1fad53] transition-colors"
-                  >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                      <path d="M11.5 2C6.253 2 2 6.253 2 11.5c0 1.91.524 3.698 1.434 5.229L2 22l5.432-1.418A9.45 9.45 0 0011.5 21C16.747 21 21 16.747 21 11.5S16.747 2 11.5 2zm0 17.25a7.74 7.74 0 01-3.964-1.093l-.284-.169-2.942.767.789-2.877-.185-.296A7.71 7.71 0 013.75 11.5C3.75 7.168 7.168 3.75 11.5 3.75s7.75 3.418 7.75 7.75-3.418 7.75-7.75 7.75z"/>
-                    </svg>
-                    Open WhatsApp
-                  </a>
-                </div>
-              ) : (
-                <div className="border border-divider p-6 mb-8 text-left">
-                  <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-3">
-                    You chose email updates
-                  </p>
-                  <p className="font-sans text-[0.875rem] text-charcoal">
-                    {email
-                      ? `A confirmation has been sent to ${email}. We'll also follow up by email after our call.`
-                      : "We'll follow up with you directly after our call."}
-                  </p>
-                </div>
+              <div className="mb-6">
+                <WhatsAppConfirmCTA message={waMessage} refLabel={waRef} label="Confirm on WhatsApp" />
+              </div>
+
+              {commsPref === 'email' && (
+                <p className="font-sans text-[0.8125rem] text-muted mb-6">
+                  {email
+                    ? `A confirmation has also been sent to ${email}.`
+                    : "We'll also follow up with you directly after our call."}
+                </p>
               )}
 
               <Link
@@ -272,7 +252,7 @@ export default function PhoneConsultationPage() {
             <p className="font-sans text-[0.75rem] text-muted text-center">
               Prefer to message us?{' '}
               <a
-                href={`https://wa.me/${WA_NUMBER}?text=Hi%2C%20I%27d%20like%20a%20phone%20consultation.`}
+                href={`/api/go/whatsapp?text=${encodeURIComponent(waMessage || `Hi, I'd like a phone consultation.`)}&ref=${encodeURIComponent(`${name || 'Unknown'} · ${phone || '—'} · Phone consultation (direct link)`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-hunter underline underline-offset-2"

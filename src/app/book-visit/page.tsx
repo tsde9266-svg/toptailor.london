@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import WhatsAppConfirmCTA from '@/components/WhatsAppConfirmCTA'
 
 const labelClass = 'block font-sans text-[0.75rem] uppercase tracking-widest mb-2 text-charcoal'
 const TIME_OPTIONS = ['Morning (9am – 12pm)', 'Afternoon (12pm – 5pm)', 'Evening (5pm – 8pm)', 'Flexible']
@@ -52,6 +53,14 @@ export default function BookVisitPage() {
   }
 
   if (done) {
+    const waMessage = [
+      `Hi, I'm ${name}. I'd like to book a home visit.`,
+      `Address: ${address}.`,
+      (preferredDate || preferredTime) ? `Preferred: ${[preferredDate, preferredTime].filter(Boolean).join(' · ')}.` : '',
+      notes.trim() ? `Notes: ${notes.trim()}` : '',
+    ].filter(Boolean).join(' ')
+    const waRef = `${name} · ${phone || email} · Book visit`
+
     return (
       <>
         <Navbar solid />
@@ -64,12 +73,12 @@ export default function BookVisitPage() {
                 </svg>
               </div>
               <h1 className="font-playfair text-[2rem] font-medium mb-3">
-                Request received, <em className="italic">{name.split(' ')[0]}.</em>
+                One more step, <em className="italic">{name.split(' ')[0]}.</em>
               </h1>
               <p className="font-sans font-light text-muted text-[0.9375rem] leading-relaxed mb-6">
-                We&apos;ll confirm your visit details within a few hours.
+                Tap below to send us your visit request on WhatsApp — it&apos;s already written, just hit send.
               </p>
-              <div className="border border-divider p-5 text-left mb-8">
+              <div className="border border-divider p-5 text-left mb-6">
                 <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-3">Your request</p>
                 <p className="font-sans text-[0.9rem] text-charcoal">{address}</p>
                 {(preferredDate || preferredTime) && (
@@ -78,12 +87,15 @@ export default function BookVisitPage() {
                   </p>
                 )}
               </div>
+              <div className="mb-4">
+                <WhatsAppConfirmCTA message={waMessage} refLabel={waRef} label="Confirm on WhatsApp" />
+              </div>
               <Link
                 href="/"
                 className="
-                  inline-block bg-hunter text-parchment px-10 py-4
+                  inline-block border border-charcoal text-charcoal px-10 py-4
                   font-sans text-[0.75rem] font-medium tracking-[0.2em] uppercase
-                  hover:bg-[#1E3D17] transition-colors
+                  hover:bg-charcoal hover:text-parchment transition-colors
                 "
               >
                 Return Home

@@ -142,7 +142,7 @@ export async function POST(req: NextRequest) {
       (address  ? `🏠 <b>Address:</b> ${address}\n`                                               : '') +
       (postcode ? `📍 <b>Postcode:</b> ${postcode}\n`                                             : '') +
       (notes    ? `\n💬 <b>Notes:</b>\n${notes}\n`                                                : '') +
-      (waPhone      ? `\n⚠️ <i>Do not message them on WhatsApp first — they have a self-serve WhatsApp link in their confirmation email. Only open a chat below once they've messaged you.</i>\n💬 <a href="https://wa.me/${waPhone}">Open chat</a>` : '')
+      (waPhone      ? `\n⚠️ <i>Don't message them on WhatsApp first — they have a "Confirm on WhatsApp" button on the site. Wait for their ✅ tap-through ping, or call them.</i>\n💬 <a href="https://wa.me/${waPhone}">Open chat (reply only)</a>` : '')
     ),
     sendCustomerConfirmation(email, name, address, service),
   ])

@@ -49,9 +49,10 @@ export async function POST(req: NextRequest) {
     `👤 <b>Name:</b> ${escHtml(name)}\n` +
     `📞 <b>Phone:</b> ${escHtml(phone)}\n` +
     `💬 <b>Message:</b> ${message ? escHtml(message) : '—'}\n\n` +
-    `📲 Reply within 5 minutes!`,
+    `They have a "Confirm on WhatsApp" button on the site — wait for their ✅ tap-through ping, or call them. ` +
+    `Don't message them on WhatsApp first.`,
     [[
-      { text: '💬 Open WhatsApp', url: waLink },
+      { text: '💬 Open WhatsApp (reply only)', url: waLink },
     ]],
   )
 

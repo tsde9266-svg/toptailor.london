@@ -1,6 +1,24 @@
 'use client'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { useState } from 'react'
+import WhatsAppConfirmCTA from '@/components/WhatsAppConfirmCTA'
+
+function buildWaMessage(data: Record<string, FormDataEntryValue>): string {
+  const name     = String(data.name     ?? '')
+  const service  = String(data.service  ?? '')
+  const day      = String(data.day      ?? '')
+  const address  = String(data.address  ?? '')
+  const postcode = String(data.postcode ?? '')
+  const notes    = String(data.notes    ?? '')
+
+  return [
+    `Hi, I'm ${name}.`,
+    service ? `I'd like to book: ${service}.` : `I'd like to book a tailoring collection.`,
+    day ? `Preferred day: ${day}.` : '',
+    (address || postcode) ? `Address: ${[address, postcode].filter(Boolean).join(', ')}.` : '',
+    notes ? `Notes: ${notes}` : '',
+  ].filter(Boolean).join('\n')
+}
 
 const serviceOptions = [
   'Trousers & Jeans',
@@ -35,6 +53,8 @@ export default function BookingForm() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [waMessage, setWaMessage] = useState('')
+  const [waRef, setWaRef] = useState('')
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -56,6 +76,8 @@ export default function BookingForm() {
         return
       }
 
+      setWaMessage(buildWaMessage(data))
+      setWaRef(`${data.name ?? 'Unknown'} · ${data.phone ?? data.email ?? ''} · Booking form`)
       setSubmitted(true)
       // Fire Google Ads contact/lead conversion
       if (typeof window !== 'undefined' && (window as any).gtag) {
@@ -113,12 +135,16 @@ export default function BookingForm() {
         <div className="lg:w-1/2 w-full">
           {submitted ? (
             <div className="py-16 text-center">
-              <p className="font-playfair text-xl italic text-hunter mb-4">
-                Request received.
+              <p className="font-playfair text-xl italic text-hunter mb-3">
+                One more step.
               </p>
-              <p className="font-sans text-sm text-muted">
-                We typically respond within a few hours.
+              <p className="font-sans text-sm text-muted mb-8 max-w-sm mx-auto leading-relaxed">
+                Tap below to send us your request on WhatsApp — it&apos;s already written, just hit send.
+                We reply fastest this way.
               </p>
+              <div className="max-w-sm mx-auto">
+                <WhatsAppConfirmCTA message={waMessage} refLabel={waRef} label="Confirm on WhatsApp" />
+              </div>
             </div>
           ) : (
             <>

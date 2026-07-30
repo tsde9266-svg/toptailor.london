@@ -641,3 +641,30 @@ export async function saveTelegramRelay(groupMessageId: number, relay: TelegramR
 export async function getTelegramRelay(groupMessageId: number): Promise<TelegramRelay | null> {
   return redis.get<TelegramRelay>(`tg-relay:${groupMessageId}`)
 }
+
+// ─── WhatsApp click-through tracking ───────────────────────────────────────────
+// Logged whenever a customer taps a "confirm on WhatsApp" button on the site,
+// so staff can see who messaged in (via the Telegram ping) and, for anyone who
+// didn't click, know to call them instead of WhatsApping cold.
+export type WhatsAppClickLog = {
+  id:  string
+  ts:  string
+  ref: string   // free-text context, e.g. "Jane Doe · 07123456789 · Booking form"
+}
+
+export async function logWhatsAppClick(entry: { ref: string }): Promise<void> {
+  const id = crypto.randomUUID()
+  const ts = new Date().toISOString()
+  await redis.pipeline()
+    .set(`wa-click:${id}`, { id, ts, ...entry })
+    .lpush('wa-clicks', id)
+    .ltrim('wa-clicks', 0, 499)
+    .exec()
+}
+
+export async function getRecentWhatsAppClicks(limit = 50): Promise<WhatsAppClickLog[]> {
+  const ids = await redis.lrange<string>('wa-clicks', 0, limit - 1)
+  if (!ids.length) return []
+  const items = await Promise.all(ids.map(id => redis.get<WhatsAppClickLog>(`wa-click:${id}`)))
+  return items.filter((c): c is WhatsAppClickLog => c !== null)
+}

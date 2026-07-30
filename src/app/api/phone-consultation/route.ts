@@ -74,11 +74,8 @@ export async function POST(req: NextRequest) {
     (slotStr   ? `🕐 <b>Best time to call:</b> ${slotStr}\n`                                          : '') +
     (commsPref ? `💬 <b>Preferred contact:</b> ${commsPref === 'whatsapp' ? 'WhatsApp' : 'Email'}\n` : '') +
     `⏱ <b>Received:</b> ${timestamp}\n\n` +
-    `⚠️ <i>Do not message them on WhatsApp first.</i> ` +
-    (email
-      ? `They have a self-serve WhatsApp link in their confirmation email — only open a chat below once they've messaged you.\n`
-      : `No email on file — text them the link below so they can message us first, or wait for them to reach out on the call.\n`) +
-    `💬 <a href="https://wa.me/${waPhone}">Open chat</a>\n` +
+    `⚠️ <i>Don't message them on WhatsApp first — they have a "Confirm on WhatsApp" button on the site. Wait for their ✅ tap-through ping, or just call them.</i>\n` +
+    `💬 <a href="https://wa.me/${waPhone}">Open chat (reply only)</a>\n` +
     (email ? '' : `✉️ <a href="sms:+${waPhone}?body=${encodeURIComponent(`Hi ${name}, thanks for your consultation request with Fine Tailors! Message us anytime on WhatsApp: ${followUpLink}`)}">Text them the WhatsApp link</a>\n`) +
     `📞 <a href="tel:${phone}">Call now</a>`
 
