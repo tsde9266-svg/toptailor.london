@@ -15,8 +15,21 @@ export default function InquiryPage() {
   const [error,   setError]   = useState('')
   const [done,    setDone]    = useState(false)
 
+  const waMessage = [
+    name.trim() ? `Hi, I'm ${name}.` : `Hi,`,
+    message.trim() ? message.trim() : `I'd like to enquire about your tailoring services.`,
+  ].join(' ')
+  const waRef = `${name} · ${phone} · Quick inquiry`
+  const waHref = `/api/go/whatsapp?text=${encodeURIComponent(waMessage)}&ref=${encodeURIComponent(waRef)}`
+
   async function submit(e: React.FormEvent) {
     e.preventDefault()
+
+    // Open WhatsApp immediately, synchronously, as a direct result of the
+    // tap — keeps it a user gesture (no popup-blocker issues) and keeps the
+    // message customer-initiated (see WhatsAppConfirmCTA for why that matters).
+    window.open(waHref, '_blank', 'noopener,noreferrer')
+
     setLoading(true)
     setError('')
     const controller = new AbortController()
@@ -46,12 +59,6 @@ export default function InquiryPage() {
     }
   }
 
-  const waMessage = [
-    name.trim() ? `Hi, I'm ${name}.` : `Hi,`,
-    message.trim() ? message.trim() : `I'd like to enquire about your tailoring services.`,
-  ].join(' ')
-  const waRef = `${name} · ${phone} · Quick inquiry`
-
   if (done) {
     return (
       <>
@@ -65,13 +72,13 @@ export default function InquiryPage() {
                 </svg>
               </div>
               <h1 className="font-playfair text-[2rem] font-medium mb-3">
-                One more <em className="italic">step.</em>
+                Check your <em className="italic">new tab.</em>
               </h1>
               <p className="font-sans font-light text-muted text-[0.9375rem] leading-relaxed mb-8">
-                Thanks, {name.split(' ')[0]} — tap below to send us your inquiry on WhatsApp. It&apos;s already written, just hit send. We reply in under 5 minutes during business hours.
+                Thanks, {name.split(' ')[0]} — we&apos;ve opened WhatsApp with your inquiry already written. Just hit send. We reply in under 5 minutes during business hours.
               </p>
               <div className="mb-4">
-                <WhatsAppConfirmCTA message={waMessage} refLabel={waRef} label="Confirm on WhatsApp" />
+                <WhatsAppConfirmCTA message={waMessage} refLabel={waRef} label="Didn't open? Tap here" />
               </div>
               <Link
                 href="/"

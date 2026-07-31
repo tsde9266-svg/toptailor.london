@@ -20,8 +20,23 @@ export default function BookVisitPage() {
   const [error,         setError]         = useState('')
   const [done,          setDone]          = useState(false)
 
+  const waMessage = [
+    `Hi, I'm ${name}. I'd like to book a home visit.`,
+    `Address: ${address}.`,
+    (preferredDate || preferredTime) ? `Preferred: ${[preferredDate, preferredTime].filter(Boolean).join(' · ')}.` : '',
+    notes.trim() ? `Notes: ${notes.trim()}` : '',
+  ].filter(Boolean).join(' ')
+  const waRef = `${name} · ${phone || email} · Book visit`
+  const waHref = `/api/go/whatsapp?text=${encodeURIComponent(waMessage)}&ref=${encodeURIComponent(waRef)}`
+
   async function submit(e: React.FormEvent) {
     e.preventDefault()
+
+    // Open WhatsApp immediately, synchronously, as a direct result of the
+    // tap — keeps it a user gesture (no popup-blocker issues) and keeps the
+    // message customer-initiated (see WhatsAppConfirmCTA for why that matters).
+    window.open(waHref, '_blank', 'noopener,noreferrer')
+
     setLoading(true)
     setError('')
     const controller = new AbortController()
@@ -53,14 +68,6 @@ export default function BookVisitPage() {
   }
 
   if (done) {
-    const waMessage = [
-      `Hi, I'm ${name}. I'd like to book a home visit.`,
-      `Address: ${address}.`,
-      (preferredDate || preferredTime) ? `Preferred: ${[preferredDate, preferredTime].filter(Boolean).join(' · ')}.` : '',
-      notes.trim() ? `Notes: ${notes.trim()}` : '',
-    ].filter(Boolean).join(' ')
-    const waRef = `${name} · ${phone || email} · Book visit`
-
     return (
       <>
         <Navbar solid />
@@ -73,10 +80,10 @@ export default function BookVisitPage() {
                 </svg>
               </div>
               <h1 className="font-playfair text-[2rem] font-medium mb-3">
-                One more step, <em className="italic">{name.split(' ')[0]}.</em>
+                Check your <em className="italic">new tab, {name.split(' ')[0]}.</em>
               </h1>
               <p className="font-sans font-light text-muted text-[0.9375rem] leading-relaxed mb-6">
-                Tap below to send us your visit request on WhatsApp — it&apos;s already written, just hit send.
+                We&apos;ve opened WhatsApp with your visit request already written. Just hit send.
               </p>
               <div className="border border-divider p-5 text-left mb-6">
                 <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-3">Your request</p>
@@ -88,7 +95,7 @@ export default function BookVisitPage() {
                 )}
               </div>
               <div className="mb-4">
-                <WhatsAppConfirmCTA message={waMessage} refLabel={waRef} label="Confirm on WhatsApp" />
+                <WhatsAppConfirmCTA message={waMessage} refLabel={waRef} label="Didn't open? Tap here" />
               </div>
               <Link
                 href="/"
