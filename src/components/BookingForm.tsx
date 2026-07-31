@@ -104,7 +104,7 @@ export default function BookingForm() {
           {/* Mobile heading */}
           <div className="lg:hidden mb-8">
             <h2 className="font-playfair text-[2rem] leading-[1.1] font-medium mb-4">
-              Inquiry
+              Enquiry
             </h2>
             <p className="font-sans font-light text-[0.9375rem] text-muted leading-relaxed">
               Leave your details and a specialist will contact you within the hour.
@@ -305,7 +305,7 @@ export default function BookingForm() {
                     disabled:opacity-60 disabled:cursor-not-allowed
                   "
                 >
-                  {loading ? 'Sending…' : 'SEND INQUIRY'}
+                  {loading ? 'Sending…' : 'SEND ENQUIRY'}
                 </button>
                 <p className="font-sans text-[0.75rem] text-muted mt-4 text-center leading-relaxed">
                   We typically respond within a few hours.

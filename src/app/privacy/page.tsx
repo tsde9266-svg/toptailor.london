@@ -47,7 +47,7 @@ export default function PrivacyPage() {
           </Section>
 
           <Section title="2. What Data We Collect">
-            <p>When you make an inquiry or submit a collection request, we collect:</p>
+            <p>When you make an enquiry or submit a collection request, we collect:</p>
             <ul className="list-disc pl-5 space-y-1">
               <li>Full name</li>
               <li>Email address</li>
@@ -63,13 +63,13 @@ export default function PrivacyPage() {
               <li>Confirm and fulfil your collection and alteration request</li>
               <li>Send you a quote for the work required</li>
               <li>Communicate about your order (slot confirmation, quote, delivery)</li>
-              <li>Respond to inquiries you send us</li>
+              <li>Respond to enquiries you send us</li>
             </ul>
             <p>We do not use your data for marketing without your explicit consent and we do not sell or share your data with third parties.</p>
           </Section>
 
           <Section title="4. Legal Basis for Processing">
-            <p>We process your personal data on the basis of <strong className="font-medium text-charcoal">contract performance</strong> (to fulfil your service request) and <strong className="font-medium text-charcoal">legitimate interests</strong> (to respond to your inquiries).</p>
+            <p>We process your personal data on the basis of <strong className="font-medium text-charcoal">contract performance</strong> (to fulfil your service request) and <strong className="font-medium text-charcoal">legitimate interests</strong> (to respond to your enquiries).</p>
           </Section>
 
           <Section title="5. Data Retention">
@@ -84,7 +84,7 @@ export default function PrivacyPage() {
               <li>Request deletion of your data</li>
               <li>Object to processing of your data</li>
             </ul>
-            <p>To exercise any of these rights, contact us via the inquiry form on this website.</p>
+            <p>To exercise any of these rights, contact us via the enquiry form on this website.</p>
           </Section>
 
           <Section title="7. Cookies">

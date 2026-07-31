@@ -166,7 +166,7 @@ export default function Navbar({ solid = false }: { solid?: boolean }) {
                 hover:bg-charcoal hover:text-parchment transition-colors
               "
             >
-              ⚡ Quick Inquiry
+              ⚡ Quick Enquiry
             </Link>
           </div>
         </div>

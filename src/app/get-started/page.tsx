@@ -65,7 +65,7 @@ export default function GetStartedPage() {
                   border border-charcoal text-charcoal hover:bg-charcoal hover:text-parchment
                 "
               >
-                Quick Inquiry →
+                Quick Enquiry →
               </Link>
             </div>
 

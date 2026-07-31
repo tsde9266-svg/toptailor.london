@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     q: 'Do you offer trade discounts for designers and boutiques?',
-    a: 'Yes — we offer 20% off for designers, fashion houses, boutiques, stylists and hotel concierge services. Apply for a trade account via our inquiry form and we will be in touch within one working day.',
+    a: 'Yes — we offer 20% off for designers, fashion houses, boutiques, stylists and hotel concierge services. Apply for a trade account via our enquiry form and we will be in touch within one working day.',
   },
   {
     q: 'Do you work with designer and luxury garments?',

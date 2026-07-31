@@ -66,15 +66,15 @@ async function sendCustomerConfirmation(
   // Customer-initiated link — keeps us compliant with WhatsApp's rule that
   // only the customer may send the first message. Do not replace this with a
   // link that messages the customer directly; see greeting.ts for why.
-  const waLink = customerFollowUpLink(service ? `${service} inquiry` : 'tailoring inquiry', name)
+  const waLink = customerFollowUpLink(service ? `${service} enquiry` : 'tailoring enquiry', name)
 
   try {
     await sendMail({
       to,
-      subject: 'We received your inquiry — Fine Tailors',
+      subject: 'We received your enquiry — Fine Tailors',
       text:
         `Hi ${name},\n\n` +
-        `Thank you for getting in touch. We've received your inquiry and a specialist will contact you within a few hours.\n\n` +
+        `Thank you for getting in touch. We've received your enquiry and a specialist will contact you within a few hours.\n\n` +
         `Please note: all home visits and consultations are chargeable. We do not offer free assessments. ` +
         `Our team will share full pricing when they get in touch.\n\n` +
         (needsAddress
@@ -119,9 +119,9 @@ export async function POST(req: NextRequest) {
 
   const waPhone      = phone ? normaliseUkPhone(phone)   : ''
 
-  const emailSubject = `📋 New Inquiry — ${name}`
+  const emailSubject = `📋 New Enquiry — ${name}`
   const emailBody =
-    `New Inquiry — Fine Tailors\n${'─'.repeat(40)}\n` +
+    `New Enquiry — Fine Tailors\n${'─'.repeat(40)}\n` +
     `Name:     ${name}\nEmail:    ${email}\n` +
     (phone    ? `Phone:    ${phone}\n`    : '') +
     (service  ? `Service:  ${service}\n` : '') +
@@ -133,7 +133,7 @@ export async function POST(req: NextRequest) {
   await Promise.all([
     notifyEmail(emailSubject, emailBody),
     notifyTelegram(
-      `📋 <b>New Inquiry</b>\n\n` +
+      `📋 <b>New Enquiry</b>\n\n` +
       `👤 <b>Name:</b> ${name}\n` +
       `📧 <b>Email:</b> ${email}\n` +
       (phone    ? `📞 <b>Phone:</b> ${phone}\n`                                                  : '') +

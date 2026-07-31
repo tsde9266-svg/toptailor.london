@@ -198,7 +198,7 @@ export default function PricesPage() {
                   hover:bg-charcoal hover:text-parchment transition-colors
                 "
               >
-                ⚡ Quick Inquiry
+                ⚡ Quick Enquiry
               </Link>
               <Link
                 href="/book-visit"

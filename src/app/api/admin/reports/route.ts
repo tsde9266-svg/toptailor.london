@@ -345,7 +345,7 @@ async function reportBackup(): Promise<{ subject: string; html: string; attachme
 
   return {
     subject: `Full Data Backup — ${todayStamp()}`,
-    html: `<p>Attached: a complete export of every record in the system as of ${todayStamp()} — ${attachments.length} files covering customers, invoices, orders, bookings, consultations, deliveries, vouchers, surveys and inquiries.</p>`,
+    html: `<p>Attached: a complete export of every record in the system as of ${todayStamp()} — ${attachments.length} files covering customers, invoices, orders, bookings, consultations, deliveries, vouchers, surveys and enquiries.</p>`,
     attachments,
   }
 }

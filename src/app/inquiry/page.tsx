@@ -19,7 +19,7 @@ export default function InquiryPage() {
     name.trim() ? `Hi, I'm ${name}.` : `Hi,`,
     message.trim() ? message.trim() : `I'd like to enquire about your tailoring services.`,
   ].join(' ')
-  const waRef = `${name} · ${phone} · Quick inquiry`
+  const waRef = `${name} · ${phone} · Quick enquiry`
   const waHref = `/api/go/whatsapp?text=${encodeURIComponent(waMessage)}&ref=${encodeURIComponent(waRef)}`
 
   async function submit(e: React.FormEvent) {
@@ -75,7 +75,7 @@ export default function InquiryPage() {
                 Check your <em className="italic">new tab.</em>
               </h1>
               <p className="font-sans font-light text-muted text-[0.9375rem] leading-relaxed mb-8">
-                Thanks, {name.split(' ')[0]} — we&apos;ve opened WhatsApp with your inquiry already written. Just hit send. We reply in under 5 minutes during business hours.
+                Thanks, {name.split(' ')[0]} — we&apos;ve opened WhatsApp with your enquiry already written. Just hit send. We reply in under 5 minutes during business hours.
               </p>
               <div className="mb-4">
                 <WhatsAppConfirmCTA message={waMessage} refLabel={waRef} label="Didn't open? Tap here" />
@@ -172,13 +172,13 @@ export default function InquiryPage() {
                 disabled:opacity-60 disabled:cursor-not-allowed
               "
             >
-              {loading ? 'Sending…' : 'Send Inquiry →'}
+              {loading ? 'Sending…' : 'Send Enquiry →'}
             </button>
 
             <p className="font-sans text-[0.75rem] text-muted text-center">
               Or WhatsApp us directly:{' '}
               <a
-                href={`/api/go/whatsapp?text=${encodeURIComponent(waMessage)}&ref=${encodeURIComponent(`${name || 'Unknown'} · ${phone || '—'} · Quick inquiry (direct link)`)}`}
+                href={`/api/go/whatsapp?text=${encodeURIComponent(waMessage)}&ref=${encodeURIComponent(`${name || 'Unknown'} · ${phone || '—'} · Quick enquiry (direct link)`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-hunter underline underline-offset-2"

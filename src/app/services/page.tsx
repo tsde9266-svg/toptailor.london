@@ -471,7 +471,7 @@ export default function ServicesPage() {
                 📅 Book a Visit
               </Link>
               <Link href="/inquiry" className="flex-1 text-center border border-charcoal text-charcoal px-10 py-4 font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase hover:bg-charcoal hover:text-parchment transition-colors">
-                ⚡ Quick Inquiry
+                ⚡ Quick Enquiry
               </Link>
               <Link href="/prices" className="flex-1 text-center border border-divider text-muted px-10 py-4 font-sans text-[0.75rem] font-medium tracking-[0.15em] uppercase hover:border-hunter hover:text-hunter transition-colors">
                 💷 See Prices

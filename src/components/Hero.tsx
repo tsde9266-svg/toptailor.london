@@ -349,13 +349,13 @@ export default function Hero() {
             </div>
 
             <div className="w-full flex flex-col gap-2 sm:gap-2.5 mb-3 sm:mb-5">
-              {/* Quick Inquiry */}
+              {/* Quick Enquiry */}
               <Link
                 href="/inquiry"
                 className="flex items-center justify-center gap-2 font-sans text-[0.8125rem] font-medium uppercase tracking-[0.12em] transition-colors"
                 style={{ background: '#2A5220', color: '#F5F0E8', height: '48px' }}
               >
-                ⚡ Quick Inquiry
+                ⚡ Quick Enquiry
               </Link>
               {/* Book a Visit */}
               <Link

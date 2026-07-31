@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
   const waLink  = `https://wa.me/${waPhone}`
 
   await notifyTelegram(
-    `⚡ <b>Quick Inquiry</b>\n\n` +
+    `⚡ <b>Quick Enquiry</b>\n\n` +
     `👤 <b>Name:</b> ${escHtml(name)}\n` +
     `📞 <b>Phone:</b> ${escHtml(phone)}\n` +
     `💬 <b>Message:</b> ${message ? escHtml(message) : '—'}\n\n` +

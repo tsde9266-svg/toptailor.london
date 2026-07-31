@@ -30,14 +30,14 @@ export default async function InquiriesPage() {
         <Link href="/admin" className="font-sans text-[0.6875rem] uppercase tracking-widest text-parchment/70 hover:text-parchment transition-colors">
           ← Admin
         </Link>
-        <span className="font-playfair text-[1.125rem]">Quick Inquiries</span>
+        <span className="font-playfair text-[1.125rem]">Quick Enquiries</span>
         <span className="w-16" />
       </div>
 
       <div className="px-4 lg:px-8 py-8 max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="font-playfair text-[1.75rem]">Inquiries</h1>
+            <h1 className="font-playfair text-[1.75rem]">Enquiries</h1>
             <p className="font-sans text-[0.8125rem] text-muted mt-1">{inquiries.length} total</p>
           </div>
         </div>
@@ -50,7 +50,7 @@ export default async function InquiriesPage() {
 
         {inquiries.length === 0 && !kvError ? (
           <div className="border border-divider bg-white px-6 py-12 text-center">
-            <p className="font-sans text-muted">No inquiries yet.</p>
+            <p className="font-sans text-muted">No enquiries yet.</p>
           </div>
         ) : (
           <div className="space-y-3">
