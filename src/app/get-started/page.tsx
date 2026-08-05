@@ -57,7 +57,7 @@ export default function GetStartedPage() {
                 Not sure what you need? Tell us your name, phone, and a time — a specialist will call you to walk through your options. No commitment.
               </p>
               <Link
-                href="/inquiry"
+                href="/get-started/call"
                 className="
                   w-full text-center py-4
                   font-sans text-[0.75rem] font-medium tracking-[0.18em] uppercase
@@ -65,7 +65,7 @@ export default function GetStartedPage() {
                   border border-charcoal text-charcoal hover:bg-charcoal hover:text-parchment
                 "
               >
-                Quick Enquiry →
+                Schedule a Call →
               </Link>
             </div>
 
