@@ -288,7 +288,7 @@ export default async function InvoicesPage({
                 </button>
               </form>
               <p className="font-sans text-[0.6875rem] text-muted -mt-2">
-                Filters by due date. Set "Due from" and "Due to" to the same date to see everything due on one day.
+                Filters by due date. Set &ldquo;Due from&rdquo; and &ldquo;Due to&rdquo; to the same date to see everything due on one day.
               </p>
 
               {/* Due-date quick select */}
