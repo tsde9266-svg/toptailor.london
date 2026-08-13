@@ -20,7 +20,7 @@ function fmt(d: string) {
   })
 }
 
-function InvoiceCard({ inv }: { inv: Invoice }) {
+function InvoiceCard({ inv, showDueDate }: { inv: Invoice; showDueDate?: boolean }) {
   return (
     <div className="flex items-stretch border border-divider bg-white hover:border-hunter transition-colors duration-200">
       <Link
@@ -48,7 +48,9 @@ function InvoiceCard({ inv }: { inv: Invoice }) {
               </span>
             )}
           </span>
-          <span className="font-sans text-[0.6875rem] text-muted">{fmt(inv.createdAt)}</span>
+          <span className="font-sans text-[0.6875rem] text-muted">
+            {showDueDate ? `Due ${fmt(inv.dueDate)}` : fmt(inv.createdAt)}
+          </span>
         </div>
       </Link>
       <div className="flex items-center px-3 border-l border-divider">
@@ -83,6 +85,25 @@ function matchesSearch(inv: Invoice, q: string): boolean {
   )
 }
 
+function toDateStr(d: Date): string {
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
+
+// Monday–Sunday, matching how the business reviews weekly due invoices.
+function weekRange(offsetWeeks: number): { from: string; to: string } {
+  const now = new Date()
+  const day = now.getDay() // 0 (Sun) .. 6 (Sat)
+  const diffToMonday = (day === 0 ? -6 : 1 - day) + offsetWeeks * 7
+  const monday = new Date(now)
+  monday.setDate(now.getDate() + diffToMonday)
+  const sunday = new Date(monday)
+  sunday.setDate(monday.getDate() + 6)
+  return { from: toDateStr(monday), to: toDateStr(sunday) }
+}
+
 export default async function InvoicesPage({
   searchParams,
 }: {
@@ -104,11 +125,13 @@ export default async function InvoicesPage({
   const hasFilters = status !== 'all' || payment !== 'all' || !!q || !!from || !!to
 
   // Every dimension except status — used both to filter and to compute status-tab counts.
+  // Date range filters on dueDate (plain YYYY-MM-DD), not createdAt — this page is used to
+  // check "did we get paid for what was due this week", so due date is what matters.
   const preStatus = invoices.filter(i => {
     if (payment !== 'all' && i.paymentMethod !== payment) return false
     if (q && !matchesSearch(i, q)) return false
-    if (from && i.createdAt < from) return false
-    if (to && i.createdAt > `${to}T23:59:59.999Z`) return false
+    if (from && i.dueDate < from) return false
+    if (to && i.dueDate > to) return false
     return true
   })
 
@@ -120,6 +143,22 @@ export default async function InvoicesPage({
   }
 
   const visible = status === 'all' ? preStatus : preStatus.filter(i => i.status === status)
+  if (from || to) {
+    visible.sort((a, b) => a.dueDate.localeCompare(b.dueDate))
+  }
+
+  // Payment-tracking summary for the selected due-date range (all statuses, ignoring the status tab)
+  // — this is what answers "have we collected everything due this week".
+  const rangeActive = !!(from || to)
+  const rangeTotal = preStatus.reduce((s, i) => s + i.total, 0)
+  const rangePaidInvoices = preStatus.filter(i => i.status === 'paid')
+  const rangePaidTotal = rangePaidInvoices.reduce((s, i) => s + i.total, 0)
+  const rangeOutstandingTotal = rangeTotal - rangePaidTotal
+  const rangeUnpaidCount = preStatus.length - rangePaidInvoices.length
+
+  const thisWeek = weekRange(0)
+  const lastWeek = weekRange(-1)
+  const today = toDateStr(new Date())
 
   const statusTabs = [
     { key: 'all',   label: `All (${counts.all})` },
@@ -224,7 +263,7 @@ export default async function InvoicesPage({
                   />
                 </div>
                 <div>
-                  <label className="block font-sans text-[0.625rem] uppercase tracking-widest text-muted mb-1">From</label>
+                  <label className="block font-sans text-[0.625rem] uppercase tracking-widest text-muted mb-1">Due from</label>
                   <input
                     type="date"
                     name="from"
@@ -233,7 +272,7 @@ export default async function InvoicesPage({
                   />
                 </div>
                 <div>
-                  <label className="block font-sans text-[0.625rem] uppercase tracking-widest text-muted mb-1">To</label>
+                  <label className="block font-sans text-[0.625rem] uppercase tracking-widest text-muted mb-1">Due to</label>
                   <input
                     type="date"
                     name="to"
@@ -248,6 +287,37 @@ export default async function InvoicesPage({
                   Filter
                 </button>
               </form>
+              <p className="font-sans text-[0.6875rem] text-muted -mt-2">
+                Filters by due date. Set "Due from" and "Due to" to the same date to see everything due on one day.
+              </p>
+
+              {/* Due-date quick select */}
+              <div className="flex flex-wrap gap-2">
+                <Link
+                  href={hrefWith(searchParams, { from: today, to: today })}
+                  className={`font-sans text-[0.6875rem] uppercase tracking-widest px-2.5 py-1 border transition-colors ${
+                    from === today && to === today ? 'bg-hunter text-parchment border-hunter' : 'border-divider text-muted hover:border-hunter hover:text-charcoal'
+                  }`}
+                >
+                  Due Today
+                </Link>
+                <Link
+                  href={hrefWith(searchParams, { from: thisWeek.from, to: thisWeek.to })}
+                  className={`font-sans text-[0.6875rem] uppercase tracking-widest px-2.5 py-1 border transition-colors ${
+                    from === thisWeek.from && to === thisWeek.to ? 'bg-hunter text-parchment border-hunter' : 'border-divider text-muted hover:border-hunter hover:text-charcoal'
+                  }`}
+                >
+                  This Week (Mon–Sun)
+                </Link>
+                <Link
+                  href={hrefWith(searchParams, { from: lastWeek.from, to: lastWeek.to })}
+                  className={`font-sans text-[0.6875rem] uppercase tracking-widest px-2.5 py-1 border transition-colors ${
+                    from === lastWeek.from && to === lastWeek.to ? 'bg-hunter text-parchment border-hunter' : 'border-divider text-muted hover:border-hunter hover:text-charcoal'
+                  }`}
+                >
+                  Last Week
+                </Link>
+              </div>
 
               {/* Status tabs */}
               <div className="flex flex-wrap gap-2">
@@ -288,13 +358,41 @@ export default async function InvoicesPage({
               </div>
             </div>
 
+            {rangeActive && preStatus.length > 0 && (
+              <div className="border border-divider bg-white p-4 mb-6">
+                <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted mb-3">
+                  Due {from || '…'} → {to || '…'} · {preStatus.length} invoice{preStatus.length !== 1 ? 's' : ''}
+                </p>
+                <div className="flex items-center justify-between flex-wrap gap-4">
+                  <div>
+                    <p className="font-sans text-[0.625rem] uppercase tracking-widest text-muted mb-0.5">Total due</p>
+                    <p className="font-playfair text-[1.5rem] text-charcoal">£{rangeTotal}</p>
+                  </div>
+                  <div>
+                    <p className="font-sans text-[0.625rem] uppercase tracking-widest text-muted mb-0.5">Received</p>
+                    <p className="font-playfair text-[1.5rem] text-green-700">£{rangePaidTotal}</p>
+                  </div>
+                  <div>
+                    <p className="font-sans text-[0.625rem] uppercase tracking-widest text-muted mb-0.5">Outstanding</p>
+                    <p className={`font-playfair text-[1.5rem] ${rangeOutstandingTotal > 0 ? 'text-hunter' : 'text-charcoal'}`}>
+                      £{rangeOutstandingTotal}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-sans text-[0.625rem] uppercase tracking-widest text-muted mb-0.5">Unpaid</p>
+                    <p className="font-playfair text-[1.5rem] text-charcoal">{rangeUnpaidCount}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {visible.length === 0 ? (
               <p className="font-sans text-[0.875rem] text-muted text-center py-16">
                 No invoices match these filters.
               </p>
             ) : (
               <div className="space-y-3">
-                {visible.map(inv => <InvoiceCard key={inv.id} inv={inv} />)}
+                {visible.map(inv => <InvoiceCard key={inv.id} inv={inv} showDueDate={rangeActive} />)}
               </div>
             )}
           </>
