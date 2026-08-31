@@ -49,6 +49,15 @@ function waUrl(phone: string) {
   return `https://wa.me/${e164}`
 }
 
+function invoiceUrl(b: Booking) {
+  const params = new URLSearchParams({
+    name:    b.customer.name,
+    phone:   b.customer.phone,
+    address: [b.customer.address, b.customer.postcode].filter(Boolean).join(', '),
+  })
+  return `/admin/invoice/new?${params.toString()}`
+}
+
 export default function ScheduleView() {
   const [view,     setView]     = useState<View>('today')
   const [bookings, setBookings] = useState<Booking[]>([])
@@ -295,6 +304,12 @@ function BookingCard({
           className="inline-flex items-center gap-1.5 font-sans text-[0.75rem] uppercase tracking-widest text-charcoal border border-divider px-3 py-1.5 hover:border-charcoal transition-colors"
         >
           🗺 Maps
+        </a>
+        <a
+          href={invoiceUrl(b)}
+          className="inline-flex items-center gap-1.5 font-sans text-[0.75rem] uppercase tracking-widest text-hunter border border-hunter/40 px-3 py-1.5 hover:bg-hunter/5 transition-colors"
+        >
+          🧾 Invoice
         </a>
         {!isCancelled && (
           <button

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getAllInvoices, getAllOrders, getAllCalBookings, getAllConsultations } from '@/lib/kv'
+import { getAllInvoices, getAllOrders, getAllCalBookings, getAllConsultations, getAllWhatsAppBookings } from '@/lib/kv'
 import { isAdmin } from '@/lib/auth'
 
 export type CustomerRecord = {
@@ -8,7 +8,7 @@ export type CustomerRecord = {
   phone:    string
   address:  string
   lastSeen: string
-  source:   'invoice' | 'order' | 'booking' | 'consultation'
+  source:   'invoice' | 'order' | 'booking' | 'consultation' | 'whatsapp'
 }
 
 function upsert(
@@ -32,11 +32,12 @@ function upsert(
 export async function GET(req: NextRequest) {
   if (!isAdmin(req)) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   try {
-    const [invoices, orders, bookings, consultations] = await Promise.all([
+    const [invoices, orders, bookings, consultations, waBookings] = await Promise.all([
       getAllInvoices(),
       getAllOrders(),
       getAllCalBookings(),
       getAllConsultations(),
+      getAllWhatsAppBookings(),
     ])
 
     const map = new Map<string, CustomerRecord>()
@@ -80,6 +81,20 @@ export async function GET(req: NextRequest) {
         address:  '',
         lastSeen: bk.createdAt,
         source:   'booking',
+      })
+    }
+
+    // ── WhatsApp bookings (quick-book / schedule) ───────────────────────────────
+    for (const wb of waBookings) {
+      const key = wb.customer.name.toLowerCase().trim()
+      if (!key) continue
+      upsert(map, key, {
+        name:     wb.customer.name ?? '',
+        email:    '',
+        phone:    wb.customer.phone ?? '',
+        address:  [wb.customer.address, wb.customer.postcode].filter(Boolean).join(', '),
+        lastSeen: wb.createdAt,
+        source:   'whatsapp',
       })
     }
 

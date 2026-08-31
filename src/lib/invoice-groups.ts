@@ -10,6 +10,8 @@ import type { Invoice, InvoiceItemGroup, QuoteItem } from './kv'
 export type DisplayServiceRow = {
   service:        string
   amount:         number
+  priceEach:      number
+  appliesTo:      number
   appliesToNote?: string   // e.g. "1 of 2" — only set when a service applies to fewer than the item's full qty
 }
 
@@ -86,6 +88,8 @@ export function resolveInvoiceGroups(invoice: Invoice): DisplayGroup[] {
       rows:    g.services.map(s => ({
         service:       s.name,
         amount:        Math.round(s.priceEach * s.appliesTo * 100) / 100,
+        priceEach:     s.priceEach,
+        appliesTo:     s.appliesTo,
         appliesToNote: s.appliesTo < g.qty ? `${s.appliesTo} of ${g.qty}` : undefined,
       })),
     }))
@@ -96,7 +100,12 @@ export function resolveInvoiceGroups(invoice: Invoice): DisplayGroup[] {
     number:  null,
     garment: g.garment,
     qty:     g.qty,
-    rows:    g.items.map(p => ({ service: p.service, amount: p.original.price })),
+    rows:    g.items.map(p => ({
+      service:   p.service,
+      amount:    p.original.price,
+      priceEach: p.original.priceEach ?? p.original.price,
+      appliesTo: p.original.qty ?? 1,
+    })),
   }))
 }
 

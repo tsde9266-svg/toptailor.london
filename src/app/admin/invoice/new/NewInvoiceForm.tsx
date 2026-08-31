@@ -167,10 +167,16 @@ export default function NewInvoiceForm({ invoice }: Props) {
   const serviceRef = useRef<HTMLSelectElement>(null)
   const priceRef   = useRef<HTMLInputElement>(null)
 
-  const [discountMode,    setDiscountMode]    = useState<'none' | 'manual' | 'voucher'>(
-    invoice?.discountType === 'voucher' ? 'voucher' : invoice?.discountPercent ? 'manual' : 'none'
+  const [discountMode,    setDiscountMode]    = useState<'none' | 'percent' | 'amount' | 'voucher'>(
+    invoice?.discountType === 'voucher' ? 'voucher'
+      : invoice?.discountPercent ? 'percent'
+      : invoice?.discountAmount ? 'amount'
+      : 'none'
   )
   const [discountPercent, setDiscountPercent] = useState<number | ''>(invoice?.discountPercent ?? '')
+  const [discountAmountInput, setDiscountAmountInput] = useState<number | ''>(
+    !invoice?.discountPercent && invoice?.discountAmount ? invoice.discountAmount : ''
+  )
   const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null)
   const [vouchers,        setVouchers]        = useState<Voucher[]>([])
   const [vouchersLoaded,  setVouchersLoaded]  = useState(false)
@@ -202,7 +208,7 @@ export default function NewInvoiceForm({ invoice }: Props) {
             }
             setGroups(Array.from(byKey.values()))
           }
-          if (draft.discountPercent > 0) { setDiscountMode('manual'); setDiscountPercent(draft.discountPercent) }
+          if (draft.discountPercent > 0) { setDiscountMode('percent'); setDiscountPercent(draft.discountPercent) }
           if (draft.customer?.name)    setName(draft.customer.name)
           if (draft.customer?.email)   setEmail(draft.customer.email)
           if (draft.customer?.phone)   setPhone(draft.customer.phone)
@@ -251,8 +257,9 @@ export default function NewInvoiceForm({ invoice }: Props) {
   const totalQty = groups.reduce((sum, g) => sum + g.qty, 0)
   const effectivePct = discountMode === 'voucher'
     ? (selectedVoucher?.discountPercent ?? (isEdit && invoice?.discountPercent ? invoice.discountPercent : 0))
-    : (discountMode === 'manual' ? (Number(discountPercent) || 0) : 0)
-  const discountAmt  = effectivePct > 0 ? Math.round(subtotal * effectivePct) / 100 : 0
+    : (discountMode === 'percent' ? (Number(discountPercent) || 0) : 0)
+  const flatDiscount = discountMode === 'amount' ? Math.min(Math.max(0, Number(discountAmountInput) || 0), subtotal) : 0
+  const discountAmt  = discountMode === 'amount' ? flatDiscount : (effectivePct > 0 ? Math.round(subtotal * effectivePct) / 100 : 0)
   const total        = Math.max(0, subtotal - discountAmt)
 
   async function submit(e: React.FormEvent) {
@@ -278,7 +285,8 @@ export default function NewInvoiceForm({ invoice }: Props) {
     const payload = {
       customer: { name, email: email || undefined, phone: phone || undefined, address: address || undefined },
       itemGroups,
-      discountPercent: effectivePct > 0 ? effectivePct : undefined,
+      discountPercent: discountMode === 'percent' && effectivePct > 0 ? effectivePct : undefined,
+      discountAmount:  discountMode === 'amount'  && flatDiscount > 0 ? flatDiscount : undefined,
       voucherId:       discountMode === 'voucher' ? selectedVoucher?.id : undefined,
       notes:           notes || undefined,
       itemCount:       itemCount !== '' ? Number(itemCount) : undefined,
@@ -440,16 +448,20 @@ export default function NewInvoiceForm({ invoice }: Props) {
             <div className="flex items-center gap-3 flex-wrap">
               <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted">Discount</p>
               <div className="flex gap-2">
-                <button type="button" onClick={() => { setDiscountMode('manual'); setSelectedVoucher(null) }}
-                  className={`font-sans text-[0.6875rem] uppercase tracking-widest px-3 py-1.5 border transition-colors ${discountMode === 'manual' ? 'bg-hunter text-parchment border-hunter' : 'border-divider text-muted hover:border-hunter'}`}>
-                  Manual %
+                <button type="button" onClick={() => { setDiscountMode('percent'); setSelectedVoucher(null); setDiscountAmountInput('') }}
+                  className={`font-sans text-[0.6875rem] uppercase tracking-widest px-3 py-1.5 border transition-colors ${discountMode === 'percent' ? 'bg-hunter text-parchment border-hunter' : 'border-divider text-muted hover:border-hunter'}`}>
+                  Percent %
                 </button>
-                <button type="button" onClick={() => { setDiscountMode('voucher'); setDiscountPercent('') }}
+                <button type="button" onClick={() => { setDiscountMode('amount'); setSelectedVoucher(null); setDiscountPercent('') }}
+                  className={`font-sans text-[0.6875rem] uppercase tracking-widest px-3 py-1.5 border transition-colors ${discountMode === 'amount' ? 'bg-hunter text-parchment border-hunter' : 'border-divider text-muted hover:border-hunter'}`}>
+                  Amount £
+                </button>
+                <button type="button" onClick={() => { setDiscountMode('voucher'); setDiscountPercent(''); setDiscountAmountInput('') }}
                   className={`font-sans text-[0.6875rem] uppercase tracking-widest px-3 py-1.5 border transition-colors ${discountMode === 'voucher' ? 'bg-hunter text-parchment border-hunter' : 'border-divider text-muted hover:border-hunter'}`}>
                   Voucher
                 </button>
                 {discountMode !== 'none' && (
-                  <button type="button" onClick={() => { setDiscountMode('none'); setSelectedVoucher(null); setDiscountPercent('') }}
+                  <button type="button" onClick={() => { setDiscountMode('none'); setSelectedVoucher(null); setDiscountPercent(''); setDiscountAmountInput('') }}
                     className="font-sans text-[0.6875rem] uppercase tracking-widest px-3 py-1.5 border border-divider text-red-500 hover:border-red-300 transition-colors">
                     Clear
                   </button>
@@ -457,7 +469,7 @@ export default function NewInvoiceForm({ invoice }: Props) {
               </div>
             </div>
 
-            {discountMode === 'manual' && (
+            {discountMode === 'percent' && (
               <div className="flex items-center gap-4">
                 <label className="font-sans text-[0.75rem] uppercase tracking-widest text-charcoal whitespace-nowrap">Discount %</label>
                 <div className="flex items-center gap-1">
@@ -468,6 +480,22 @@ export default function NewInvoiceForm({ invoice }: Props) {
                   <span className="font-sans text-[0.9rem] text-muted">%</span>
                 </div>
                 {effectivePct > 0 && (
+                  <span className="font-sans text-[0.8125rem] text-hunter">= −£{discountAmt.toFixed(2)}</span>
+                )}
+              </div>
+            )}
+
+            {discountMode === 'amount' && (
+              <div className="flex items-center gap-4">
+                <label className="font-sans text-[0.75rem] uppercase tracking-widest text-charcoal whitespace-nowrap">Discount amount</label>
+                <div className="flex items-center gap-1">
+                  <span className="font-sans text-[0.9rem] text-muted">£</span>
+                  <input type="number" min="0" max={subtotal} step="0.01" value={discountAmountInput}
+                    onChange={e => setDiscountAmountInput(e.target.value === '' ? '' : Number(e.target.value))}
+                    placeholder="5"
+                    className="input-line font-sans text-[0.9rem] w-24 text-center" />
+                </div>
+                {flatDiscount > 0 && (
                   <span className="font-sans text-[0.8125rem] text-hunter">= −£{discountAmt.toFixed(2)}</span>
                 )}
               </div>
@@ -520,7 +548,10 @@ export default function NewInvoiceForm({ invoice }: Props) {
                   <span>Subtotal</span><span>£{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between font-sans text-[0.8125rem] text-muted">
-                  <span>Discount ({effectivePct}%{discountMode === 'voucher' && selectedVoucher ? ` · ${selectedVoucher.code}` : ''})</span>
+                  <span>
+                    Discount ({discountMode === 'amount' ? `£${flatDiscount.toFixed(2)}` : `${effectivePct}%`}
+                    {discountMode === 'voucher' && selectedVoucher ? ` · ${selectedVoucher.code}` : ''})
+                  </span>
                   <span>−£{discountAmt.toFixed(2)}</span>
                 </div>
               </>

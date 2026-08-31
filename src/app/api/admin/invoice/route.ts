@@ -83,10 +83,11 @@ export async function POST(req: NextRequest) {
 
   // ── Manual creation ───────────────────────────────────────────────────────
   } else {
-    const customer        = body.customer as Invoice['customer']
-    const dueDate         = String(body.dueDate ?? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0])
-    const discountPercent = body.discountPercent != null ? Number(body.discountPercent) : undefined
-    const voucherId       = body.voucherId ? String(body.voucherId) : undefined
+    const customer          = body.customer as Invoice['customer']
+    const dueDate           = String(body.dueDate ?? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0])
+    const discountPercent   = body.discountPercent != null ? Number(body.discountPercent) : undefined
+    const discountFlatInput = body.discountAmount != null ? Number(body.discountAmount) : undefined
+    const voucherId         = body.voucherId ? String(body.voucherId) : undefined
 
     if (!customer?.name || !validateItemGroups(body.itemGroups)) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 422 })
@@ -97,12 +98,16 @@ export async function POST(req: NextRequest) {
     if (discountPercent !== undefined && (isNaN(discountPercent) || discountPercent < 0 || discountPercent > 100)) {
       return NextResponse.json({ error: 'Invalid discount percent' }, { status: 422 })
     }
+    if (discountFlatInput !== undefined && (isNaN(discountFlatInput) || discountFlatInput < 0)) {
+      return NextResponse.json({ error: 'Invalid discount amount' }, { status: 422 })
+    }
 
     const itemGroups = body.itemGroups as InvoiceItemGroup[]
     const items      = flattenItemGroups(itemGroups)
     const subtotal    = items.reduce((s, i) => s + i.price, 0)
 
     let finalDiscountPercent = discountPercent
+    let finalDiscountFlat: number | undefined
     let voucherCode: string | undefined
     let voucherName: string | undefined
     let voucherType: import('@/lib/kv').VoucherType | undefined
@@ -125,13 +130,17 @@ export async function POST(req: NextRequest) {
         voucher.usageCount   = (voucher.usageCount ?? 0) + 1
         await updateVoucher(voucher).catch(() => {})
       }
+    } else if (discountFlatInput) {
+      finalDiscountFlat    = Math.min(discountFlatInput, subtotal)
+      finalDiscountPercent = undefined
+      discountType         = 'manual'
     } else if (discountPercent) {
       discountType = 'manual'
     }
 
-    const discountAmount = finalDiscountPercent
+    const discountAmount = finalDiscountFlat ?? (finalDiscountPercent
       ? Math.round(subtotal * finalDiscountPercent) / 100
-      : undefined
+      : undefined)
     const total = discountAmount ? Math.max(0, subtotal - discountAmount) : subtotal
 
     invoice = {

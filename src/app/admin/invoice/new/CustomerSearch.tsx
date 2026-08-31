@@ -8,7 +8,7 @@ type Props = {
 }
 
 const SOURCE_LABEL: Record<string, string> = {
-  order: 'order', booking: 'booking', invoice: 'invoice', consultation: 'call',
+  order: 'order', booking: 'booking', invoice: 'invoice', consultation: 'call', whatsapp: 'whatsapp',
 }
 
 export default function CustomerSearch({ onSelect }: Props) {

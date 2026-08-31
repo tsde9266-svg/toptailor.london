@@ -96,7 +96,7 @@ export const services: ServiceCategory[] = [
     subtitle:    'Shortening, taking in & zips',
     description: 'From simple sundresses to evening gowns — shortening, taking in and zip replacements.',
     items: [
-      { id: 'dr-1', name: 'Plain dress shortening',                price: 25 },
+      { id: 'dr-1', name: 'Shortening',                            price: 25 },
       { id: 'dr-2', name: 'Dress shortening — 2 layers',          price: 35, note: 'from' },
       { id: 'dr-3', name: 'Dress take in sides',                  price: 28 },
       { id: 'dr-4', name: 'Dress take in sides — through zip',    price: 35, note: 'from' },

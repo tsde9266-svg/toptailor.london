@@ -48,9 +48,19 @@ export async function PATCH(
   const itemGroups = body.itemGroups as InvoiceItemGroup[]
   const items      = flattenItemGroups(itemGroups)
 
-  const discountPercent = body.discountPercent != null ? Number(body.discountPercent) : undefined
-  const subtotal        = items.reduce((s, i) => s + i.price, 0)
-  const discountAmount  = discountPercent ? Math.round(subtotal * discountPercent) / 100 : undefined
+  const discountPercent   = body.discountPercent != null ? Number(body.discountPercent) : undefined
+  const discountFlatInput = body.discountAmount  != null ? Number(body.discountAmount)  : undefined
+  if (discountPercent !== undefined && (isNaN(discountPercent) || discountPercent < 0 || discountPercent > 100)) {
+    return NextResponse.json({ error: 'Invalid discount percent' }, { status: 422 })
+  }
+  if (discountFlatInput !== undefined && (isNaN(discountFlatInput) || discountFlatInput < 0)) {
+    return NextResponse.json({ error: 'Invalid discount amount' }, { status: 422 })
+  }
+
+  const subtotal       = items.reduce((s, i) => s + i.price, 0)
+  const finalFlat       = discountFlatInput ? Math.min(discountFlatInput, subtotal) : undefined
+  const finalPercent    = finalFlat !== undefined ? undefined : discountPercent
+  const discountAmount  = finalFlat ?? (finalPercent ? Math.round(subtotal * finalPercent) / 100 : undefined)
   const total           = discountAmount  ? Math.max(0, subtotal - discountAmount) : subtotal
 
   invoice.customer       = customer
@@ -58,9 +68,9 @@ export async function PATCH(
   invoice.itemGroups     = itemGroups
   invoice.subtotal       = subtotal
   invoice.total          = total
-  invoice.discountPercent = discountPercent
+  invoice.discountPercent = finalPercent
   invoice.discountAmount  = discountAmount
-  invoice.discountType    = discountPercent && !body.voucherId ? 'manual' : invoice.discountType
+  invoice.discountType    = (finalPercent || finalFlat) && !body.voucherId ? 'manual' : invoice.discountType
   invoice.notes           = body.notes ? String(body.notes) : undefined
   invoice.itemCount       = body.itemCount != null && Number.isInteger(Number(body.itemCount)) && Number(body.itemCount) > 0
                               ? Number(body.itemCount) : undefined

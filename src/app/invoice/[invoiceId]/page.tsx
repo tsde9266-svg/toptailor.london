@@ -20,7 +20,10 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
   if (!invoice) notFound()
 
   const discountAmt      = invoice.discountAmount ?? invoice.discount
-  const discountPct      = invoice.discountPercent ?? (discountAmt && invoice.subtotal > 0 ? Math.round(discountAmt / invoice.subtotal * 100) : undefined)
+  // Only back-fill a percentage for legacy invoices that predate discountAmount —
+  // a deliberate flat-£ discount (discountAmount set, discountPercent not) should
+  // never be relabelled as a percentage on the printed invoice.
+  const discountPct      = invoice.discountPercent ?? (!invoice.discountAmount && invoice.discount && invoice.subtotal > 0 ? Math.round(invoice.discount / invoice.subtotal * 100) : undefined)
   const hasDiscount      = !!discountAmt && discountAmt > 0
   const isReturnCustomer = invoice.discountType === 'voucher' && invoice.voucherType === 'return_customer'
   const isPaid           = invoice.status === 'paid'
@@ -219,6 +222,11 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
                         </td>
                         <td style={{ padding: isFirst ? '12px 12px 4px' : '4px 12px', fontFamily: 'sans-serif', fontSize: '13px', color: '#1C1C1A', textAlign: 'right', verticalAlign: 'top' }}>
                           £{row.amount.toFixed(2)}
+                          {row.appliesTo > 1 && (
+                            <div style={{ fontSize: '10.5px', color: '#999', marginTop: '2px', whiteSpace: 'nowrap' }}>
+                              £{row.priceEach.toFixed(2)} × {row.appliesTo}
+                            </div>
+                          )}
                         </td>
                         <td className="inv-td-ti" />
                       </tr>

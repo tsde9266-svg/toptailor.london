@@ -62,6 +62,7 @@ const s = StyleSheet.create({
   tdQty:        { fontSize: 11, color: MUTED, width: '8%', textAlign: 'center', paddingTop: 1 },
   tdService:    { fontSize: 11, color: DARK, flex: 1, paddingHorizontal: 10, paddingTop: 1 },
   tdAmount:     { fontSize: 11, color: DARK, width: '14%', textAlign: 'right', paddingHorizontal: 12, paddingTop: 1 },
+  tdAmountSub:  { fontSize: 8, color: MUTED },
 
   totals:       { backgroundColor: PARCH2, borderTopWidth: 2, borderTopColor: GREEN },
   totalRow:     { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 12, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: DIVID },
@@ -182,7 +183,12 @@ export function InvoicePDF({ invoice }: { invoice: Invoice }) {
                   </Text>
                   <Text style={s.tdQty}>{qtyCell}</Text>
                   <Text style={s.tdService}>{serviceCell}</Text>
-                  <Text style={s.tdAmount}>£{row.amount.toFixed(2)}</Text>
+                  <Text style={s.tdAmount}>
+                    £{row.amount.toFixed(2)}
+                    {row.appliesTo > 1 && (
+                      <Text style={s.tdAmountSub}>{'\n'}£{row.priceEach.toFixed(2)} × {row.appliesTo}</Text>
+                    )}
+                  </Text>
                 </View>
               )
             })
