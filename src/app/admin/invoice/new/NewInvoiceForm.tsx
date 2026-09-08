@@ -571,18 +571,25 @@ export default function NewInvoiceForm({ invoice }: Props) {
       {/* ── Customer ────────────────────────────────────────────────── */}
       <div className="border border-divider bg-white p-6 space-y-5">
         <p className="font-sans text-[0.6875rem] uppercase tracking-widest text-muted">Customer</p>
-        {!isEdit && (
-          <CustomerSearch onSelect={c => {
-            setName(c.name)
-            setEmail(c.email)
-            setPhone(c.phone)
-            setAddress(c.address)
-          }} />
-        )}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <div>
-            <label className={labelClass}>Name *</label>
-            <input required type="text" value={name} onChange={e => setName(e.target.value)} className={inputClass} placeholder="James Wilson" />
+            {isEdit ? (
+              <>
+                <label className={labelClass}>Name *</label>
+                <input required type="text" value={name} onChange={e => setName(e.target.value)} className={inputClass} placeholder="James Wilson" />
+              </>
+            ) : (
+              <CustomerSearch
+                value={name}
+                onNameChange={setName}
+                onSelect={c => {
+                  setName(c.name)
+                  setEmail(c.email)
+                  setPhone(c.phone)
+                  setAddress(c.address)
+                }}
+              />
+            )}
           </div>
           <div>
             <label className={labelClass}>Phone <span className="normal-case font-light tracking-normal">(optional)</span></label>
