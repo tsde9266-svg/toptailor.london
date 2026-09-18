@@ -107,30 +107,22 @@ function normalizePhoneE164(raw: string): string {
   return '+44' + (digits.startsWith('0') ? digits.slice(1) : digits)
 }
 
-function splitName(fullName: string): { firstName: string; lastName: string } {
-  const trimmed = fullName.trim().replace(/\s+/g, ' ')
-  const idx = trimmed.indexOf(' ')
-  if (idx === -1) return { firstName: trimmed, lastName: '' }
-  return { firstName: trimmed.slice(0, idx), lastName: trimmed.slice(idx + 1) }
-}
-
+// Google only accepts First/Last Name as part of a full mailing-address identifier
+// (paired with Zip + Country, which we don't reliably have) — Email/Phone alone are
+// valid identifiers on their own, so name columns are omitted to avoid Google's
+// "Country, Zip are missing" upload error.
 async function reportGoogleAds(): Promise<{ subject: string; html: string; attachments: MailAttachment[] }> {
   const customers = (await buildCustomers()).filter(c => c.email || c.phone)
-  const rows = customers.map(c => {
-    const { firstName, lastName } = splitName(c.name)
-    return {
-      email: c.email.trim().toLowerCase(),
-      phone: normalizePhoneE164(c.phone),
-      firstName, lastName,
-    }
-  })
+  const rows = customers.map(c => ({
+    email: c.email.trim().toLowerCase(),
+    phone: normalizePhoneE164(c.phone),
+  }))
   const csv = toCsv(rows, [
     { key: 'email', label: 'Email' }, { key: 'phone', label: 'Phone' },
-    { key: 'firstName', label: 'First Name' }, { key: 'lastName', label: 'Last Name' },
   ])
   return {
     subject: `Google Ads Customer Match List — ${rows.length} customers`,
-    html: `<p>Attached: a CSV ready for Google Ads Customer Match (Email, Phone, First Name, Last Name — phone numbers normalised to +44 format).</p>
+    html: `<p>Attached: a CSV ready for Google Ads Customer Match (Email, Phone — phone numbers normalised to +44 format).</p>
       <p>Upload it at <b>Google Ads → Audiences → Segments → Import Customer Match lists</b>. Google hashes the data itself during upload — no need to hash it yourself.</p>`,
     attachments: rows.length ? [csvAttachment('google-ads-customer-match', csv)] : [],
   }
