@@ -99,11 +99,14 @@ async function reportCustomers(): Promise<{ subject: string; html: string; attac
 }
 
 // UK-biased E.164 normalisation: strips formatting, turns a leading 0 into +44.
+// Numbers already carrying a country code — either with a leading "+" or as bare
+// digits starting "44" — are left alone instead of getting a second "+44" glued on.
 function normalizePhoneE164(raw: string): string {
   if (!raw) return ''
-  if (raw.trim().startsWith('+')) return '+' + raw.replace(/\D/g, '')
+  const hasPlus = raw.trim().startsWith('+')
   const digits = raw.replace(/\D/g, '')
   if (!digits) return ''
+  if (hasPlus || digits.startsWith('44')) return '+' + digits
   return '+44' + (digits.startsWith('0') ? digits.slice(1) : digits)
 }
 
