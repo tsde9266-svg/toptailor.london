@@ -10,7 +10,7 @@ import {
 
 export type ReportType =
   | 'customers' | 'revenue' | 'outstanding' | 'services'
-  | 'orders' | 'bookings' | 'summary' | 'backup'
+  | 'orders' | 'bookings' | 'summary' | 'backup' | 'google-ads'
 
 const REPORT_LABEL: Record<ReportType, string> = {
   customers:   'Customer List',
@@ -21,6 +21,7 @@ const REPORT_LABEL: Record<ReportType, string> = {
   bookings:    'Bookings & Schedule Report',
   summary:     'Monthly Business Summary',
   backup:      'Full Data Backup',
+  'google-ads': 'Google Ads Customer Match List',
 }
 
 function fmt(n: number) { return n.toFixed(2) }
@@ -94,6 +95,44 @@ async function reportCustomers(): Promise<{ subject: string; html: string; attac
     subject: `Customer List — ${customers.length} customers`,
     html: `<p>Attached: your full customer list (${customers.length} customers).</p>`,
     attachments: [csvAttachment('customers', csv)],
+  }
+}
+
+// UK-biased E.164 normalisation: strips formatting, turns a leading 0 into +44.
+function normalizePhoneE164(raw: string): string {
+  if (!raw) return ''
+  if (raw.trim().startsWith('+')) return '+' + raw.replace(/\D/g, '')
+  const digits = raw.replace(/\D/g, '')
+  if (!digits) return ''
+  return '+44' + (digits.startsWith('0') ? digits.slice(1) : digits)
+}
+
+function splitName(fullName: string): { firstName: string; lastName: string } {
+  const trimmed = fullName.trim().replace(/\s+/g, ' ')
+  const idx = trimmed.indexOf(' ')
+  if (idx === -1) return { firstName: trimmed, lastName: '' }
+  return { firstName: trimmed.slice(0, idx), lastName: trimmed.slice(idx + 1) }
+}
+
+async function reportGoogleAds(): Promise<{ subject: string; html: string; attachments: MailAttachment[] }> {
+  const customers = (await buildCustomers()).filter(c => c.email || c.phone)
+  const rows = customers.map(c => {
+    const { firstName, lastName } = splitName(c.name)
+    return {
+      email: c.email.trim().toLowerCase(),
+      phone: normalizePhoneE164(c.phone),
+      firstName, lastName,
+    }
+  })
+  const csv = toCsv(rows, [
+    { key: 'email', label: 'Email' }, { key: 'phone', label: 'Phone' },
+    { key: 'firstName', label: 'First Name' }, { key: 'lastName', label: 'Last Name' },
+  ])
+  return {
+    subject: `Google Ads Customer Match List — ${rows.length} customers`,
+    html: `<p>Attached: a CSV ready for Google Ads Customer Match (Email, Phone, First Name, Last Name — phone numbers normalised to +44 format).</p>
+      <p>Upload it at <b>Google Ads → Audiences → Segments → Import Customer Match lists</b>. Google hashes the data itself during upload — no need to hash it yourself.</p>`,
+    attachments: rows.length ? [csvAttachment('google-ads-customer-match', csv)] : [],
   }
 }
 
@@ -359,6 +398,7 @@ const BUILDERS: Record<ReportType, () => Promise<{ subject: string; html: string
   bookings:    reportBookings,
   summary:     reportSummary,
   backup:      reportBackup,
+  'google-ads': reportGoogleAds,
 }
 
 export async function POST(req: NextRequest) {

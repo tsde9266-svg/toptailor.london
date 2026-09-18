@@ -7,6 +7,7 @@ const REPORT_EMAILS = ['taqi0413@gmail.com', 'tsde9266@gmail.com']
 const REPORTS: { type: ReportType; label: string; sub: string }[] = [
   { type: 'summary',     label: 'Monthly Business Summary', sub: 'Revenue, customers, top services — one email' },
   { type: 'customers',   label: 'Full Customer List',       sub: 'Every customer as a CSV' },
+  { type: 'google-ads',  label: 'Google Ads Customer Match', sub: 'CSV formatted for Google Ads upload' },
   { type: 'revenue',     label: 'Revenue & Invoices',        sub: 'All invoices with status and amounts' },
   { type: 'outstanding', label: 'Outstanding Invoices',      sub: 'Who still owes you money' },
   { type: 'services',    label: 'Top Services',              sub: 'Best-selling services by revenue' },
