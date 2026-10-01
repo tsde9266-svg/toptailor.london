@@ -85,6 +85,12 @@ export default function BookingForm() {
           send_to: 'AW-18127638127/SsX4CLuIgqUcEO-c98ND',
         })
       }
+      // Also push a dataLayer event so GTM-managed tags (not just the direct
+      // gtag.js call above) can trigger off this without needing a URL change.
+      if (typeof window !== 'undefined') {
+        ;(window as any).dataLayer = (window as any).dataLayer || []
+        ;(window as any).dataLayer.push({ event: 'lead_submitted', form_name: 'booking_form' })
+      }
     } catch (_e) {
       setError('Network error. Please check your connection and try again.')
     } finally {
