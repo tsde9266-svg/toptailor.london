@@ -250,7 +250,8 @@ export default function RootLayout({
             __html: `window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', 'G-JXE2R7VV2E');`,
+gtag('config', 'G-JXE2R7VV2E');
+gtag('config', 'AW-18127638127');`,
           }}
         />
         {/* Google Tag Manager */}
