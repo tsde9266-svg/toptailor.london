@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
+import { trackLead } from '@/lib/trackLead'
 import Footer from '@/components/Footer'
 import { useCart } from '@/context/CartContext'
 
@@ -236,6 +237,7 @@ export default function CheckoutPage() {
 
   // ── Submit collection request ─────────────────────────────────────────────────
   async function submitRequest() {
+    trackLead('checkout')
     setLoading(true)
     setError('')
     try {
@@ -253,19 +255,6 @@ export default function CheckoutPage() {
       setStep('done')
       // Wipe persisted checkout state — we're done.
       try { localStorage.removeItem(CHECKOUT_STORAGE_KEY) } catch { /* ignore */ }
-      // Fire Google Ads conversion — replace send_to with AW-TAGID/CONVERSIONLABEL
-      // Find the label in Google Ads → Goals → Conversions → your "Collection Request" action
-      if (typeof window !== 'undefined' && (window as any).gtag) {
-        ;(window as any).gtag('event', 'conversion', {
-          send_to: 'AW-18127638127/SsX4CLuIgqUcEO-c98ND',
-        })
-      }
-      // Also push a dataLayer event so GTM-managed tags (not just the direct
-      // gtag.js call above) can trigger off this without needing a URL change.
-      if (typeof window !== 'undefined') {
-        ;(window as any).dataLayer = (window as any).dataLayer || []
-        ;(window as any).dataLayer.push({ event: 'lead_submitted', form_name: 'checkout' })
-      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again or contact us directly.')
     } finally {

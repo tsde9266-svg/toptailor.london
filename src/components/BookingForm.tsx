@@ -1,6 +1,7 @@
 'use client'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { useState } from 'react'
+import { trackLead } from '@/lib/trackLead'
 import WhatsAppConfirmCTA from '@/components/WhatsAppConfirmCTA'
 
 function buildWaMessage(data: Record<string, FormDataEntryValue>): string {
@@ -58,6 +59,7 @@ export default function BookingForm() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    trackLead('booking_form')
     setLoading(true)
     setError('')
 
@@ -79,18 +81,6 @@ export default function BookingForm() {
       setWaMessage(buildWaMessage(data))
       setWaRef(`${data.name ?? 'Unknown'} · ${data.phone ?? data.email ?? ''} · Booking form`)
       setSubmitted(true)
-      // Fire Google Ads contact/lead conversion
-      if (typeof window !== 'undefined' && (window as any).gtag) {
-        ;(window as any).gtag('event', 'conversion', {
-          send_to: 'AW-18127638127/SsX4CLuIgqUcEO-c98ND',
-        })
-      }
-      // Also push a dataLayer event so GTM-managed tags (not just the direct
-      // gtag.js call above) can trigger off this without needing a URL change.
-      if (typeof window !== 'undefined') {
-        ;(window as any).dataLayer = (window as any).dataLayer || []
-        ;(window as any).dataLayer.push({ event: 'lead_submitted', form_name: 'booking_form' })
-      }
     } catch (_e) {
       setError('Network error. Please check your connection and try again.')
     } finally {
