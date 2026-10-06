@@ -1,6 +1,6 @@
 // Fires the Google Ads conversion + GTM dataLayer event for a lead.
-// Call this synchronously at the moment the customer hits submit — before any
-// network request or WhatsApp hand-off — so the event is never lost to a
+// Call this synchronously at the moment the customer hits submit â€” before any
+// network request or WhatsApp hand-off â€” so the event is never lost to a
 // redirect, tab switch, or failed API call.
 export function trackLead(formName: 'booking_form' | 'checkout') {
   if (typeof window === 'undefined') return
