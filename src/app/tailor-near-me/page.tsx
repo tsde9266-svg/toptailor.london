@@ -5,8 +5,8 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor Near Me in London | Fine Tailors — We Come to You',
-  description: 'Looking for a tailor near you in London? Fine Tailors is a mobile master tailor covering all of Central London — we come to your door. No travel, no shop.',
+  title: 'Tailor Near Me London | Mobile Tailor, We Come to You',
+  description: 'Need a tailor near you in Central London? We collect from your door, alter, and return in 5–7 days. Trouser hems from £18. No shop visit.',
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-near-me' },
   keywords: [
     'tailor near me',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     'suit alterations near me London',
   ],
   openGraph: {
-    title: 'Tailor Near Me in London | Fine Tailors — We Come to You',
+    title: 'Tailor Near Me London | Mobile Tailor, We Come to You',
     description: 'The best answer to "tailor near me" in London: a mobile master tailor who visits your home across all Central London postcodes.',
     url: 'https://www.finetailors.co.uk/tailor-near-me',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Tailor near me London — Fine Tailors comes to your door' }],

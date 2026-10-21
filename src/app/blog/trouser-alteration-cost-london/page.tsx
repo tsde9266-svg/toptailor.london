@@ -5,8 +5,8 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'How Much Do Trouser Alterations Cost in London? | Fine Tailors',
-  description: 'A complete guide to trouser alteration prices in London — hemming, tapering, waist adjustments, and what affects the cost.',
+  title: 'Trouser Alterations Cost London: Hems from £18',
+  description: 'What trouser alterations cost in London: hemming from £18, tapering, waist adjustments, and what affects the price.',
   alternates: { canonical: 'https://www.finetailors.co.uk/blog/trouser-alteration-cost-london' },
   keywords: [
     'trouser alteration cost london',
@@ -27,7 +27,7 @@ const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
   headline: 'How Much Do Trouser Alterations Cost in London?',
-  description: 'A complete guide to trouser alteration prices in London — hemming, tapering, waist adjustments, and what affects the cost.',
+  description: 'What trouser alterations cost in London: hemming from £18, tapering, waist adjustments, and what affects the price.',
   image: 'https://www.finetailors.co.uk/og-image.png',
   author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
   publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/logo-icon.png' } },

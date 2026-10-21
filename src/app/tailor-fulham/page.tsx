@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor Near Me in Fulham London | Fine Tailors',
+  title: 'Tailors & Alterations in Fulham | Door Collection',
   description: 'Searching for a tailor near you in Fulham? We collect from your SW6 door, alter suits, dresses and clothing to a perfect fit, and return in 5–7 days. No shop visit.',
   keywords: ['tailor near me Fulham', 'tailor near me Fulham London', 'Fulham tailor near me', 'nearest tailor Fulham', 'tailor Fulham'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-fulham' },
   openGraph: {
-    title: 'Tailor Near Me in Fulham London | Fine Tailors',
+    title: 'Tailors & Alterations in Fulham | Door Collection',
     url: 'https://www.finetailors.co.uk/tailor-fulham',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Fulham, London' }],
   },

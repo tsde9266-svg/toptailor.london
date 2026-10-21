@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor Near Me in Mayfair London | Fine Tailors',
+  title: 'Tailors & Alterations in Mayfair | Door Collection',
   description: 'Searching for a tailor near you in Mayfair? We collect from your W1J/W1K door, alter to a perfect fit, and return pressed and perfect in 5–7 days.',
   keywords: ['tailor Mayfair', 'tailor near me Mayfair', 'tailor near me Mayfair London', 'Mayfair tailor near me', 'nearest tailor Mayfair'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-mayfair' },
   openGraph: {
-    title: 'Tailor Near Me in Mayfair London | Fine Tailors',
+    title: 'Tailors & Alterations in Mayfair | Door Collection',
     url: 'https://www.finetailors.co.uk/tailor-mayfair',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Mayfair, Central London' }],
   },

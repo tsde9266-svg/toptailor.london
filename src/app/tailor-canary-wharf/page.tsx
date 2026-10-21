@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor Near Me in Canary Wharf London | Fine Tailors',
+  title: 'Tailors & Alterations in Canary Wharf | Door Collection',
   description: 'Searching for a tailor near you in Canary Wharf? We collect from your E14 door, alter suits for finance professionals, and return pressed and perfect in 5–7 days.',
   keywords: ['tailor near me Canary Wharf', 'tailor near me Canary Wharf London', 'Canary Wharf tailor near me', 'nearest tailor Canary Wharf', 'tailor Canary Wharf'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-canary-wharf' },
   openGraph: {
-    title: 'Tailor Near Me in Canary Wharf London | Fine Tailors',
+    title: 'Tailors & Alterations in Canary Wharf | Door Collection',
     url: 'https://www.finetailors.co.uk/tailor-canary-wharf',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Canary Wharf, London' }],
   },

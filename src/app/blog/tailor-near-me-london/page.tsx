@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'Tailor Near Me London — The Definitive Answer | Fine Tailors',
+  title: 'Tailor Near Me in London: How to Choose (2026)',
   description: 'Searching for a tailor near you in London? The best answer is a mobile master tailor who visits your home. Fine Tailors covers all 22 Central London neighbourhoods — no travel, no shop.',
   alternates: { canonical: 'https://www.finetailors.co.uk/blog/tailor-near-me-london' },
   keywords: [

@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor Near Me in Notting Hill London | Fine Tailors',
+  title: 'Tailors & Alterations in Notting Hill | Door Collection',
   description: 'Searching for a tailor near you in Notting Hill? We collect from your W11 door, alter luxury and fashion garments to a perfect fit, and return in 5–7 days.',
   keywords: ['tailor near me Notting Hill', 'tailor near me Notting Hill London', 'Notting Hill tailor near me', 'nearest tailor Notting Hill', 'tailor Notting Hill'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-notting-hill' },
   openGraph: {
-    title: 'Tailor Near Me in Notting Hill London | Fine Tailors',
+    title: 'Tailors & Alterations in Notting Hill | Door Collection',
     url: 'https://www.finetailors.co.uk/tailor-notting-hill',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Notting Hill, London' }],
   },

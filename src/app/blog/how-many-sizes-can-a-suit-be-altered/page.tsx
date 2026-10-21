@@ -5,8 +5,8 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'How Many Sizes Can a Suit Be Altered? | Fine Tailors London',
-  description: 'A practical guide to how much a suit can be taken in or let out — and the structural limits that decide when to alter versus buy a new suit.',
+  title: 'How Many Sizes Can a Suit Be Altered? Taken In & Let Out',
+  description: 'How many sizes a suit can usually be taken in or let out, the limits for jacket and trousers, and when buying a new suit is smarter.',
   alternates: { canonical: 'https://www.finetailors.co.uk/blog/how-many-sizes-can-a-suit-be-altered' },
   keywords: [
     'how many sizes can a suit be altered',
@@ -27,7 +27,7 @@ const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
   headline: 'How Many Sizes Can a Suit Be Altered?',
-  description: 'A practical guide to how much a suit can be taken in or let out — and the structural limits that decide when to alter versus buy a new suit.',
+  description: 'How many sizes a suit can usually be taken in or let out, the limits for jacket and trousers, and when buying a new suit is smarter.',
   image: 'https://www.finetailors.co.uk/og-image.png',
   author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
   publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/logo-icon.png' } },

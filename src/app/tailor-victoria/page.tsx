@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor Near Me in Victoria London | Fine Tailors',
+  title: 'Tailors & Alterations in Victoria | Door Collection',
   description: 'Searching for a tailor near you in Victoria? We collect from your SW1E door, alter suits, dresses and clothing to a perfect fit, and return pressed in 5–7 days.',
   keywords: ['tailor Victoria', 'tailor near me Victoria', 'tailor near me Victoria London', 'Victoria tailor near me', 'nearest tailor Victoria'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-victoria' },
   openGraph: {
-    title: 'Tailor Near Me in Victoria London | Fine Tailors',
+    title: 'Tailors & Alterations in Victoria | Door Collection',
     url: 'https://www.finetailors.co.uk/tailor-victoria',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Victoria, London' }],
   },

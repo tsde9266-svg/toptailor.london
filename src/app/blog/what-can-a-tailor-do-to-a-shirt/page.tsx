@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'What Can a Tailor Do to a Shirt? | Fine Tailors London',
+  title: 'What Can a Tailor Do to a Shirt? Fixes & Limits',
   description: 'A complete guide to shirt alterations — body slimming, sleeve shortening, collar adjustment, length changes, and what is not fixable.',
   alternates: { canonical: 'https://www.finetailors.co.uk/blog/what-can-a-tailor-do-to-a-shirt' },
   keywords: [

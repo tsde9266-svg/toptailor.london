@@ -6,7 +6,7 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Same Day Alterations London | Express Service | Fine Tailors',
+  title: 'Same Day Alterations London | Urgent Tailor Service',
   description: 'Express and same-day clothing alterations in London — suit, dress and trouser alterations for urgent occasions, collected and returned as fast as possible.',
   alternates: { canonical: 'https://www.finetailors.co.uk/same-day-alterations-london' },
   openGraph: {

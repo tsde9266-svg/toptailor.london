@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor Near Me in Islington London | Fine Tailors',
+  title: 'Tailors & Alterations in Islington | Door Collection',
   description: 'Searching for a tailor near you in Islington? We collect from your N1 door, alter suits, dresses and clothing to a perfect fit, and return in 5–7 days. No shop visit.',
   keywords: ['tailor near me Islington', 'tailor near me Islington London', 'Islington tailor near me', 'nearest tailor Islington', 'tailor Islington'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-islington' },
   openGraph: {
-    title: 'Tailor Near Me in Islington London | Fine Tailors',
+    title: 'Tailors & Alterations in Islington | Door Collection',
     url: 'https://www.finetailors.co.uk/tailor-islington',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Islington, London' }],
   },

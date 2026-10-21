@@ -7,7 +7,7 @@ import PricesStickyBar from './PricesStickyBar'
 import { services } from '@/data/services'
 
 export const metadata: Metadata = {
-  title: 'Services & Pricing | Fine Tailors London',
+  title: 'Alteration Price List London 2026 | Fine Tailors',
   description: 'Full pricing for suit alterations, dress alterations, trouser hemming, shirt tailoring and more — all collected from your Central London door. Minimum order £20.',
   alternates: { canonical: 'https://www.finetailors.co.uk/prices' },
 }

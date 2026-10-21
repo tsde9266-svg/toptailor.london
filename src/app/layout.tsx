@@ -27,7 +27,7 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.finetailors.co.uk'),
   title: {
-    template: '%s | Fine Tailors',
+    template: '%s',
     default: "Mobile Tailor Central London | Suit & Clothing Alterations | Fine Tailors",
   },
   description: "London's collection-based tailoring service. We collect from your door in Mayfair, Westminster, Knightsbridge & all Central London postcodes — returned perfect in 5–7 days.",
@@ -198,13 +198,6 @@ const siteSchema = {
     addressLocality: 'London',
     addressRegion: 'England',
     addressCountry: 'GB',
-  },
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: '5.0',
-    reviewCount: '3',
-    bestRating: '5',
-    worstRating: '1',
   },
   geo: {
     '@type': 'GeoCoordinates',

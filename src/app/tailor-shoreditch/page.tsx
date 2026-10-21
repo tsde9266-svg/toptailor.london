@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor Near Me in Shoreditch London | Fine Tailors',
+  title: 'Tailors & Alterations in Shoreditch | Door Collection',
   description: 'Searching for a tailor near you in Shoreditch? We collect from your E1/EC2A door, alter for tech and fashion professionals, and return pressed and perfect in 5–7 days.',
   keywords: ['tailor near me Shoreditch', 'tailor near me Shoreditch London', 'Shoreditch tailor near me', 'nearest tailor Shoreditch', 'tailor Shoreditch'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-shoreditch' },
   openGraph: {
-    title: 'Tailor Near Me in Shoreditch London | Fine Tailors',
+    title: 'Tailors & Alterations in Shoreditch | Door Collection',
     url: 'https://www.finetailors.co.uk/tailor-shoreditch',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Shoreditch, London' }],
   },

@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor Near Me in Clerkenwell London | Fine Tailors',
+  title: 'Tailors & Alterations in Clerkenwell | Door Collection',
   description: 'Searching for a tailor near you in Clerkenwell? We collect from your EC1R/EC1V door, alter for design and creative professionals, and return in 5–7 days. No shop visit.',
   keywords: ['tailor near me Clerkenwell', 'tailor near me Clerkenwell London', 'Clerkenwell tailor near me', 'nearest tailor Clerkenwell', 'tailor Clerkenwell'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-clerkenwell' },
   openGraph: {
-    title: 'Tailor Near Me in Clerkenwell London | Fine Tailors',
+    title: 'Tailors & Alterations in Clerkenwell | Door Collection',
     url: 'https://www.finetailors.co.uk/tailor-clerkenwell',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Clerkenwell, London' }],
   },

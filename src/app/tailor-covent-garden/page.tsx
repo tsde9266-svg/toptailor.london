@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor Near Me in Covent Garden London | Fine Tailors',
+  title: 'Tailors & Alterations in Covent Garden | Door Collection',
   description: 'Searching for a tailor near you in Covent Garden? We collect from your WC2E door, alter suits, stage wear and clothing to a perfect fit, and return in 5–7 days.',
   keywords: ['tailor near me Covent Garden', 'tailor near me Covent Garden London', 'Covent Garden tailor near me', 'nearest tailor Covent Garden', 'tailor Covent Garden'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-covent-garden' },
   openGraph: {
-    title: 'Tailor Near Me in Covent Garden London | Fine Tailors',
+    title: 'Tailors & Alterations in Covent Garden | Door Collection',
     url: 'https://www.finetailors.co.uk/tailor-covent-garden',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Covent Garden, London' }],
   },

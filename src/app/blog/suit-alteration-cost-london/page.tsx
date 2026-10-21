@@ -5,8 +5,8 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'How Much Do Suit Alterations Cost in London? | Fine Tailors',
-  description: 'A complete guide to suit alteration prices in London — what affects cost, what to expect to pay, and why a mobile tailor often works out cheaper than you think.',
+  title: 'Suit Alterations Cost London 2026: Real Prices',
+  description: 'What suit alterations cost in London: trouser hems from £18, jackets from £25, plus what changes the price. Full price list inside.',
   alternates: { canonical: 'https://www.finetailors.co.uk/blog/suit-alteration-cost-london' },
   keywords: [
     'suit alteration cost London',

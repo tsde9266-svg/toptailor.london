@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor Near Me in Westminster London | Fine Tailors',
+  title: 'Tailors & Alterations in Westminster | Door Collection',
   description: 'Searching for a tailor near you in Westminster? We collect from your SW1A/SW1P door, alter suits and clothing, and return pressed and perfect in 5–7 days.',
   keywords: ['tailor Westminster', 'tailor near me Westminster', 'tailor near me Westminster London', 'Westminster tailor near me', 'nearest tailor Westminster'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-westminster' },
   openGraph: {
-    title: 'Tailor Near Me in Westminster London | Fine Tailors',
+    title: 'Tailors & Alterations in Westminster | Door Collection',
     url: 'https://www.finetailors.co.uk/tailor-westminster',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Westminster, London' }],
   },

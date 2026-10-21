@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor Near Me in Paddington London | Fine Tailors',
+  title: 'Tailors & Alterations in Paddington | Door Collection',
   description: 'Searching for a tailor near you in Paddington? We collect from your W2 door, alter suits and clothing, and return pressed and perfect in 5–7 days. No shop visit needed.',
   keywords: ['tailor near me Paddington', 'tailor near me Paddington London', 'Paddington tailor near me', 'nearest tailor Paddington', 'tailor Paddington'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-paddington' },
   openGraph: {
-    title: 'Tailor Near Me in Paddington London | Fine Tailors',
+    title: 'Tailors & Alterations in Paddington | Door Collection',
     url: 'https://www.finetailors.co.uk/tailor-paddington',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Paddington, London' }],
   },

@@ -5,8 +5,8 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'How Much Do Dress Alterations Cost in London? | Fine Tailors',
-  description: 'A transparent guide to dress alteration prices in London — shortening, taking in, zip replacement, and what makes a dress more expensive to alter.',
+  title: 'Dress Alterations Cost London 2026: Price Guide',
+  description: 'What dress alterations cost in London, from £22: shortening, taking in, zip replacement, and what makes a dress cost more.',
   alternates: { canonical: 'https://www.finetailors.co.uk/blog/dress-alteration-cost-london' },
   keywords: [
     'dress alteration cost london',
@@ -27,7 +27,7 @@ const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
   headline: 'How Much Do Dress Alterations Cost in London?',
-  description: 'A transparent guide to dress alteration prices in London — shortening, taking in, zip replacement, and what makes a dress more expensive to alter.',
+  description: 'What dress alterations cost in London, from £22: shortening, taking in, zip replacement, and what makes a dress cost more.',
   image: 'https://www.finetailors.co.uk/og-image.png',
   author: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors' },
   publisher: { '@type': 'Organization', '@id': 'https://www.finetailors.co.uk/#organization', name: 'Fine Tailors', logo: { '@type': 'ImageObject', url: 'https://www.finetailors.co.uk/logo-icon.png' } },

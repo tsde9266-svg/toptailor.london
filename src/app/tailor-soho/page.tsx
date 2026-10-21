@@ -6,12 +6,12 @@ import Footer from '@/components/Footer'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
-  title: 'Tailor Near Me in Soho London | Fine Tailors',
+  title: 'Tailors & Alterations in Soho | Door Collection',
   description: 'Searching for a tailor near you in Soho? We collect from your W1D/W1F door, alter suits and clothing for media and creative professionals, and return in 5–7 days.',
   keywords: ['tailor Soho', 'tailor near me Soho', 'tailor near me Soho London', 'Soho tailor near me', 'nearest tailor Soho'],
   alternates: { canonical: 'https://www.finetailors.co.uk/tailor-soho' },
   openGraph: {
-    title: 'Tailor Near Me in Soho London | Fine Tailors',
+    title: 'Tailors & Alterations in Soho | Door Collection',
     url: 'https://www.finetailors.co.uk/tailor-soho',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Collection-based tailoring service in Soho, London' }],
   },
