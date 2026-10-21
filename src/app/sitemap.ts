@@ -87,30 +87,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/dress-alterations-chelsea`,          lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
 
     // Blog — Tailor near me local guides (existing)
-    { url: `${base}/blog/tailor-near-me-mayfair`,        lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-chelsea`,        lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-kensington`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-canary-wharf`,   lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-shoreditch`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-city-of-london`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
 
     // Blog — Tailor near me local guides (Batch 6, May 2026 — completes all 22 areas)
-    { url: `${base}/blog/tailor-near-me-knightsbridge`,  lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-belgravia`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-marylebone`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-westminster`,    lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-victoria`,       lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-pimlico`,        lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-fitzrovia`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-bloomsbury`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-soho`,           lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-covent-garden`,  lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-islington`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-notting-hill`,   lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-paddington`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-fulham`,         lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-clerkenwell`,    lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/blog/tailor-near-me-south-kensington`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
 
     // Blog — FAQ posts
     { url: `${base}/blog/what-is-a-good-suit-fit`,            lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },

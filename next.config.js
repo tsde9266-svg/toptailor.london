@@ -44,6 +44,29 @@ const nextConfig = {
 
   async redirects() {
     return [
+      // Merged area guides into their location pages
+      { source: '/blog/tailor-near-me-belgravia', destination: '/tailor-belgravia', permanent: true },
+      { source: '/blog/tailor-near-me-bloomsbury', destination: '/tailor-bloomsbury', permanent: true },
+      { source: '/blog/tailor-near-me-canary-wharf', destination: '/tailor-canary-wharf', permanent: true },
+      { source: '/blog/tailor-near-me-chelsea', destination: '/tailor-chelsea', permanent: true },
+      { source: '/blog/tailor-near-me-city-of-london', destination: '/tailor-city-of-london', permanent: true },
+      { source: '/blog/tailor-near-me-clerkenwell', destination: '/tailor-clerkenwell', permanent: true },
+      { source: '/blog/tailor-near-me-covent-garden', destination: '/tailor-covent-garden', permanent: true },
+      { source: '/blog/tailor-near-me-fitzrovia', destination: '/tailor-fitzrovia', permanent: true },
+      { source: '/blog/tailor-near-me-fulham', destination: '/tailor-fulham', permanent: true },
+      { source: '/blog/tailor-near-me-islington', destination: '/tailor-islington', permanent: true },
+      { source: '/blog/tailor-near-me-kensington', destination: '/tailor-kensington', permanent: true },
+      { source: '/blog/tailor-near-me-knightsbridge', destination: '/tailor-knightsbridge', permanent: true },
+      { source: '/blog/tailor-near-me-marylebone', destination: '/tailor-marylebone', permanent: true },
+      { source: '/blog/tailor-near-me-mayfair', destination: '/tailor-mayfair', permanent: true },
+      { source: '/blog/tailor-near-me-notting-hill', destination: '/tailor-notting-hill', permanent: true },
+      { source: '/blog/tailor-near-me-paddington', destination: '/tailor-paddington', permanent: true },
+      { source: '/blog/tailor-near-me-pimlico', destination: '/tailor-pimlico', permanent: true },
+      { source: '/blog/tailor-near-me-shoreditch', destination: '/tailor-shoreditch', permanent: true },
+      { source: '/blog/tailor-near-me-soho', destination: '/tailor-soho', permanent: true },
+      { source: '/blog/tailor-near-me-south-kensington', destination: '/tailor-south-kensington', permanent: true },
+      { source: '/blog/tailor-near-me-victoria', destination: '/tailor-victoria', permanent: true },
+      { source: '/blog/tailor-near-me-westminster', destination: '/tailor-westminster', permanent: true },
       // non-www → www (canonical domain)
       {
         source: '/:path*',
