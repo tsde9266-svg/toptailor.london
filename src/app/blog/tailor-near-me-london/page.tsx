@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import BlogCTA from '@/components/BlogCTA'
 
 export const metadata: Metadata = {
   title: 'Tailor Near Me in London: How to Choose (2026)',
@@ -218,6 +219,8 @@ export default function TailorNearMeLondon() {
           <p className="font-sans font-light text-muted leading-relaxed mb-12">
             Skip the map of shops. <Link href="/tailor-near-me" className="text-hunter underline">Book a mobile tailor</Link> who comes to your address in Central London. Fine Tailors is the nearest tailor to wherever you are — because we come to you.
           </p>
+
+          <BlogCTA />
 
           <div className="border-t border-divider pt-10">
             <p className="font-playfair text-xl font-medium text-charcoal mb-4">Book your tailor near you today</p>

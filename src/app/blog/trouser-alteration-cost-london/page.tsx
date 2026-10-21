@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import BlogCTA from '@/components/BlogCTA'
 
 export const metadata: Metadata = {
   title: 'Trouser Alterations Cost London: Hems from £18',
@@ -128,6 +129,8 @@ export default function TrouserAlterationCostLondon() {
           <p className="font-sans font-light text-muted leading-relaxed mb-12">
             The exception is very cheap garments where the fabric is so poor that the alteration costs more than a replacement. But for any trousers you wear regularly and want to keep wearing, a professional alteration is worth every penny.
           </p>
+
+          <BlogCTA />
 
           <div className="border-t border-divider pt-10">
             <p className="font-playfair text-xl font-medium text-charcoal mb-4">Get your trousers altered at home</p>

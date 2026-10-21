@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import BlogCTA from '@/components/BlogCTA'
 
 export const metadata: Metadata = {
   title: 'Can a Tailor Make Clothes Bigger? | Fine Tailors London',
@@ -109,6 +110,8 @@ export default function CanATailorMakeClothesBigger() {
           <p className="font-sans font-light text-muted leading-relaxed mb-12">
             If a garment is more than two sizes too small, it is almost always better to find a larger size and have it taken in to fit, rather than attempt to let out a garment that far.
           </p>
+
+          <BlogCTA />
 
           <div className="border-t border-divider pt-10">
             <p className="font-playfair text-xl font-medium text-charcoal mb-4">Not sure if your garment can be let out?</p>

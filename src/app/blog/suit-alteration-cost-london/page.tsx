@@ -3,6 +3,7 @@ import Script from 'next/script'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import BlogCTA from '@/components/BlogCTA'
 
 export const metadata: Metadata = {
   title: 'Suit Alterations Cost London 2026: Real Prices',
@@ -144,6 +145,8 @@ export default function SuitAlterationCostLondon() {
           <p className="font-sans font-light text-muted leading-relaxed mb-12">
             The only exceptions are structural problems that cannot be resolved — shoulders that are too large by more than one size, or a garment so poorly made that the fabric itself cannot take the alteration. A master tailor will tell you honestly when this is the case.
           </p>
+
+          <BlogCTA />
 
           <div className="border-t border-divider pt-10">
             <p className="font-playfair text-xl font-medium text-charcoal mb-4">

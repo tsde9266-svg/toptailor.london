@@ -3,6 +3,7 @@ import Script from 'next/script'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import AreaAlterations from '@/components/AreaAlterations'
 import FAQ, { faqSchema } from '@/components/FAQ'
 
 export const metadata: Metadata = {
@@ -150,6 +151,8 @@ export default function TailorChelsea() {
             ))}
           </dl>
         </div>
+
+        <AreaAlterations area="Chelsea" />
 
         <FAQ />
 

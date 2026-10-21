@@ -3,6 +3,7 @@ import Script from 'next/script'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import BlogCTA from '@/components/BlogCTA'
 
 export const metadata: Metadata = {
   title: 'Best Tailor in London — What to Look for in 2026 | Fine Tailors',
@@ -116,6 +117,8 @@ export default function BestTailorLondon() {
           <p className="font-sans font-light text-muted leading-relaxed mb-12">
             Finally, look for real reviews from real clients. Not a handful of five-star ratings, but a consistent pattern of satisfied customers over years. The best tailors in London build their reputation through word-of-mouth and return clients — people who come back with every new garment because the standard has never dropped.
           </p>
+
+          <BlogCTA />
 
           <div className="border-t border-divider pt-10">
             <p className="font-playfair text-xl font-medium text-charcoal mb-4">

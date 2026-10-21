@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import BlogCTA from '@/components/BlogCTA'
 
 export const metadata: Metadata = {
   title: 'What Can a Tailor Do to a Shirt? Fixes & Limits',
@@ -140,6 +141,8 @@ export default function WhatCanATailorDoToAShirt() {
               </tbody>
             </table>
           </div>
+
+          <BlogCTA />
 
           <div className="border-t border-divider pt-10">
             <p className="font-playfair text-xl font-medium text-charcoal mb-4">Get your shirts fitted properly</p>

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import BlogCTA from '@/components/BlogCTA'
 
 export const metadata: Metadata = {
   title: 'How Many Sizes Can a Suit Be Altered? Taken In & Let Out',
@@ -115,6 +116,8 @@ export default function HowManySizesSuitAltered() {
           <p className="font-sans font-light text-muted leading-relaxed mb-8">
             If a jacket is more than two sizes off in the body, or if the shoulders are significantly wrong, it is almost always better to start with a better-fitting size. A tailor can perfect a suit that is close; they cannot rebuild one that is fundamentally the wrong size.
           </p>
+
+          <BlogCTA />
 
           <div className="border-t border-divider pt-10">
             <p className="font-playfair text-xl font-medium text-charcoal mb-4">Unsure if your suit can be saved?</p>

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import BlogCTA from '@/components/BlogCTA'
 
 export const metadata: Metadata = {
   title: 'Dress Alterations Cost London 2026: Price Guide',
@@ -123,6 +124,8 @@ export default function DressAlterationCostLondon() {
           <p className="font-sans font-light text-muted leading-relaxed mb-12">
             As a general guide, expect wedding dress alterations to start from £80–120 for basic work and rise significantly for complex multi-point adjustments. See our dedicated <Link href="/wedding-dress-alterations-london" className="text-hunter underline">wedding dress alterations guide</Link> for more detail.
           </p>
+
+          <BlogCTA />
 
           <div className="border-t border-divider pt-10">
             <p className="font-playfair text-xl font-medium text-charcoal mb-4">Get an exact quote for your dress</p>

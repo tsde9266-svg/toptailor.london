@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import BlogCTA from '@/components/BlogCTA'
 
 export const metadata: Metadata = {
   title: 'How Long Do Clothing Alterations Take in London? | Fine Tailors',
@@ -135,6 +136,8 @@ export default function HowLongDoAlterationsTake() {
           <p className="font-sans font-light text-muted leading-relaxed mb-12">
             For complex or multi-garment orders we confirm the exact timeframe at the assessment visit, so there are never any surprises.
           </p>
+
+          <BlogCTA />
 
           <div className="border-t border-divider pt-10">
             <p className="font-playfair text-xl font-medium text-charcoal mb-4">Book your alteration</p>
